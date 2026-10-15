@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
@@ -70,6 +71,8 @@ type Data = {
   cgTests: CgTest[];
   edhec: EdhecState;
   warmups: string[];
+  /** Fiches (mots / personnages) déjà tombées au test : le prof ne les redonne jamais. */
+  fallen: string[];
 };
 
 type Actions = {
@@ -124,6 +127,7 @@ type Actions = {
   deleteCgTest: (id: string) => void;
   updateEdhec: (fn: (e: EdhecState) => EdhecState) => void;
   markWarmup: () => void;
+  toggleFallen: (sheetId: string) => void;
 
   // Pronote & data
   setPronote: (patch: Partial<PronoteConfig>) => void;
@@ -186,6 +190,7 @@ const freshData = (): Data => ({
   cgTests: [],
   edhec: freshEdhec(),
   warmups: [],
+  fallen: ["P28"],
 });
 
 const KHOLLE_RE = /kh[oô]ll?e|colle\b|interrogation orale/i;
@@ -541,6 +546,8 @@ export const useStore = create<Store>()(
         },
         deleteCgTest: (id) => set((s) => ({ cgTests: s.cgTests.filter((t) => t.id !== id) })),
         updateEdhec: (fn) => set((s) => ({ edhec: fn(s.edhec) })),
+        toggleFallen: (id) =>
+          set((s) => ({ fallen: s.fallen.includes(id) ? s.fallen.filter((x) => x !== id) : [...s.fallen, id] })),
         markWarmup: () => {
           const today = isoDay(new Date());
           const s = get();
@@ -635,19 +642,21 @@ export const useStore = create<Store>()(
     },
     {
       name: "prepa-fc-v1",
-      version: 2,
+      version: 3,
       // v1 → v2 : ajout des révisions (graine de fiches/cartes) et du suivi EDHEC.
+      // v2 → v3 : fiches déjà tombées (Machiavel est tombé le 1er octobre).
       migrate: (persisted, version) => {
-        const s = persisted as Partial<Data>;
+        let s = persisted as Partial<Data>;
         if (version < 2) {
           const f = freshData();
-          return {
+          s = {
             ...s,
             sheets: f.sheets, cards: f.cards, actuDays: f.actuDays, reviews: {}, inboxDone: f.inboxDone,
             cgTests: [], edhec: f.edhec, warmups: [],
             settings: s.settings ? { ...s.settings, subjects: [...new Set([...s.settings.subjects, ...EDHEC_SUBJECTS])] } : f.settings,
-          } as Partial<Store>;
+          };
         }
+        if (version < 3) s = { ...s, fallen: [...new Set([...(s.fallen ?? []), "P28"])] };
         return s as Partial<Store>;
       },
       partialize: (s) => {
@@ -658,6 +667,18 @@ export const useStore = create<Store>()(
     },
   ),
 );
+
+/** Cartes encore utiles : on écarte celles des fiches déjà tombées au test. */
+export const activeCards = (s: Pick<Data, "cards" | "fallen">) => {
+  const out = new Set(s.fallen);
+  return s.cards.filter((c) => !c.ref || !out.has(c.ref));
+};
+
+export function useActiveCards() {
+  const cards = useStore((s) => s.cards);
+  const fallen = useStore((s) => s.fallen);
+  return useMemo(() => activeCards({ cards, fallen }), [cards, fallen]);
+}
 
 export const exportData = () => {
   const s = useStore.getState();

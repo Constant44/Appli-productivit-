@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { useStore } from "../lib/store";
+import { useActiveCards, useStore } from "../lib/store";
 import { actuWeekStart, buildQueue, isDue, nextTestDay, shuffle } from "../lib/srs";
 import { askJson, AiError, useAi } from "../lib/ai";
 import type { Card, Deck, Sheet } from "../lib/types";
@@ -45,7 +45,7 @@ export default function Vendredi() {
 // ------------------------------------------------------------------ Réviser
 
 function useDeckStats(decks: Deck[]) {
-  const cards = useStore((s) => s.cards);
+  const cards = useActiveCards();
   const reviews = useStore((s) => s.reviews);
   return useMemo(() => {
     const ws = actuWeekStart();
@@ -76,7 +76,7 @@ export function useSessionClock() {
 }
 
 function ReviewTab() {
-  const cards = useStore((s) => s.cards);
+  const cards = useActiveCards();
   const reviews = useStore((s) => s.reviews);
   const stats = useDeckStats(["actu", "bio", "mot"]);
   const [queue, setQueue] = useState<Card[] | null>(null);
@@ -168,7 +168,11 @@ function ReviewTab() {
 // ------------------------------------------------------------------ Fiches
 
 function SheetsTab() {
-  const sheets = useStore((s) => s.sheets);
+  const allSheets = useStore((s) => s.sheets);
+  const fallen = useStore((s) => s.fallen);
+  const toggleFallen = useStore((s) => s.toggleFallen);
+  const sheets = useMemo(() => allSheets.filter((x) => !fallen.includes(x.id)), [allSheets, fallen]);
+  const gone = allSheets.filter((x) => fallen.includes(x.id));
   const cards = useStore((s) => s.cards);
   const reviews = useStore((s) => s.reviews);
   const [open, setOpen] = useState<Sheet | null>(null);
@@ -214,6 +218,19 @@ function SheetsTab() {
           </div>
         ))}
         {sheets.length === 0 && <div className="card empty">Aucune fiche pour l'instant.</div>}
+        {gone.length > 0 && (
+          <div className="card">
+            <h3>✅ Déjà tombés au test <span className="right small muted">le prof ne les redonne pas : ils sont retirés des révisions et du tirage</span></h3>
+            <div className="row">
+              {gone.map((s) => (
+                <span key={s.id} className="pill">
+                  {s.id} · {s.title}
+                  <button className="btn sm ghost" style={{ padding: "0 4px" }} title="Remettre dans les révisions" onClick={() => toggleFallen(s.id)}>↩︎</button>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       {open && (
         <Modal
@@ -221,6 +238,8 @@ function SheetsTab() {
           onClose={() => setOpen(null)}
           actions={
             <>
+              <button className="btn" onClick={() => { toggleFallen(open.id); setOpen(null); }}>✅ Déjà tombé au test</button>
+              <span className="spacer" />
               <button className="btn" onClick={() => setOpen(null)}>Fermer</button>
               <button className="btn primary" onClick={() => { setQueue(cards.filter((c) => c.ref === open.id)); setOpen(null); }}>🧠 Réviser cette fiche</button>
             </>
@@ -238,7 +257,9 @@ function SheetsTab() {
 type Grading = { note: number; trouves: string[]; oublis: string[]; erreurs: string[]; conseil: string };
 
 function BlankTab() {
-  const sheets = useStore((s) => s.sheets);
+  const allSheets = useStore((s) => s.sheets);
+  const fallen = useStore((s) => s.fallen);
+  const sheets = allSheets.filter((x) => !fallen.includes(x.id));
   const aiOk = useAi((s) => s.available);
   const [draw, setDraw] = useState<Sheet[] | null>(null);
   const [answer, setAnswer] = useState("");
@@ -436,6 +457,11 @@ function ResultsTab() {
   const tests = useStore((s) => s.cgTests);
   const addCgTest = useStore((s) => s.addCgTest);
   const deleteCgTest = useStore((s) => s.deleteCgTest);
+  const sheets = useStore((s) => s.sheets);
+  const fallen = useStore((s) => s.fallen);
+  const toggleFallen = useStore((s) => s.toggleFallen);
+  const [tombes, setTombes] = useState<string[]>([]);
+  const candidates = sheets.filter((x) => !fallen.includes(x.id) && !tombes.includes(x.id)).sort((a, b) => a.id.localeCompare(b.id));
   const [score, setScore] = useState<number>(7);
   const [outOf, setOutOf] = useState<number>(10);
   // par défaut : aujourd'hui si on est vendredi, sinon le vendredi précédent
@@ -454,7 +480,27 @@ function ResultsTab() {
           <Field label="Sur"><input id="cg-outof" className="input" type="number" min={1} value={outOf} onChange={(e) => setOutOf(Number(e.target.value))} /></Field>
         </div>
         <Field label="Commentaire (ce qui est tombé, ce qui a coincé)"><input id="cg-note" className="input" value={note} onChange={(e) => setNote(e.target.value)} placeholder="ex : bio de Machiavel, raté la question sur la CPI" /></Field>
-        <button className="btn primary" onClick={() => { addCgTest({ date, score, outOf, note: note || undefined }); setNote(""); }}>Enregistrer</button>
+        <Field label="Ce qui est tombé (sera retiré des révisions)">
+          <select id="cg-fallen" className="input" value="" onChange={(e) => e.target.value && setTombes([...tombes, e.target.value])}>
+            <option value="">+ Choisir le personnage ou les mots tombés</option>
+            {candidates.map((x) => <option key={x.id} value={x.id}>{x.id} · {x.title}</option>)}
+          </select>
+        </Field>
+        {tombes.length > 0 && (
+          <div className="row">
+            {tombes.map((id) => (
+              <span key={id} className="pill gold">{id} · {sheets.find((x) => x.id === id)?.title}
+                <button className="btn sm ghost" style={{ padding: "0 4px" }} onClick={() => setTombes(tombes.filter((t) => t !== id))}>✕</button>
+              </span>
+            ))}
+          </div>
+        )}
+        <button className="btn primary" onClick={() => {
+          const names = tombes.map((id) => sheets.find((x) => x.id === id)?.title).filter(Boolean).join(", ");
+          addCgTest({ date, score, outOf, note: [names && `Tombé : ${names}`, note].filter(Boolean).join(" · ") || undefined });
+          tombes.forEach((id) => toggleFallen(id));
+          setTombes([]); setNote("");
+        }}>Enregistrer</button>
         <p className="small muted" style={{ margin: 0 }}>Au-dessus de la moitié des points, ton club touche une prime.</p>
       </div>
       <div className="card">

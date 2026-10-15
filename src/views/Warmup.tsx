@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useStore } from "../lib/store";
+import { useActiveCards, useStore } from "../lib/store";
 import { buildQueue } from "../lib/srs";
 import { useAi } from "../lib/ai";
 import type { Card } from "../lib/types";
@@ -15,7 +15,7 @@ type Step = "intro" | "cards" | "english" | "done";
  * 1) cartes à revoir (actu, personnages, mots, erreurs d'anglais)  2) 5 questions de QCM d'anglais.
  */
 export default function Warmup() {
-  const cards = useStore((s) => s.cards);
+  const cards = useActiveCards();
   const reviews = useStore((s) => s.reviews);
   const warmups = useStore((s) => s.warmups);
   const markWarmup = useStore((s) => s.markWarmup);

@@ -27,7 +27,7 @@ export async function capability(name: string): Promise<any | null> {
 /** Clés de l'état synchronisées. Les tableaux sont découpés en morceaux (limite de 256 Kio par document). */
 const SYNC_KEYS = [
   "tasks", "evals", "sessions", "plans", "grades", "lessons", "customEvents", "pronote", "club", "xp", "coins", "settings", "timer",
-  "sheets", "cards", "actuDays", "reviews", "inboxDone", "cgTests", "edhec", "warmups",
+  "sheets", "cards", "actuDays", "reviews", "inboxDone", "cgTests", "edhec", "warmups", "fallen",
 ] as const;
 type SyncKey = (typeof SYNC_KEYS)[number];
 const CHUNK = 400;

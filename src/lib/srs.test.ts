@@ -38,6 +38,14 @@ describe("répétition espacée", () => {
   });
 });
 
+describe("fiches déjà tombées", () => {
+  it("les cartes d'une fiche tombée sortent des révisions, l'actu reste", async () => {
+    const { activeCards } = await import("./store");
+    const cards = [card("P28-1"), card("a1", "actu", "2026-10-12")].map((c) => ({ ...c, ref: c.id.startsWith("P28") ? "P28" : undefined }));
+    expect(activeCards({ cards, fallen: ["P28"] }).map((c) => c.id)).toEqual(["a1"]);
+  });
+});
+
 describe("contenu embarqué", () => {
   it("21 fiches, chaque carte a une fiche ou une date, aucun caractère de contrôle", () => {
     const s = seed as { sheets: Array<{ id: string; body: string }>; cards: Card[] };

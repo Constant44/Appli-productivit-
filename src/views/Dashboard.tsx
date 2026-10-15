@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useStore } from "../lib/store";
+import { useActiveCards, useStore } from "../lib/store";
 import { recommend, unpreparedEvals, minutesByDay } from "../lib/insights";
 import { DIVISIONS, MATCH_COST_MIN, standings, teamStrength } from "../lib/game";
 import { daysUntil, fmtDay, fmtMin, fmtRelDay, fmtTime, isoDay, subjectColor } from "../lib/utils";
@@ -196,7 +196,7 @@ export default function Dashboard() {
 
 function TodayStrip() {
   const warmups = useStore((s) => s.warmups);
-  const cards = useStore((s) => s.cards);
+  const cards = useActiveCards();
   const reviews = useStore((s) => s.reviews);
   const toReview = buildQueue(cards, reviews, { newLimit: 20, max: 999, decks: ["actu", "bio", "mot", "anglais"] }).length;
   const test = nextTestDay();
