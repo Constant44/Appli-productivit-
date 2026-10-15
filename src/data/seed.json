@@ -5,7 +5,7 @@
    "id": "M51",
    "kind": "mot",
    "title": "Rédhibitoire",
-   "body": "Rédhibitoire\nEtymologie : Du latin redhibitorius, signifiant à la fois jugement, croyance philosophique, doctrine, opinion.\nDéfinition : Défaut de la chose vendue ou louée qui peut motiver la résolution judiciaire d'une vente. Par extension, qui constitue un défaut, un empêchement absolu, radical. On parle de vice rédhibitoire.\nExemple :\nJulia : \"Regarde la superbe sculpture que je viens d'acquérir… Ca vient d'Egypte ! C'est un Sphinx !\"\nAgrippine : \"Mais il lui manque le nez ! C'est rédhibitoire !\"\n\n⚠️ L'étymologie de la fiche ressemble à un copier-coller (elle correspond plutôt à « dogme »). Le latin redhibere signifie « restituer, faire reprendre ». Retiens la version de la fiche pour le test, mais tu peux citer redhibere.",
+   "body": "Rédhibitoire\nEtymologie : Du latin redhibitorius, signifiant à la fois jugement, croyance philosophique, doctrine, opinion.\nDéfinition : Défaut de la chose vendue ou louée qui peut motiver la résolution judiciaire d'une vente. Par extension, qui constitue un défaut, un empêchement absolu, radical. On parle de vice rédhibitoire.\nExemple :\nJulia : \"Regarde la superbe sculpture que je viens d'acquérir… Ca vient d'Egypte ! C'est un Sphinx !\"\nAgrippine : \"Mais il lui manque le nez ! C'est rédhibitoire !\"",
    "sentAt": "2026-09-09"
   },
   {
@@ -158,39 +158,11 @@
    "back": "Se dit d'un défaut de la chose vendue ou louée qui peut motiver la résolution judiciaire d'une vente. Par extension : qui constitue un défaut, un empêchement absolu, radical. On parle de « vice rédhibitoire »."
   },
   {
-   "id": "M51-ety",
-   "deck": "mot",
-   "ref": "M51",
-   "front": "Étymologie de « Rédhibitoire »",
-   "back": "Du latin redhibitorius (selon la fiche : « jugement, croyance philosophique, doctrine, opinion »).\n⚠️ L'étymologie de la fiche ressemble à un copier-coller (elle correspond plutôt à « dogme »). Le latin redhibere signifie « restituer, faire reprendre ». Retiens la version de la fiche pour le test, mais tu peux citer redhibere."
-  },
-  {
-   "id": "M51-rev",
-   "deck": "mot",
-   "ref": "M51",
-   "front": "Quel mot ? Qui constitue un défaut, un empêchement absolu, radical (on parle de vice ___).",
-   "back": "Rédhibitoire"
-  },
-  {
    "id": "M52-def",
    "deck": "mot",
    "ref": "M52",
    "front": "Définition de « Ploutocratie »",
    "back": "Littéralement « le gouvernement par la richesse » : système politique ou social dans lequel le pouvoir est exercé par les personnes les plus riches."
-  },
-  {
-   "id": "M52-ety",
-   "deck": "mot",
-   "ref": "M52",
-   "front": "Étymologie de « Ploutocratie »",
-   "back": "Du grec ploutos (richesse) et kratos (pouvoir)."
-  },
-  {
-   "id": "M52-rev",
-   "deck": "mot",
-   "ref": "M52",
-   "front": "Quel mot ? Système politique ou social où le pouvoir est exercé par les plus riches.",
-   "back": "Ploutocratie"
   },
   {
    "id": "M53-def",
@@ -200,39 +172,11 @@
    "back": "Régime politique ou mode de gouvernement où le pouvoir est aux mains d'un petit groupe de personnes, d'une classe sociale ou d'une famille puissante. S'oppose à la démocratie (pouvoir de l'ensemble des citoyens) et à l'autocratie ou monarchie (pouvoir d'un seul)."
   },
   {
-   "id": "M53-ety",
-   "deck": "mot",
-   "ref": "M53",
-   "front": "Étymologie de « Oligarchie »",
-   "back": "Du grec oligos (« peu de monde ») et arkhê (« commander, gouverner »)."
-  },
-  {
-   "id": "M53-rev",
-   "deck": "mot",
-   "ref": "M53",
-   "front": "Quel mot ? Régime où le pouvoir est aux mains d'un petit groupe (classe sociale, famille puissante).",
-   "back": "Oligarchie"
-  },
-  {
    "id": "M54-def",
    "deck": "mot",
    "ref": "M54",
    "front": "Définition de « Équité »",
    "back": "1. Qualité qui consiste à attribuer à chacun ce qui lui est dû en tenant compte des différences de situation et des besoins de chacun. 2. Se réfère aux principes de la justice naturelle et à un traitement impartial. (Exemple de la fiche : « C'est de l'équité, pas de l'égalité. »)"
-  },
-  {
-   "id": "M54-ety",
-   "deck": "mot",
-   "ref": "M54",
-   "front": "Étymologie de « Équité »",
-   "back": "Du latin aequitas (« égalité »)."
-  },
-  {
-   "id": "M54-rev",
-   "deck": "mot",
-   "ref": "M54",
-   "front": "Quel mot ? Attribuer à chacun ce qui lui est dû en tenant compte des différences de situation et des besoins.",
-   "back": "Équité"
   },
   {
    "id": "M55-def",
@@ -242,39 +186,11 @@
    "back": "Fait d'être un autre, caractère de ce qui est autre, c'est-à-dire distinct et extérieur à soi."
   },
   {
-   "id": "M55-ety",
-   "deck": "mot",
-   "ref": "M55",
-   "front": "Étymologie de « Altérité »",
-   "back": "Du latin alteritas (« autre »)."
-  },
-  {
-   "id": "M55-rev",
-   "deck": "mot",
-   "ref": "M55",
-   "front": "Quel mot ? Fait d'être un autre ; caractère de ce qui est distinct et extérieur à soi.",
-   "back": "Altérité"
-  },
-  {
    "id": "M56-def",
    "deck": "mot",
    "ref": "M56",
    "front": "Définition de « Abhorrer »",
    "back": "Avoir en horreur, détester au plus haut point. Synonymes : exécrer, haïr."
-  },
-  {
-   "id": "M56-ety",
-   "deck": "mot",
-   "ref": "M56",
-   "front": "Étymologie de « Abhorrer »",
-   "back": "Du latin abhorrere (« horreur »)."
-  },
-  {
-   "id": "M56-rev",
-   "deck": "mot",
-   "ref": "M56",
-   "front": "Quel mot ? Avoir en horreur, détester au plus haut point (synonymes : exécrer, haïr).",
-   "back": "Abhorrer"
   },
   {
    "id": "M57-def",
@@ -284,39 +200,11 @@
    "back": "Charge ou emploi où l'on est rétribué sans avoir rien (ou presque) à faire. Situation de tout repos. Souvent employé à la forme négative : « ce n'est pas une sinécure »."
   },
   {
-   "id": "M57-ety",
-   "deck": "mot",
-   "ref": "M57",
-   "front": "Étymologie de « Sinécure »",
-   "back": "Abréviation du latin beneficium sine cura : « bénéfice ecclésiastique sans travail »."
-  },
-  {
-   "id": "M57-rev",
-   "deck": "mot",
-   "ref": "M57",
-   "front": "Quel mot ? Emploi rétribué où l'on n'a rien (ou presque) à faire ; situation de tout repos.",
-   "back": "Sinécure"
-  },
-  {
    "id": "M58-def",
    "deck": "mot",
    "ref": "M58",
    "front": "Définition de « Hubris »",
    "back": "Démesure ou orgueil excessif poussant un être humain à ignorer ses limites et à se croire l'égal des Dieux. Dans la mythologie, l'homme frappé d'hubris provoque la colère des Dieux et subit une chute fatale (Icare)."
-  },
-  {
-   "id": "M58-ety",
-   "deck": "mot",
-   "ref": "M58",
-   "front": "Étymologie de « Hubris »",
-   "back": "Du grec hubris, traduit le plus souvent par « démesure »."
-  },
-  {
-   "id": "M58-rev",
-   "deck": "mot",
-   "ref": "M58",
-   "front": "Quel mot ? Démesure, orgueil excessif poussant à ignorer ses limites et à se croire l'égal des Dieux.",
-   "back": "Hubris"
   },
   {
    "id": "M59-def",
@@ -326,39 +214,11 @@
    "back": "1. À l'origine (linguistique, philosophie) : terme donné comme modèle pour une déclinaison, une conjugaison, ou qui sert de référence par analogie. 2. Aujourd'hui : modèle de pensée, représentation du monde ou ensemble de règles partagées qui guident la réflexion et l'action dans un domaine donné."
   },
   {
-   "id": "M59-ety",
-   "deck": "mot",
-   "ref": "M59",
-   "front": "Étymologie de « Paradigme »",
-   "back": "Du latin paradigma (« exemple »)."
-  },
-  {
-   "id": "M59-rev",
-   "deck": "mot",
-   "ref": "M59",
-   "front": "Quel mot ? Modèle de pensée, représentation du monde, ensemble de règles partagées qui guident la réflexion dans un domaine.",
-   "back": "Paradigme"
-  },
-  {
    "id": "M60-def",
    "deck": "mot",
    "ref": "M60",
    "front": "Définition de « Hectique »",
    "back": "1. Autrefois : personne extrêmement maigre. En médecine : fièvre prolongée ou continue marquée par de grands écarts de température, des frissons et un amaigrissement progressif. 2. Sous l'influence de l'anglais hectic : qualifie un rythme effréné ou agité ; ce sens se répand en français."
-  },
-  {
-   "id": "M60-ety",
-   "deck": "mot",
-   "ref": "M60",
-   "front": "Étymologie de « Hectique »",
-   "back": "Du grec hektikos (« continu, habituel »)."
-  },
-  {
-   "id": "M60-rev",
-   "deck": "mot",
-   "ref": "M60",
-   "front": "Quel mot ? Fièvre prolongée avec grands écarts de température ; aujourd'hui aussi (de l'anglais hectic) : rythme effréné.",
-   "back": "Hectique"
   },
   {
    "id": "M61-def",
@@ -368,39 +228,11 @@
    "back": "Qualifie ce qui donne son nom à quelque chose d'autre. En littérature, le personnage éponyme est celui dont le nom sert de titre à l'œuvre. Ex. : le préfet Eugène Poubelle est l'éponyme de la boîte à ordures. Dans la Grèce antique, l'archonte éponyme était le magistrat dont le nom désignait l'année en cours."
   },
   {
-   "id": "M61-ety",
-   "deck": "mot",
-   "ref": "M61",
-   "front": "Étymologie de « Éponyme »",
-   "back": "Du grec epônumos, de epi (« sur ») et onoma (« nom ») : « donner son nom à quelque chose »."
-  },
-  {
-   "id": "M61-rev",
-   "deck": "mot",
-   "ref": "M61",
-   "front": "Quel mot ? Qui donne son nom à quelque chose (personnage ___ d'une œuvre).",
-   "back": "Éponyme"
-  },
-  {
    "id": "M62-def",
    "deck": "mot",
    "ref": "M62",
    "front": "Définition de « Exégèse »",
    "back": "Interprétation philologique, historique ou doctrinale d'un texte dont le sens ou la portée sont obscurs ou sujets à discussion. Par extension : commentaire détaillé, analyse d'un texte."
-  },
-  {
-   "id": "M62-ety",
-   "deck": "mot",
-   "ref": "M62",
-   "front": "Étymologie de « Exégèse »",
-   "back": "Du grec exêgêsis (« explication »)."
-  },
-  {
-   "id": "M62-rev",
-   "deck": "mot",
-   "ref": "M62",
-   "front": "Quel mot ? Interprétation d'un texte dont le sens est obscur ou discuté ; commentaire détaillé.",
-   "back": "Exégèse"
   },
   {
    "id": "M63-def",
@@ -410,39 +242,11 @@
    "back": "1. Historiquement : faveur et autorité excessives accordées par certains papes à leurs neveux et parents dans l'administration de l'Église. 2. Abus qu'une personne en place fait de son crédit, de son influence, pour procurer des avantages, des emplois à sa famille, à ses amis."
   },
   {
-   "id": "M63-ety",
-   "deck": "mot",
-   "ref": "M63",
-   "front": "Étymologie de « Népotisme »",
-   "back": "Du latin nepos (« neveu »)."
-  },
-  {
-   "id": "M63-rev",
-   "deck": "mot",
-   "ref": "M63",
-   "front": "Quel mot ? Abus de son influence pour procurer avantages et emplois à sa famille et ses amis.",
-   "back": "Népotisme"
-  },
-  {
    "id": "M64-def",
    "deck": "mot",
    "ref": "M64",
    "front": "Définition de « Compersion »",
    "back": "Sentiment de joie et d'empathie ressenti lorsqu'une autre personne éprouve du bonheur, souvent présenté comme le contraire ou l'antidote de la jalousie. Se réjouir de la réussite d'autrui."
-  },
-  {
-   "id": "M64-ety",
-   "deck": "mot",
-   "ref": "M64",
-   "front": "Étymologie de « Compersion »",
-   "back": "Néologisme forgé dans les années 1970-1980 par la communauté utopique et polyamoureuse Kerista de San Francisco."
-  },
-  {
-   "id": "M64-rev",
-   "deck": "mot",
-   "ref": "M64",
-   "front": "Quel mot ? Joie et empathie ressenties devant le bonheur d'autrui ; « antidote » à la jalousie.",
-   "back": "Compersion"
   },
   {
    "id": "P25-1",

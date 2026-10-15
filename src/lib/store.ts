@@ -642,7 +642,7 @@ export const useStore = create<Store>()(
     },
     {
       name: "prepa-fc-v1",
-      version: 3,
+      version: 4,
       // v1 → v2 : ajout des révisions (graine de fiches/cartes) et du suivi EDHEC.
       // v2 → v3 : fiches déjà tombées (Machiavel est tombé le 1er octobre).
       migrate: (persisted, version) => {
@@ -657,6 +657,7 @@ export const useStore = create<Store>()(
           };
         }
         if (version < 3) s = { ...s, fallen: [...new Set([...(s.fallen ?? []), "P28"])] };
+        if (version < 4) s = { ...s, ...onlyDefinitions(s) };
         return s as Partial<Store>;
       },
       partialize: (s) => {
@@ -667,6 +668,23 @@ export const useStore = create<Store>()(
     },
   ),
 );
+
+/**
+ * Au test, pour un mot, seule la définition rapporte des points : on ne garde que les cartes « -def »
+ * (les anciennes cartes d'étymologie et « Quel mot ? » sont supprimées avec leur historique),
+ * et les fiches reprennent le texte du prof sans annotation.
+ */
+export function onlyDefinitions(s: Partial<Pick<Data, "cards" | "reviews" | "sheets">>) {
+  const keep = (c: Card) => c.deck !== "mot" || c.id.endsWith("-def");
+  const removed = new Set((s.cards ?? []).filter((c) => !keep(c)).map((c) => c.id));
+  const reviews = Object.fromEntries(Object.entries(s.reviews ?? {}).filter(([id]) => !removed.has(id)));
+  const seedPack = seed as ContentPack;
+  return {
+    cards: mergeInto((s.cards ?? []).filter(keep), seedPack.cards?.filter((c) => c.deck === "mot")).list,
+    reviews,
+    sheets: mergeInto(s.sheets ?? [], seedPack.sheets).list,
+  };
+}
 
 /** Cartes encore utiles : on écarte celles des fiches déjà tombées au test. */
 export const activeCards = (s: Pick<Data, "cards" | "fallen">) => {

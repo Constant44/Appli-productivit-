@@ -54,5 +54,18 @@ describe("contenu embarqué", () => {
     for (const c of s.cards) expect(c.deck === "actu" ? !!c.date : ids.has(c.ref!)).toBe(true);
     expect(JSON.stringify(seed)).not.toMatch(/[\u0000-\u0008\u000b-\u001f]/);
     expect(new Set(s.cards.map((c) => c.id)).size).toBe(s.cards.length);
+    // une seule carte par mot : la définition
+    expect(s.cards.filter((c) => c.deck === "mot").every((c) => c.id.endsWith("-def"))).toBe(true);
+  });
+  it("la migration retire les cartes d'étymologie et leur historique", async () => {
+    const { onlyDefinitions } = await import("./store");
+    const r = onlyDefinitions({
+      cards: [card("M63-def", "mot"), card("M63-ety", "mot"), card("M63-rev", "mot"), card("P31-1")],
+      reviews: { "M63-ety": { due: "", interval: 3, ease: 2.5, reps: 1, lapses: 0, last: "" } },
+      sheets: [],
+    });
+    expect(r.cards.some((c) => c.id === "M63-ety" || c.id === "M63-rev")).toBe(false);
+    expect(r.cards.some((c) => c.id === "P31-1")).toBe(true);
+    expect(r.reviews).toEqual({});
   });
 });

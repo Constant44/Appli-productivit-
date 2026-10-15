@@ -257,6 +257,9 @@ function SheetsTab() {
 type Grading = { note: number; trouves: string[]; oublis: string[]; erreurs: string[]; conseil: string };
 
 function BlankTab() {
+  const cards = useStore((s) => s.cards);
+  /** Pour un mot, seule la définition compte : c'est la seule référence donnée au correcteur. */
+  const reference = (s: Sheet) => (s.kind === "mot" ? cards.find((c) => c.id === `${s.id}-def`)?.back ?? s.body : s.body);
   const allSheets = useStore((s) => s.sheets);
   const fallen = useStore((s) => s.fallen);
   const sheets = allSheets.filter((x) => !fallen.includes(x.id));
@@ -286,16 +289,16 @@ function BlankTab() {
     setBusy(true);
     setError("");
     try {
-      const ref = draw.map((s) => `### ${s.title}\n${s.body}`).join("\n\n");
+      const ref = draw.map((s) => `### ${s.title}\n${reference(s)}`).join("\n\n");
       const g = await askJson<Grading>(
-        `Tu es professeur de culture générale en classe préparatoire. L'élève devait écrire de mémoire ${draw[0].kind === "bio" ? `ce qu'il sait du personnage « ${draw[0].title} »` : `la définition (et si possible l'étymologie) des mots « ${draw.map((s) => s.title).join(" » et « ")} »`}.
+        `Tu es professeur de culture générale en classe préparatoire. L'élève devait écrire de mémoire ${draw[0].kind === "bio" ? `ce qu'il sait du personnage « ${draw[0].title} »` : `la définition des mots « ${draw.map((s) => s.title).join(" » et « ")} » (seule la définition est notée : l'étymologie et l'exemple ne rapportent rien, ne les exige pas)`}.
 Voici la fiche de référence du professeur :
 ${ref}
 
 Voici la réponse de l'élève :
 """${answer}"""
 
-Corrige en comparant UNIQUEMENT avec la fiche. Sois exigeant mais juste : une date ou un nom approximatif est une erreur.
+Corrige en comparant UNIQUEMENT avec la référence ci-dessus. Sois exigeant mais juste : une date ou un nom approximatif est une erreur.${draw[0].kind === "mot" ? " Pour les mots, ne juge QUE le sens de la définition (tous les sens numérotés) : ne mentionne jamais l'étymologie, l'exemple ou l'orthographe, ni dans les oublis ni dans les erreurs. Une définition juste avec d'autres mots vaut tous les points." : ""}
 Réponds en JSON : {"note": nombre sur 10 (demi-points autorisés), "trouves": [points clés correctement restitués], "oublis": [points importants de la fiche absents], "erreurs": [affirmations fausses ou imprécises], "conseil": "une phrase pour mieux retenir"}. Rédige en français.`,
         { tier: "default", fresh: true },
       );
@@ -347,7 +350,7 @@ Réponds en JSON : {"note": nombre sur 10 (demi-points autorisés), "trouves": [
             <div className="small">💡 {grading.conseil}</div>
           </div>
         )}
-        {reveal && draw && draw.map((s) => <div key={s.id} className="card"><h3>{s.id} · {s.title}</h3><div className="sheet-body small">{s.body}</div></div>)}
+        {reveal && draw && draw.map((s) => <div key={s.id} className="card"><h3>{s.id} · {s.title}{s.kind === "mot" ? " — définition" : ""}</h3><div className="sheet-body small">{reference(s)}</div></div>)}
       </div>
     </div>
   );
