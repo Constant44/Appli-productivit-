@@ -8,7 +8,7 @@
  * Hors claude.ai (npm run dev / npm start), tout cela est absent et l'appli reste en localStorage.
  */
 import { create } from "zustand";
-import { useStore } from "./store";
+import { onlyDefinitions, useStore } from "./store";
 import type { ContentPack } from "./types";
 import { uid } from "./utils";
 
@@ -76,6 +76,11 @@ export async function startCloudSync() {
     applying = true;
     useStore.setState(patch as never);
     applying = false;
+    // Données enregistrées par une version plus ancienne : même nettoyage que la migration locale
+    // (hors `applying`, pour que la version nettoyée soit réenregistrée dans le compte).
+    const st = useStore.getState();
+    if (st.cards.some((c) => c.deck === "mot" && !c.id.endsWith("-def"))) useStore.setState(onlyDefinitions(st));
+    if (!("fallen" in patch) && !st.fallen.includes("P28")) useStore.setState({ fallen: [...st.fallen, "P28"] });
     return true;
   };
 
