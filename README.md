@@ -20,6 +20,16 @@ npm start          # http://localhost:8787
 
 Pour tester sans Pronote : **Pronote & réglages → 🧪 Charger la démo**.
 
+## Sur iPad / téléphone
+
+**Version claude.ai (immédiate)** : `npm run build:ipad` produit `dist-artifact/prepa-fc.html`, publiée comme Artifact claude.ai.
+Ouvre le lien dans Safari (connecté à ton compte claude.ai). Les données sont sauvegardées dans ton compte, de façon privée, et suivent tes appareils.
+Limite : pas de serveur, donc **pas de connexion Pronote** dans cette version.
+
+**Version hébergée (avec Pronote)** : le fichier `render.yaml` permet de déployer l'appli complète sur [Render](https://render.com) (offre gratuite) :
+New → Blueprint → choisir ce dépôt. Ouvre ensuite l'adresse fournie dans Safari → bouton Partager → « Sur l'écran d'accueil ».
+(Offre gratuite : le serveur s'endort après 15 min sans visite, le premier chargement prend alors ~1 min.)
+
 ## Fonctionnalités
 
 | Écran | Ce que ça fait |

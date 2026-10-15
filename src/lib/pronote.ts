@@ -26,9 +26,9 @@ export async function syncPronote(creds: SyncCredentials = {}) {
       body: JSON.stringify(body),
     });
   } catch {
-    throw new Error("Serveur local injoignable : lance l'appli avec `npm run dev` ou `npm start`.");
+    throw new Error("Pas de serveur Pronote ici : lance l'appli sur ordi (`npm run dev`) ou utilise la version hébergée.");
   }
-  const data = await res.json().catch(() => ({ ok: false, error: `Réponse invalide (HTTP ${res.status})` }));
+  const data = await res.json().catch(() => ({ ok: false, error: "Pas de serveur Pronote ici : lance l'appli sur ordi (`npm run dev`) ou utilise la version hébergée." }));
   if (!data.ok) throw new Error(data.error ?? "Échec de la synchronisation");
   return st.applyPronoteSync(data as PronoteSyncPayload);
 }

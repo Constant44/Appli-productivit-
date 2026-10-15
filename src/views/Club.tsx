@@ -7,6 +7,7 @@ import {
 import { POSITIONS, type FacilityKey, type Player, type Position } from "../lib/types";
 import { fmtMin, fmtMoney } from "../lib/utils";
 import { Bar, Field, Modal, Ovr, Seg } from "../components/ui";
+import { ask } from "../components/confirm";
 
 type Tab = "home" | "squad" | "market" | "facilities" | "league";
 
@@ -168,7 +169,7 @@ function SquadTab() {
                 <td className="num">{p.apps}</td>
                 <td className="num">{p.goals}</td>
                 <td className="num">{fmtMoney(playerValue(p))}</td>
-                <td><button className="btn sm ghost" onClick={() => confirm(`Vendre ${p.name} pour ${fmtMoney(sellPrice(p))} ?`) && sellPlayer(p.id)}>Vendre</button></td>
+                <td><button className="btn sm ghost" onClick={async () => (await ask(`Vendre ${p.name} pour ${fmtMoney(sellPrice(p))} ?`, { okLabel: "Vendre" })) && sellPlayer(p.id)}>Vendre</button></td>
               </tr>
             ))}
           </tbody>

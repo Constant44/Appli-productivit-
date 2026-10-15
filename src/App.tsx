@@ -4,6 +4,8 @@ import { MATCH_COST_MIN, levelFromXp, levelTitle } from "./lib/game";
 import { currentStreak, minutesByDay } from "./lib/insights";
 import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
 import { Bar, Modal, Toasts } from "./components/ui";
+import { ConfirmHost } from "./components/confirm";
+import { useCloud } from "./lib/platform";
 import Dashboard from "./views/Dashboard";
 import Focus from "./views/Focus";
 import Tasks from "./views/Tasks";
@@ -135,6 +137,7 @@ function TopBar() {
   }, [timer.status]);
   const matches = Math.floor(club.matchMinutesBank / MATCH_COST_MIN);
   const el = timerElapsedMs(timer) / 1000;
+  const cloud = useCloud();
   return (
     <div className="topbar">
       <div className="lvl" title={`${xp} XP au total`}>
@@ -151,6 +154,11 @@ function TopBar() {
       </span>
       {matches > 0 && <span className="chip click" onClick={() => navigate("club")} style={{ borderColor: "var(--accent)" }}>⚽ {matches} match{matches > 1 ? "s" : ""} dispo</span>}
       <span className="spacer" />
+      {cloud.status !== "local" && (
+        <span className="chip small" title={cloud.message ?? "Tes données sont sauvegardées dans ton compte claude.ai"} style={{ color: cloud.status === "error" ? "var(--red)" : "var(--muted)" }}>
+          {cloud.status === "connecting" ? "☁️ connexion…" : cloud.status === "saving" ? "☁️ sauvegarde…" : cloud.status === "error" ? "⚠️ non sauvegardé" : "☁️ sauvegardé"}
+        </span>
+      )}
       {timer.status !== "idle" && (
         <span className="chip click" onClick={() => navigate("focus")} style={{ borderColor: timer.phase === "break" ? "var(--blue)" : "var(--accent)" }}>
           {timer.status === "paused" ? "⏸️" : timer.phase === "break" ? "☕" : "⏱️"} {timer.mode === "free" ? fmtClock(el) : fmtClock(timer.targetMin * 60 - el)}
@@ -197,6 +205,7 @@ export default function App() {
       </div>
       <TimerWatcher />
       <PendingSessionModal />
+      <ConfirmHost />
       <Toasts />
     </div>
   );

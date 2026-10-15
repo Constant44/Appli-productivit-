@@ -4,6 +4,7 @@ import { buildSchedule, calibrationData, correctedEstimate, spentMinutes } from 
 import type { Plan, Task } from "../lib/types";
 import { addDays, fmtDay, fmtMin, isoDay, subjectColor } from "../lib/utils";
 import { Bar, Field, Modal } from "../components/ui";
+import { ask } from "../components/confirm";
 import { CompleteTaskModal, TaskForm } from "../components/forms";
 import { TaskRow } from "../components/TaskRow";
 
@@ -147,7 +148,7 @@ function PlanForm({ initial, onClose }: { initial: Partial<Plan>; onClose: (id?:
       onClose={() => onClose()}
       actions={
         <>
-          {editing && <button className="btn danger" onClick={() => { if (confirm("Supprimer cette période ? (les tâches sont conservées)")) { deletePlan(initial.id!); onClose(); } }}>Supprimer</button>}
+          {editing && <button className="btn danger" onClick={async () => { if (await ask("Supprimer cette période ? Les tâches sont conservées.", { okLabel: "Supprimer", danger: true })) { deletePlan(initial.id!); onClose(); } }}>Supprimer</button>}
           <span className="spacer" />
           <button className="btn" onClick={() => onClose()}>Annuler</button>
           <button className="btn primary" onClick={save}>Enregistrer</button>

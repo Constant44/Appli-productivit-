@@ -3,6 +3,7 @@ import { timerElapsedMs, useStore, type TimerState } from "../lib/store";
 import { currentStreak, minutesByDay, recommend } from "../lib/insights";
 import { sessionRewards, sponsorMultiplier, streakMultiplier } from "../lib/game";
 import { fmtClock, fmtMin, fmtTime, isoDay, subjectColor } from "../lib/utils";
+import { ask } from "../components/confirm";
 import { Field, Seg, SubjectSelect, DurationInput, Modal } from "../components/ui";
 
 export default function Focus() {
@@ -101,7 +102,7 @@ export default function Focus() {
             {running && (
               <button className="btn big" onClick={s.stopTimer}>{timer.phase === "break" ? "⏭ Fin de pause" : "⏹ Terminer"}</button>
             )}
-            {running && <button className="btn ghost danger" onClick={() => confirm("Abandonner cette session sans la compter ?") && s.cancelTimer()}>Abandonner</button>}
+            {running && <button className="btn ghost danger" onClick={async () => (await ask("Abandonner cette session sans la compter ?", { okLabel: "Abandonner", danger: true })) && s.cancelTimer()}>Abandonner</button>}
           </div>
         </div>
 

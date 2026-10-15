@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { exportData, useStore } from "../lib/store";
 import { syncPronote } from "../lib/pronote";
 import { demoData } from "../lib/demo";
 import { fmtDay, fmtTime } from "../lib/utils";
 import { Field, Seg } from "../components/ui";
+import { saveFile, useCloud } from "../lib/platform";
+import { ask } from "../components/confirm";
 
 export default function Settings() {
   const { pronote, settings, updateSettings, toast, importData, resetAll, loadDemo } = useStore();
@@ -17,6 +19,11 @@ export default function Settings() {
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const [newSubject, setNewSubject] = useState("");
+  const [hasServer, setHasServer] = useState<boolean | null>(null);
+  const cloud = useCloud();
+  useEffect(() => {
+    fetch("/api/health").then((r) => r.json()).then((d) => setHasServer(!!d.ok)).catch(() => setHasServer(false));
+  }, []);
 
   const run = async (creds: Parameters<typeof syncPronote>[0]) => {
     setBusy(true);
@@ -35,10 +42,16 @@ export default function Settings() {
   return (
     <>
       <h1 className="page-title">Pronote & réglages</h1>
-      <p className="page-sub">Tout est stocké localement dans ton navigateur. Ton mot de passe Pronote n'est jamais enregistré : seul un jeton de reconnexion l'est.</p>
+      <p className="page-sub">Ton mot de passe Pronote n'est jamais enregistré : seul un jeton de reconnexion l'est.</p>
       <div className="grid g2">
         <div className="card">
           <h3>🔗 Connexion Pronote</h3>
+          {hasServer === false && (
+            <div className="small" style={{ marginBottom: 12, padding: "10px 12px", borderRadius: 10, border: "1px solid #fbbf2455", background: "#fbbf2414", color: "var(--gold)" }}>
+              Cette version (iPad / lien claude.ai) n'a pas de serveur : la connexion Pronote n'y fonctionne pas encore.
+              Ajoute tes devoirs, DS et khôlles à la main en attendant la version hébergée.
+            </div>
+          )}
           {pronote.token && (
             <div className="stack" style={{ marginBottom: 14 }}>
               <div className="row between">
@@ -124,14 +137,15 @@ export default function Settings() {
           </div>
           <div className="card">
             <h3>💾 Données</h3>
+            <p className="small muted" style={{ marginTop: 0 }}>
+              {cloud.status === "local"
+                ? "Données enregistrées sur cet appareil uniquement."
+                : cloud.status === "error"
+                  ? cloud.message
+                  : "Données sauvegardées dans ton compte claude.ai : tu les retrouves sur tous tes appareils."}
+            </p>
             <div className="row">
-              <button className="btn" onClick={() => {
-                const blob = new Blob([exportData()], { type: "application/json" });
-                const a = document.createElement("a");
-                a.href = URL.createObjectURL(blob);
-                a.download = `prepa-fc-${new Date().toISOString().slice(0, 10)}.json`;
-                a.click();
-              }}>⬇️ Exporter (sauvegarde)</button>
+              <button className="btn" onClick={() => void saveFile(`prepa-fc-${new Date().toISOString().slice(0, 10)}.json`, exportData())}>⬇️ Exporter (sauvegarde)</button>
               <button className="btn" onClick={() => fileRef.current?.click()}>⬆️ Importer</button>
               <input ref={fileRef} type="file" accept="application/json" hidden onChange={async (e) => {
                 const f = e.target.files?.[0];
@@ -141,8 +155,8 @@ export default function Settings() {
               }} />
             </div>
             <div className="row" style={{ marginTop: 10 }}>
-              <button className="btn" onClick={() => confirm("Remplacer toutes tes données par des données de démo ?") && loadDemo(demoData())}>🧪 Charger la démo</button>
-              <button className="btn danger" onClick={() => confirm("Tout effacer (tâches, sessions, club…) ? Irréversible.") && resetAll()}>🗑️ Tout réinitialiser</button>
+              <button className="btn" onClick={async () => (await ask("Remplacer toutes tes données par des données de démo ?", { okLabel: "Charger la démo", danger: true })) && loadDemo(demoData())}>🧪 Charger la démo</button>
+              <button className="btn danger" onClick={async () => (await ask("Tout effacer (tâches, sessions, club…) ? C'est irréversible.", { okLabel: "Tout effacer", danger: true })) && resetAll()}>🗑️ Tout réinitialiser</button>
             </div>
           </div>
         </div>
