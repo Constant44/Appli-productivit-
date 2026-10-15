@@ -23,7 +23,7 @@ export default function ClubView() {
   const club = useStore((s) => s.club);
   return (
     <>
-      <div className="row between">
+      <div className="row between" style={{ marginBottom: 16 }}>
         <div>
           <h1 className="page-title" style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Crest a={club.colorA} b={club.colorB} /> {club.name}

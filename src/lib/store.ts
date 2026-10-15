@@ -1,8 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
-  Club, CustomEvent, Evaluation, FacilityKey, Grade, Lesson, Plan, PronoteConfig, Session, Task, Toast,
+  ActuDay, Card, CgTest, Club, ContentPack, CustomEvent, EdhecState, Evaluation, FacilityKey, Grade, Lesson, Plan,
+  PronoteConfig, Session, Sheet, Task, Toast,
 } from "./types";
+import { schedule, type Rating, type Review } from "./srs";
+import seed from "../data/seed.json";
 import {
   MATCH_COST_MIN, MAX_FACILITY, academyEveryHours, academyProspect, applyTraining, bestEleven,
   facilityCost, generateMarket, initialClub, levelFromXp, matchIncome, newSeason, playRound,
@@ -58,6 +61,15 @@ type Data = {
   settings: Settings;
   timer: TimerState;
   pending: PendingSession | null;
+  // Révisions
+  sheets: Sheet[];
+  cards: Card[];
+  actuDays: ActuDay[];
+  reviews: Record<string, Review>;
+  inboxDone: string[];
+  cgTests: CgTest[];
+  edhec: EdhecState;
+  warmups: string[];
 };
 
 type Actions = {
@@ -103,6 +115,16 @@ type Actions = {
   playMatch: () => void;
   renameClub: (name: string, colorA?: string, colorB?: string) => void;
 
+  // Révisions
+  mergePack: (pack: ContentPack) => number;
+  rateCard: (id: string, rating: Rating) => void;
+  addCards: (cards: Card[]) => void;
+  deleteCard: (id: string) => void;
+  addCgTest: (t: Omit<CgTest, "id">) => void;
+  deleteCgTest: (id: string) => void;
+  updateEdhec: (fn: (e: EdhecState) => EdhecState) => void;
+  markWarmup: () => void;
+
   // Pronote & data
   setPronote: (patch: Partial<PronoteConfig>) => void;
   applyPronoteSync: (p: PronoteSyncPayload) => { tasks: number; evals: number; grades: number };
@@ -114,7 +136,32 @@ type Actions = {
 
 export type Store = Data & Actions;
 
-const DEFAULT_SUBJECTS = ["Maths", "Économie", "Droit", "Gestion", "Anglais", "LV2", "Culture générale", "Histoire"];
+const DEFAULT_SUBJECTS = ["Maths", "Économie", "Microéconomie", "Droit", "Gestion", "Anglais", "LV2", "Culture générale", "Histoire", "EDHEC Synthèse", "EDHEC Anglais"];
+export const EDHEC_SUBJECTS = ["EDHEC Synthèse", "EDHEC Anglais", "Microéconomie"];
+
+/** Chapitres type de microéconomie — à ajuster avec la table des matières d'Hachon & Laurent. */
+const MICRO_CHAPTERS = [
+  "Théorie du consommateur (préférences, utilité, demande)", "Effets revenu et substitution, surplus", "Théorie du producteur (technologie, coûts)",
+  "Concurrence parfaite et équilibre partiel", "Équilibre général et optimum de Pareto", "Monopole et discrimination", "Oligopole (Cournot, Bertrand, Stackelberg)",
+  "Théorie des jeux", "Choix en incertitude", "Externalités et biens publics", "Asymétries d'information (sélection adverse, aléa moral)",
+];
+
+const freshEdhec = (): EdhecState => ({
+  chapters: MICRO_CHAPTERS.map((name, i) => ({ id: `ch${i + 1}`, name, level: 0 })),
+  annales: Array.from({ length: 12 }, (_, i) => ({ id: `ens${2026 - i}`, label: `Annale ENS D2 micro ${2026 - i}`, done: false })),
+  syntheses: [],
+  english: [],
+});
+
+function mergeInto<T extends { id: string }>(list: T[], add: T[] = []) {
+  const map = new Map(list.map((x) => [x.id, x]));
+  let added = 0;
+  for (const x of add) {
+    if (!map.has(x.id)) added++;
+    map.set(x.id, { ...map.get(x.id), ...x });
+  }
+  return { list: [...map.values()], added };
+}
 
 const freshData = (): Data => ({
   tasks: [],
@@ -131,6 +178,14 @@ const freshData = (): Data => ({
   settings: { pomodoroWork: 25, pomodoroBreak: 5, subjects: DEFAULT_SUBJECTS, dailyGoalMin: 240, sound: true },
   timer: { status: "idle", mode: "pomodoro", phase: "work", startedAt: 0, accumulatedMs: 0, targetMin: 25 },
   pending: null,
+  sheets: (seed as ContentPack).sheets ?? [],
+  cards: (seed as ContentPack).cards ?? [],
+  actuDays: (seed as ContentPack).actuDays ?? [],
+  reviews: {},
+  inboxDone: [(seed as ContentPack).id],
+  cgTests: [],
+  edhec: freshEdhec(),
+  warmups: [],
 });
 
 const KHOLLE_RE = /kh[oô]ll?e|colle\b|interrogation orale/i;
@@ -447,6 +502,54 @@ export const useStore = create<Store>()(
             },
           })),
 
+        // ---------- Révisions ----------
+        mergePack: (pack) => {
+          const s = get();
+          const sh = mergeInto(s.sheets, pack.sheets);
+          const ca = mergeInto(s.cards, pack.cards);
+          const ad = mergeInto(s.actuDays, pack.actuDays);
+          set({
+            sheets: sh.list, cards: ca.list, actuDays: ad.list,
+            inboxDone: s.inboxDone.includes(pack.id) ? s.inboxDone : [...s.inboxDone, pack.id],
+          });
+          return ca.added + sh.added;
+        },
+        rateCard: (id, rating) => {
+          const s = get();
+          const card = s.cards.find((c) => c.id === id);
+          if (!card) return;
+          set({ reviews: { ...s.reviews, [id]: schedule(s.reviews[id], rating, card) } });
+        },
+        addCards: (cards) => set((s) => ({ cards: mergeInto(s.cards, cards).list })),
+        deleteCard: (id) =>
+          set((s) => {
+            const reviews = { ...s.reviews };
+            delete reviews[id];
+            return { cards: s.cards.filter((c) => c.id !== id), reviews };
+          }),
+        addCgTest: (t) => {
+          const pct = t.score / t.outOf;
+          set((s) => ({ cgTests: [...s.cgTests, { ...t, id: uid() }] }));
+          const coins = Math.round(Math.max(0, pct - 0.5) * 600);
+          const xp = Math.round(Math.max(0, pct - 0.5) * 300);
+          if (coins > 0) grant(xp, coins);
+          toast({
+            title: pct >= 0.9 ? `🏆 ${t.score}/${t.outOf} au test du vendredi !` : `🗞️ Test du vendredi : ${t.score}/${t.outOf}`,
+            body: coins > 0 ? `Prime : +${xp} XP · +${coins} k€` : "On fait mieux la semaine prochaine 💪",
+            tone: pct >= 0.9 ? "gold" : pct >= 0.7 ? "good" : "info",
+          });
+        },
+        deleteCgTest: (id) => set((s) => ({ cgTests: s.cgTests.filter((t) => t.id !== id) })),
+        updateEdhec: (fn) => set((s) => ({ edhec: fn(s.edhec) })),
+        markWarmup: () => {
+          const today = isoDay(new Date());
+          const s = get();
+          if (s.warmups.includes(today)) return;
+          set({ warmups: [...s.warmups, today] });
+          grant(60, 60);
+          toast({ title: "🔥 Échauffement validé", body: "+60 XP · +60 k€ de bonus", tone: "good" });
+        },
+
         // ---------- Pronote ----------
         setPronote: (patch) => set((s) => ({ pronote: { ...s.pronote, ...patch } })),
         applyPronoteSync: (p) => {
@@ -524,6 +627,7 @@ export const useStore = create<Store>()(
           const data = JSON.parse(json) as Partial<Data>;
           if (!data || typeof data !== "object" || !("club" in data)) throw new Error("Fichier invalide");
           set({ ...freshData(), ...data, pending: null });
+          get().mergePack(seed as ContentPack);
         },
         resetAll: () => set({ ...freshData() }),
         loadDemo: (data) => set({ ...freshData(), ...data }),
@@ -531,6 +635,21 @@ export const useStore = create<Store>()(
     },
     {
       name: "prepa-fc-v1",
+      version: 2,
+      // v1 → v2 : ajout des révisions (graine de fiches/cartes) et du suivi EDHEC.
+      migrate: (persisted, version) => {
+        const s = persisted as Partial<Data>;
+        if (version < 2) {
+          const f = freshData();
+          return {
+            ...s,
+            sheets: f.sheets, cards: f.cards, actuDays: f.actuDays, reviews: {}, inboxDone: f.inboxDone,
+            cgTests: [], edhec: f.edhec, warmups: [],
+            settings: s.settings ? { ...s.settings, subjects: [...new Set([...s.settings.subjects, ...EDHEC_SUBJECTS])] } : f.settings,
+          } as Partial<Store>;
+        }
+        return s as Partial<Store>;
+      },
       partialize: (s) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { toasts, ...rest } = s;

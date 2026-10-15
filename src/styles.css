@@ -233,3 +233,22 @@ label.field > span { font-weight: 600; }
   background: radial-gradient(500px 200px at 0% 0%, #22c55e33, transparent), radial-gradient(400px 200px at 100% 100%, #0ea5e933, transparent), var(--card);
 }
 .countdown { font-size: 30px; font-weight: 900; font-variant-numeric: tabular-nums; }
+
+/* ---------- Révisions ---------- */
+.flashcard {
+  background: linear-gradient(180deg, var(--card2), var(--card)); border: 1px solid var(--line); border-radius: 18px;
+  padding: 20px; min-height: 220px; display: flex; flex-direction: column; gap: 16px;
+}
+.flash-front { font-size: 20px; font-weight: 700; line-height: 1.35; text-wrap: balance; }
+.flash-back { font-size: 16px; line-height: 1.55; white-space: pre-line; border-top: 1px dashed var(--line); padding-top: 14px; }
+.rating-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.rating-row .btn { justify-content: center; padding: 14px 6px; font-size: 15px; }
+.sheet-body { white-space: pre-line; line-height: 1.6; background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.deck-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+.choice { text-align: left; justify-content: flex-start; white-space: normal; line-height: 1.35; padding: 12px; }
+.choice.right { border-color: var(--accent); background: #22c55e1f; }
+.choice.wrong { border-color: var(--red); background: #f871711f; }
+.phase { border-left: 3px solid var(--line); padding: 6px 0 6px 12px; }
+.phase.now { border-left-color: var(--accent); background: linear-gradient(90deg, #22c55e14, transparent); }
+.lvl-dots { display: inline-flex; gap: 4px; }
+.lvl-dots button { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg2); cursor: pointer; padding: 0; }

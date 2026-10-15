@@ -186,3 +186,27 @@ export type PronoteConfig = {
 };
 
 export type Toast = { id: ID; title: string; body?: string; tone?: "good" | "info" | "warn" | "gold" };
+
+// ---------------- Révisions (Vendredi, EDHEC) ----------------
+
+export type Deck = "mot" | "bio" | "actu" | "anglais" | "micro";
+export const DECK_LABEL: Record<Deck, string> = { mot: "Mots", bio: "Personnages", actu: "Actu", anglais: "Anglais", micro: "Micro" };
+
+/** Fiche source (mot ou personnage envoyé par le prof). */
+export type Sheet = { id: string; kind: "mot" | "bio"; title: string; body: string; sentAt: string };
+
+export type Card = { id: string; deck: Deck; front: string; back: string; ref?: string; date?: string };
+
+export type ActuDay = { id: string; title: string };
+
+/** Pack de contenu (graine embarquée, ou déposé dans la boîte de réception par la tâche automatique). */
+export type ContentPack = { id: string; sheets?: Sheet[]; cards?: Card[]; actuDays?: ActuDay[] };
+
+export type CgTest = { id: string; date: string; score: number; outOf: number; note?: string };
+
+export type EdhecState = {
+  chapters: Array<{ id: string; name: string; level: 0 | 1 | 2 | 3 }>;
+  annales: Array<{ id: string; label: string; done: boolean; score?: number }>;
+  syntheses: Array<{ id: string; date: string; theme: string; note?: number; words?: number }>;
+  english: Array<{ date: string; score: number; total: number }>;
+};

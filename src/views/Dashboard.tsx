@@ -7,6 +7,8 @@ import type { Evaluation, Task } from "../lib/types";
 import { Bar } from "../components/ui";
 import { CompleteTaskModal, EvalForm, TaskForm } from "../components/forms";
 import { navigate } from "../App";
+import { EDHEC_DATE, currentPhase } from "./Edhec";
+import { buildQueue, nextTestDay } from "../lib/srs";
 
 function greeting() {
   const h = new Date().getHours();
@@ -65,6 +67,8 @@ export default function Dashboard() {
           <Bar value={today} max={settings.dailyGoalMin} />
         </div>
       </div>
+
+      <TodayStrip />
 
       <div className="grid g3">
         <div className="card span2">
@@ -187,6 +191,32 @@ export default function Dashboard() {
       {completing && <CompleteTaskModal task={completing} onClose={() => setCompleting(null)} />}
       {editEval && <EvalForm initial={editEval} onClose={() => setEditEval(null)} />}
     </>
+  );
+}
+
+function TodayStrip() {
+  const warmups = useStore((s) => s.warmups);
+  const cards = useStore((s) => s.cards);
+  const reviews = useStore((s) => s.reviews);
+  const toReview = buildQueue(cards, reviews, { newLimit: 20, max: 999, decks: ["actu", "bio", "mot", "anglais"] }).length;
+  const test = nextTestDay();
+  const dTest = daysUntil(test);
+  const done = warmups.includes(isoDay(new Date()));
+  return (
+    <div className="grid g3" style={{ marginBottom: 16 }}>
+      <button className="card" style={{ textAlign: "left", cursor: "pointer", borderColor: done ? undefined : "var(--accent)" }} onClick={() => navigate("warmup")}>
+        <div className="row between"><b>🔥 Échauffement</b>{done ? <span className="pill green">fait ✓</span> : <span className="pill gold">à faire</span>}</div>
+        <div className="small muted" style={{ marginTop: 6 }}>15 min : cartes + QCM d'anglais. Le meilleur moyen de lancer la journée.</div>
+      </button>
+      <button className="card" style={{ textAlign: "left", cursor: "pointer", borderColor: dTest <= 1 ? "var(--gold)" : undefined }} onClick={() => navigate("vendredi")}>
+        <div className="row between"><b>🗞️ Test du vendredi</b><span className={`pill ${dTest <= 1 ? "gold" : ""}`}>{dTest === 0 ? "aujourd'hui" : dTest === 1 ? "demain" : `J-${dTest}`}</span></div>
+        <div className="small muted" style={{ marginTop: 6 }}>{toReview} cartes à voir (actu, personnages, mots){dTest <= 1 ? " · lance le spécial veille de test" : ""}.</div>
+      </button>
+      <button className="card" style={{ textAlign: "left", cursor: "pointer" }} onClick={() => navigate("edhec")}>
+        <div className="row between"><b>🎯 EDHEC</b><span className="pill purple">J-{daysUntil(EDHEC_DATE)}</span></div>
+        <div className="small muted" style={{ marginTop: 6 }}>Phase : {currentPhase().name}.</div>
+      </button>
+    </div>
   );
 }
 

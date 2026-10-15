@@ -9,6 +9,7 @@
  */
 import { create } from "zustand";
 import { useStore } from "./store";
+import type { ContentPack } from "./types";
 import { uid } from "./utils";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -24,7 +25,10 @@ export async function capability(name: string): Promise<any | null> {
 }
 
 /** Clés de l'état synchronisées. Les tableaux sont découpés en morceaux (limite de 256 Kio par document). */
-const SYNC_KEYS = ["tasks", "evals", "sessions", "plans", "grades", "lessons", "customEvents", "pronote", "club", "xp", "coins", "settings", "timer"] as const;
+const SYNC_KEYS = [
+  "tasks", "evals", "sessions", "plans", "grades", "lessons", "customEvents", "pronote", "club", "xp", "coins", "settings", "timer",
+  "sheets", "cards", "actuDays", "reviews", "inboxDone", "cgTests", "edhec", "warmups",
+] as const;
 type SyncKey = (typeof SYNC_KEYS)[number];
 const CHUNK = 400;
 
@@ -143,16 +147,39 @@ export async function startCloudSync() {
     }
   });
 
+  await pullInbox(db);
+
   // Au retour sur l'appli (autre appareil utilisé entre-temps) : on recharge si quelqu'un d'autre a écrit.
   document.addEventListener("visibilitychange", async () => {
     if (document.visibilityState !== "visible" || writing || dirty.size) return;
     try {
       const meta = await metaRef.get();
       if (meta.exists && (meta.data() as { stamp: string }).stamp !== lastWriteStamp) await loadRemote();
+      await pullInbox(db);
     } catch {
       /* on réessaiera au prochain retour */
     }
   });
+}
+
+/**
+ * Boîte de réception : la tâche automatique (Claude, chaque soir) y dépose des paquets de contenu
+ * (nouveaux mots / personnages du prof, questions sur l'actu du jour). On fusionne ceux pas encore vus.
+ */
+async function pullInbox(db: any) {
+  try {
+    const snap = await db.collection("inbox").get();
+    const done = new Set(useStore.getState().inboxDone);
+    let added = 0;
+    for (const d of snap.docs) {
+      if (done.has(d.id)) continue;
+      const pack = { ...(d.data() as ContentPack), id: d.id };
+      added += useStore.getState().mergePack(pack);
+    }
+    if (added > 0) useStore.getState().toast({ title: "📬 Nouveautés importées", body: `${added} nouvelles cartes ou fiches à réviser`, tone: "good" });
+  } catch {
+    /* boîte vide ou indisponible */
+  }
 }
 
 /** Enregistre un fichier : via claude.ai si disponible, sinon lien de téléchargement classique. */

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { timerElapsedMs, useStore } from "./lib/store";
+import { EDHEC_SUBJECTS, timerElapsedMs, useStore } from "./lib/store";
 import { MATCH_COST_MIN, levelFromXp, levelTitle } from "./lib/game";
 import { currentStreak, minutesByDay } from "./lib/insights";
 import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
@@ -16,13 +16,19 @@ import Grades from "./views/Grades";
 import ClubView from "./views/Club";
 import Stats from "./views/Stats";
 import Settings from "./views/Settings";
+import Edhec from "./views/Edhec";
+import Vendredi from "./views/Vendredi";
+import Warmup from "./views/Warmup";
 
-export type View = "home" | "focus" | "tasks" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
+export type View = "home" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
 
 const NAV: Array<[View, string, string]> = [
   ["home", "🏠", "QG"],
+  ["warmup", "🔥", "Échauffement"],
   ["focus", "⏱️", "Focus"],
   ["tasks", "✅", "To-do"],
+  ["edhec", "🎯", "Objectif EDHEC"],
+  ["vendredi", "🗞️", "Test du vendredi"],
   ["plan", "🗓️", "Révisions"],
   ["evals", "📝", "DS & khôlles"],
   ["tt", "📅", "Emploi du temps"],
@@ -170,10 +176,17 @@ function TopBar() {
 
 export default function App() {
   const view = useHashView();
+  const subjects = useStore((s) => s.settings.subjects);
+  useEffect(() => {
+    // matières EDHEC toujours disponibles (données synchronisées d'une version antérieure)
+    const missing = EDHEC_SUBJECTS.filter((x) => !subjects.includes(x));
+    if (missing.length) useStore.getState().updateSettings({ subjects: [...subjects, ...missing] });
+  }, [subjects]);
   const tasks = useStore((s) => s.tasks);
   const evals = useStore((s) => s.evals);
   const overdue = tasks.filter((t) => !t.done && t.due && daysUntil(t.due) < 0).length;
   const soonEvals = evals.filter((e) => { const d = daysUntil(e.date); return d >= 0 && d <= 3; }).length;
+  const warmedUp = useStore((s) => s.warmups.includes(isoDay(new Date())));
 
   return (
     <div className="app">
@@ -184,6 +197,7 @@ export default function App() {
             <span>{icon}</span>
             <span>{label}</span>
             {k === "tasks" && overdue > 0 && <span className="badge">{overdue}</span>}
+            {k === "warmup" && !warmedUp && <span className="badge" style={{ background: "var(--accent)", color: "#04140a" }}>!</span>}
             {k === "evals" && soonEvals > 0 && <span className="badge" style={{ background: "var(--gold)", color: "#241500" }}>{soonEvals}</span>}
           </button>
         ))}
@@ -192,6 +206,9 @@ export default function App() {
         <TopBar />
         <div className="content">
           {view === "home" && <Dashboard />}
+          {view === "warmup" && <Warmup />}
+          {view === "edhec" && <Edhec />}
+          {view === "vendredi" && <Vendredi />}
           {view === "focus" && <Focus />}
           {view === "tasks" && <Tasks />}
           {view === "plan" && <Planner />}
