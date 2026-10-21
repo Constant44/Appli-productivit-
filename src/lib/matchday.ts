@@ -21,7 +21,8 @@ export type Block = {
 
 /** Heure d'arrivée par défaut (index 0 = dimanche). Lundi 10h30 : l'heure réelle, pas l'idéal. */
 export const DEFAULT_DAY_STARTS = ["10:00", "10:30", "09:00", "09:00", "09:00", "09:00", "10:00"];
-export const DEFAULT_DAY_END = "19:00";
+/** BU fermée à 21h (22h pour la BU de médecine) ; après, prolongations possibles à la maison. */
+export const DEFAULT_DAY_END = "21:00";
 
 const at = (day: Date, hhmm: string) => {
   const [h, m] = hhmm.split(":").map(Number);

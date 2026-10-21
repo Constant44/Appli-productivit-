@@ -8,7 +8,7 @@ const task = (id: string, estimateMin: number): Task => ({
 const lesson = (start: string, end: string): Lesson => ({ id: start, start, end, subject: "Maths", canceled: false, isTest: false, kind: "lesson" });
 
 describe("feuille de match", () => {
-  // Mardi 3/11/2026 : cours 8h-12h, 13h-15h, 15h-17h → travail possible 17h-19h seulement (+ avant 9h ? non, arrivée 9h)
+  // Mardi 3/11/2026 : cours 8h-12h puis 13h-17h → travail possible de 17h à la fermeture de la BU (21h)
   const base = { lessons: [lesson("2026-11-03T08:00:00", "2026-11-03T12:00:00"), lesson("2026-11-03T13:00:00", "2026-11-03T17:00:00")], evals: [], work: 30, pause: 5 };
 
   it("place l'échauffement puis des pomodoros dans les trous, sans chevaucher les cours", () => {
@@ -16,8 +16,8 @@ describe("feuille de match", () => {
     const work = sh.blocks.filter((b) => b.kind !== "busy");
     expect(work[0].kind).toBe("warmup");
     expect(work[0].start.getHours()).toBe(17);
-    for (const b of work) expect(b.start.getHours() >= 17 && b.end.getHours() <= 19).toBe(true);
-    expect(work.slice(1).map((b) => b.taskId)).toEqual(["a", "a", "b"].slice(0, work.length - 1));
+    for (const b of work) expect(b.start.getHours() >= 17 && +b.end <= +new Date("2026-11-03T21:00:00")).toBe(true);
+    expect(work.slice(1, 5).map((b) => b.taskId)).toEqual(["a", "a", "b", "b"]);
     expect(sh.current?.status).toBe("next");
   });
 

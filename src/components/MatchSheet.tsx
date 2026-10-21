@@ -75,7 +75,21 @@ export function MatchSheet() {
           </div>
         </div>
       ) : (
-        <div className="small muted" style={{ marginBottom: 10 }}>Journée terminée{sheet.playedMin ? ` : ${fmtMin(sheet.playedMin)} de travail, bien joué` : ""}. Repos ! 🌙</div>
+        <div className="reco" style={{ marginBottom: 10 }}>
+          <span style={{ fontSize: 22 }}>🌙</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <b>Fin du temps réglementaire</b>
+            <div className="small muted">
+              {sheet.playedMin ? `${fmtMin(sheet.playedMin)} de travail aujourd'hui. ` : ""}
+              {recos[0] ? `Encore un peu à la maison ? Prochaine tâche : ${recos[0].title}` : "Repos !"}
+            </div>
+          </div>
+          {recos[0] && (
+            <button className="btn" disabled={!idle} onClick={() => { startTimer({ mode: "pomodoro", targetMin: settings.pomodoroWork, taskId: recos[0].id, subject: recos[0].subject }); navigate("focus"); }}>
+              ⏱️ Prolongations
+            </button>
+          )}
+        </div>
       )}
       {late && <div className="small" style={{ marginBottom: 10 }}>Pas besoin de motivation pour commencer : lance « Juste 5 min ». Tu as le droit d'arrêter après, mais en général on continue.</div>}
 

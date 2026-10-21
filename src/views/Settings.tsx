@@ -127,7 +127,7 @@ export default function Settings() {
                     onChange={(e) => { const next = [...(settings.dayStarts ?? DEFAULT_DAY_STARTS)]; next[d] = e.target.value; updateSettings({ dayStarts: next }); }} />
                 </Field>
               ))}
-              <Field label="Fin">
+              <Field label="Fin (BU)">
                 <input className="input" type="time" style={{ width: 96 }} value={settings.dayEnd ?? DEFAULT_DAY_END} onChange={(e) => updateSettings({ dayEnd: e.target.value })} />
               </Field>
             </div>
