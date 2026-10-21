@@ -107,3 +107,14 @@ export const median = (xs: number[]) => {
   const m = Math.floor(s.length / 2);
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 };
+
+/**
+ * Compte les mots comme pour la synthèse EDHEC : un mot = ce qui est entre deux blancs, l'élision compte à part
+ * (« l'État » = 2 mots), un mot composé ou une abréviation (« porte-parole », « UE ») = 1 mot. Ponctuation seule ignorée.
+ */
+export function countWords(text: string) {
+  return text
+    .split(/\s+/)
+    .flatMap((t) => t.split(/(?<=['’])/))
+    .filter((t) => /[\p{L}\p{N}]/u.test(t)).length;
+}

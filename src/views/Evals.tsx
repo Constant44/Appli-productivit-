@@ -5,17 +5,21 @@ import type { Evaluation, Task } from "../lib/types";
 import { daysUntil, fmtDay, fmtMin, fmtRelDay, fmtTime, isoDay, subjectColor } from "../lib/utils";
 import { Bar, Modal, Seg } from "../components/ui";
 import { EvalForm, TaskForm } from "../components/forms";
+import { CAUSE_LABEL, DebriefModal } from "../components/DebriefModal";
 
 export default function Evals() {
   const { evals, tasks } = useStore();
   const [edit, setEdit] = useState<Partial<Evaluation> | null>(null);
   const [editTask, setEditTask] = useState<Partial<Task> | null>(null);
   const [resultFor, setResultFor] = useState<Evaluation | null>(null);
+  const [debriefFor, setDebriefFor] = useState<Evaluation | null>(null);
   const [tab, setTab] = useState<"next" | "past">("next");
 
   const upcoming = evals.filter((e) => daysUntil(e.date) >= 0).sort((a, b) => a.date.localeCompare(b.date));
   const past = evals.filter((e) => daysUntil(e.date) < 0).sort((a, b) => b.date.localeCompare(a.date));
   const toGrade = past.filter((e) => e.result == null);
+  const causes = past.flatMap((e) => (e.debrief ? [e.debrief.cause] : []));
+  const causeCount = Object.entries(causes.reduce<Record<string, number>>((a, c) => ({ ...a, [c]: (a[c] ?? 0) + 1 }), {})).sort((a, b) => b[1] - a[1]);
 
   return (
     <>
@@ -71,6 +75,12 @@ export default function Evals() {
 
       {tab === "past" && (
         <div className="list">
+          {causeCount.length > 0 && (
+            <div className="card small">
+              <b>Ce qui te coûte des points</b> (d'après tes debriefs) :{" "}
+              {causeCount.map(([c, n]) => `${CAUSE_LABEL[c as keyof typeof CAUSE_LABEL]} ×${n}`).join(" · ")}
+            </div>
+          )}
           {past.length === 0 && <div className="card empty">Aucune éval passée.</div>}
           {past.map((e) => (
             <div key={e.id} className="item">
@@ -84,6 +94,7 @@ export default function Evals() {
               ) : (
                 <button className="btn sm primary" onClick={() => setResultFor(e)}>Entrer ma note</button>
               )}
+              <button className={`btn sm ${e.debrief ? "ghost" : "gold"}`} onClick={() => setDebriefFor(e)}>{e.debrief ? "📝 Debrief ✓" : "📝 Debrief"}</button>
               <button className="btn sm ghost" onClick={() => setEdit(e)}>⋯</button>
             </div>
           ))}
@@ -92,7 +103,13 @@ export default function Evals() {
 
       {edit && <EvalForm initial={edit} onClose={() => setEdit(null)} />}
       {editTask && <TaskForm initial={editTask} onClose={() => setEditTask(null)} />}
-      {resultFor && <ResultModal ev={resultFor} onClose={() => setResultFor(null)} />}
+      {resultFor && <ResultModal ev={resultFor} onClose={() => {
+        // Note validée (pas annulée) : on enchaîne sur le debrief, à chaud
+        const e = useStore.getState().evals.find((x) => x.id === resultFor.id);
+        setResultFor(null);
+        if (e && e.result != null && !e.debrief) setDebriefFor(e);
+      }} />}
+      {debriefFor && <DebriefModal ev={debriefFor} onClose={() => setDebriefFor(null)} />}
     </>
   );
 }

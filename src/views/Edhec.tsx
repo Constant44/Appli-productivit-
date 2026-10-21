@@ -3,6 +3,7 @@ import { EDHEC_SUBJECTS, useStore } from "../lib/store";
 import { addDays, daysUntil, fmtDay, fmtMin, isoDay, startOfWeek, uid } from "../lib/utils";
 import { Bar, Field, Seg } from "../components/ui";
 import { EnglishQuiz, Translation } from "../components/English";
+import { SyntheseTrainer } from "../components/Synthese";
 import { ANNALE_KIND_LABEL, type Annale, type AnnaleKind } from "../lib/types";
 
 export const EDHEC_DATE = "2027-04-03";
@@ -164,10 +165,11 @@ function SyntheseTab() {
   const target = Math.ceil(daysUntil(EDHEC_DATE) / 7);
   return (
     <div className="grid g2">
+      <SyntheseTrainer />
       <div className="card stack">
-        <h3>📰 Mes synthèses</h3>
+        <h3>📰 Synthèse faite ailleurs (papier, prépa)</h3>
         <p className="small muted" style={{ margin: 0 }}>
-          Objectif : environ une synthèse par semaine d'ici le concours, soit ~{target} de plus. Ta formule PGE-PGO n'en corrige que 2 : l'entraîneur de synthèse avec correction par Claude arrive à la prochaine étape.
+          Objectif : environ une synthèse par semaine d'ici le concours, soit ~{target} de plus. Ta formule PGE-PGO n'en corrige que 2 : fais les autres dans l'entraîneur ci-dessus, corrigées par Claude.
         </p>
         <div className="form-grid">
           <Field label="Date"><input id="syn-date" className="input" type="date" value={date} onChange={(e) => setDate(e.target.value)} /></Field>
@@ -182,7 +184,7 @@ function SyntheseTab() {
         <div className="list">
           {list.map((s) => (
             <div key={s.id} className="row between small">
-              <span>{fmtDay(s.date)} · {s.theme}</span>
+              <span>{fmtDay(s.date)} · {s.theme}{s.words ? ` · ${s.words} mots` : ""}{s.feedback && <div className="muted" style={{ whiteSpace: "pre-line" }}>{s.feedback}</div>}</span>
               <span>{s.note != null ? <b>{s.note}/20</b> : <span className="muted">non notée</span>} <button className="btn sm ghost" onClick={() => updateEdhec((x) => ({ ...x, syntheses: x.syntheses.filter((y) => y.id !== s.id) }))}>✕</button></span>
             </div>
           ))}

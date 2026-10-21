@@ -8,7 +8,7 @@
  * reviennent au moins toutes les 3 semaines (tout peut tomber, le test est cumulatif).
  */
 import type { Card } from "./types";
-import { addDays, startOfDay } from "./utils";
+import { addDays, isoDay, startOfDay } from "./utils";
 
 export type Review = { due: string; interval: number; ease: number; reps: number; lapses: number; last: string };
 /** 0 = raté, 1 = difficile, 2 = bien, 3 = facile */
@@ -17,12 +17,23 @@ export type Rating = 0 | 1 | 2 | 3;
 export const MAX_INTERVAL_DAYS = 21;
 
 /** Prochain vendredi strictement après `now` si on est vendredi après midi, sinon le vendredi de la semaine. */
+/** Vacances scolaires zone A (Bordeaux) 2026-2027 : pas de test du vendredi. Dates incluses. */
+export const HOLIDAYS: Array<[string, string]> = [
+  ["2026-10-17", "2026-11-01"],
+  ["2026-12-19", "2027-01-03"],
+  ["2027-02-13", "2027-02-28"],
+  ["2027-04-10", "2027-04-25"],
+];
+export const inHolidays = (iso: string) => HOLIDAYS.some(([a, b]) => iso >= a && iso <= b);
+
 export function nextTestDay(now = new Date()) {
   const d = startOfDay(now);
   const wd = d.getDay();
   let delta = (5 - wd + 7) % 7;
   if (delta === 0 && now.getHours() >= 12) delta = 7;
-  return addDays(d, delta);
+  let t = addDays(d, delta);
+  while (inHolidays(isoDay(t))) t = addDays(t, 7);
+  return t;
 }
 
 /** Début de la « semaine d'actu » couverte par le prochain test : le vendredi précédent. */

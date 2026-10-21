@@ -51,6 +51,19 @@ export type Evaluation = {
   source: "manual" | "pronote";
   pronoteId?: string;
   rewarded?: boolean;
+  debrief?: Debrief;
+};
+
+/** Retour sur un DS / une khôlle : ce qui a marché, ce qui a coûté des points, et quoi changer. */
+export type Debrief = {
+  at: string;
+  feeling: 1 | 2 | 3 | 4 | 5;
+  good: string;
+  /** Chaque erreur devient une carte du carnet d'erreurs */
+  errors: Array<{ q: string; a: string }>;
+  /** Cause principale des points perdus */
+  cause: "cours" | "methode" | "temps" | "inattention" | "stress";
+  nextTime: string;
 };
 
 export type Session = {
@@ -189,8 +202,8 @@ export type Toast = { id: ID; title: string; body?: string; tone?: "good" | "inf
 
 // ---------------- Révisions (Vendredi, EDHEC) ----------------
 
-export type Deck = "mot" | "bio" | "actu" | "anglais" | "micro";
-export const DECK_LABEL: Record<Deck, string> = { mot: "Mots", bio: "Personnages", actu: "Actu", anglais: "Anglais", micro: "Micro" };
+export type Deck = "mot" | "bio" | "actu" | "anglais" | "micro" | "erreur";
+export const DECK_LABEL: Record<Deck, string> = { mot: "Mots", bio: "Personnages", actu: "Actu", anglais: "Anglais", micro: "Micro", erreur: "Carnet d'erreurs" };
 
 /** Fiche source (mot ou personnage envoyé par le prof). */
 export type Sheet = { id: string; kind: "mot" | "bio"; title: string; body: string; sentAt: string };
@@ -247,6 +260,6 @@ export type CgTest = { id: string; date: string; score: number; outOf: number; n
 export type EdhecState = {
   chapters: Array<{ id: string; name: string; level: 0 | 1 | 2 | 3 }>;
   annales: Annale[];
-  syntheses: Array<{ id: string; date: string; theme: string; note?: number; words?: number }>;
+  syntheses: Array<{ id: string; date: string; theme: string; note?: number; words?: number; minutes?: number; feedback?: string }>;
   english: Array<{ date: string; score: number; total: number }>;
 };

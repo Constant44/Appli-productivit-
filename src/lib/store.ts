@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
-  ActuDay, Card, CgTest, Club, ContentPack, CustomEvent, EdhecState, Evaluation, FacilityKey, Grade, Lesson, Plan,
+  ActuDay, Card, CgTest, Club, ContentPack, CustomEvent, Debrief, EdhecState, Evaluation, FacilityKey, Grade, Lesson, Plan,
   PronoteConfig, Session, Sheet, Task, Toast,
 } from "./types";
 import { schedule, type Rating, type Review } from "./srs";
@@ -94,6 +94,7 @@ type Actions = {
   updateEval: (id: string, patch: Partial<Evaluation>) => void;
   deleteEval: (id: string) => void;
   setEvalResult: (id: string, note: number) => void;
+  saveDebrief: (id: string, d: Debrief) => void;
 
   addPlan: (p: Omit<Plan, "id">) => string;
   updatePlan: (id: string, patch: Partial<Plan>) => void;
@@ -319,6 +320,24 @@ export const useStore = create<Store>()(
                 tone: note >= 15 ? "gold" : "good",
               });
             } else toast({ title: `${e.type} : ${note}/20`, body: "On rebondit au prochain. 💪", tone: "info" });
+          }
+        },
+
+        saveDebrief: (id, d) => {
+          const e = get().evals.find((x) => x.id === id);
+          if (!e) return;
+          const first = !e.debrief;
+          const cards: Card[] = d.errors
+            .filter((x) => x.q.trim() && x.a.trim())
+            .map((x, i) => ({ id: `err-${id}-${i}`, deck: "erreur", ref: id, front: `[${e.subject}] ${x.q.trim()}`, back: x.a.trim() }));
+          set((s) => ({
+            evals: s.evals.map((x) => (x.id === id ? { ...x, debrief: d } : x)),
+            // On remplace les cartes de ce debrief (modification possible)
+            cards: [...s.cards.filter((c) => !(c.deck === "erreur" && c.ref === id)), ...cards],
+          }));
+          if (first) {
+            grant(60, 150);
+            toast({ title: "📝 Debrief enregistré", body: `+60 XP · +150 k€${cards.length ? ` · ${cards.length} erreur${cards.length > 1 ? "s" : ""} au carnet` : ""}`, tone: "good" });
           }
         },
 

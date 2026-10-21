@@ -38,3 +38,10 @@ describe("feuille de match", () => {
     expect(sh.plannedMin).toBe(120);
   });
 });
+
+import { countWords } from "./utils";
+describe("décompte de mots EDHEC", () => {
+  it("compte l'élision à part, garde les mots composés et ignore la ponctuation", () => {
+    expect(countWords("L'État et le porte-parole de l'UE — ont parlé.")).toBe(10);
+  });
+});

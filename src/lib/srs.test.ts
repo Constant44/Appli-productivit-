@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildQueue, nextTestDay, schedule, type Review } from "./srs";
+import { isoDay } from "./utils";
 import type { Card } from "./types";
 import seed from "../data/seed.json";
 
@@ -30,6 +31,9 @@ describe("répétition espacée", () => {
   });
   it("le prochain test d'un jeudi soir est le lendemain", () => {
     expect(nextTestDay(thu).getDate()).toBe(16);
+  });
+  it("pas de test pendant les vacances : après la Toussaint, c'est le vendredi 6/11", () => {
+    expect(isoDay(nextTestDay(new Date("2026-10-21T10:00:00")))).toBe("2026-11-06");
   });
   it("la file met l'actu de la semaine devant et respecte la limite de nouvelles cartes", () => {
     const cards = [card("b1"), card("b2"), card("a1", "actu", "2026-10-12"), card("old", "actu", "2026-09-01")];

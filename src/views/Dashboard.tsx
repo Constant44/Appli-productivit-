@@ -10,6 +10,7 @@ import { navigate } from "../App";
 import { EDHEC_DATE, currentPhase } from "./Edhec";
 import { buildQueue, nextTestDay } from "../lib/srs";
 import { MatchSheet } from "../components/MatchSheet";
+import { DebriefModal } from "../components/DebriefModal";
 
 function greeting() {
   const h = new Date().getHours();
@@ -24,6 +25,8 @@ export default function Dashboard() {
   const [editTask, setEditTask] = useState<Partial<Task> | null>(null);
   const [completing, setCompleting] = useState<Task | null>(null);
   const [editEval, setEditEval] = useState<Partial<Evaluation> | null>(null);
+  const [debriefFor, setDebriefFor] = useState<Evaluation | null>(null);
+  const toDebrief = evals.filter((e) => !e.debrief && daysUntil(e.date) < 0 && daysUntil(e.date) >= -7 && +new Date(e.date) < Date.now());
 
   const recos = useMemo(() => recommend(tasks, evals, grades).slice(0, 5), [tasks, evals, grades]);
   const unprepared = useMemo(() => unpreparedEvals(evals, tasks), [evals, tasks]);
@@ -76,6 +79,17 @@ export default function Dashboard() {
       <div className="grid g3">
         <div className="card span2">
           <h3>🧠 Quoi faire maintenant ? <span className="right muted small">trié par urgence, évals proches et matières faibles</span></h3>
+          {toDebrief.length > 0 && (
+            <div className="stack" style={{ marginBottom: 12 }}>
+              {toDebrief.map((e) => (
+                <div key={e.id} className="reco" style={{ borderColor: "#60a5fa66" }}>
+                  <span style={{ fontSize: 20 }}>📝</span>
+                  <div style={{ flex: 1 }}><b>{e.type} de {e.subject} {fmtRelDay(e.date)}</b> : 5 min de debrief à chaud, tes erreurs partent au carnet.</div>
+                  <button className="btn sm gold" onClick={() => setDebriefFor(e)}>Debrief</button>
+                </div>
+              ))}
+            </div>
+          )}
           {unprepared.length > 0 && (
             <div className="stack" style={{ marginBottom: 12 }}>
               {unprepared.map((e) => (
@@ -193,6 +207,7 @@ export default function Dashboard() {
       {editTask && <TaskForm initial={editTask} onClose={() => setEditTask(null)} />}
       {completing && <CompleteTaskModal task={completing} onClose={() => setCompleting(null)} />}
       {editEval && <EvalForm initial={editEval} onClose={() => setEditEval(null)} />}
+      {debriefFor && <DebriefModal ev={debriefFor} onClose={() => setDebriefFor(null)} />}
     </>
   );
 }
