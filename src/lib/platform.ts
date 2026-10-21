@@ -43,6 +43,7 @@ export async function startCloudSync() {
   const [db, user] = await Promise.all([capability("db"), capability("user")]);
   const id: string | null = user ? await user.id().catch(() => null) : null;
   if (!db || !id) {
+    applyEmbeddedPacks();
     useCloud.setState({ status: "local", message: "Sauvegarde en ligne indisponible : données gardées sur cet appareil." });
     return;
   }
@@ -191,6 +192,7 @@ export async function startCloudSync() {
     }
     useCloud.setState({ status: "synced" });
   } catch {
+    applyEmbeddedPacks();
     useCloud.setState({ status: "error", message: "Impossible de lire la sauvegarde en ligne." });
     return;
   }
