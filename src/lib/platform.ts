@@ -51,7 +51,6 @@ export async function startCloudSync() {
   const metaRef = db.doc(`${root}/meta`);
   let chunks: Partial<Record<SyncKey, number>> = {};
   let lastWriteStamp = "";
-  let remoteHadFallen = true;
 
   /**
    * Après un chargement : nettoyage des données d'une version plus ancienne et packs embarqués pas encore fusionnés.
@@ -60,7 +59,6 @@ export async function startCloudSync() {
   const repair = () => {
     const st = useStore.getState();
     if (st.cards.some((c) => c.deck === "mot" && !c.id.endsWith("-def"))) useStore.setState(onlyDefinitions(st));
-    if (!remoteHadFallen && !st.fallen.includes("P28")) useStore.setState({ fallen: [...st.fallen, "P28"] });
     applyEmbeddedPacks();
   };
 
@@ -95,7 +93,6 @@ export async function startCloudSync() {
     applying = true;
     useStore.setState(patch as never);
     applying = false;
-    remoteHadFallen = "fallen" in patch;
     return true;
   };
 

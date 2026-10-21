@@ -212,7 +212,7 @@ const freshData = (): Data => ({
   cgTests: [],
   edhec: freshEdhec(),
   warmups: [],
-  fallen: ["P28"],
+  fallen: ["M54", "M61"],
 });
 
 const KHOLLE_RE = /kh[oô]ll?e|colle\b|interrogation orale/i;
@@ -544,7 +544,7 @@ export const useStore = create<Store>()(
           const st = pack.settings;
           set({
             sheets: sh.list, cards: ca.list, actuDays: ad.list, tasks: ta.list, evals: ev.list, grades: gr.list, lessons: le.list, cgTests: cg.list, edhec,
-            fallen: pack.fallen ? [...new Set([...s.fallen, ...pack.fallen])] : s.fallen,
+            fallen: [...new Set([...s.fallen, ...(pack.fallen ?? [])])].filter((id) => !pack.unfallen?.includes(id)),
             settings: st
               ? {
                   ...s.settings,

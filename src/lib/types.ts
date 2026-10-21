@@ -233,6 +233,8 @@ export type ContentPack = {
   cgTests?: CgTest[];
   /** Fiches déjà tombées au test du vendredi */
   fallen?: string[];
+  /** Fiches à remettre en révision (marquées tombées par erreur) */
+  unfallen?: string[];
   /** Annales à ajouter ou compléter (liens) — l'avancement (fait, note) déjà saisi est conservé. */
   annales?: Annale[];
   /** Renomme les chapitres de micro (le niveau de maîtrise est conservé par identifiant). */
