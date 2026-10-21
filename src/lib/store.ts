@@ -536,13 +536,14 @@ export const useStore = create<Store>()(
           const ca = mergeInto(s.cards, pack.cards);
           const ad = mergeInto(s.actuDays, pack.actuDays);
           const ev = mergeInto(s.evals, pack.evals);
+          const ta = mergeInto(s.tasks, pack.tasks);
           const gr = mergeInto(s.grades, pack.grades);
           const le = mergeInto(s.lessons, pack.lessons);
           const cg = mergeInto(s.cgTests, pack.cgTests);
           const edhec = pack.annales || pack.chapters ? mergeEdhec(s.edhec, pack) : s.edhec;
           const st = pack.settings;
           set({
-            sheets: sh.list, cards: ca.list, actuDays: ad.list, evals: ev.list, grades: gr.list, lessons: le.list, cgTests: cg.list, edhec,
+            sheets: sh.list, cards: ca.list, actuDays: ad.list, tasks: ta.list, evals: ev.list, grades: gr.list, lessons: le.list, cgTests: cg.list, edhec,
             fallen: pack.fallen ? [...new Set([...s.fallen, ...pack.fallen])] : s.fallen,
             settings: st
               ? {
@@ -555,7 +556,7 @@ export const useStore = create<Store>()(
               : s.settings,
             inboxDone: s.inboxDone.includes(pack.id) ? s.inboxDone : [...s.inboxDone, pack.id],
           });
-          return ca.added + sh.added + ev.added + gr.added + cg.added;
+          return ca.added + sh.added + ta.added + ev.added + gr.added + cg.added;
         },
         rateCard: (id, rating) => {
           const s = get();

@@ -50,7 +50,7 @@ export default function Timetable() {
       if (isoDay(l.start) === iso)
         out.push({
           id: l.id, start: new Date(l.start), end: new Date(l.end), title: l.subject,
-          sub: [l.room, l.teacher].filter(Boolean).join(" · "), color: l.color ?? subjectColor(l.subject),
+          sub: [l.title, l.room, l.teacher].filter(Boolean).join(" · "), color: l.color ?? subjectColor(l.subject),
           canceled: l.canceled, tag: l.isTest ? "ÉVAL" : l.status,
         });
     for (const e of evals)

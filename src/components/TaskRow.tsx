@@ -27,6 +27,13 @@ export function TaskRow({ task, onEdit, onComplete, compact }: { task: Task; onE
           {task.priority === 3 && !task.done && "🔥 "}
           {task.title}
         </div>
+        {task.notes && (
+          <div className="small muted" style={{ overflowWrap: "anywhere" }}>
+            {task.notes.split(/(https?:\/\/\S+)/).map((part, i) =>
+              /^https?:\/\//.test(part) ? <a key={i} href={part} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>lien ↗</a> : part,
+            )}
+          </div>
+        )}
         <div className="meta">
           <span className="pill">{task.subject}</span>
           {!compact && <span className="pill">{TASK_KIND_LABEL[task.kind]}</span>}

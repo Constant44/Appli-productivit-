@@ -172,26 +172,6 @@
    "rewarded": true
   },
   {
-   "id": "kh-2026-11-18-ecrit",
-   "type": "Khôlle",
-   "subject": "Entretien",
-   "date": "2026-11-18T11:00:00+01:00",
-   "durationMin": 30,
-   "source": "manual",
-   "topic": "Khôlle écrite · Épistémologie",
-   "examiner": "Millaret"
-  },
-  {
-   "id": "kh-2026-12-09-ecrit",
-   "type": "Khôlle",
-   "subject": "Entretien",
-   "date": "2026-12-09T11:00:00+01:00",
-   "durationMin": 30,
-   "source": "manual",
-   "topic": "Khôlle écrite · Anthropologie",
-   "examiner": "Millaret"
-  },
-  {
    "id": "ds-2026-11-06",
    "type": "DS",
    "subject": "Microéconomie",

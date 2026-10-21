@@ -226,6 +226,7 @@ export type ContentPack = {
   sheets?: Sheet[];
   cards?: Card[];
   actuDays?: ActuDay[];
+  tasks?: Task[];
   evals?: Evaluation[];
   grades?: Grade[];
   lessons?: Lesson[];
