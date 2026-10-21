@@ -162,7 +162,7 @@ function TopBar() {
       <span className="spacer" />
       {cloud.status !== "local" && (
         <span className="chip small" title={cloud.message ?? "Tes données sont sauvegardées dans ton compte claude.ai"} style={{ color: cloud.status === "error" ? "var(--red)" : "var(--muted)" }}>
-          {cloud.status === "connecting" ? "☁️ connexion…" : cloud.status === "saving" ? "☁️ sauvegarde…" : cloud.status === "error" ? "⚠️ non sauvegardé" : "☁️ sauvegardé"}
+          {cloud.status === "connecting" ? "☁️ connexion…" : cloud.status === "saving" ? "☁️ sauvegarde…" : cloud.status === "waiting" ? "☁️ en attente…" : cloud.status === "error" ? "⚠️ non sauvegardé" : "☁️ sauvegardé"}
         </span>
       )}
       {timer.status !== "idle" && (

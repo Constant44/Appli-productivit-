@@ -32,7 +32,7 @@ const SYNC_KEYS = [
 type SyncKey = (typeof SYNC_KEYS)[number];
 const CHUNK = 400;
 
-export type CloudStatus = "local" | "connecting" | "synced" | "saving" | "error";
+export type CloudStatus = "local" | "connecting" | "synced" | "saving" | "waiting" | "error";
 export const useCloud = create<{ status: CloudStatus; message?: string }>(() => ({ status: "local" }));
 
 const deviceId = uid();
@@ -61,12 +61,18 @@ export async function startCloudSync() {
       if (n === undefined) continue;
       if (n === 0) {
         const snap = await db.doc(`${root}/${key}`).get();
-        if (snap.exists) patch[key] = (snap.data() as { v: unknown }).v;
+        if (snap.exists) {
+          patch[key] = (snap.data() as { v: unknown }).v;
+          written.set(`${root}/${key}`, JSON.stringify(snap.data()));
+        }
       } else {
         const parts: unknown[] = [];
         for (let i = 0; i < n; i++) {
           const snap = await db.doc(`${root}/${key}-${i}`).get();
-          if (snap.exists) parts.push(...((snap.data() as { v: unknown[] }).v ?? []));
+          if (snap.exists) {
+            parts.push(...((snap.data() as { v: unknown[] }).v ?? []));
+            written.set(`${root}/${key}-${i}`, JSON.stringify(snap.data()));
+          }
         }
         patch[key] = parts;
       }
@@ -84,46 +90,85 @@ export async function startCloudSync() {
     return true;
   };
 
+  /** Dernier contenu enregistré par document : on ne réécrit jamais un document identique. */
+  const written = new Map<string, string>();
+  const pause = () => new Promise((r) => setTimeout(r, 300));
+  const writeDoc = async (path: string, body: Record<string, unknown>) => {
+    const json = JSON.stringify(body);
+    if (written.get(path) === json) return false;
+    await db.doc(path).set(body);
+    written.set(path, json);
+    await pause(); // le service limite le nombre d'écritures par seconde
+    return true;
+  };
+
   const writeKey = async (key: SyncKey, value: unknown) => {
+    let wrote = false;
     if (Array.isArray(value)) {
       const n = Math.max(1, Math.ceil(value.length / CHUNK));
-      for (let i = 0; i < n; i++) await db.doc(`${root}/${key}-${i}`).set({ v: value.slice(i * CHUNK, (i + 1) * CHUNK) });
-      for (let i = n; i < (chunks[key] ?? 0); i++) await db.doc(`${root}/${key}-${i}`).delete();
+      for (let i = 0; i < n; i++) wrote = (await writeDoc(`${root}/${key}-${i}`, { v: value.slice(i * CHUNK, (i + 1) * CHUNK) })) || wrote;
+      for (let i = n; i < (chunks[key] ?? 0); i++) {
+        await db.doc(`${root}/${key}-${i}`).delete();
+        written.delete(`${root}/${key}-${i}`);
+        wrote = true;
+      }
       chunks[key] = n;
     } else {
-      await db.doc(`${root}/${key}`).set({ v: value ?? null });
+      wrote = await writeDoc(`${root}/${key}`, { v: value ?? null });
       chunks[key] = 0;
     }
+    return wrote;
   };
 
   let applying = false;
-  let dirty = new Set<SyncKey>();
+  const dirty = new Set<SyncKey>();
   let timer: ReturnType<typeof setTimeout> | undefined;
   let writing = false;
+  /** Délai d'attente après un refus (0 = tout va bien). Double à chaque échec, jusqu'à 5 min. */
+  let backoff = 0;
+  const schedule = (ms: number) => {
+    clearTimeout(timer);
+    timer = setTimeout(flush, ms);
+  };
 
   const flush = async () => {
     if (writing || !dirty.size) return;
     writing = true;
-    const keys = [...dirty];
-    dirty = new Set();
     useCloud.setState({ status: "saving" });
     try {
       const s = useStore.getState();
-      for (const k of keys) await writeKey(k, JSON.parse(JSON.stringify(s[k])));
-      lastWriteStamp = `${deviceId}:${Date.now()}`;
-      await metaRef.set({ chunks, stamp: lastWriteStamp });
+      let wrote = false;
+      // Une clé à la fois : ce qui est enregistré n'est plus à refaire, même si la suite échoue.
+      for (const k of [...dirty]) {
+        dirty.delete(k);
+        try {
+          wrote = (await writeKey(k, JSON.parse(JSON.stringify(s[k] ?? null)))) || wrote;
+        } catch (e) {
+          dirty.add(k);
+          throw e;
+        }
+      }
+      if (wrote) {
+        lastWriteStamp = `${deviceId}:${Date.now()}`;
+        await writeDoc(`${root}/meta`, { chunks, stamp: lastWriteStamp });
+      }
+      backoff = 0;
       useCloud.setState({ status: "synced", message: undefined });
     } catch (e) {
-      for (const k of keys) dirty.add(k);
       const code = (e as { code?: string }).code;
+      backoff = Math.min(Math.max(backoff * 2, 3000), 300000);
+      // Trop d'écritures d'un coup ou incident passager : on patiente, rien n'est perdu.
+      const transient = code === "resource_exhausted" || code === "unavailable" || !code;
       useCloud.setState({
-        status: "error",
-        message: code === "quota_exceeded" ? "Espace de sauvegarde plein : exporte puis réinitialise les vieilles données." : "Sauvegarde en ligne impossible pour l'instant, nouvel essai bientôt.",
+        status: transient ? "waiting" : "error",
+        message:
+          code === "quota_exceeded" ? "Espace de sauvegarde plein : exporte puis réinitialise les vieilles données."
+          : `Sauvegarde en ligne en attente, nouvel essai dans ${Math.round(backoff / 1000)} s. Tes données restent sur cet appareil.`,
       });
-      if (code !== "quota_exceeded" && code !== "invalid_argument") timer = setTimeout(flush, 15000);
+      if (code !== "quota_exceeded" && code !== "invalid_argument") schedule(backoff);
     } finally {
       writing = false;
-      if (dirty.size) timer = setTimeout(flush, 1500);
+      if (dirty.size && backoff === 0) schedule(1500);
     }
   };
 
@@ -146,10 +191,7 @@ export async function startCloudSync() {
     if (applying) return;
     let changed = false;
     for (const k of SYNC_KEYS) if (s[k] !== prev[k]) { dirty.add(k); changed = true; }
-    if (changed) {
-      clearTimeout(timer);
-      timer = setTimeout(flush, 1500);
-    }
+    if (changed && backoff === 0) schedule(1500);
   });
 
   await pullInbox(db);
