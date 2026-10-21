@@ -39,6 +39,8 @@ export type Settings = {
   dayStarts?: string[];
   /** Fin de la journée de travail */
   dayEnd?: string;
+  /** Coefficients des matières au bulletin */
+  subjectCoefs?: Record<string, number>;
 };
 
 export type PronoteSyncPayload = {
@@ -575,6 +577,7 @@ export const useStore = create<Store>()(
                   ...(st.pomodoroBreak ? { pomodoroBreak: st.pomodoroBreak } : {}),
                   ...(st.dailyGoalMin ? { dailyGoalMin: st.dailyGoalMin } : {}),
                   subjects: [...new Set([...s.settings.subjects, ...(st.addSubjects ?? [])])],
+                  ...(st.subjectCoefs ? { subjectCoefs: { ...s.settings.subjectCoefs, ...st.subjectCoefs } } : {}),
                 }
               : s.settings,
             inboxDone: s.inboxDone.includes(pack.id) ? s.inboxDone : [...s.inboxDone, pack.id],

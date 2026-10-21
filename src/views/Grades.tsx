@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useStore } from "../lib/store";
-import { subjectAverages } from "../lib/insights";
+import { DEFAULT_SUBJECT_COEFS, subjectAverages } from "../lib/insights";
 import { fmtDay, isoDay, subjectColor } from "../lib/utils";
 import { Field, Modal, SubjectSelect } from "../components/ui";
 
 function Sparkline({ values, color }: { values: number[]; color: string }) {
   if (values.length < 2) return null;
-  const w = 120, h = 32;
+  const w = 56, h = 28;
   const pts = values.map((v, i) => `${(i / (values.length - 1)) * w},${h - (v / 20) * h}`).join(" ");
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden>
@@ -17,12 +17,13 @@ function Sparkline({ values, color }: { values: number[]; color: string }) {
 }
 
 export default function Grades() {
-  const { grades, deleteGrade } = useStore();
+  const { grades, deleteGrade, settings, updateSettings } = useStore();
   const [add, setAdd] = useState(false);
   const [period, setPeriod] = useState("");
   const periods = [...new Set(grades.map((g) => g.period).filter(Boolean))] as string[];
   const filtered = period ? grades.filter((g) => g.period === period || g.source === "manual") : grades;
-  const { bySubject, overall } = useMemo(() => subjectAverages(filtered), [filtered]);
+  const coefs = settings.subjectCoefs ?? DEFAULT_SUBJECT_COEFS;
+  const { bySubject, overall, classOverall } = useMemo(() => subjectAverages(filtered, coefs), [filtered, coefs]);
   const sorted = [...filtered].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
@@ -30,7 +31,7 @@ export default function Grades() {
       <div className="row between">
         <div>
           <h1 className="page-title">Notes</h1>
-          <p className="page-sub">Notes Pronote + notes ajoutées à la main (khôlles, DS hors Pronote). Moyennes pondérées par coefficient, ramenées sur 20.</p>
+          <p className="page-sub">Calcul identique à Pronote : points obtenus sur points possibles (coefficient de chaque note), sous-matières à parts égales, matières pondérées par leur coefficient au bulletin.</p>
         </div>
         <div className="row">
           {periods.length > 0 && (
@@ -43,7 +44,7 @@ export default function Grades() {
         </div>
       </div>
       <div className="grid g3" style={{ marginBottom: 16 }}>
-        <div className="card stat"><span className="v">{Number.isNaN(overall) ? "—" : overall.toFixed(2)}</span><span className="l">Moyenne générale (non pondérée par matière)</span></div>
+        <div className="card stat"><span className="v">{Number.isNaN(overall) ? "—" : overall.toFixed(2)}</span><span className="l">Moyenne générale{Number.isNaN(classOverall) ? "" : ` · classe ≈ ${classOverall.toFixed(2)}`}</span></div>
         <div className="card stat"><span className="v">{filtered.length}</span><span className="l">notes</span></div>
         <div className="card stat">
           <span className="v">{bySubject.length ? [...bySubject].sort((a, b) => b.avg - a.avg)[0].subject : "—"}</span>
@@ -57,20 +58,30 @@ export default function Grades() {
           {bySubject.length === 0 && <div className="empty">Pas encore de notes.</div>}
           <div className="stack">
             {bySubject.map((s) => {
-              const hist = filtered.filter((g) => g.subject === s.subject).sort((a, b) => a.date.localeCompare(b.date)).map((g) => (g.value / g.outOf) * 20);
+              const hist = filtered.filter((g) => g.subject.split(" › ")[0] === s.subject).sort((a, b) => a.date.localeCompare(b.date)).map((g) => (g.value / g.outOf) * 20);
               return (
-                <div key={s.subject} className="row" style={{ flexWrap: "nowrap" }}>
-                  <span className="dot" style={{ background: subjectColor(s.subject) }} />
-                  <span style={{ width: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.subject}</span>
-                  <div style={{ flex: 1, position: "relative", height: 12, background: "var(--bg2)", borderRadius: 99 }}>
-                    <div style={{ position: "absolute", inset: 0, width: `${(s.avg / 20) * 100}%`, background: s.avg >= overall ? "var(--accent)" : "var(--gold)", borderRadius: 99 }} />
-                    <div style={{ position: "absolute", left: "50%", top: -3, bottom: -3, width: 1, background: "#fff6" }} />
+                <div key={s.subject}>
+                  <div className="row" style={{ flexWrap: "nowrap" }}>
+                    <span className="dot" style={{ background: subjectColor(s.subject) }} />
+                    <span style={{ width: 112, flexShrink: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.subject}</span>
+                    <input className="input" type="number" min={0} step={0.5} title="Coefficient au bulletin" style={{ width: 52, padding: "2px 6px" }} value={s.coef}
+                      onChange={(e) => updateSettings({ subjectCoefs: { ...coefs, [s.subject]: Math.max(0, Number(e.target.value)) } })} />
+                    <div style={{ flex: 1, minWidth: 60, position: "relative", height: 12, background: "var(--bg2)", borderRadius: 99 }}>
+                      <div style={{ position: "absolute", inset: 0, width: `${(s.avg / 20) * 100}%`, background: s.classAvg == null || s.avg >= s.classAvg ? "var(--accent)" : "var(--gold)", borderRadius: 99 }} />
+                      {s.classAvg != null && <div title={`Classe : ${s.classAvg.toFixed(2)}`} style={{ position: "absolute", left: `${(s.classAvg / 20) * 100}%`, top: -3, bottom: -3, width: 2, background: "#fff" }} />}
+                    </div>
+                    <b style={{ width: 44, textAlign: "right" }}>{s.avg.toFixed(2)}</b>
+                    <Sparkline values={hist} color={subjectColor(s.subject)} />
                   </div>
-                  <b style={{ width: 44, textAlign: "right" }}>{s.avg.toFixed(1)}</b>
-                  <Sparkline values={hist} color={subjectColor(s.subject)} />
+                  {s.subs?.map((x) => (
+                    <div key={x.subject} className="small muted" style={{ marginLeft: 22 }}>
+                      ↳ {x.subject.split(" › ")[1] ?? x.subject} : {x.avg.toFixed(2)}{x.classAvg != null ? ` (classe ${x.classAvg.toFixed(2)})` : ""}
+                    </div>
+                  ))}
                 </div>
               );
             })}
+            {bySubject.length > 0 && <div className="small muted">Le petit trait blanc = moyenne de la classe. Le chiffre à gauche de la barre = coefficient de la matière (modifiable).</div>}
           </div>
         </div>
         <div className="card">

@@ -252,7 +252,7 @@ export type ContentPack = {
   annales?: Annale[];
   /** Renomme les chapitres de micro (le niveau de maîtrise est conservé par identifiant). */
   chapters?: Array<{ id: string; name: string }>;
-  settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[] };
+  settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[]; subjectCoefs?: Record<string, number> };
 };
 
 export type CgTest = { id: string; date: string; score: number; outOf: number; note?: string };

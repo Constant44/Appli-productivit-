@@ -90,22 +90,57 @@ export function currentStreak(sessions: Session[], now = new Date()) {
 
 // ================= Moyennes =================
 
-export function subjectAverages(grades: Grade[]) {
-  const map = new Map<string, { sum: number; w: number; n: number }>();
+/** Coefficients des matières au bulletin (D2, lycée Gustave Eiffel). */
+export const DEFAULT_SUBJECT_COEFS: Record<string, number> = {
+  Maths: 6, Microéconomie: 5, Macroéconomie: 4, "Approf. méthodo": 3, Gestion: 2, Anglais: 2, Espagnol: 2,
+};
+/** Sous-matière : « Approf. méthodo › Tests d'actu » est rangée dans « Approf. méthodo ». */
+export const SUB_SEP = " › ";
+const groupOf = (subject: string) => subject.split(SUB_SEP)[0];
+
+/**
+ * Moyennes comme Pronote : dans une (sous-)matière, total des points sur total des points possibles, chaque note
+ * pesant son coefficient ; une matière à sous-matières fait la moyenne simple de celles-ci ; la moyenne générale
+ * pondère les matières par leur coefficient au bulletin (1 si inconnu). Même calcul pour la moyenne de classe.
+ */
+export function subjectAverages(grades: Grade[], subjectCoefs: Record<string, number> = DEFAULT_SUBJECT_COEFS) {
+  const leaf = new Map<string, { pts: number; max: number; cpts: number; cmax: number; n: number }>();
   for (const g of grades) {
-    if (!g.outOf) continue;
-    const v = (g.value / g.outOf) * 20;
-    const k = map.get(g.subject) ?? { sum: 0, w: 0, n: 0 };
-    k.sum += v * g.coefficient;
-    k.w += g.coefficient;
+    if (!g.outOf || !g.coefficient) continue;
+    const k = leaf.get(g.subject) ?? { pts: 0, max: 0, cpts: 0, cmax: 0, n: 0 };
+    k.pts += g.value * g.coefficient;
+    k.max += g.outOf * g.coefficient;
+    if (g.classAverage != null) {
+      k.cpts += g.classAverage * g.coefficient;
+      k.cmax += g.outOf * g.coefficient;
+    }
     k.n++;
-    map.set(g.subject, k);
+    leaf.set(g.subject, k);
   }
-  const out = [...map.entries()]
-    .filter(([, v]) => v.w > 0)
-    .map(([subject, v]) => ({ subject, avg: v.sum / v.w, n: v.n }));
-  const overall = out.length ? out.reduce((a, b) => a + b.avg, 0) / out.length : NaN;
-  return { bySubject: out.sort((a, b) => a.subject.localeCompare(b.subject)), overall };
+  const groups = new Map<string, Array<{ subject: string; avg: number; classAvg?: number; n: number }>>();
+  for (const [subject, v] of leaf) {
+    if (v.max <= 0) continue;
+    const list = groups.get(groupOf(subject)) ?? [];
+    list.push({ subject, avg: (v.pts / v.max) * 20, classAvg: v.cmax > 0 ? (v.cpts / v.cmax) * 20 : undefined, n: v.n });
+    groups.set(groupOf(subject), list);
+  }
+  const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+  const out = [...groups.entries()].map(([subject, subs]) => {
+    const cls = subs.map((x) => x.classAvg).filter((x): x is number => x != null);
+    return {
+      subject,
+      avg: mean(subs.map((x) => x.avg)),
+      classAvg: cls.length === subs.length ? mean(cls) : undefined,
+      n: subs.reduce((a, b) => a + b.n, 0),
+      coef: subjectCoefs[subject] ?? 1,
+      subs: subs.length > 1 || subs[0].subject !== subject ? subs : undefined,
+    };
+  });
+  const weighted = (xs: Array<{ v: number; c: number }>) => (xs.length ? xs.reduce((a, b) => a + b.v * b.c, 0) / xs.reduce((a, b) => a + b.c, 0) : NaN);
+  const overall = weighted(out.map((x) => ({ v: x.avg, c: x.coef })));
+  const withClass = out.filter((x) => x.classAvg != null);
+  const classOverall = withClass.length === out.length ? weighted(withClass.map((x) => ({ v: x.classAvg!, c: x.coef }))) : NaN;
+  return { bySubject: out.sort((a, b) => b.coef - a.coef || a.subject.localeCompare(b.subject)), overall, classOverall };
 }
 
 // ================= Recommandations =================
@@ -114,7 +149,7 @@ export type Reco = { task: Task; score: number; reasons: string[] };
 
 export function recommend(tasks: Task[], evals: Evaluation[], grades: Grade[], now = new Date()): Reco[] {
   const { bySubject, overall } = subjectAverages(grades);
-  const avgOf = (s: string) => bySubject.find((x) => x.subject.toLowerCase() === s.toLowerCase())?.avg;
+  const avgOf = (s: string) => bySubject.find((x) => x.subject.toLowerCase() === groupOf(s).toLowerCase())?.avg;
   const upcoming = evals.filter((e) => new Date(e.date) >= startOfDay(now));
 
   return tasks

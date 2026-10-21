@@ -45,3 +45,14 @@ describe("décompte de mots EDHEC", () => {
     expect(countWords("L'État et le porte-parole de l'UE — ont parlé.")).toBe(10);
   });
 });
+
+import { subjectAverages } from "./insights";
+import coefPack from "../data/packs/2026-10-coefs.json";
+describe("moyennes comme Pronote", () => {
+  it("retrouve les moyennes du bulletin de Constant (moyenne générale 8,91)", () => {
+    const r = subjectAverages(coefPack.grades as never, coefPack.settings.subjectCoefs);
+    const avg = (s: string) => r.bySubject.find((x) => x.subject === s)!.avg.toFixed(2);
+    expect([avg("Maths"), avg("Macroéconomie"), avg("Anglais"), avg("Approf. méthodo")]).toEqual(["7.81", "7.40", "11.50", "11.39"]);
+    expect(r.overall.toFixed(2)).toBe("8.91");
+  });
+});
