@@ -143,11 +143,12 @@ export type Store = Data & Actions;
 const DEFAULT_SUBJECTS = ["Maths", "Économie", "Microéconomie", "Droit", "Gestion", "Anglais", "LV2", "Culture générale", "Histoire", "EDHEC Synthèse", "EDHEC Anglais"];
 export const EDHEC_SUBJECTS = ["EDHEC Synthèse", "EDHEC Anglais", "Microéconomie"];
 
-/** Chapitres type de microéconomie — à ajuster avec la table des matières d'Hachon & Laurent. */
+/** Table des matières de Hachon & Laurent, « Microéconomie ». */
 const MICRO_CHAPTERS = [
-  "Théorie du consommateur (préférences, utilité, demande)", "Effets revenu et substitution, surplus", "Théorie du producteur (technologie, coûts)",
-  "Concurrence parfaite et équilibre partiel", "Équilibre général et optimum de Pareto", "Monopole et discrimination", "Oligopole (Cournot, Bertrand, Stackelberg)",
-  "Théorie des jeux", "Choix en incertitude", "Externalités et biens publics", "Asymétries d'information (sélection adverse, aléa moral)",
+  "Contrainte budgétaire et préférences du consommateur", "L'équilibre du consommateur",
+  "Extensions de la théorie du consommateur (travail-loisir, intertemporel, risque)", "Technologie de production et demande de facteurs",
+  "Coûts de production et offre de biens", "L'équilibre sur un marché concurrentiel", "Équilibre général et optimum de Pareto",
+  "Théorie des jeux et interactions stratégiques", "Monopole et pouvoir de marché", "Oligopole et comportements stratégiques", "Externalités et biens publics",
 ];
 
 const freshEdhec = (): EdhecState => ({
@@ -165,6 +166,27 @@ function mergeInto<T extends { id: string }>(list: T[], add: T[] = []) {
     map.set(x.id, { ...map.get(x.id), ...x });
   }
   return { list: [...map.values()], added };
+}
+
+/** Fusionne annales et chapitres d'un pack sans perdre l'avancement déjà saisi. */
+function mergeEdhec(e: EdhecState, pack: ContentPack): EdhecState {
+  const annales = [...e.annales];
+  for (const a of pack.annales ?? []) {
+    const i = annales.findIndex((x) => x.id === a.id);
+    if (i < 0) annales.push(a);
+    else annales[i] = { ...annales[i], ...a, done: annales[i].done, score: annales[i].score };
+  }
+  const names = new Map((pack.chapters ?? []).map((c) => [c.id, c.name]));
+  const chapters = e.chapters.map((c) => (names.has(c.id) ? { ...c, name: names.get(c.id)! } : c));
+  for (const [id, name] of names) if (!chapters.some((c) => c.id === id)) chapters.push({ id, name, level: 0 });
+  return { ...e, annales, chapters };
+}
+
+/** Packs embarqués dans l'appli (src/data/packs/*.json), fusionnés une seule fois chacun. */
+const EMBEDDED_PACKS = Object.values(import.meta.glob<ContentPack>("../data/packs/*.json", { eager: true, import: "default" }));
+
+export function applyEmbeddedPacks() {
+  for (const p of EMBEDDED_PACKS) if (!useStore.getState().inboxDone.includes(p.id)) useStore.getState().mergePack(p);
 }
 
 const freshData = (): Data => ({
@@ -513,11 +535,27 @@ export const useStore = create<Store>()(
           const sh = mergeInto(s.sheets, pack.sheets);
           const ca = mergeInto(s.cards, pack.cards);
           const ad = mergeInto(s.actuDays, pack.actuDays);
+          const ev = mergeInto(s.evals, pack.evals);
+          const gr = mergeInto(s.grades, pack.grades);
+          const le = mergeInto(s.lessons, pack.lessons);
+          const cg = mergeInto(s.cgTests, pack.cgTests);
+          const edhec = pack.annales || pack.chapters ? mergeEdhec(s.edhec, pack) : s.edhec;
+          const st = pack.settings;
           set({
-            sheets: sh.list, cards: ca.list, actuDays: ad.list,
+            sheets: sh.list, cards: ca.list, actuDays: ad.list, evals: ev.list, grades: gr.list, lessons: le.list, cgTests: cg.list, edhec,
+            fallen: pack.fallen ? [...new Set([...s.fallen, ...pack.fallen])] : s.fallen,
+            settings: st
+              ? {
+                  ...s.settings,
+                  ...(st.pomodoroWork ? { pomodoroWork: st.pomodoroWork } : {}),
+                  ...(st.pomodoroBreak ? { pomodoroBreak: st.pomodoroBreak } : {}),
+                  ...(st.dailyGoalMin ? { dailyGoalMin: st.dailyGoalMin } : {}),
+                  subjects: [...new Set([...s.settings.subjects, ...(st.addSubjects ?? [])])],
+                }
+              : s.settings,
             inboxDone: s.inboxDone.includes(pack.id) ? s.inboxDone : [...s.inboxDone, pack.id],
           });
-          return ca.added + sh.added;
+          return ca.added + sh.added + ev.added + gr.added + cg.added;
         },
         rateCard: (id, rating) => {
           const s = get();

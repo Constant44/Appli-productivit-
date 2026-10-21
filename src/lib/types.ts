@@ -199,14 +199,51 @@ export type Card = { id: string; deck: Deck; front: string; back: string; ref?: 
 
 export type ActuDay = { id: string; title: string };
 
-/** Pack de contenu (graine embarquée, ou déposé dans la boîte de réception par la tâche automatique). */
-export type ContentPack = { id: string; sheets?: Sheet[]; cards?: Card[]; actuDays?: ActuDay[] };
+export type AnnaleKind = "ens" | "edhec-micro" | "anglais" | "synthese";
+export const ANNALE_KIND_LABEL: Record<AnnaleKind, string> = {
+  ens: "ENS D2 · micro (AEG)",
+  "edhec-micro": "EDHEC Pré-Master · micro",
+  anglais: "EDHEC Pré-Master · anglais",
+  synthese: "EDHEC Pré-Master · synthèse",
+};
+export type Annale = {
+  id: string;
+  label: string;
+  done: boolean;
+  score?: number;
+  kind?: AnnaleKind;
+  year?: number;
+  /** Liens vers le sujet / les corrigés (Drive ou web) */
+  links?: Array<{ label: string; url: string }>;
+};
+
+/**
+ * Pack de contenu (graine embarquée, import de données, ou déposé dans la boîte de réception par la tâche automatique).
+ * Chaque pack n'est fusionné qu'une fois (identifiant gardé dans `inboxDone`).
+ */
+export type ContentPack = {
+  id: string;
+  sheets?: Sheet[];
+  cards?: Card[];
+  actuDays?: ActuDay[];
+  evals?: Evaluation[];
+  grades?: Grade[];
+  lessons?: Lesson[];
+  cgTests?: CgTest[];
+  /** Fiches déjà tombées au test du vendredi */
+  fallen?: string[];
+  /** Annales à ajouter ou compléter (liens) — l'avancement (fait, note) déjà saisi est conservé. */
+  annales?: Annale[];
+  /** Renomme les chapitres de micro (le niveau de maîtrise est conservé par identifiant). */
+  chapters?: Array<{ id: string; name: string }>;
+  settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[] };
+};
 
 export type CgTest = { id: string; date: string; score: number; outOf: number; note?: string };
 
 export type EdhecState = {
   chapters: Array<{ id: string; name: string; level: 0 | 1 | 2 | 3 }>;
-  annales: Array<{ id: string; label: string; done: boolean; score?: number }>;
+  annales: Annale[];
   syntheses: Array<{ id: string; date: string; theme: string; note?: number; words?: number }>;
   english: Array<{ date: string; score: number; total: number }>;
 };

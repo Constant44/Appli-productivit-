@@ -1,0 +1,2055 @@
+{
+ "id": "import-2026-10-rentree",
+ "evals": [
+  {
+   "id": "kh-2026-11-02-angl",
+   "type": "Khôlle",
+   "subject": "Anglais",
+   "date": "2026-11-02T10:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "examiner": "Terroni",
+   "room": "F052"
+  },
+  {
+   "id": "kh-2026-11-04-entr",
+   "type": "Khôlle",
+   "subject": "Entretien",
+   "date": "2026-11-04T13:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "examiner": "Rossi",
+   "room": "E2/E4"
+  },
+  {
+   "id": "kh-2026-11-05-micr",
+   "type": "Khôlle",
+   "subject": "Microéconomie",
+   "date": "2026-11-05T16:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Brandenburg",
+   "room": "E10"
+  },
+  {
+   "id": "kh-2026-11-10-math",
+   "type": "Khôlle",
+   "subject": "Maths",
+   "date": "2026-11-10T18:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Sageaux",
+   "room": "F104"
+  },
+  {
+   "id": "kh-2026-11-16-écon",
+   "type": "Khôlle",
+   "subject": "Économie",
+   "date": "2026-11-16T09:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "examiner": "Brebion",
+   "room": "E2/E4"
+  },
+  {
+   "id": "kh-2026-11-17-gest",
+   "type": "Khôlle",
+   "subject": "Gestion",
+   "date": "2026-11-17T17:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Esponde",
+   "room": "G203"
+  },
+  {
+   "id": "kh-2026-11-17-micr",
+   "type": "Khôlle",
+   "subject": "Microéconomie",
+   "date": "2026-11-17T18:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Mugnier",
+   "room": "G201/G202"
+  },
+  {
+   "id": "kh-2026-11-24-math",
+   "type": "Khôlle",
+   "subject": "Maths",
+   "date": "2026-11-24T18:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Sageaux",
+   "room": "F104"
+  },
+  {
+   "id": "kh-2026-11-30-angl",
+   "type": "Khôlle",
+   "subject": "Anglais",
+   "date": "2026-11-30T10:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "examiner": "Terroni",
+   "room": "F052"
+  },
+  {
+   "id": "kh-2026-12-10-micr",
+   "type": "Khôlle",
+   "subject": "Microéconomie",
+   "date": "2026-12-10T17:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Brandenburg",
+   "room": "E10"
+  },
+  {
+   "id": "kh-2026-12-16-entr",
+   "type": "Khôlle",
+   "subject": "Entretien",
+   "date": "2026-12-16T14:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "examiner": "Agard",
+   "room": "E01/E05"
+  },
+  {
+   "id": "kh-2026-12-17-math",
+   "type": "Khôlle",
+   "subject": "Maths",
+   "date": "2026-12-17T17:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Roumilhac",
+   "room": "E08"
+  },
+  {
+   "id": "kh-2026-09-22-micr",
+   "type": "Khôlle",
+   "subject": "Microéconomie",
+   "date": "2026-09-22T12:00:00+02:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Mugnier",
+   "rewarded": true
+  },
+  {
+   "id": "kh-2026-09-24-gest",
+   "type": "Khôlle",
+   "subject": "Gestion",
+   "date": "2026-09-24T12:00:00+02:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Moreno",
+   "rewarded": true
+  },
+  {
+   "id": "kh-2026-09-30-math",
+   "type": "Khôlle",
+   "subject": "Maths",
+   "date": "2026-09-30T12:00:00+02:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Raymond",
+   "rewarded": true
+  },
+  {
+   "id": "kh-2026-10-07-micr",
+   "type": "Khôlle",
+   "subject": "Microéconomie",
+   "date": "2026-10-07T12:00:00+02:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Mugnier",
+   "rewarded": true
+  },
+  {
+   "id": "kh-2026-10-12-écon",
+   "type": "Khôlle",
+   "subject": "Économie",
+   "date": "2026-10-12T12:00:00+02:00",
+   "durationMin": 60,
+   "source": "manual",
+   "examiner": "Blancheton",
+   "rewarded": true
+  },
+  {
+   "id": "kh-2026-11-18-ecrit",
+   "type": "Khôlle",
+   "subject": "Entretien",
+   "date": "2026-11-18T11:00:00+01:00",
+   "durationMin": 30,
+   "source": "manual",
+   "topic": "Khôlle écrite · Épistémologie",
+   "examiner": "Millaret"
+  },
+  {
+   "id": "kh-2026-12-09-ecrit",
+   "type": "Khôlle",
+   "subject": "Entretien",
+   "date": "2026-12-09T11:00:00+01:00",
+   "durationMin": 30,
+   "source": "manual",
+   "topic": "Khôlle écrite · Anthropologie",
+   "examiner": "Millaret"
+  },
+  {
+   "id": "ds-2026-11-06",
+   "type": "DS",
+   "subject": "Microéconomie",
+   "date": "2026-11-06T13:00:00+01:00",
+   "durationMin": 240,
+   "source": "manual"
+  },
+  {
+   "id": "ds-2026-11-13",
+   "type": "DS",
+   "subject": "Anglais",
+   "date": "2026-11-13T13:00:00+01:00",
+   "durationMin": 60,
+   "source": "manual",
+   "topic": "Traduction (puis conférence)"
+  },
+  {
+   "id": "ds-2026-11-20",
+   "type": "DS",
+   "subject": "Macroéconomie",
+   "date": "2026-11-20T13:00:00+01:00",
+   "durationMin": 120,
+   "source": "manual",
+   "topic": "Plan détaillé"
+  },
+  {
+   "id": "ds-2026-12-04",
+   "type": "DS",
+   "subject": "Maths",
+   "date": "2026-12-04T13:00:00+01:00",
+   "durationMin": 240,
+   "source": "manual"
+  },
+  {
+   "id": "ds-2026-12-11",
+   "type": "DS",
+   "subject": "Gestion",
+   "date": "2026-12-11T13:00:00+01:00",
+   "durationMin": 240,
+   "source": "manual"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "edt-2026-11-03-8",
+   "start": "2026-11-03T08:00:00+01:00",
+   "end": "2026-11-03T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-03-13",
+   "start": "2026-11-03T13:00:00+01:00",
+   "end": "2026-11-03T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-03-15",
+   "start": "2026-11-03T15:00:00+01:00",
+   "end": "2026-11-03T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-04-8",
+   "start": "2026-11-04T08:00:00+01:00",
+   "end": "2026-11-04T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-11-05-945",
+   "start": "2026-11-05T09:45:00+01:00",
+   "end": "2026-11-05T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-06-8",
+   "start": "2026-11-06T08:00:00+01:00",
+   "end": "2026-11-06T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-11-06-10",
+   "start": "2026-11-06T10:00:00+01:00",
+   "end": "2026-11-06T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-10-8",
+   "start": "2026-11-10T08:00:00+01:00",
+   "end": "2026-11-10T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-10-13",
+   "start": "2026-11-10T13:00:00+01:00",
+   "end": "2026-11-10T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-10-15",
+   "start": "2026-11-10T15:00:00+01:00",
+   "end": "2026-11-10T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-12-945",
+   "start": "2026-11-12T09:45:00+01:00",
+   "end": "2026-11-12T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-13-8",
+   "start": "2026-11-13T08:00:00+01:00",
+   "end": "2026-11-13T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-11-13-10",
+   "start": "2026-11-13T10:00:00+01:00",
+   "end": "2026-11-13T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-17-8",
+   "start": "2026-11-17T08:00:00+01:00",
+   "end": "2026-11-17T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-17-13",
+   "start": "2026-11-17T13:00:00+01:00",
+   "end": "2026-11-17T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-17-15",
+   "start": "2026-11-17T15:00:00+01:00",
+   "end": "2026-11-17T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-18-8",
+   "start": "2026-11-18T08:00:00+01:00",
+   "end": "2026-11-18T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-11-19-945",
+   "start": "2026-11-19T09:45:00+01:00",
+   "end": "2026-11-19T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-20-8",
+   "start": "2026-11-20T08:00:00+01:00",
+   "end": "2026-11-20T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-11-20-10",
+   "start": "2026-11-20T10:00:00+01:00",
+   "end": "2026-11-20T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-24-8",
+   "start": "2026-11-24T08:00:00+01:00",
+   "end": "2026-11-24T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-24-13",
+   "start": "2026-11-24T13:00:00+01:00",
+   "end": "2026-11-24T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-24-15",
+   "start": "2026-11-24T15:00:00+01:00",
+   "end": "2026-11-24T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-25-8",
+   "start": "2026-11-25T08:00:00+01:00",
+   "end": "2026-11-25T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-11-25-14",
+   "start": "2026-11-25T14:00:00+01:00",
+   "end": "2026-11-25T16:00:00+01:00",
+   "subject": "Espagnol",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Lasserre"
+  },
+  {
+   "id": "edt-2026-11-26-945",
+   "start": "2026-11-26T09:45:00+01:00",
+   "end": "2026-11-26T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-11-27-8",
+   "start": "2026-11-27T08:00:00+01:00",
+   "end": "2026-11-27T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-11-27-10",
+   "start": "2026-11-27T10:00:00+01:00",
+   "end": "2026-11-27T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-01-8",
+   "start": "2026-12-01T08:00:00+01:00",
+   "end": "2026-12-01T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-01-13",
+   "start": "2026-12-01T13:00:00+01:00",
+   "end": "2026-12-01T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-01-15",
+   "start": "2026-12-01T15:00:00+01:00",
+   "end": "2026-12-01T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-02-8",
+   "start": "2026-12-02T08:00:00+01:00",
+   "end": "2026-12-02T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-12-03-945",
+   "start": "2026-12-03T09:45:00+01:00",
+   "end": "2026-12-03T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-04-8",
+   "start": "2026-12-04T08:00:00+01:00",
+   "end": "2026-12-04T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-12-04-10",
+   "start": "2026-12-04T10:00:00+01:00",
+   "end": "2026-12-04T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-08-8",
+   "start": "2026-12-08T08:00:00+01:00",
+   "end": "2026-12-08T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-08-13",
+   "start": "2026-12-08T13:00:00+01:00",
+   "end": "2026-12-08T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-08-15",
+   "start": "2026-12-08T15:00:00+01:00",
+   "end": "2026-12-08T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-09-8",
+   "start": "2026-12-09T08:00:00+01:00",
+   "end": "2026-12-09T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-12-09-14",
+   "start": "2026-12-09T14:00:00+01:00",
+   "end": "2026-12-09T16:00:00+01:00",
+   "subject": "Espagnol",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Lasserre"
+  },
+  {
+   "id": "edt-2026-12-10-945",
+   "start": "2026-12-10T09:45:00+01:00",
+   "end": "2026-12-10T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-11-8",
+   "start": "2026-12-11T08:00:00+01:00",
+   "end": "2026-12-11T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-12-11-10",
+   "start": "2026-12-11T10:00:00+01:00",
+   "end": "2026-12-11T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-15-8",
+   "start": "2026-12-15T08:00:00+01:00",
+   "end": "2026-12-15T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-15-13",
+   "start": "2026-12-15T13:00:00+01:00",
+   "end": "2026-12-15T15:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-15-15",
+   "start": "2026-12-15T15:00:00+01:00",
+   "end": "2026-12-15T17:00:00+01:00",
+   "subject": "Anglais",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-16-8",
+   "start": "2026-12-16T08:00:00+01:00",
+   "end": "2026-12-16T11:00:00+01:00",
+   "subject": "Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "Mme Millaret"
+  },
+  {
+   "id": "edt-2026-12-17-945",
+   "start": "2026-12-17T09:45:00+01:00",
+   "end": "2026-12-17T11:15:00+01:00",
+   "subject": "TD Macroéconomie",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  },
+  {
+   "id": "edt-2026-12-18-8",
+   "start": "2026-12-18T08:00:00+01:00",
+   "end": "2026-12-18T10:00:00+01:00",
+   "subject": "Maths",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson",
+   "teacher": "M. Sageaux"
+  },
+  {
+   "id": "edt-2026-12-18-10",
+   "start": "2026-12-18T10:00:00+01:00",
+   "end": "2026-12-18T12:00:00+01:00",
+   "subject": "Micro / Gestion",
+   "canceled": false,
+   "isTest": false,
+   "kind": "lesson"
+  }
+ ],
+ "grades": [
+  {
+   "id": "g-maths-ds1",
+   "subject": "Maths",
+   "value": 8,
+   "outOf": 16,
+   "coefficient": 1,
+   "date": "2026-09-11T12:00:00+02:00",
+   "label": "DS1",
+   "classAverage": 8,
+   "source": "manual"
+  },
+  {
+   "id": "g-maths-ds2",
+   "subject": "Maths",
+   "value": 4.5,
+   "outOf": 16,
+   "coefficient": 1,
+   "date": "2026-10-09T12:00:00+02:00",
+   "label": "DS2",
+   "classAverage": 9.09,
+   "source": "manual"
+  },
+  {
+   "id": "g-macro-0909",
+   "subject": "Macroéconomie",
+   "value": 5,
+   "outOf": 20,
+   "coefficient": 1,
+   "date": "2026-09-09T12:00:00+02:00",
+   "label": "Devoir",
+   "classAverage": 8.49,
+   "source": "manual"
+  },
+  {
+   "id": "g-macro-1709",
+   "subject": "Macroéconomie",
+   "value": 11,
+   "outOf": 20,
+   "coefficient": 1,
+   "date": "2026-09-17T12:00:00+02:00",
+   "label": "Devoir",
+   "classAverage": 9.88,
+   "source": "manual"
+  },
+  {
+   "id": "g-ang-cb",
+   "subject": "Anglais",
+   "value": 11.5,
+   "outOf": 20,
+   "coefficient": 1,
+   "date": "2026-09-15T12:00:00+02:00",
+   "label": "Concours blanc septembre",
+   "classAverage": 10.13,
+   "source": "manual"
+  },
+  {
+   "id": "g-meth-ent",
+   "subject": "Approf. méthodo",
+   "value": 8.5,
+   "outOf": 20,
+   "coefficient": 1,
+   "date": "2026-10-07T12:00:00+02:00",
+   "label": "Entretien écrit",
+   "classAverage": 11.58,
+   "source": "manual"
+  },
+  {
+   "id": "g-meth-cg1",
+   "subject": "Approf. méthodo",
+   "value": 7,
+   "outOf": 10,
+   "coefficient": 1,
+   "date": "2026-09-18T12:00:00+02:00",
+   "label": "Test actu CG1",
+   "classAverage": 5.7,
+   "source": "manual"
+  },
+  {
+   "id": "g-meth-b01",
+   "subject": "Approf. méthodo",
+   "value": 1.5,
+   "outOf": 2,
+   "coefficient": 1,
+   "date": "2026-09-18T12:00:00+02:00",
+   "label": "Bio/mots B01",
+   "classAverage": 1.42,
+   "source": "manual"
+  },
+  {
+   "id": "g-meth-cg4",
+   "subject": "Approf. méthodo",
+   "value": 7,
+   "outOf": 10,
+   "coefficient": 1,
+   "date": "2026-10-09T12:00:00+02:00",
+   "label": "Test actu CG4",
+   "classAverage": 6.32,
+   "source": "manual"
+  },
+  {
+   "id": "g-meth-b4",
+   "subject": "Approf. méthodo",
+   "value": 1.5,
+   "outOf": 2,
+   "coefficient": 1,
+   "date": "2026-10-09T12:00:00+02:00",
+   "label": "Bio/mots B4",
+   "classAverage": 1.11,
+   "source": "manual"
+  }
+ ],
+ "cgTests": [
+  {
+   "id": "cg-2026-09-18",
+   "date": "2026-09-18",
+   "score": 7,
+   "outOf": 10,
+   "note": "CG1 · moy. classe 5,70 · bio/mots B01 1,5/2"
+  },
+  {
+   "id": "cg-2026-10-09",
+   "date": "2026-10-09",
+   "score": 7,
+   "outOf": 10,
+   "note": "CG4 · moy. classe 6,32 · bio/mots B4 1,5/2"
+  }
+ ],
+ "annales": [
+  {
+   "id": "ens2026",
+   "label": "ENS D2 micro 2026",
+   "kind": "ens",
+   "year": 2026,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/17dbs_jsGfmdh9MPmGVnK6Uv4Cj4oUi-V/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2025",
+   "label": "ENS D2 micro 2025",
+   "kind": "ens",
+   "year": 2025,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1ucYBFsloPY5rc_9kNzlq-920FEqvjoKT/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2024",
+   "label": "ENS D2 micro 2024",
+   "kind": "ens",
+   "year": 2024,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1pfce1CLCXClqT5UtuahZaQQf3yYO5K8S/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2023",
+   "label": "ENS D2 micro 2023",
+   "kind": "ens",
+   "year": 2023,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1Opvgozij6MO6_Uz9UYt9S-IAoSQs_FLp/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1V3fqmV04-1yT-IEuP3QmCLpkJEBYQIfZ/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2022",
+   "label": "ENS D2 micro 2022",
+   "kind": "ens",
+   "year": 2022,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1zobZU-CGRGW7hY59w499JsTgCWepgPr4/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1IpTHy_ikdq25nn37AmJffx2IMoKWH63V/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2021",
+   "label": "ENS D2 micro 2021",
+   "kind": "ens",
+   "year": 2021,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/12HxqeFz1HKXyETwjlPKAe9VQFtxBbeOf/view"
+    },
+    {
+     "label": "Corrigé partie 1",
+     "url": "https://drive.google.com/file/d/1rVg-yKjga7vek4Z-oZ-6JhaM93GcPUJq/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1XG3ynlix6ao1_nS43pvTcEEAWRs98MRh/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2020",
+   "label": "ENS D2 micro 2020",
+   "kind": "ens",
+   "year": 2020,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1uX5IaZfK0QybV0wXTx-qh2id4U6fiHka/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1yND8XqdenNr-VA4ta0rox_T7nQR4uhu_/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2019",
+   "label": "ENS D2 micro 2019",
+   "kind": "ens",
+   "year": 2019,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1AE0s7XsffBBK7Ahg1imyiJp9GIBY4T2c/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1etdcXWL1neXdLoHK1b4UPz7a6-LXcxJa/view"
+    },
+    {
+     "label": "Corrigé partie 3",
+     "url": "https://drive.google.com/file/d/1kpyMHpDpluZuHpggNApmISYKoXKSgQSp/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1OvUBHUHybZKRTpljRlHF44koxgtlUzWU/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2018",
+   "label": "ENS D2 micro 2018",
+   "kind": "ens",
+   "year": 2018,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1N4oAxHxFZ1MqBhoHA9Q16bEvu329I_CJ/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1ufZe4vYKTTc1L97_TPqpjFaBWgAuFsCb/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2017",
+   "label": "ENS D2 micro 2017",
+   "kind": "ens",
+   "year": 2017,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1gWUC-Ouv5wMci8kpo9INiCZ3FTpF2xSP/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1r1mBdLg0wfy25NJAVJARcw0cdIwBCJf7/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2016",
+   "label": "ENS D2 micro 2016",
+   "kind": "ens",
+   "year": 2016,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1hA1WhmsVNJrZUqYmrELm89XOh1wgtI-q/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1xQkrKdjq4O46yGl3i21GKryNQnfkupEp/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1GPEe3XD0hq_2EPEKFepgUR-k_8vxiPr5/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2015",
+   "label": "ENS D2 micro 2015",
+   "kind": "ens",
+   "year": 2015,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1LXbpXY1iVxK9q6NPcK8yNKkm2XBy2MVt/view"
+    },
+    {
+     "label": "Corrigé partie A",
+     "url": "https://drive.google.com/file/d/1ZzGJgaN9Y36OFK2qzHNJ8oX-4NFo1A8m/view"
+    },
+    {
+     "label": "Corrigé partie C",
+     "url": "https://drive.google.com/file/d/1LXBtJL9UJLdIsreCUTKAGV9Oq56IFnLp/view"
+    },
+    {
+     "label": "3 corrigés Turgot",
+     "url": "https://drive.google.com/file/d/1myLsTuuIZc4PsTp6VljZQqw26BRjbYZ5/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2014",
+   "label": "ENS D2 micro 2014",
+   "kind": "ens",
+   "year": 2014,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1Vt3mQaQjOHsSFTm_06V74-Xyb5PG1ijJ/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1GXj2Oivv_v-6YTewy1zZ5DJ3yXU4JIZk/view"
+    },
+    {
+     "label": "Corrigé partiel Turgot",
+     "url": "https://drive.google.com/file/d/1eSYUswnF4XpOCYLm118VksF1XCdKs6Fx/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2013",
+   "label": "ENS D2 micro 2013",
+   "kind": "ens",
+   "year": 2013,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1WtXfeVrdscexZ4aRGIbn6UxdxaI4HVgv/view"
+    },
+    {
+     "label": "Corrigé partie 1",
+     "url": "https://drive.google.com/file/d/1JN0_lb1XBEEyhDvHSwCor5cOVY4hgEMa/view"
+    },
+    {
+     "label": "Corrigé question 5",
+     "url": "https://drive.google.com/file/d/1BlibuGwfBN2Y8toFWxa8Y5I__qRcw24X/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1dpmtoDRd1oWEL1_DgeB5lRQk1-XLu_Cc/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2012",
+   "label": "ENS D2 micro 2012",
+   "kind": "ens",
+   "year": 2012,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1SWAWHIZKjScAUMXjxPr00JqPhky-Un68/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1C76vPQusDc--Mw8vdf057qcew3ZWdpJI/view"
+    },
+    {
+     "label": "Corrigé pb 1",
+     "url": "https://drive.google.com/file/d/1RKeQH2lVLsvGMtQJ74Ovqa2fkxEJoIi1/view"
+    },
+    {
+     "label": "Corrigé pb 2",
+     "url": "https://drive.google.com/file/d/1z_rKWsk7BjS_G9_llxCAt0tR0sZwM-e4/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2011",
+   "label": "ENS D2 micro 2011",
+   "kind": "ens",
+   "year": 2011,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1WSzRcnq_GMizPFhifhyzCxPDGZNB93qv/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1oe8CbGQEzqqdBOIbRmzuKlLzvEm0puHQ/view"
+    },
+    {
+     "label": "Rapport",
+     "url": "https://drive.google.com/file/d/1OKCuFCSbxohuI-5mYsySUZ4Lqg5jtEHC/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1HlK2QAp2NJkTpYnyn0By9Xk-qHDWJsN0/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2010",
+   "label": "ENS D2 micro 2010",
+   "kind": "ens",
+   "year": 2010,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1caP5HjnjW9mynFqZBvWORbi4GjVHdgvw/view"
+    },
+    {
+     "label": "Corrigé détaillé 1",
+     "url": "https://drive.google.com/file/d/191sSQGGDy9bBhhR9AhNsS8VV7w4XTcp2/view"
+    },
+    {
+     "label": "Corrigé détaillé 2",
+     "url": "https://drive.google.com/file/d/1Hx81hSNjTp1eXE1aiiNgKjG3zyM-eBM5/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1139YJx6SZSzZbuLggWbg__IFu_cXrMF9/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2009",
+   "label": "ENS D2 micro 2009",
+   "kind": "ens",
+   "year": 2009,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1YwMjru581B034dSMobi_hJJ7SgxGwH3r/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1_XECbG_fVV4oCloMFFk7asx85JdW2bQK/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2008",
+   "label": "ENS D2 micro 2008",
+   "kind": "ens",
+   "year": 2008,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1-EKUOqinBt9VJ7qpryu5wzjCvErmScYS/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1foI3eNk_MnctKCtjoXUosKrEFlTACEyU/view"
+    },
+    {
+     "label": "Corrigé partie 2 Bertin",
+     "url": "https://drive.google.com/file/d/15OPnJzWd7rydL_PXu52YM-3l-w-s981D/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1Z3QHAVH_uWIqZFmWYFwkrZoXaheJTBEL/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2007",
+   "label": "ENS D2 micro 2007",
+   "kind": "ens",
+   "year": 2007,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1hErSgjPMcvMbQJR4JFPjo_ZnemPddX17/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1aXWNKeo5zStmUH14uUPYhOv00kUBtdVo/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2006",
+   "label": "ENS D2 micro 2006",
+   "kind": "ens",
+   "year": 2006,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/15SfPxbdAkDpSMH-jh12G7o5vAQODN49z/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2005",
+   "label": "ENS D2 micro 2005",
+   "kind": "ens",
+   "year": 2005,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1Bbsk8KAHO62CXc8UfeZgHiYOxGJJE874/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2004",
+   "label": "ENS D2 micro 2004",
+   "kind": "ens",
+   "year": 2004,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1pBlAYnV0lTFFMLR8Vw0_UrtQnkNXGKOx/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1qczbTaBwyTgfABxQ9sQIgpkeZDbmj7Ux/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2003",
+   "label": "ENS D2 micro 2003",
+   "kind": "ens",
+   "year": 2003,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1Vd9okQlj7FY9g-8L3EaZuF6ku9SuTTia/view"
+    },
+    {
+     "label": "Corrigé Bertin",
+     "url": "https://drive.google.com/file/d/1R_ezG5FN8nq5BqQkN4_6URMrLEY5OLot/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2002",
+   "label": "ENS D2 micro 2002",
+   "kind": "ens",
+   "year": 2002,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1_a05NIf-Hi9JN8z4F1MsH-rh-ib9nRH2/view"
+    },
+    {
+     "label": "Corrigé Bertin",
+     "url": "https://drive.google.com/file/d/10IJshKNC3IoAYxYn-6UqqL_EIy7LaiEw/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2001",
+   "label": "ENS D2 micro 2001",
+   "kind": "ens",
+   "year": 2001,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1O6L1jm-9gmpsoRaAWjOahpRi3KUdPOzI/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1vtxttW4NyP8nWYRg20SY0TD-leSfWIOJ/view"
+    }
+   ]
+  },
+  {
+   "id": "ens2000",
+   "label": "ENS D2 micro 2000",
+   "kind": "ens",
+   "year": 2000,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1LttibRR75hREzMwWCa5oIwy6uX0R9XLu/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/13nG5TQsxr1-ASwC6tn5PQV0qrZ0EPf0F/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1999",
+   "label": "ENS D2 micro 1999",
+   "kind": "ens",
+   "year": 1999,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1KAF5071uXGv1bax37MPwZ7i1V9ub3tNV/view"
+    },
+    {
+     "label": "Corrigé Bertin",
+     "url": "https://drive.google.com/file/d/13t0T8dvhNJs4MayUKZjD5T0tGq6SoVbW/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1998",
+   "label": "ENS D2 micro 1998",
+   "kind": "ens",
+   "year": 1998,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1u7ItD9TjgelWjTrhN-02tsAKihADi2c1/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1uCKd09ilrFraFMA4ExbOAh_PzRB5lrIO/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1997",
+   "label": "ENS D2 micro 1997",
+   "kind": "ens",
+   "year": 1997,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1YSofBWwO8Zts9F6ElD4yBnOBMNOwW2WB/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1T9iqnOtGmclkYf-65g7h6e2I8vHeJu6R/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1996",
+   "label": "ENS D2 micro 1996",
+   "kind": "ens",
+   "year": 1996,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1EXaSS-l94-w-gUrzjqKAStb0e2Jg_rPQ/view"
+    },
+    {
+     "label": "Corrigé",
+     "url": "https://drive.google.com/file/d/1MGrrewTugIwX0Gpkq9t19CqAi0MN0-6N/view"
+    },
+    {
+     "label": "Corrigé Turgot",
+     "url": "https://drive.google.com/file/d/1GQ3g5bWbwQe-oYpSEa_2YoNgGhm5E6zn/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1995",
+   "label": "ENS D2 micro 1995",
+   "kind": "ens",
+   "year": 1995,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1dYPUEGSu8W-QZ3l5RGobkiYgT2taGxMt/view"
+    },
+    {
+     "label": "Corrigé Bertin",
+     "url": "https://drive.google.com/file/d/1bQ4Jg4YOXAzurZB_YqJqF8o7BIIDFmjs/view"
+    }
+   ]
+  },
+  {
+   "id": "ens1989",
+   "label": "ENS D2 micro 1989",
+   "kind": "ens",
+   "year": 1989,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé (Turgot)",
+     "url": "https://drive.google.com/file/d/1cyecajVCZaK4S1esnkLOQydwRQsnr51K/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2025",
+   "label": "EDHEC micro 2025",
+   "kind": "edhec-micro",
+   "year": 2025,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1QE4Q7uzeO54jkZBFRGAAd0EVsc2bVU9l/view"
+    },
+    {
+     "label": "Corrigé Bertin partie 2",
+     "url": "https://drive.google.com/file/d/17iHl7DZulUQyvmhyvUywzD0t1sazX3ky/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2024",
+   "label": "EDHEC micro 2024",
+   "kind": "edhec-micro",
+   "year": 2024,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1HrmLVJcWv1cep8G3hw8Fk00Qf_R3RIih/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2023",
+   "label": "EDHEC micro 2023",
+   "kind": "edhec-micro",
+   "year": 2023,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1isuioeICMrBlzPn60adkeiBzr87eIrRA/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2022",
+   "label": "EDHEC micro 2022",
+   "kind": "edhec-micro",
+   "year": 2022,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1sht00QD3sDohPPndK9w7tfQxCV5W6U_7/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2021",
+   "label": "EDHEC micro 2021",
+   "kind": "edhec-micro",
+   "year": 2021,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/18FrO4uH6S1HpgFB-3-VrvguBJptrE8Dh/view"
+    }
+   ]
+  },
+  {
+   "id": "edhecmicro2020",
+   "label": "EDHEC micro 2020",
+   "kind": "edhec-micro",
+   "year": 2020,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet",
+     "url": "https://drive.google.com/file/d/1Aa0fBdrQ1KMUxhSGeEpaYqgp_zzOCF_3/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2025",
+   "label": "Anglais Pré-Master 2025",
+   "kind": "anglais",
+   "year": 2025,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/10pwBaI0ouCDRk0Suc7rTCJvp8JAA9jxG/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2024",
+   "label": "Anglais Pré-Master 2024",
+   "kind": "anglais",
+   "year": 2024,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1JW6a5NX40fgPRSlzOnb7UZ96ne3Pyp6O/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2023",
+   "label": "Anglais Pré-Master 2023",
+   "kind": "anglais",
+   "year": 2023,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/18bxsp1ewo4xudLwcaF9qczEozCjvABU7/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2022",
+   "label": "Anglais Pré-Master 2022",
+   "kind": "anglais",
+   "year": 2022,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/12XzD7W_CXfbGNcGGOLteF_mghkCLSDMe/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2021",
+   "label": "Anglais Pré-Master 2021",
+   "kind": "anglais",
+   "year": 2021,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1leWOhWl0BKpG20uAdBA8dyCN3we6nwvB/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2020",
+   "label": "Anglais Pré-Master 2020",
+   "kind": "anglais",
+   "year": 2020,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/12qJ2U7rOXDW3CojGw7jR8OrMLPl6voKA/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2019",
+   "label": "Anglais Pré-Master 2019",
+   "kind": "anglais",
+   "year": 2019,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1v-vZD1b-8rNDMiy340Y6BuaR3LFhY5h-/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2018",
+   "label": "Anglais Pré-Master 2018",
+   "kind": "anglais",
+   "year": 2018,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/14wSPpA8Geh5wm4iAtFXRpLCTgIlXLMV-/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2017",
+   "label": "Anglais Pré-Master 2017",
+   "kind": "anglais",
+   "year": 2017,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1Y46xU8naoL8K1wUJvnoSRg_UQkdiv758/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2016",
+   "label": "Anglais Pré-Master 2016",
+   "kind": "anglais",
+   "year": 2016,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1XsZuQReQqIqsIsza4a-bxhuw6TWu-GxG/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2015",
+   "label": "Anglais Pré-Master 2015",
+   "kind": "anglais",
+   "year": 2015,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/11jskhqggqyUnpg_fjXZJ2UYAkfrJv2zm/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2014",
+   "label": "Anglais Pré-Master 2014",
+   "kind": "anglais",
+   "year": 2014,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1fPdzcW9rajuikbbvoO6DIFfgVVhX5SXD/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2013",
+   "label": "Anglais Pré-Master 2013",
+   "kind": "anglais",
+   "year": 2013,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1yy0vdtHrWE7f-e7c6RvbKTZRR_x0gZbc/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2012",
+   "label": "Anglais Pré-Master 2012",
+   "kind": "anglais",
+   "year": 2012,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1c5l5plZIRRbFD5tEVS0pbsGZ5fyVtoDo/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2011",
+   "label": "Anglais Pré-Master 2011",
+   "kind": "anglais",
+   "year": 2011,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1nJz_2iiAuGuN-II6bu4MoS-IwOnNX7jK/view"
+    }
+   ]
+  },
+  {
+   "id": "ang2010",
+   "label": "Anglais Pré-Master 2010",
+   "kind": "anglais",
+   "year": 2010,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport",
+     "url": "https://drive.google.com/file/d/1D8J-aCrKmL0WKu6z2BgicICTiRG2tmsz/view"
+    }
+   ]
+  },
+  {
+   "id": "syn-rire",
+   "label": "Synthèse (prépa) · Le rire",
+   "kind": "synthese",
+   "done": false,
+   "links": [
+    {
+     "label": "Énoncé",
+     "url": "https://drive.google.com/file/d/1M23KFLCUzOQ6yoKLkO2umrwafw7E3lWI/view"
+    }
+   ]
+  },
+  {
+   "id": "syn2026",
+   "label": "Synthèse Pré-Master 2026 · Déconnexion numérique",
+   "kind": "synthese",
+   "year": 2026,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/2026-09/Pr%C3%A9%20Master%202026%20-%20Synth%C3%A8se%20de%20Textes_sujet_corrig%C3%A9_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2025",
+   "label": "Synthèse Pré-Master 2025 · Conquête spatiale, astro-capitalisme",
+   "kind": "synthese",
+   "year": 2025,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/2025-12/Pr%C3%A9-Master%202025%20-%20Synth%C3%A8se%20de%20textes_sujet_corrig%C3%A9_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2024",
+   "label": "Synthèse Pré-Master 2024 · Gratuité, les communs",
+   "kind": "synthese",
+   "year": 2024,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/2024-11/Pr%C3%A9%20Master%202024%20-%20Synth%C3%A8se%20de%20textes%20sujet_corrig%C3%A9_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2023",
+   "label": "Synthèse Pré-Master 2023 · Joie, fête et écologie",
+   "kind": "synthese",
+   "year": 2023,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/Pr%C3%A9%20Master%202023%20-%20sujet_corrig%C3%A9_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2022",
+   "label": "Synthèse Pré-Master 2022 · Démographie et écologie",
+   "kind": "synthese",
+   "year": 2022,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/2022-12/2022_Pr%C3%A9%20Master_Synth%C3%A8se%20de%20textes_Sujet_Corrig%C3%A9_Rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2021",
+   "label": "Synthèse Pré-Master 2021 · Culpabilité, mauvaise conscience",
+   "kind": "synthese",
+   "year": 2021,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/pre_master_2021_-_synthese_de_textes_sujet_corrige_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2020",
+   "label": "Synthèse Pré-Master 2020 · Lobbies",
+   "kind": "synthese",
+   "year": 2020,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/2020_pre_master_synthese_sujet_corrige_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2019",
+   "label": "Synthèse Pré-Master 2019 · Croire, les croyances (avec une copie)",
+   "kind": "synthese",
+   "year": 2019,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/ast1_2019_-_synthese_de_texte_sujet_copie_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2018",
+   "label": "Synthèse Pré-Master 2018 · Complot, fake news",
+   "kind": "synthese",
+   "year": 2018,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/ast1_2018_-_synthese_de_textes_sujet_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2017",
+   "label": "Synthèse Pré-Master 2017 · Voyage, migration",
+   "kind": "synthese",
+   "year": 2017,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/ast1_2017_-_synthese_de_textes_sujet_rapport_16.03.18.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2016",
+   "label": "Synthèse Pré-Master 2016 · Robots",
+   "kind": "synthese",
+   "year": 2016,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2016_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    },
+    {
+     "label": "Énoncé (ton Drive)",
+     "url": "https://drive.google.com/file/d/1jaeo6S2T70weFHJZ-UQWdSFAklrRdYAU/view"
+    }
+   ]
+  },
+  {
+   "id": "syn2015",
+   "label": "Synthèse Pré-Master 2015 · Patrimoine en temps de guerre",
+   "kind": "synthese",
+   "year": 2015,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2015_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    },
+    {
+     "label": "Énoncé (ton Drive)",
+     "url": "https://drive.google.com/file/d/1CATcPKpLfQkKQd2010aQnw4KVVZ_gbfO/view"
+    }
+   ]
+  },
+  {
+   "id": "syn2014",
+   "label": "Synthèse Pré-Master 2014 · Commémoration de la Grande Guerre",
+   "kind": "synthese",
+   "year": 2014,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2014_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    },
+    {
+     "label": "Énoncé (ton Drive)",
+     "url": "https://drive.google.com/file/d/1mzJaXShsrTGNkBxSn9lN5x6LpQWkCkoQ/view"
+    }
+   ]
+  },
+  {
+   "id": "syn2013",
+   "label": "Synthèse Pré-Master 2013 · Renonciation de Benoît XVI",
+   "kind": "synthese",
+   "year": 2013,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2013_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    },
+    {
+     "label": "Énoncé (ton Drive)",
+     "url": "https://drive.google.com/file/d/11Ws_0Ddk4IpzBXCsqFqQwwuUCDDtZkRR/view"
+    }
+   ]
+  },
+  {
+   "id": "syn2012",
+   "label": "Synthèse Pré-Master 2012 · Civilisations, évaluer les cultures",
+   "kind": "synthese",
+   "year": 2012,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2012_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2011",
+   "label": "Synthèse Pré-Master 2011 · Philanthropie",
+   "kind": "synthese",
+   "year": 2011,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2011_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "syn2010",
+   "label": "Synthèse Pré-Master 2010 · Égalité des chances, élites",
+   "kind": "synthese",
+   "year": 2010,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + rapport du jury (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/pdf/ge/annales/AST1_2010_-_synth%C3%A8se_de_textes_sujet_rapport.pdf"
+    }
+   ]
+  },
+  {
+   "id": "ang2026",
+   "label": "Anglais Pré-Master 2026",
+   "kind": "anglais",
+   "year": 2026,
+   "done": false,
+   "links": [
+    {
+     "label": "Sujet + corrigé + rapport (EDHEC)",
+     "url": "https://www.edhec.edu/sites/default/files/2026-09/Pr%C3%A9%20Master%202026%20-%20Langue_anglais_sujet_corrig%C3%A9_rapport.pdf"
+    }
+   ]
+  }
+ ],
+ "chapters": [
+  {
+   "id": "ch1",
+   "name": "Contrainte budgétaire et préférences du consommateur"
+  },
+  {
+   "id": "ch2",
+   "name": "L'équilibre du consommateur"
+  },
+  {
+   "id": "ch3",
+   "name": "Extensions de la théorie du consommateur (travail-loisir, intertemporel, risque)"
+  },
+  {
+   "id": "ch4",
+   "name": "Technologie de production et demande de facteurs"
+  },
+  {
+   "id": "ch5",
+   "name": "Coûts de production et offre de biens"
+  },
+  {
+   "id": "ch6",
+   "name": "L'équilibre sur un marché concurrentiel"
+  },
+  {
+   "id": "ch7",
+   "name": "Équilibre général et optimum de Pareto"
+  },
+  {
+   "id": "ch8",
+   "name": "Théorie des jeux et interactions stratégiques"
+  },
+  {
+   "id": "ch9",
+   "name": "Monopole et pouvoir de marché"
+  },
+  {
+   "id": "ch10",
+   "name": "Oligopole et comportements stratégiques"
+  },
+  {
+   "id": "ch11",
+   "name": "Externalités et biens publics"
+  }
+ ],
+ "settings": {
+  "pomodoroWork": 30,
+  "addSubjects": [
+   "Macroéconomie",
+   "Approf. méthodo",
+   "Entretien",
+   "Espagnol",
+   "Microéconomie",
+   "Gestion",
+   "Économie",
+   "Maths",
+   "Anglais"
+  ]
+ }
+}

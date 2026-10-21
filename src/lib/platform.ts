@@ -8,7 +8,7 @@
  * Hors claude.ai (npm run dev / npm start), tout cela est absent et l'appli reste en localStorage.
  */
 import { create } from "zustand";
-import { onlyDefinitions, useStore } from "./store";
+import { applyEmbeddedPacks, onlyDefinitions, useStore } from "./store";
 import type { ContentPack } from "./types";
 import { uid } from "./utils";
 
@@ -50,6 +50,18 @@ export async function startCloudSync() {
   const metaRef = db.doc(`${root}/meta`);
   let chunks: Partial<Record<SyncKey, number>> = {};
   let lastWriteStamp = "";
+  let remoteHadFallen = true;
+
+  /**
+   * Après un chargement : nettoyage des données d'une version plus ancienne et packs embarqués pas encore fusionnés.
+   * Appelé une fois l'abonnement en place, pour que le résultat soit réenregistré dans le compte.
+   */
+  const repair = () => {
+    const st = useStore.getState();
+    if (st.cards.some((c) => c.deck === "mot" && !c.id.endsWith("-def"))) useStore.setState(onlyDefinitions(st));
+    if (!remoteHadFallen && !st.fallen.includes("P28")) useStore.setState({ fallen: [...st.fallen, "P28"] });
+    applyEmbeddedPacks();
+  };
 
   const loadRemote = async () => {
     const meta = await metaRef.get();
@@ -82,11 +94,7 @@ export async function startCloudSync() {
     applying = true;
     useStore.setState(patch as never);
     applying = false;
-    // Données enregistrées par une version plus ancienne : même nettoyage que la migration locale
-    // (hors `applying`, pour que la version nettoyée soit réenregistrée dans le compte).
-    const st = useStore.getState();
-    if (st.cards.some((c) => c.deck === "mot" && !c.id.endsWith("-def"))) useStore.setState(onlyDefinitions(st));
-    if (!("fallen" in patch) && !st.fallen.includes("P28")) useStore.setState({ fallen: [...st.fallen, "P28"] });
+    remoteHadFallen = "fallen" in patch;
     return true;
   };
 
@@ -194,6 +202,7 @@ export async function startCloudSync() {
     if (changed && backoff === 0) schedule(1500);
   });
 
+  repair();
   await pullInbox(db);
 
   // Au retour sur l'appli (autre appareil utilisé entre-temps) : on recharge si quelqu'un d'autre a écrit.
@@ -201,7 +210,10 @@ export async function startCloudSync() {
     if (document.visibilityState !== "visible" || writing || dirty.size) return;
     try {
       const meta = await metaRef.get();
-      if (meta.exists && (meta.data() as { stamp: string }).stamp !== lastWriteStamp) await loadRemote();
+      if (meta.exists && (meta.data() as { stamp: string }).stamp !== lastWriteStamp) {
+        await loadRemote();
+        repair();
+      }
       await pullInbox(db);
     } catch {
       /* on réessaiera au prochain retour */

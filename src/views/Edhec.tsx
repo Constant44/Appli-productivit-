@@ -3,6 +3,7 @@ import { EDHEC_SUBJECTS, useStore } from "../lib/store";
 import { addDays, daysUntil, fmtDay, fmtMin, isoDay, startOfWeek, uid } from "../lib/utils";
 import { Bar, Field, Seg } from "../components/ui";
 import { EnglishQuiz, Translation } from "../components/English";
+import { ANNALE_KIND_LABEL, type Annale, type AnnaleKind } from "../lib/types";
 
 export const EDHEC_DATE = "2027-04-03";
 
@@ -108,6 +109,7 @@ function PlanTab() {
         </div>
         <p className="small muted">Pour que tes heures comptent ici, choisis la matière « Microéconomie », « EDHEC Synthèse » ou « EDHEC Anglais » quand tu lances une session.</p>
       </div>
+      <ResourcesCard />
     </div>
   );
 }
@@ -119,14 +121,11 @@ function MicroTab() {
   const edhec = useStore((s) => s.edhec);
   const updateEdhec = useStore((s) => s.updateEdhec);
   const [newCh, setNewCh] = useState("");
-  const [newAn, setNewAn] = useState("");
-  const done = edhec.annales.filter((a) => a.done);
-  const avg = done.filter((a) => a.score != null).reduce((a, x, _, arr) => a + (x.score ?? 0) / arr.length, 0);
   return (
     <div className="grid g2">
       <div className="card">
         <h3>Chapitres <span className="right small muted">{edhec.chapters.filter((c) => c.level === 3).length}/{edhec.chapters.length} maîtrisés</span></h3>
-        <p className="small muted" style={{ marginTop: 0 }}>Liste type : renomme-les selon la table des matières de ton Hachon & Laurent. Clique sur les pastilles pour indiquer ton niveau.</p>
+        <p className="small muted" style={{ marginTop: 0 }}>Table des matières du Hachon & Laurent. Clique sur les pastilles pour indiquer ton niveau.</p>
         <div className="list">
           {edhec.chapters.map((c) => (
             <div key={c.id} className="item">
@@ -150,24 +149,7 @@ function MicroTab() {
           <button className="btn" disabled={!newCh.trim()} onClick={() => { updateEdhec((x) => ({ ...x, chapters: [...x.chapters, { id: uid(), name: newCh.trim(), level: 0 }] })); setNewCh(""); }}>Ajouter</button>
         </div>
       </div>
-      <div className="card">
-        <h3>Annales ENS de micro <span className="right small muted">{done.length}/{edhec.annales.length} faites{done.some((a) => a.score != null) ? ` · moyenne ${avg.toFixed(1)}/20` : ""}</span></h3>
-        <p className="small muted" style={{ marginTop: 0 }}>Coche quand tu l'as faite en conditions (3h) et note-toi avec le corrigé.</p>
-        <div className="list">
-          {edhec.annales.map((a) => (
-            <div key={a.id} className={`item ${a.done ? "" : ""}`}>
-              <button className={`check ${a.done ? "on" : ""}`} onClick={() => updateEdhec((x) => ({ ...x, annales: x.annales.map((y) => (y.id === a.id ? { ...y, done: !y.done } : y)) }))}>{a.done ? "✓" : ""}</button>
-              <div className="body"><div className="title">{a.label}</div></div>
-              <input className="input" style={{ width: 80 }} type="number" min={0} max={20} step={0.5} placeholder="/20" value={a.score ?? ""}
-                onChange={(e) => updateEdhec((x) => ({ ...x, annales: x.annales.map((y) => (y.id === a.id ? { ...y, score: e.target.value === "" ? undefined : Number(e.target.value), done: true } : y)) }))} />
-            </div>
-          ))}
-        </div>
-        <div className="row" style={{ marginTop: 10 }}>
-          <input id="new-annale" className="input" style={{ flex: 1 }} value={newAn} onChange={(e) => setNewAn(e.target.value)} placeholder="Ajouter (ex : Annale EDHEC 2025 économie)" />
-          <button className="btn" disabled={!newAn.trim()} onClick={() => { updateEdhec((x) => ({ ...x, annales: [...x.annales, { id: uid(), label: newAn.trim(), done: false }] })); setNewAn(""); }}>Ajouter</button>
-        </div>
-      </div>
+      <AnnalesCard kinds={["ens", "edhec-micro"]} hint="Coche quand tu l'as faite en conditions (3h) et note-toi avec le corrigé. Corrigés ENS 2013–2025 et EDHEC 2020–2025 aussi dans le livre de Bosco Menard (Ellipses, 2026)." />
     </div>
   );
 }
@@ -206,6 +188,7 @@ function SyntheseTab() {
           ))}
         </div>
       </div>
+      <AnnalesCard kinds={["synthese"]} hint="Sujets officiels avec le rapport du jury (pas de synthèse modèle). Depuis 2020, les textes viennent d'un numéro de Socialter." />
     </div>
   );
 }
@@ -225,6 +208,73 @@ function AnglaisTab() {
       <div className="card">
         <h3>✍️ Traduction (thème)</h3>
         <Translation />
+      </div>
+      <AnnalesCard kinds={["anglais"]} hint="Chaque PDF contient le sujet, le corrigé et le rapport du jury." />
+    </div>
+  );
+}
+
+const RESOURCES = [
+  { label: "Page officielle Pré-Master (toutes les annales)", url: "https://www.edhec.edu/fr/programmes/grande-ecole/admissions-et-financement/voies-admission/admission-pre-master" },
+  { label: "Conseils microéconomie EDHEC", url: "https://drive.google.com/file/d/1EtgA40Kp2MFkS4nsmWLSsB9nTYTQocG7/view" },
+  { label: "Conseils synthèse", url: "https://drive.google.com/file/d/11OUeWGbZAIaZSijculq9w-y_Yx_DW52Q/view" },
+  { label: "Conseils anglais", url: "https://drive.google.com/file/d/1kZvPYLinG8nXYWBTp4Wr9SOFaCcTV1b6/view" },
+  { label: "QCM anglais par thème (1–32)", url: "https://drive.google.com/file/d/1vzFA0SJ3ufbKpkERgkv2CwGxQVmDgiJs/view" },
+  { label: "QCM anglais par thème (33–64)", url: "https://drive.google.com/file/d/1ooiTAPgRRWdg96goP4I5gHnO4Kut30Qr/view" },
+  { label: "100 mots clés business English", url: "https://drive.google.com/file/d/1UMfZPzqKvmtwEVsFbcnMUGuMWtxe3LiX/view" },
+  { label: "Oral EDHEC", url: "https://docs.google.com/document/d/10SuCQvWeMX00pd2MgjAg3oNtNWVqU29johTOmX_ze_o/edit" },
+];
+
+export function ResourcesCard() {
+  return (
+    <div className="card">
+      <h3>Ressources</h3>
+      <div className="row" style={{ flexWrap: "wrap", gap: 6 }}>
+        {RESOURCES.map((r) => <a key={r.url} className="btn sm ghost" href={r.url} target="_blank" rel="noreferrer">{r.label} ↗</a>)}
+      </div>
+    </div>
+  );
+}
+
+/** Annales d'une ou plusieurs épreuves : avancement, note, liens vers sujet et corrigés. Les annales sans type sont rangées en micro. */
+function AnnalesCard({ kinds, hint }: { kinds: AnnaleKind[]; hint: string }) {
+  const all = useStore((s) => s.edhec.annales);
+  const updateEdhec = useStore((s) => s.updateEdhec);
+  const [newAn, setNewAn] = useState("");
+  const [showAll, setShowAll] = useState(false);
+  const list = all.filter((a) => kinds.includes(a.kind ?? "ens")).sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+  const done = list.filter((a) => a.done);
+  const scored = done.filter((a) => a.score != null);
+  const avg = scored.reduce((a, x) => a + (x.score ?? 0), 0) / (scored.length || 1);
+  const shown = showAll ? list : list.filter((a) => !a.done).slice(0, 8);
+  const patch = (id: string, p: Partial<Annale>) => updateEdhec((x) => ({ ...x, annales: x.annales.map((y) => (y.id === id ? { ...y, ...p } : y)) }));
+  return (
+    <div className="card">
+      <h3>Annales · {kinds.map((k) => ANNALE_KIND_LABEL[k]).join(" + ")} <span className="right small muted">{done.length}/{list.length} faites{scored.length ? ` · moyenne ${avg.toFixed(1)}/20` : ""}</span></h3>
+      <p className="small muted" style={{ marginTop: 0 }}>{hint}</p>
+      <div className="list">
+        {shown.map((a) => (
+          <div key={a.id} className="item">
+            <button className={`check ${a.done ? "on" : ""}`} onClick={() => patch(a.id, { done: !a.done })}>{a.done ? "✓" : ""}</button>
+            <div className="body">
+              <div className="title">{a.label}</div>
+              {a.links && a.links.length > 0 && (
+                <div className="row small" style={{ flexWrap: "wrap", gap: 8 }}>
+                  {a.links.map((l) => <a key={l.url} href={l.url} target="_blank" rel="noreferrer">{l.label} ↗</a>)}
+                </div>
+              )}
+            </div>
+            <input className="input" style={{ width: 70 }} type="number" min={0} max={20} step={0.5} placeholder="/20" value={a.score ?? ""}
+              onChange={(e) => patch(a.id, { score: e.target.value === "" ? undefined : Number(e.target.value), done: true })} />
+          </div>
+        ))}
+      </div>
+      {list.length > shown.length || showAll ? (
+        <button className="btn sm ghost" style={{ marginTop: 8 }} onClick={() => setShowAll(!showAll)}>{showAll ? "Masquer les faites et les plus anciennes" : `Tout afficher (${list.length})`}</button>
+      ) : null}
+      <div className="row" style={{ marginTop: 10 }}>
+        <input className="input" style={{ flex: 1 }} value={newAn} onChange={(e) => setNewAn(e.target.value)} placeholder="Ajouter une annale ou un sujet" />
+        <button className="btn" disabled={!newAn.trim()} onClick={() => { updateEdhec((x) => ({ ...x, annales: [...x.annales, { id: uid(), label: newAn.trim(), done: false, kind: kinds[0] }] })); setNewAn(""); }}>Ajouter</button>
       </div>
     </div>
   );
