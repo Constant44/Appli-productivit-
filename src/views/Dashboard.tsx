@@ -9,6 +9,7 @@ import { CompleteTaskModal, EvalForm, TaskForm } from "../components/forms";
 import { navigate } from "../App";
 import { EDHEC_DATE, currentPhase } from "./Edhec";
 import { buildQueue, nextTestDay } from "../lib/srs";
+import { MatchSheet } from "../components/MatchSheet";
 
 function greeting() {
   const h = new Date().getHours();
@@ -67,6 +68,8 @@ export default function Dashboard() {
           <Bar value={today} max={settings.dailyGoalMin} />
         </div>
       </div>
+
+      <MatchSheet />
 
       <TodayStrip />
 

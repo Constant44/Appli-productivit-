@@ -1,3 +1,4 @@
+import { DEFAULT_DAY_END, DEFAULT_DAY_STARTS } from "../lib/matchday";
 import { useEffect, useRef, useState } from "react";
 import { exportData, useStore } from "../lib/store";
 import { syncPronote } from "../lib/pronote";
@@ -117,6 +118,18 @@ export default function Settings() {
               <Field label="Pomodoro (min)"><input className="input" type="number" value={settings.pomodoroWork} onChange={(e) => updateSettings({ pomodoroWork: Math.max(1, Number(e.target.value)) })} /></Field>
               <Field label="Pause (min)"><input className="input" type="number" value={settings.pomodoroBreak} onChange={(e) => updateSettings({ pomodoroBreak: Math.max(1, Number(e.target.value)) })} /></Field>
               <Field label="Objectif / jour (min)"><input className="input" type="number" value={settings.dailyGoalMin} onChange={(e) => updateSettings({ dailyGoalMin: Math.max(10, Number(e.target.value)) })} /></Field>
+            </div>
+            <div className="small muted" style={{ marginTop: 12 }}>Feuille de match : heure d'arrivée réelle (pas l'idéal) et fin de journée</div>
+            <div className="row" style={{ flexWrap: "wrap", gap: 6, marginTop: 6 }}>
+              {[1, 2, 3, 4, 5, 6, 0].map((d) => (
+                <Field key={d} label={["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"][d]}>
+                  <input className="input" type="time" style={{ width: 96 }} value={(settings.dayStarts ?? DEFAULT_DAY_STARTS)[d]}
+                    onChange={(e) => { const next = [...(settings.dayStarts ?? DEFAULT_DAY_STARTS)]; next[d] = e.target.value; updateSettings({ dayStarts: next }); }} />
+                </Field>
+              ))}
+              <Field label="Fin">
+                <input className="input" type="time" style={{ width: 96 }} value={settings.dayEnd ?? DEFAULT_DAY_END} onChange={(e) => updateSettings({ dayEnd: e.target.value })} />
+              </Field>
             </div>
             <label className="row small" style={{ marginTop: 10 }}>
               <input type="checkbox" checked={settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} /> Son en fin de session

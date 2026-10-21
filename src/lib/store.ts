@@ -35,6 +35,10 @@ export type Settings = {
   subjects: string[];
   dailyGoalMin: number;
   sound: boolean;
+  /** Heure d'arrivée au travail (BU) par jour, index 0 = dimanche */
+  dayStarts?: string[];
+  /** Fin de la journée de travail */
+  dayEnd?: string;
 };
 
 export type PronoteSyncPayload = {
