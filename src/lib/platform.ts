@@ -202,7 +202,10 @@ export async function startCloudSync() {
     if (changed && backoff === 0) schedule(1500);
   });
 
+  // Clés jamais enregistrées dans le compte (ajoutées par une version plus récente de l'appli) : on les envoie.
+  for (const k of SYNC_KEYS) if (chunks[k] === undefined) dirty.add(k);
   repair();
+  if (dirty.size) schedule(1500);
   await pullInbox(db);
 
   // Au retour sur l'appli (autre appareil utilisé entre-temps) : on recharge si quelqu'un d'autre a écrit.
