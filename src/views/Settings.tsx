@@ -5,7 +5,7 @@ import { syncPronote } from "../lib/pronote";
 import { demoData } from "../lib/demo";
 import { fmtDay, fmtTime } from "../lib/utils";
 import { Field, Seg } from "../components/ui";
-import { saveFile, useCloud } from "../lib/platform";
+import { forceSync, saveFile, useCloud } from "../lib/platform";
 import { ask } from "../components/confirm";
 
 export default function Settings() {
@@ -150,13 +150,18 @@ export default function Settings() {
           </div>
           <div className="card">
             <h3>💾 Données</h3>
-            <p className="small muted" style={{ marginTop: 0 }}>
-              {cloud.status === "local"
-                ? "Données enregistrées sur cet appareil uniquement."
-                : cloud.status === "error"
-                  ? cloud.message
-                  : "Données sauvegardées dans ton compte claude.ai : tu les retrouves sur tous tes appareils."}
-            </p>
+            <div className={`sync-state s-${cloud.status}`}>
+              <i />
+              <div>
+                <b>{{ local: "Sur cet appareil seulement", connecting: "Connexion…", synced: "Sauvegardé dans ton compte", saving: "Sauvegarde en cours…", waiting: "En attente", error: "Erreur de sauvegarde" }[cloud.status]}</b>
+                <div className="small muted">
+                  {cloud.message ?? (cloud.status === "synced" ? "Tu retrouves tes données sur iPhone, iPad et Mac." : "")}
+                  {cloud.lastSaved ? ` · dernier envoi ${new Date(cloud.lastSaved).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}` : ""}
+                </div>
+                {cloud.detail && <div className="small muted">Détail : {cloud.detail}</div>}
+              </div>
+              {cloud.status !== "local" && <button className="btn sm" onClick={forceSync}>Forcer la sauvegarde</button>}
+            </div>
             <div className="row">
               <button className="btn" onClick={() => void saveFile(`prepa-fc-${new Date().toISOString().slice(0, 10)}.json`, exportData())}>⬇️ Exporter (sauvegarde)</button>
               <button className="btn" onClick={() => fileRef.current?.click()}>⬆️ Importer</button>

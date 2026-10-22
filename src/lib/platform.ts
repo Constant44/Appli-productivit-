@@ -33,7 +33,11 @@ type SyncKey = (typeof SYNC_KEYS)[number];
 const CHUNK = 400;
 
 export type CloudStatus = "local" | "connecting" | "synced" | "saving" | "waiting" | "error";
-export const useCloud = create<{ status: CloudStatus; message?: string }>(() => ({ status: "local" }));
+export const useCloud = create<{ status: CloudStatus; message?: string; detail?: string; lastSaved?: number }>(() => ({ status: "local" }));
+
+/** Forcer l'envoi de toutes les données (bouton des réglages). Branché une fois la synchro démarrée. */
+let forceImpl: (() => void) | null = null;
+export const forceSync = () => forceImpl?.();
 
 const deviceId = uid();
 
@@ -71,13 +75,18 @@ class PendingSet<T extends string> extends Set<T> {
 }
 
 export async function startCloudSync() {
-  if (!runtime()) return; // pas dans claude.ai
+  if (!runtime()) {
+    useCloud.setState({ status: "local", message: "Appli ouverte hors de claude.ai : données gardées sur cet appareil.", detail: "pas de runtime claude.ai" });
+    return;
+  }
   useCloud.setState({ status: "connecting" });
   const [db, user] = await Promise.all([capability("db"), capability("user")]);
-  const id: string | null = user ? await user.id().catch(() => null) : null;
+  let idErr = "";
+  const id: string | null = user ? await user.id().catch((e: { code?: string; message?: string }) => ((idErr = e?.code ?? e?.message ?? "erreur"), null)) : null;
   if (!db || !id) {
     applyEmbeddedPacks();
-    useCloud.setState({ status: "local", message: "Sauvegarde en ligne indisponible : données gardées sur cet appareil." });
+    const why = !db ? "base de données non accordée" : !user ? "identité non accordée" : `identifiant indisponible (${idErr || "non connecté ?"})`;
+    useCloud.setState({ status: "local", message: "Sauvegarde en ligne indisponible : ouvre l'appli depuis claude.ai en étant connecté à ton compte.", detail: why });
     return;
   }
   const root = `data/users/${id}`;
@@ -201,18 +210,17 @@ export async function startCloudSync() {
       const keys = [...dirty].sort((a, b) => JSON.stringify(s[a] ?? null).length - JSON.stringify(s[b] ?? null).length);
       for (const k of keys) {
         current = k;
-        dirty.delete(k);
-        try {
-          if (await writeKey(k, JSON.parse(JSON.stringify(s[k] ?? null)))) await writeMeta();
-        } catch (e) {
-          dirty.add(k);
-          throw e;
-        }
+        const sent = s[k];
+        if (await writeKey(k, JSON.parse(JSON.stringify(sent ?? null)))) await writeMeta();
+        // La clé ne quitte la liste « à envoyer » (gardée d'une ouverture à l'autre) qu'une fois vraiment enregistrée,
+        // et seulement si elle n'a pas changé pendant l'envoi.
+        if (useStore.getState()[k] === sent) dirty.delete(k);
       }
       backoff = 0;
-      useCloud.setState({ status: "synced", message: undefined });
+      useCloud.setState({ status: "synced", message: undefined, detail: undefined, lastSaved: Date.now() });
     } catch (e) {
       const code = (e as { code?: string }).code;
+      useCloud.setState({ detail: `${current ?? "?"} : ${code ?? ""} ${String((e as Error)?.message ?? e).slice(0, 120)}` });
       backoff = Math.min(Math.max(backoff * 2, 3000), 300000);
       // Journal d'erreur dans le compte, pour pouvoir diagnostiquer à distance.
       db.doc(`${root}/synclog`).set({ at: new Date().toISOString(), key: current ?? null, code: code ?? null, message: String((e as Error)?.message ?? e).slice(0, 300) }).catch(() => {});
@@ -233,19 +241,35 @@ export async function startCloudSync() {
 
   const markAll = () => SYNC_KEYS.forEach((k) => dirty.add(k));
 
-  try {
-    const found = await loadRemote();
-    if (!found) {
-      // Premier lancement sur ce compte : on envoie ce qui est sur l'appareil.
-      markAll();
-      await flush();
+  // Lecture de la sauvegarde, avec quelques nouvelles tentatives si le service répond mal
+  let found = false;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      found = await loadRemote();
+      break;
+    } catch (e) {
+      const err = e as { code?: string; message?: string };
+      if (attempt >= 3) {
+        applyEmbeddedPacks();
+        useCloud.setState({ status: "error", message: "Impossible de lire la sauvegarde en ligne.", detail: `${err.code ?? ""} ${err.message ?? ""}`.trim() });
+        db.doc(`${root}/synclog`).set({ at: new Date().toISOString(), key: "lecture", code: err.code ?? null, message: String(err.message ?? e).slice(0, 300) }).catch(() => {});
+        return;
+      }
+      useCloud.setState({ status: "waiting", message: `Lecture de la sauvegarde… nouvel essai (${attempt + 1}/3)` });
+      await new Promise((r) => setTimeout(r, 2000 * (attempt + 1)));
     }
-    useCloud.setState({ status: "synced" });
-  } catch {
-    applyEmbeddedPacks();
-    useCloud.setState({ status: "error", message: "Impossible de lire la sauvegarde en ligne." });
-    return;
   }
+  if (!found) {
+    // Premier lancement sur ce compte : on envoie ce qui est sur l'appareil.
+    markAll();
+    await flush();
+  }
+  useCloud.setState({ status: "synced" });
+  forceImpl = () => {
+    markAll();
+    backoff = 0;
+    schedule(50);
+  };
 
   useStore.subscribe((s, prev) => {
     if (applying) return;

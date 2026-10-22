@@ -437,7 +437,7 @@ label.field > span { font-weight: 600; }
 .room-hot:hover .room-tag > g, .room-hot:focus-visible .room-tag > g { transform: translate(0, -64px) scale(1.06); }
 .tag-pulse { animation: tagpulse 2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes tagpulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(3.2); opacity: 0; } }
-.clock-m { transform-box: view-box; transform-origin: 800px 215px; animation: clockm 60s linear infinite; }
+.clock-m { transform-box: view-box; animation: clockm 60s linear infinite; }
 @keyframes clockm { to { transform: rotate(360deg); } }
 .hub { display: flex; flex-direction: column; gap: 14px; }
 .hub-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
@@ -704,3 +704,10 @@ label.field > span { font-weight: 600; }
 .room svg * { pointer-events: none; }
 .room .room-hot, .room .room-hot * { pointer-events: auto; }
 .room .room-tag, .room .room-tag * { pointer-events: auto; }
+
+.sync-state { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: var(--bg2); margin-bottom: 12px; flex-wrap: wrap; }
+.sync-state > div { flex: 1; min-width: 180px; }
+.sync-state i { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); flex: none; }
+.sync-state.s-local i { background: #94a3b8; } .sync-state.s-waiting i, .sync-state.s-connecting i, .sync-state.s-saving i { background: var(--gold); } .sync-state.s-error i { background: var(--red); }
+.cloud-dot { cursor: pointer; }
+.cloud-dot.local { background: #64748b; }

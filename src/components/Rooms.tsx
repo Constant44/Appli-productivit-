@@ -288,109 +288,97 @@ function Hall({ tod, s, a, b, info }: Ctx) {
 }
 
 // ---------------- Bibliothèque ----------------
-const BOOK = ["#7f1d1d", "#1e3a8a", "#14532d", "#a16207", "#e7dcc4", "#3f3f46", "#9a3412", "#0f766e", "#581c87", "#b45309"];
-function BookRows({ x, y, w, rows, seed }: { x: number; y: number; w: number; rows: number; seed: number }) {
-  const out: ReactNode[] = [];
-  for (let r = 0; r < rows; r++) {
-    let cx = x + 6, i = 0;
-    const by = y + r * 80;
-    out.push(<rect key={`s${r}`} x={x} y={by + 70} width={w} height="10" fill="#5b3a1e" />);
-    while (cx < x + w - 14) {
-      const bw = 12 + hash(seed * 7 + r * 31 + i) * 14;
-      const bh = 50 + hash(seed * 13 + r * 17 + i) * 18;
-      const lean = hash(seed + r * 3 + i * 11) > 0.93;
-      const col = BOOK[Math.floor(hash(seed * 3 + r * 5 + i * 7) * BOOK.length)];
-      out.push(
-        <g key={`${r}-${i}`} transform={lean ? `rotate(-12 ${cx} ${by + 70})` : undefined}>
-          <rect x={cx} y={by + 70 - bh} width={bw} height={bh} fill={col} />
-          <rect x={cx} y={by + 70 - bh} width={bw * 0.25} height={bh} fill="#fff" opacity="0.12" />
-          <rect x={cx + 2} y={by + 70 - bh + 10} width={bw - 4} height="3" fill="#f5d27a" opacity="0.55" />
-        </g>,
-      );
-      cx += bw + 1.5 + (hash(seed + i) > 0.9 ? 10 : 0);
-      i++;
-    }
-  }
-  return <g>{out}</g>;
-}
-
 function Library({ tod, s, info }: Ctx) {
+  // Bureau d'étude : grande fenêtre, bureau en chêne, lampe, fiches, journal, affiche EDHEC, horloge.
   const night = tod === "night";
+  const ty = FL(0.5, 0.3)[1] - 128 * scaleAt(0.3);
   return (
     <g>
-      <Shell wall="#e9dcc4" wallDark="#bfa98a" floor="#a86f3e" floorDark="#4a2c14" ceil="#e6dccb" wainscot="#5b3a1e" night={night} />
-      <Planks opacity={0.18} />
-      {/* bibliothèques du fond */}
-      <rect x="436" y="186" width="276" height="514" fill="#4a2f17" />
-      <rect x="888" y="186" width="276" height="514" fill="#4a2f17" />
-      <BookRows x={446} y={196} w={256} rows={6} seed={3} />
-      <BookRows x={898} y={196} w={256} rows={6} seed={11} />
-      {/* fenêtre en arc */}
+      <Shell wall="#d7ddd0" wallDark="#a9b29f" floor="#c79a68" floorDark="#6b4a2b" ceil="#eceee8" night={night} />
+      <Planks opacity={0.16} />
+      {/* grande fenêtre */}
       <g>
-        <path d="M730 690 V320 Q800 240 870 320 V690 Z" fill="#3b2a1a" />
-        <clipPath id="arch"><path d="M740 680 V322 Q800 254 860 322 V680 Z" /></clipPath>
-        <g clipPath="url(#arch)"><Sky x={740} y={250} w={120} h={430} tod={tod} kind="garden" /></g>
-        <line x1="800" y1="262" x2="800" y2="680" stroke="#3b2a1a" strokeWidth="6" />
-        <line x1="740" y1="470" x2="860" y2="470" stroke="#3b2a1a" strokeWidth="6" />
+        <rect x="560" y="236" width="480" height="356" fill="#f3f1ea" />
+        <Sky x={574} y={250} w={452} h={328} tod={tod} kind="garden" />
+        <rect x="796" y="250" width="8" height="328" fill="#f3f1ea" />
+        <rect x="574" y="408" width="452" height="8" fill="#f3f1ea" />
+        <rect x="574" y="250" width="452" height="328" fill="url(#glass3)" />
+        <defs><linearGradient id="glass3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fff" stopOpacity="0.18" /><stop offset="0.55" stopColor="#fff" stopOpacity="0" /></linearGradient></defs>
+        <rect x="548" y="590" width="504" height="14" rx="3" fill="#e7e3d8" />
+        {/* rideaux */}
+        <path d="M540 226 Q552 420 534 610 L506 610 Q522 420 510 226 Z" fill="#7c8f74" />
+        <path d="M1060 226 Q1048 420 1066 610 L1094 610 Q1078 420 1090 226 Z" fill="#7c8f74" />
+        <rect x="496" y="220" width="608" height="8" rx="4" fill="#5b4a3a" />
       </g>
-      <LightShaft x={740} y={300} w={120} h={380} tod={tod} />
+      <LightShaft x={574} y={250} w={452} h={328} tod={tod} />
       {/* horloge → planning */}
-      <Hot spot={s.clock} tx={800} ty={255}>
+      <Hot spot={s.clock} tx={470} ty={270}>
         <g>
-          <circle cx="800" cy="215" r="34" fill="#f8f4ea" stroke="#7a5230" strokeWidth="6" />
-          {Array.from({ length: 12 }, (_, i) => { const t = (i / 12) * Math.PI * 2; return <line key={i} x1={800 + Math.sin(t) * 24} y1={215 - Math.cos(t) * 24} x2={800 + Math.sin(t) * 28} y2={215 - Math.cos(t) * 28} stroke="#3f2a14" strokeWidth="2" />; })}
-          <line x1="800" y1="215" x2="800" y2="192" stroke="#1f2937" strokeWidth="3" strokeLinecap="round" className="clock-m" />
-          <line x1="800" y1="215" x2="814" y2="221" stroke="#1f2937" strokeWidth="4" strokeLinecap="round" />
+          <circle cx="470" cy="330" r="36" fill="#fbfaf6" stroke="#3f3a33" strokeWidth="6" />
+          {Array.from({ length: 12 }, (_, i) => { const t = (i / 12) * Math.PI * 2; return <line key={i} x1={470 + Math.sin(t) * 26} y1={330 - Math.cos(t) * 26} x2={470 + Math.sin(t) * 31} y2={330 - Math.cos(t) * 31} stroke="#3f2a14" strokeWidth="2" />; })}
+          <line x1="470" y1="330" x2="470" y2="306" stroke="#1f2937" strokeWidth="3" strokeLinecap="round" className="clock-m" style={{ transformOrigin: "470px 330px" }} />
+          <line x1="470" y1="330" x2="486" y2="337" stroke="#1f2937" strokeWidth="4" strokeLinecap="round" />
         </g>
       </Hot>
+      {/* étagère murale avec quelques livres et une plante */}
+      <g>
+        <rect x="1090" y="380" width="80" height="8" fill="#6b4a2b" />
+        {[0, 1, 2, 3].map((i) => <rect key={i} x={1096 + i * 12} y={346 - (i % 2) * 6} width="10" height={34 + (i % 2) * 6} fill={["#1e3a8a", "#7f1d1d", "#14532d", "#a16207"][i]} />)}
+        <path d="M1150 380 L1166 380 L1163 360 L1153 360 Z" fill="#e7e1d6" />
+        <circle cx="1158" cy="352" r="10" fill="#3f9a4a" />
+      </g>
       {/* affiche EDHEC (mur gauche) */}
       <Hot spot={s.poster} tx={LW(0.52, 0.86)[0]} ty={LW(0.52, 0.86)[1]}>
         <g>
-          <polygon points={poly(LW(0.35, 0.38), LW(0.7, 0.38), LW(0.7, 0.8), LW(0.35, 0.8))} fill="#2a1d10" />
+          <polygon points={poly(LW(0.35, 0.38), LW(0.7, 0.38), LW(0.7, 0.8), LW(0.35, 0.8))} fill="#2a2a2a" />
           <polygon points={poly(LW(0.37, 0.41), LW(0.68, 0.41), LW(0.68, 0.77), LW(0.37, 0.77))} fill="#8a1c1c" />
           <polygon points={poly(LW(0.37, 0.41), LW(0.68, 0.41), LW(0.68, 0.5), LW(0.37, 0.5))} fill="#f3e9d2" />
           <text x={LW(0.52, 0.62)[0]} y={LW(0.52, 0.62)[1]} textAnchor="middle" fontSize="30" fontWeight="900" fill="#f3e9d2">EDHEC</text>
           <text x={LW(0.52, 0.53)[0]} y={LW(0.52, 0.53)[1]} textAnchor="middle" fontSize="15" fontWeight="800" fill="#fde68a">{info.edhec}</text>
         </g>
       </Hot>
-      {/* rayonnage du mur droit */}
-      <polygon points={poly(RW(0.15, 0.05), RW(0.85, 0.05), RW(0.85, 0.85), RW(0.15, 0.85))} fill="#4a2f17" />
-      {Array.from({ length: 5 }, (_, r) => (
-        <g key={r}>
-          {Array.from({ length: 22 }, (_, i) => { const u0 = 0.17 + i * 0.03, u1 = u0 + 0.024, v0 = 0.1 + r * 0.15, v1 = v0 + 0.1 + hash(i + r * 9) * 0.03; return <polygon key={i} points={poly(RW(u0, v0), RW(u1, v0), RW(u1, v1), RW(u0, v1))} fill={BOOK[Math.floor(hash(i * 3 + r * 7) * BOOK.length)]} />; })}
-          <polygon points={poly(RW(0.15, 0.08 + r * 0.15), RW(0.85, 0.08 + r * 0.15), RW(0.85, 0.095 + r * 0.15), RW(0.15, 0.095 + r * 0.15))} fill="#2b1a0b" />
-        </g>
-      ))}
+      {/* tableau en liège discret (mur droit) */}
+      <g>
+        <polygon points={poly(RW(0.25, 0.45), RW(0.6, 0.45), RW(0.6, 0.75), RW(0.25, 0.75))} fill="#8a5a2b" />
+        <polygon points={poly(RW(0.27, 0.47), RW(0.58, 0.47), RW(0.58, 0.73), RW(0.27, 0.73))} fill="#c99a63" />
+        {[[0.32, 0.6, "#fde047"], [0.42, 0.66, "#93c5fd"], [0.5, 0.56, "#f9a8d4"]].map(([u, v, c], i) => <polygon key={i} points={poly(RW((u as number) - 0.03, (v as number) - 0.05), RW((u as number) + 0.03, (v as number) - 0.05), RW((u as number) + 0.03, (v as number) + 0.04), RW((u as number) - 0.03, (v as number) + 0.04))} fill={c as string} />)}
+      </g>
       {/* tapis */}
-      <polygon points={poly(FL(0.18, 0.08), FL(0.82, 0.08), FL(0.82, 0.62), FL(0.18, 0.62))} fill="#6b1d1d" />
-      <polygon points={poly(FL(0.21, 0.12), FL(0.79, 0.12), FL(0.79, 0.58), FL(0.21, 0.58))} fill="none" stroke="#d4a373" strokeWidth="4" opacity="0.7" />
-      {/* table de lecture */}
-      <FloorBox x0={0.24} x1={0.76} d0={0.24} d1={0.44} h={118} top="#7a4a22" front="#4e2e13" side="#3b220e" />
-      {(() => {
-        const ty = FL(0.5, 0.34)[1] - 118 * scaleAt(0.34);
-        return (
-          <g>
-            <Lamp x={800} y={ty - 64} on={tod !== "day"} />
-            <Hot spot={s.cards} tx={600} ty={ty - 70}>
-              <g filter="url(#shadow)">
-                {[0, 1, 2, 3].map((i) => <rect key={i} x={548 + i * 3} y={ty - 22 - i * 6} width="104" height="62" rx="6" fill={["#fde68a", "#bfdbfe", "#fecaca", "#fff"][i]} stroke="#0002" transform={`rotate(${-6 + i * 2} 600 ${ty})`} />)}
-                <text x="603" y={ty - 2} textAnchor="middle" fontSize="26">🔥</text>
-              </g>
-            </Hot>
-            <Hot spot={s.paper} tx={1000} ty={ty - 74}>
-              <g transform={`rotate(5 1000 ${ty})`} filter="url(#shadow)">
-                <rect x="930" y={ty - 30} width="150" height="58" fill="#f4f1ea" />
-                <text x="940" y={ty - 10} fontSize="15" fontWeight="900" fontFamily="Georgia, serif" fill="#111">Le Monde</text>
-                {[0, 1, 2].map((i) => <rect key={i} x="940" y={ty - 2 + i * 8} width={120 - i * 22} height="3" fill="#9ca3af" />)}
-              </g>
-            </Hot>
-            <path d={`M760 ${ty + 10} Q780 ${ty - 6} 800 ${ty + 6} Q820 ${ty - 6} 840 ${ty + 10} L840 ${ty + 18} Q820 ${ty + 6} 800 ${ty + 14} Q780 ${ty + 6} 760 ${ty + 18} Z`} fill="#fbf7ee" stroke="#c9b48f" />
-          </g>
-        );
-      })()}
-      <Plant x={150} y={840} s={1.3} />
-      {night && <rect width={W} height={H} fill="#0b1026" opacity="0.38" />}
-      {tod !== "day" && <ellipse cx="800" cy={FL(0.5, 0.34)[1] - 140} rx="320" ry="150" fill="#ffcf73" opacity="0.18" filter="url(#glow)" style={{ mixBlendMode: "screen" }} />}
+      <polygon points={poly(FL(0.2, 0.06), FL(0.8, 0.06), FL(0.8, 0.5), FL(0.2, 0.5))} fill="#e8e1d2" />
+      <polygon points={poly(FL(0.23, 0.1), FL(0.77, 0.1), FL(0.77, 0.46), FL(0.23, 0.46))} fill="none" stroke="#b9ad94" strokeWidth="3" />
+      {/* chaise de bureau (dossier) derrière le bureau */}
+      <FloorBox x0={0.45} x1={0.55} d0={0.38} d1={0.44} h={210} top="#2f3640" front="#262c35" side="#1c2128" />
+      {/* bureau en chêne */}
+      <FloorBox x0={0.22} x1={0.78} d0={0.2} d1={0.4} h={128} top="#c08a55" front="#9a6a3d" side="#7d5430" />
+      <Lamp x={1040} y={ty - 66} on={tod !== "day"} shade="#1f3b2e" />
+      <Hot spot={s.cards} tx={600} ty={ty - 72}>
+        <g filter="url(#shadow)">
+          {[0, 1, 2, 3].map((i) => <rect key={i} x={548 + i * 3} y={ty - 22 - i * 6} width="104" height="62" rx="6" fill={["#fde68a", "#bfdbfe", "#fecaca", "#fff"][i]} stroke="#0002" transform={`rotate(${-6 + i * 2} 600 ${ty})`} />)}
+          <text x="603" y={ty - 2} textAnchor="middle" fontSize="26">🔥</text>
+        </g>
+      </Hot>
+      {/* ordinateur portable */}
+      <g>
+        <polygon points={`730,${ty - 4} 880,${ty - 4} 868,${ty - 100} 742,${ty - 100}`} fill="#d1d5db" />
+        <polygon points={`737,${ty - 10} 873,${ty - 10} 862,${ty - 94} 748,${ty - 94}`} fill={night ? "#0f2f4f" : "#e8f0fb"} />
+        {[0, 1, 2, 3].map((i) => <rect key={i} x={760} y={ty - 84 + i * 16} width={80 - i * 12} height="5" rx="2" fill={night ? "#38bdf8" : "#94a3b8"} />)}
+        <rect x="716" y={ty - 6} width="178" height="9" rx="4" fill="#9ca3af" />
+      </g>
+      <Hot spot={s.paper} tx={950} ty={ty - 70}>
+        <g transform={`rotate(5 950 ${ty})`} filter="url(#shadow)">
+          <rect x="890" y={ty - 26} width="130" height="52" fill="#f4f1ea" />
+          <text x="898" y={ty - 8} fontSize="14" fontWeight="900" fontFamily="Georgia, serif" fill="#111">Le Monde</text>
+          {[0, 1, 2].map((i) => <rect key={i} x="898" y={ty + i * 8} width={110 - i * 22} height="3" fill="#9ca3af" />)}
+        </g>
+      </Hot>
+      <g>
+        <rect x="660" y={ty - 34} width="30" height="36" rx="5" fill="#f8fafc" />
+        <path d={`M690 ${ty - 26} q14 4 0 18`} stroke="#f8fafc" strokeWidth="5" fill="none" />
+      </g>
+      <Plant x={160} y={840} s={1.3} />
+      <Plant x={1450} y={850} s={1.15} />
+      {night && <rect width={W} height={H} fill="#0b1026" opacity="0.36" />}
+      {tod !== "day" && <ellipse cx="1000" cy={ty - 20} rx="300" ry="140" fill="#ffcf73" opacity="0.2" filter="url(#glow)" style={{ mixBlendMode: "screen" }} />}
       <rect width={W} height={H} fill="url(#r-vignette)" pointerEvents="none" />
     </g>
   );
@@ -476,7 +464,7 @@ function Office({ tod, s, info }: Ctx) {
 }
 
 const ROOMS: Record<RoomId, (c: Ctx) => ReactNode> = { hall: Hall, library: Library, office: Office };
-export const ROOM_NAME: Record<RoomId, string> = { hall: "Hall du club", library: "Bibliothèque", office: "Bureau du coach" };
+export const ROOM_NAME: Record<RoomId, string> = { hall: "Hall du club", library: "Bureau d'étude", office: "Bureau du coach" };
 
 function useTod(): Tod {
   const [h, setH] = useState(() => new Date().getHours());

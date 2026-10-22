@@ -30,7 +30,7 @@ type SectionId = "today" | "focus" | "study" | "agenda" | "city";
 const SECTIONS: Array<{ id: SectionId; label: string; icon: keyof typeof ICONS; views: Array<[View, string]> }> = [
   { id: "today", label: "Aujourd'hui", icon: "home", views: [["home", "Aujourd'hui"]] },
   { id: "focus", label: "Focus", icon: "timer", views: [["focus", "Focus"]] },
-  { id: "study", label: "Réviser", icon: "book", views: [["study", "Bibliothèque"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
+  { id: "study", label: "Réviser", icon: "book", views: [["study", "Bureau d'étude"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
   { id: "agenda", label: "Agenda", icon: "cal", views: [["agenda", "Bureau du coach"], ["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
   { id: "city", label: "Ville", icon: "city", views: [["club", "Prépa City"], ["stats", "Stats"]] },
 ];
@@ -205,8 +205,8 @@ function TopBar() {
       )}
       <span className="chip" title="Budget du club">💰 {fmtMoney(coins)}</span>
       <span className="chip" title="Série de jours avec au moins 25 min de travail">🔥 {streak}</span>
-      {cloud.status !== "local" && (
-        <span className={`cloud-dot ${cloud.status}`} title={cloud.message ?? (cloud.status === "synced" ? "Sauvegardé dans ton compte claude.ai" : cloud.status === "saving" ? "Sauvegarde…" : cloud.status === "connecting" ? "Connexion…" : "En attente de sauvegarde")} />
+      {(
+        <span role="button" tabIndex={0} onClick={() => navigate("settings")} className={`cloud-dot ${cloud.status}`} title={cloud.message ?? (cloud.status === "synced" ? "Sauvegardé dans ton compte claude.ai" : cloud.status === "saving" ? "Sauvegarde…" : cloud.status === "connecting" ? "Connexion…" : "En attente de sauvegarde")} />
       )}
       <button className="icon-btn" aria-label="Réglages" onClick={() => navigate("settings")}><Icon name="gear" size={20} /></button>
     </div>
