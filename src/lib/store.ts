@@ -248,7 +248,7 @@ export const useStore = create<Store>()(
           const bonus = 200 * after;
           set((s) => ({ coins: s.coins + bonus }));
           toast({ title: `⬆️ Niveau ${after} !`, body: `Prime de la direction : +${bonus} k€`, tone: "gold" });
-          setTimeout(() => celebrate("levelup", `Niveau ${after} !`, `Prime de la direction : +${bonus} k€`), 3400);
+          setTimeout(() => celebrate("levelup", `Niveau ${after}`, "Prime de la direction", { coins: bonus }), 2900);
         }
       };
 
@@ -282,7 +282,12 @@ export const useStore = create<Store>()(
           if (!task.rewarded) {
             const b = taskCompletionBonus(task.estimateMin, actualMinutes(patched, s.sessions));
             grant(b.xp, b.coins);
-            celebrate("cheese", "Tâche bouclée !", `${b.label} · +${b.xp} XP · +${b.coins} k€`);
+            // Un joueur de l'effectif frappe au but à l'entraînement
+            const pool = s.club.players.filter((p) => p.pos === "ATT" || p.pos === "MIL");
+            const pl = pool.length ? pool[Math.floor(Math.random() * pool.length)] : s.club.players[0];
+            const shooter = pl ? { name: pl.name, num: 2 + (s.club.players.indexOf(pl) % 22), pos: pl.pos, ovr: pl.ovr } : undefined;
+            const de = shooter && /^[aeiouyéèêàâîôûh]/i.test(shooter.name) ? "d'" : "de ";
+            celebrate("task", shooter ? `But ${de}${shooter.name}` : "Tâche bouclée", `✓ ${task.title}${b.label && b.label !== "Tâche terminée" ? ` · ${b.label}` : ""}`, { xp: b.xp, coins: b.coins, shooter });
           }
         },
         reopenTask: (id) =>
@@ -439,7 +444,7 @@ export const useStore = create<Store>()(
 
           set({ sessions: [...s.sessions, session], club });
           grant(r.xp, r.coins);
-          celebrate("goal", `But ! ${minutes} min de travail`, `+${r.xp} XP · +${r.coins} k€${streak > 1 ? ` · série ${streak} j 🔥` : ""}`);
+          celebrate("goal", `${minutes} min de focus`, streak > 1 ? `Série de ${streak} jours` : "Session enregistrée", { xp: r.xp, coins: r.coins });
           if (notes.length) toast({ title: "Au club", body: notes.join("\n"), tone: "good" });
         },
 
@@ -476,7 +481,7 @@ export const useStore = create<Store>()(
           if (k === "scouting") club.market = generateMarket(lvl + 1);
           if (k === "academy" && lvl === 0) club.academyLastAt = totalWorkMinutes(s.sessions);
           set({ coins: s.coins - cost, club });
-          celebrate("build", lvl === 0 ? `${FACILITIES[k].label} construit !` : `${FACILITIES[k].label} agrandi !`, `Niveau ${lvl + 1}`);
+          celebrate("build", lvl === 0 ? `${FACILITIES[k].label} construit` : `${FACILITIES[k].label} agrandi`, `Niveau ${lvl + 1}`);
         },
         refreshMarket: () => {
           const s = get();

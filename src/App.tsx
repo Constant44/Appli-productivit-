@@ -5,7 +5,9 @@ import { currentStreak } from "./lib/insights";
 import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
 import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
-import { Celebration } from "./components/Mascot";
+import { Celebration } from "./components/Celebration";
+import { Scene, type Hotspot, type SceneId } from "./components/Scene";
+import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
 import Dashboard from "./views/Dashboard";
 import Focus from "./views/Focus";
@@ -48,6 +50,25 @@ export const Icon = ({ name, size = 22 }: { name: keyof typeof ICONS; size?: num
     <path d={ICONS[name]} />
   </svg>
 );
+
+/** Pièce du club affichée en bandeau pour chaque écran (le club gère ses propres pièces), et ses objets cliquables. */
+function sceneFor(view: View): { id: SceneId; spots: Record<string, Hotspot> } | null {
+  const go = (v: View, label: string): Hotspot => ({ id: v, label, onClick: () => navigate(v), active: v === view });
+  switch (view) {
+    case "home":
+      return { id: "lobby", spots: { window: go("club", "Prépa City"), door: go("focus", "Focus"), cabinet: go("stats", "Stats") } };
+    case "warmup": case "vendredi": case "edhec": case "plan":
+      return { id: "library", spots: { cards: go("warmup", "Échauffement"), paper: go("vendredi", "Test du vendredi"), poster: go("edhec", "EDHEC"), clock: go("plan", "Planning") } };
+    case "tasks": case "evals": case "tt": case "grades":
+      return { id: "coach", spots: { board: go("tasks", "To-do"), calendar: go("tt", "Emploi du temps"), whiteboard: go("grades", "Notes"), desk: go("evals", "DS & khôlles") } };
+    case "stats":
+      return { id: "trophies", spots: { stats: go("stats", "Stats"), table: go("club", "Championnat") } };
+    case "settings":
+      return { id: "corridor", spots: {} };
+    default:
+      return null;
+  }
+}
 
 export const navigate = (v: View) => {
   window.location.hash = v;
@@ -141,6 +162,41 @@ function PendingSessionModal() {
   );
 }
 
+/**
+ * Raccourcis clavier (Mac) : 1 à 5 = rubriques, Espace = démarrer / mettre en pause le chrono sur l'écran Focus,
+ * N = nouvelle tâche, ← → = onglet précédent / suivant de la rubrique.
+ */
+function useShortcuts(view: View) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (e.metaKey || e.ctrlKey || e.altKey || t.closest("input, textarea, select, [contenteditable]") || document.querySelector(".modal-bg")) return;
+      const n = Number(e.key);
+      if (n >= 1 && n <= SECTIONS.length) return navigate(SECTIONS[n - 1].views[0][0]);
+      const sec = sectionOf(view);
+      if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && sec && sec.views.length > 1) {
+        const i = sec.views.findIndex(([v]) => v === view);
+        const j = (i + (e.key === "ArrowRight" ? 1 : -1) + sec.views.length) % sec.views.length;
+        return navigate(sec.views[j][0]);
+      }
+      if (e.key === "n" || e.key === "N") {
+        navigate("tasks");
+        setTimeout(() => (document.querySelector("input[placeholder^='Ajout rapide']") as HTMLInputElement | null)?.focus(), 80);
+        return;
+      }
+      if (e.key === " " && view === "focus") {
+        e.preventDefault();
+        const st = useStore.getState();
+        if (st.timer.status === "running") st.pauseTimer();
+        else if (st.timer.status === "paused") st.resumeTimer();
+        else (document.querySelector(".focus-start") as HTMLButtonElement | null)?.click();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [view]);
+}
+
 function TopBar() {
   const { xp, coins, sessions, timer } = useStore();
   const lv = levelFromXp(xp);
@@ -191,18 +247,20 @@ export default function App() {
   const warmedUp = useStore((s) => s.warmups.includes(isoDay(new Date())));
 
   const section = sectionOf(view);
+  const device = useDevice();
+  useShortcuts(view);
   const badge = (id: SectionId) =>
     id === "agenda" ? overdue + soonEvals : id === "study" ? (warmedUp ? 0 : 1) : 0;
 
   return (
-    <div className="app">
+    <div className="app" data-section={section?.id ?? "settings"} data-device={device}>
       <nav className="sidebar">
         <div className="brand"><span className="ball">⚽</span> Prépa FC</div>
-        {SECTIONS.map((sec) => (
+        {SECTIONS.map((sec, i) => (
           <button key={sec.id} className={`nav-btn ${section?.id === sec.id ? "active" : ""}`} onClick={() => navigate(sec.views[0][0])}>
             <Icon name={sec.icon} />
             <span>{sec.label}</span>
-            {badge(sec.id) > 0 && <span className="badge">{badge(sec.id)}</span>}
+            {badge(sec.id) > 0 ? <span className="badge">{badge(sec.id)}</span> : <span className="kbd">{i + 1}</span>}
           </button>
         ))}
       </nav>
@@ -216,6 +274,10 @@ export default function App() {
               ))}
             </div>
           )}
+          {(() => {
+            const sc = sceneFor(view);
+            return sc ? <Scene id={sc.id} spots={sc.spots} /> : null;
+          })()}
           {view === "home" && <Dashboard />}
           {view === "warmup" && <Warmup />}
           {view === "edhec" && <Edhec />}

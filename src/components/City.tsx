@@ -318,7 +318,8 @@ export function City({ compact, onOpen }: { compact?: boolean; onOpen?: () => vo
   const ctx: Ctx = { night, lvl: stats.lvl, bu: stats.bu, edhecFloors: stats.edhecFloors, trees: stats.trees };
   const order = [...BUILDINGS].sort((a, b) => a.gx + a.gy + a.w + a.d - (b.gx + b.gy + b.w + b.d) || a.gx - b.gx);
   const W = X0 * 2, H = Y0 + N * HH * 2 + 10;
-  const sky = night ? ["#0b1026", "#1e1b4b"] : dusk ? ["#fb923c", "#7c3aed"] : ["#7dd3fc", "#e0f2fe"];
+  // Ville « digitale » : toujours sombre ; le ciel suit l'heure, les fenêtres s'allument le soir.
+  const sky = night ? ["#050816", "#1e1b4b"] : dusk ? ["#1e1b4b", "#7c2d6b"] : ["#071226", "#123a5c"];
   const selB = BUILDINGS.find((b) => b.id === sel);
 
   return (
@@ -331,21 +332,15 @@ export function City({ compact, onOpen }: { compact?: boolean; onOpen?: () => vo
           </linearGradient>
         </defs>
         <rect width={W} height={H} fill="url(#sky)" />
-        {night && Array.from({ length: 30 }, (_, i) => <circle key={i} cx={hash(i) * W} cy={hash(i + 99) * 160} r={hash(i + 5) * 1.2 + 0.3} fill="#fff" className={i % 4 ? "" : "blink"} />)}
-        {!night && (
-          <g opacity="0.85">
-            <g className="cloud c1"><ellipse cx="80" cy="30" rx="26" ry="9" fill="#fff" /><ellipse cx="96" cy="24" rx="16" ry="9" fill="#fff" /></g>
-            <g className="cloud c2"><ellipse cx="380" cy="120" rx="30" ry="10" fill="#fff" /><ellipse cx="362" cy="114" rx="14" ry="8" fill="#fff" /></g>
-          </g>
-        )}
+        {(night || dusk) && Array.from({ length: 30 }, (_, i) => <circle key={i} cx={hash(i) * W} cy={hash(i + 99) * 160} r={hash(i + 5) * 1.2 + 0.3} fill="#fff" className={i % 4 ? "" : "blink"} />)}
         {/* socle */}
-        <polygon points={pts(P(0, 0), P(N, 0), P(N, N), P(0, N))} fill={night ? "#14532d" : "#4ade80"} />
-        <polygon points={pts(P(0, N), P(N, N), P(N, N, -10), P(0, N, -10))} fill={night ? "#3f2a14" : "#92400e"} />
-        <polygon points={pts(P(N, 0), P(N, N), P(N, N, -10), P(N, 0, -10))} fill={night ? "#2a1c0e" : "#78350f"} />
+        <polygon points={pts(P(0, 0), P(N, 0), P(N, N), P(0, N))} fill="#0f2a22" stroke="#34d39955" strokeWidth="1" />
+        <polygon points={pts(P(0, N), P(N, N), P(N, N, -10), P(0, N, -10))} fill="#0b1a16" />
+        <polygon points={pts(P(N, 0), P(N, N), P(N, N, -10), P(N, 0, -10))} fill="#07120f" />
         {ROADS.map(([gx, gy]) => (
-          <Tile key={`${gx}-${gy}`} gx={gx} gy={gy} fill={night ? "#334155" : "#64748b"}>
-            {gx === 3 && gy !== 3 && <line x1={P(3.5, gy + 0.15)[0]} y1={P(3.5, gy + 0.15)[1]} x2={P(3.5, gy + 0.85)[0]} y2={P(3.5, gy + 0.85)[1]} stroke="#fde68a" strokeWidth="1" strokeDasharray="3 3" />}
-            {gy === 3 && gx !== 3 && <line x1={P(gx + 0.15, 3.5)[0]} y1={P(gx + 0.15, 3.5)[1]} x2={P(gx + 0.85, 3.5)[0]} y2={P(gx + 0.85, 3.5)[1]} stroke="#fde68a" strokeWidth="1" strokeDasharray="3 3" />}
+          <Tile key={`${gx}-${gy}`} gx={gx} gy={gy} fill="#111827">
+            {gx === 3 && gy !== 3 && <line x1={P(3.5, gy + 0.15)[0]} y1={P(3.5, gy + 0.15)[1]} x2={P(3.5, gy + 0.85)[0]} y2={P(3.5, gy + 0.85)[1]} stroke="#38bdf8" strokeWidth="1" strokeDasharray="3 3" />}
+            {gy === 3 && gx !== 3 && <line x1={P(gx + 0.15, 3.5)[0]} y1={P(gx + 0.15, 3.5)[1]} x2={P(gx + 0.85, 3.5)[0]} y2={P(gx + 0.85, 3.5)[1]} stroke="#38bdf8" strokeWidth="1" strokeDasharray="3 3" />}
           </Tile>
         ))}
         {/* voitures */}

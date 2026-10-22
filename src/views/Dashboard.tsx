@@ -9,7 +9,7 @@ import { EDHEC_DATE, currentPhase } from "./Edhec";
 import { buildQueue, nextTestDay } from "../lib/srs";
 import { MatchSheet } from "../components/MatchSheet";
 import { DebriefModal } from "../components/DebriefModal";
-import { Rat, useMood } from "../components/Mascot";
+import { DayRing } from "../components/Celebration";
 import { City, useCityStats } from "../components/City";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -17,12 +17,12 @@ const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet"
 
 /** Écran d'accueil épuré : la mascotte, le coup d'envoi, trois tuiles, ce qui presse, la ville. */
 export default function Dashboard() {
-  const { tasks, evals, grades, sessions, settings, club } = useStore();
+  const { tasks, evals, grades, sessions, settings } = useStore();
   const [editTask, setEditTask] = useState<Partial<Task> | null>(null);
   const [completing, setCompleting] = useState<Task | null>(null);
   const [editEval, setEditEval] = useState<Partial<Evaluation> | null>(null);
   const [debriefFor, setDebriefFor] = useState<Evaluation | null>(null);
-  const mood = useMood();
+  const timer = useStore((s) => s.timer);
 
   const now = new Date();
   const recos = useMemo(() => recommend(tasks, evals, grades).slice(0, 3), [tasks, evals, grades]);
@@ -31,21 +31,22 @@ export default function Dashboard() {
   const upcoming = evals.filter((e) => +new Date(e.date) >= Date.now() - 36e5).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
   const today = minutesByDay(sessions).get(isoDay(now)) ?? 0;
   const left = Math.max(0, settings.dailyGoalMin - today);
-  const bubble =
-    mood === "sleep" ? "Zzz… Lance le coup d'envoi pour me réveiller."
-    : mood === "run" ? "Allez, on lâche rien ! 💨"
-    : mood === "cheer" ? `Objectif atteint : ${fmtMin(today)} aujourd'hui. Fromage mérité ! 🧀`
-    : `${fmtMin(today)} aujourd'hui · encore ${fmtMin(left)} pour l'objectif.`;
+  const status =
+    timer.status === "running" && timer.phase === "work" ? "Session en cours. Reste concentré."
+    : today === 0 ? "Journée pas encore lancée : un coup d'envoi suffit."
+    : left === 0 ? `Objectif atteint (${fmtMin(today)}). Tout le reste est du bonus.`
+    : `${fmtMin(today)} de travail · encore ${fmtMin(left)} pour l'objectif.`;
 
   return (
-    <>
+    <div className="home-grid">
+      <div className="home-main">
       <header className="today-head">
         <div>
           <div className="eyebrow">{DAYS[now.getDay()]} {now.getDate()} {MONTHS[now.getMonth()]}</div>
           <h1 className="page-title">{now.getHours() < 12 ? "Bonjour" : now.getHours() < 18 ? "Bon après-midi" : "Bonsoir"} 👋</h1>
-          <div className="bubble">{bubble}</div>
+          <div className="status-line">{status}</div>
         </div>
-        <Rat mood={mood} size={128} jersey={club.colorA} trim={club.colorB} />
+        <DayRing minutes={today} goal={settings.dailyGoalMin} running={timer.status === "running"} />
       </header>
 
       <MatchSheet />
@@ -67,8 +68,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      <div className="grid g2" style={{ marginBottom: 16 }}>
-        <section className="card">
+        <section className="card" style={{ marginBottom: 16 }}>
           <h3>À faire <button className="btn sm ghost right" onClick={() => setEditTask({})}>+ Tâche</button></h3>
           {recos.length === 0 ? (
             <div className="empty">Rien en attente. Ajoute une tâche ou profite 🙌</div>
@@ -88,8 +88,10 @@ export default function Dashboard() {
           )}
           <button className="btn sm ghost" style={{ marginTop: 8 }} onClick={() => navigate("tasks")}>Toute la to-do →</button>
         </section>
+      </div>
 
-        <section className="card">
+      <aside className="home-aside">
+        <section className="card" style={{ marginBottom: 16 }}>
           <h3>Prochaines échéances <button className="btn sm ghost right" onClick={() => setEditEval({})}>+ DS / khôlle</button></h3>
           {upcoming.length === 0 ? (
             <div className="empty">Aucun DS ni khôlle prévu.</div>
@@ -111,15 +113,15 @@ export default function Dashboard() {
           )}
           <button className="btn sm ghost" style={{ marginTop: 8 }} onClick={() => navigate("evals")}>Tout voir →</button>
         </section>
-      </div>
 
-      <CityTeaser />
+        <CityTeaser />
+      </aside>
 
       {editTask && <TaskForm initial={editTask} onClose={() => setEditTask(null)} />}
       {completing && <CompleteTaskModal task={completing} onClose={() => setCompleting(null)} />}
       {editEval && <EvalForm initial={editEval} onClose={() => setEditEval(null)} />}
       {debriefFor && <DebriefModal ev={debriefFor} onClose={() => setDebriefFor(null)} />}
-    </>
+    </div>
   );
 }
 

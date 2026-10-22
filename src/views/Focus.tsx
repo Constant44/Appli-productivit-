@@ -5,7 +5,6 @@ import { sessionRewards, sponsorMultiplier, streakMultiplier } from "../lib/game
 import { fmtClock, fmtMin, fmtTime, isoDay, subjectColor } from "../lib/utils";
 import { ask } from "../components/confirm";
 import { Field, Seg, SubjectSelect, DurationInput, Modal } from "../components/ui";
-import { Rat } from "../components/Mascot";
 
 export default function Focus() {
   const s = useStore();
@@ -55,10 +54,8 @@ export default function Focus() {
         <div className="track" aria-hidden>
           <div className="track-line" />
           <svg className="goal" viewBox="0 0 40 60"><rect x="4" y="4" width="32" height="52" fill="none" stroke="#fff" strokeWidth="3" /><path d="M8 8 L32 52 M32 8 L8 52 M8 20 H32 M8 32 H32 M8 44 H32" stroke="#ffffff55" strokeWidth="1" /></svg>
-          <div className="runner-rat" style={{ left: `calc(${(brk ? 0.5 : progress) * 100}% * 0.82)` }}>
-            <Rat mood={brk ? "sleep" : timer.status === "paused" ? "idle" : "run"} size={84} jersey={club.colorA} trim={club.colorB} />
-            {!brk && <span className="track-ball" />}
-          </div>
+          <div className="track-trail" style={{ width: `calc(${(brk ? 0 : progress) * 100}% * 0.9 + 4%)` }} />
+          <div className="track-ball" style={{ left: `calc(${(brk ? 0 : progress) * 100}% * 0.9 + 4%)` }} />
         </div>
         {!brk && (
           <div className="focus-gains">+{Math.floor((el / 60) * perMin.xp)} XP · +{Math.floor((el / 60) * perMin.coins)} k€ · {fmtMin(today)} aujourd'hui</div>
@@ -93,13 +90,12 @@ export default function Focus() {
             </div>
           )}
           <div className="focus-preview">
-            <Rat mood="idle" size={92} jersey={club.colorA} trim={club.colorB} />
             <div>
               <div className="focus-time sm">{mode === "free" ? "00:00" : fmtClock(target * 60)}</div>
               <div className="small muted">{task ? task.title : "Session libre"}</div>
             </div>
           </div>
-          <button className="btn primary big" style={{ justifyContent: "center" }} onClick={start}>▶ Démarrer</button>
+          <button className="btn primary big focus-start" style={{ justifyContent: "center" }} onClick={start}>▶ Démarrer <span className="kbd" style={{ marginLeft: 8, color: "#03140c", borderColor: "#03140c55" }}>espace</span></button>
         </div>
 
         <div className="stack">

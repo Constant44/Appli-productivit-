@@ -9,6 +9,7 @@ import { fmtMin, fmtMoney } from "../lib/utils";
 import { Bar, Field, Modal, Ovr, Seg } from "../components/ui";
 import { ask } from "../components/confirm";
 import { City } from "../components/City";
+import { Scene, type Hotspot, type SceneId } from "../components/Scene";
 
 type Tab = "city" | "home" | "squad" | "market" | "league";
 
@@ -33,6 +34,7 @@ export default function ClubView() {
         </div>
         <Seg value={tab} onChange={setTab} options={[["city", "🏙️ Ville"], ["home", "🏟️ Match"], ["squad", "👥 Effectif"], ["market", "💸 Mercato"], ["league", "🏆 Championnat"]]} />
       </div>
+      {tab !== "city" && <ClubScene tab={tab} setTab={setTab} />}
       {tab === "home" && <MatchTab />}
       {tab === "squad" && <SquadTab />}
       {tab === "market" && <MarketTab />}
@@ -40,6 +42,18 @@ export default function ClubView() {
       {tab === "league" && <LeagueTab />}
     </>
   );
+}
+
+/** Les pièces du club : tunnel (match), vestiaire (effectif), bureau du président (mercato), salle des trophées. */
+function ClubScene({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
+  const go = (t: Tab, label: string): Hotspot => ({ id: t, label, onClick: () => setTab(t), active: t === tab });
+  const id: SceneId = tab === "home" ? "tunnel" : tab === "squad" ? "locker" : tab === "market" ? "president" : "trophies";
+  const spots: Record<string, Hotspot> =
+    id === "tunnel" ? { pitch: go("home", "Prochain match") }
+    : id === "locker" ? { tactics: go("squad", "Composition") }
+    : id === "president" ? { contract: go("market", "Mercato"), phone: go("market", "Recruteurs"), window: go("city", "Prépa City"), trophies: go("league", "Palmarès") }
+    : { table: go("league", "Classement"), stats: go("home", "Prochain match") };
+  return <Scene id={id} spots={spots} />;
 }
 
 const Crest = ({ a, b }: { a: string; b: string }) => (
