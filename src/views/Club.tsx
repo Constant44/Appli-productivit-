@@ -9,7 +9,6 @@ import { fmtMin, fmtMoney } from "../lib/utils";
 import { Bar, Field, Modal, Ovr, Seg } from "../components/ui";
 import { ask } from "../components/confirm";
 import { City } from "../components/City";
-import { Scene, type Hotspot, type SceneId } from "../components/Scene";
 
 type Tab = "city" | "home" | "squad" | "market" | "league";
 
@@ -32,28 +31,28 @@ export default function ClubView() {
           </h1>
           <p className="page-sub">{DIVISIONS[club.season.division]} · Saison {club.season.number} · Journée {Math.min(club.season.currentRound + 1, club.season.rounds.length)}/{club.season.rounds.length}</p>
         </div>
-        <Seg value={tab} onChange={setTab} options={[["city", "🏙️ Ville"], ["home", "🏟️ Match"], ["squad", "👥 Effectif"], ["market", "💸 Mercato"], ["league", "🏆 Championnat"]]} />
+        {tab !== "city" && <button className="back" onClick={() => setTab("city")}>‹ Prépa City</button>}
       </div>
-      {tab !== "city" && <ClubScene tab={tab} setTab={setTab} />}
       {tab === "home" && <MatchTab />}
       {tab === "squad" && <SquadTab />}
       {tab === "market" && <MarketTab />}
-      {tab === "city" && <div className="card" style={{ padding: 0, overflow: "hidden" }}><City /></div>}
+      {tab === "city" && (
+        <>
+          <div className="card" style={{ padding: 0, overflow: "hidden", marginBottom: 14 }}><City onEnter={(t) => setTab(t)} /></div>
+          <div className="hub-cards">
+            {([["home", "⚽", "Match", "Le stade · prochain match"], ["squad", "👥", "Effectif", "Centre d'entraînement · ton XI"], ["market", "💸", "Mercato", "Bureau des recruteurs"], ["league", "🏆", "Championnat", "Classement et palmarès"]] as const).map(([t, i, l, d]) => (
+              <button key={t} className="hub-card" onClick={() => setTab(t)}>
+                <span className="hub-ico">{i}</span>
+                <span className="hub-txt"><b>{l}</b><span>{d}</span></span>
+                <span className="hub-go">→</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
       {tab === "league" && <LeagueTab />}
     </>
   );
-}
-
-/** Les pièces du club : tunnel (match), vestiaire (effectif), bureau du président (mercato), salle des trophées. */
-function ClubScene({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
-  const go = (t: Tab, label: string): Hotspot => ({ id: t, label, onClick: () => setTab(t), active: t === tab });
-  const id: SceneId = tab === "home" ? "tunnel" : tab === "squad" ? "locker" : tab === "market" ? "president" : "trophies";
-  const spots: Record<string, Hotspot> =
-    id === "tunnel" ? { pitch: go("home", "Prochain match") }
-    : id === "locker" ? { tactics: go("squad", "Composition") }
-    : id === "president" ? { contract: go("market", "Mercato"), phone: go("market", "Recruteurs"), window: go("city", "Prépa City"), trophies: go("league", "Palmarès") }
-    : { table: go("league", "Classement"), stats: go("home", "Prochain match") };
-  return <Scene id={id} spots={spots} />;
 }
 
 const Crest = ({ a, b }: { a: string; b: string }) => (

@@ -48,9 +48,15 @@ export default function Focus() {
   if (running)
     return (
       <div className={`focus-stage ${brk ? "brk" : ""} ${timer.status === "paused" ? "paused" : ""}`}>
-        <div className="eyebrow">{timer.status === "paused" ? "En pause" : brk ? "☕ Pause" : "Focus"}{task ? ` · ${task.subject}` : timer.subject ? ` · ${timer.subject}` : ""}</div>
-        <div className="focus-time">{fmtClock(shown)}</div>
-        {task && <div className="focus-task">{task.title}</div>}
+        <div className="scoreboard">
+          <div className="sb-top">
+            <span className="sb-team">PRÉPA FC</span>
+            <span className="sb-score"><b>{todaySessions.length}</b><i>:</i><b>0</b></span>
+            <span className="sb-team away">PROCRASTINATION</span>
+          </div>
+          <div className="sb-clock">{fmtClock(shown)}</div>
+          <div className="sb-ticker"><span>{timer.status === "paused" ? "⏸ PAUSE" : brk ? "☕ MI-TEMPS" : "● EN DIRECT"} · {task ? task.title.toUpperCase() : (timer.subject ?? "SESSION LIBRE").toUpperCase()}</span></div>
+        </div>
         <div className="track" aria-hidden>
           <div className="track-line" />
           <svg className="goal" viewBox="0 0 40 60"><rect x="4" y="4" width="32" height="52" fill="none" stroke="#fff" strokeWidth="3" /><path d="M8 8 L32 52 M32 8 L8 52 M8 20 H32 M8 32 H32 M8 44 H32" stroke="#ffffff55" strokeWidth="1" /></svg>

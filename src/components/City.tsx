@@ -288,7 +288,17 @@ export function useCityStats() {
   }, [sessions, edhec, facilities]);
 }
 
-export function City({ compact, onOpen }: { compact?: boolean; onOpen?: () => void }) {
+/** Écran du club ouvert depuis un bâtiment. */
+export type ClubTab = "home" | "squad" | "market" | "league";
+const ENTER: Partial<Record<BuildingId, Array<[ClubTab, string]>>> = {
+  stadium: [["home", "⚽ Jouer le match"], ["league", "🏆 Classement"]],
+  training: [["squad", "👥 Effectif"]],
+  academy: [["squad", "🌱 Jeunes du centre"]],
+  scouting: [["market", "💸 Mercato"]],
+  staff: [["market", "💼 Bureau du président"]],
+};
+
+export function City({ compact, onOpen, onEnter }: { compact?: boolean; onOpen?: () => void; onEnter?: (t: ClubTab) => void }) {
   const coins = useStore((s) => s.coins);
   const upgrade = useStore((s) => s.upgradeFacility);
   const stats = useCityStats();
@@ -373,7 +383,16 @@ export function City({ compact, onOpen }: { compact?: boolean; onOpen?: () => vo
       </svg>
       {!compact && (
         <div className="city-panel">
-          {selB ? <BuildingCard id={selB.id} coins={coins} stats={stats} onUpgrade={(k) => upgrade(k)} /> : <div className="small muted">Touche un bâtiment pour l'ouvrir. La BU, la tour EDHEC et le parc poussent avec ton vrai travail ; le reste s'achète avec le budget du club.</div>}
+          {selB ? (
+            <>
+              <BuildingCard id={selB.id} coins={coins} stats={stats} onUpgrade={(k) => upgrade(k)} />
+              {onEnter && ENTER[selB.id] && (
+                <div className="row" style={{ marginTop: 10, gap: 8 }}>
+                  {ENTER[selB.id]!.map(([t, l]) => <button key={t} className="btn sm primary" onClick={() => onEnter(t)}>{l} →</button>)}
+                </div>
+              )}
+            </>
+          ) : <div className="small muted">Touche un bâtiment pour l'ouvrir. La BU, la tour EDHEC et le parc poussent avec ton vrai travail ; le reste s'achète avec le budget du club.</div>}
         </div>
       )}
     </div>

@@ -252,6 +252,8 @@ export type ContentPack = {
   annales?: Annale[];
   /** Renomme les chapitres de micro (le niveau de maîtrise est conservé par identifiant). */
   chapters?: Array<{ id: string; name: string }>;
+  /** Import Pronote : jours couverts par l'emploi du temps importé (remplace les cours saisis à la main sur cette période) */
+  pronoteDays?: [string, string];
   settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[]; subjectCoefs?: Record<string, number> };
 };
 

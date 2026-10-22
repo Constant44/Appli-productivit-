@@ -60,7 +60,8 @@ export function ReviewSession({ queue: initial, onDone, title }: { queue: Card[]
         <span className="muted">{stats.seen ? `${Math.round((stats.ok / stats.seen) * 100)} % de réussite` : "Espace : retourner · 1-4 : noter"}</span>
       </div>
       <Bar value={total - remainingUnique} max={total} />
-      <div className="flashcard">
+      <div className="desk-top">
+      <div className={`flashcard ${shown ? "revealed" : ""}`} key={card.id}>
         <div className="row between small">
           <span className="pill">{DECK_LABEL[card.deck]}{card.deck === "actu" && card.date ? ` · ${fmtDay(card.date)}` : ""}</span>
           {sheet && <span className="muted">{sheet.id} · {sheet.title}</span>}
@@ -69,8 +70,9 @@ export function ReviewSession({ queue: initial, onDone, title }: { queue: Card[]
         {shown ? (
           <div className="flash-back">{card.back}</div>
         ) : (
-          <button className="btn big primary" style={{ alignSelf: "center" }} onClick={() => setShown(true)}>Afficher la réponse</button>
+          <button className="btn big primary" style={{ alignSelf: "center" }} onClick={() => setShown(true)}>Retourner la carte</button>
         )}
+      </div>
       </div>
       {shown && (
         <>

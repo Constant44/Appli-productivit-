@@ -565,9 +565,22 @@ export const useStore = create<Store>()(
           const ca = mergeInto(s.cards, pack.cards);
           const ad = mergeInto(s.actuDays, pack.actuDays);
           const ev = mergeInto(s.evals, pack.evals);
-          const ta = mergeInto(s.tasks, pack.tasks);
-          const gr = mergeInto(s.grades, pack.grades);
-          const le = mergeInto(s.lessons, pack.lessons);
+          // Devoirs Pronote : ce qui a déjà été coché ou chronométré dans l'appli est conservé
+          const ta = mergeInto(s.tasks, pack.tasks?.map((t) => {
+            const old = s.tasks.find((x) => x.id === t.id);
+            return old ? { ...t, done: old.done || t.done, doneAt: old.doneAt, rewarded: old.rewarded, actualMinManual: old.actualMinManual, estimateMin: old.estimateMin, priority: old.priority } : t;
+          }));
+          // Une note Pronote remplace la même note saisie à la main (même jour, même valeur, même barème)
+          const pnGrades = (pack.grades ?? []).filter((g) => g.source === "pronote");
+          const baseGrades = pnGrades.length
+            ? s.grades.filter((g) => g.source !== "manual" || !pnGrades.some((p) => isoDay(p.date) === isoDay(g.date) && p.value === g.value && p.outOf === g.outOf && p.subject.split(" › ")[0] === g.subject.split(" › ")[0]))
+            : s.grades;
+          // Emploi du temps Pronote : remplace les cours saisis à la main (« edt-… ») sur la période couverte
+          const baseLessons = pack.pronoteDays
+            ? s.lessons.filter((l) => !(l.id.startsWith("edt-") && isoDay(l.start) >= pack.pronoteDays![0] && isoDay(l.start) <= pack.pronoteDays![1]))
+            : s.lessons;
+          const gr = mergeInto(baseGrades, pack.grades);
+          const le = mergeInto(baseLessons, pack.lessons);
           const cg = mergeInto(s.cgTests, pack.cgTests);
           const edhec = pack.annales || pack.chapters ? mergeEdhec(s.edhec, pack) : s.edhec;
           const st = pack.settings;

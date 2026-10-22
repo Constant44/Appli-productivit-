@@ -10,6 +10,7 @@ import { buildQueue, nextTestDay } from "../lib/srs";
 import { MatchSheet } from "../components/MatchSheet";
 import { DebriefModal } from "../components/DebriefModal";
 import { DayRing } from "../components/Celebration";
+import { Room } from "../components/Rooms";
 import { City, useCityStats } from "../components/City";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -38,6 +39,19 @@ export default function Dashboard() {
     : `${fmtMin(today)} de travail · encore ${fmtMin(left)} pour l'objectif.`;
 
   return (
+    <>
+    <Room
+      id="hall"
+      className="hall-room"
+      info={{ edhec: `J-${daysUntil(EDHEC_DATE)}`, today: `${fmtMin(today)} · ${Math.min(100, Math.round((today / settings.dailyGoalMin) * 100))} %` }}
+      spots={[
+        { key: "window", label: "Prépa City", icon: "🏟️", onClick: () => navigate("club") },
+        { key: "door", label: "Focus", icon: "⏱️", onClick: () => navigate("focus") },
+        { key: "cabinet", label: "Stats", icon: "🏆", onClick: () => navigate("stats") },
+        { key: "desk", label: "Agenda", icon: "📌", onClick: () => navigate("agenda") },
+        { key: "screen", label: "EDHEC", icon: "🎯", onClick: () => navigate("edhec") },
+      ]}
+    />
     <div className="home-grid">
       <div className="home-main">
       <header className="today-head">
@@ -122,6 +136,7 @@ export default function Dashboard() {
       {editEval && <EvalForm initial={editEval} onClose={() => setEditEval(null)} />}
       {debriefFor && <DebriefModal ev={debriefFor} onClose={() => setDebriefFor(null)} />}
     </div>
+    </>
   );
 }
 

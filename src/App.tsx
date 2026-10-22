@@ -6,7 +6,7 @@ import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
 import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
-import { Scene, type Hotspot, type SceneId } from "./components/Scene";
+import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
 import Dashboard from "./views/Dashboard";
@@ -23,16 +23,16 @@ import Edhec from "./views/Edhec";
 import Vendredi from "./views/Vendredi";
 import Warmup from "./views/Warmup";
 
-export type View = "home" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
+export type View = "home" | "study" | "agenda" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
 
 type SectionId = "today" | "focus" | "study" | "agenda" | "city";
 /** 5 rubriques seulement ; les écrans d'une rubrique sont des onglets en haut de page. */
 const SECTIONS: Array<{ id: SectionId; label: string; icon: keyof typeof ICONS; views: Array<[View, string]> }> = [
   { id: "today", label: "Aujourd'hui", icon: "home", views: [["home", "Aujourd'hui"]] },
   { id: "focus", label: "Focus", icon: "timer", views: [["focus", "Focus"]] },
-  { id: "study", label: "Réviser", icon: "book", views: [["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
-  { id: "agenda", label: "Agenda", icon: "cal", views: [["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
-  { id: "city", label: "Ville", icon: "city", views: [["club", "Ville & club"], ["stats", "Stats"]] },
+  { id: "study", label: "Réviser", icon: "book", views: [["study", "Bibliothèque"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
+  { id: "agenda", label: "Agenda", icon: "cal", views: [["agenda", "Bureau du coach"], ["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
+  { id: "city", label: "Ville", icon: "city", views: [["club", "Prépa City"], ["stats", "Stats"]] },
 ];
 const ALL_VIEWS: View[] = [...SECTIONS.flatMap((s) => s.views.map(([v]) => v)), "settings"];
 const sectionOf = (v: View) => SECTIONS.find((s) => s.views.some(([x]) => x === v));
@@ -50,25 +50,6 @@ export const Icon = ({ name, size = 22 }: { name: keyof typeof ICONS; size?: num
     <path d={ICONS[name]} />
   </svg>
 );
-
-/** Pièce du club affichée en bandeau pour chaque écran (le club gère ses propres pièces), et ses objets cliquables. */
-function sceneFor(view: View): { id: SceneId; spots: Record<string, Hotspot> } | null {
-  const go = (v: View, label: string): Hotspot => ({ id: v, label, onClick: () => navigate(v), active: v === view });
-  switch (view) {
-    case "home":
-      return { id: "lobby", spots: { window: go("club", "Prépa City"), door: go("focus", "Focus"), cabinet: go("stats", "Stats") } };
-    case "warmup": case "vendredi": case "edhec": case "plan":
-      return { id: "library", spots: { cards: go("warmup", "Échauffement"), paper: go("vendredi", "Test du vendredi"), poster: go("edhec", "EDHEC"), clock: go("plan", "Planning") } };
-    case "tasks": case "evals": case "tt": case "grades":
-      return { id: "coach", spots: { board: go("tasks", "To-do"), calendar: go("tt", "Emploi du temps"), whiteboard: go("grades", "Notes"), desk: go("evals", "DS & khôlles") } };
-    case "stats":
-      return { id: "trophies", spots: { stats: go("stats", "Stats"), table: go("club", "Championnat") } };
-    case "settings":
-      return { id: "corridor", spots: {} };
-    default:
-      return null;
-  }
-}
 
 export const navigate = (v: View) => {
   window.location.hash = v;
@@ -267,18 +248,17 @@ export default function App() {
       <div className="main">
         <TopBar />
         <div className="content" key={view}>
-          {section && section.views.length > 1 && (
-            <div className="subnav">
-              {section.views.map(([v, label]) => (
-                <button key={v} className={v === view ? "on" : ""} onClick={() => navigate(v)}>{label}</button>
-              ))}
+          {section && section.views.length > 1 && section.views[0][0] !== view && (
+            <div className="backbar">
+              <button className="back" onClick={() => navigate(section.views[0][0])}>‹ {section.views[0][1]}</button>
             </div>
           )}
-          {(() => {
-            const sc = sceneFor(view);
-            return sc ? <Scene id={sc.id} spots={sc.spots} /> : null;
-          })()}
+          {view === "settings" && (
+            <div className="backbar"><button className="back" onClick={() => navigate("home")}>‹ Aujourd'hui</button></div>
+          )}
           {view === "home" && <Dashboard />}
+          {view === "study" && <StudyHub />}
+          {view === "agenda" && <AgendaHub />}
           {view === "warmup" && <Warmup />}
           {view === "edhec" && <Edhec />}
           {view === "vendredi" && <Vendredi />}

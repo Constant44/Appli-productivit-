@@ -35,14 +35,14 @@ export default function Evals() {
       </div>
 
       {tab === "next" && (
-        <div className="grid g3">
-          {upcoming.length === 0 && <div className="card empty" style={{ gridColumn: "1/-1" }}>Rien de prévu. Ajoute ton colloscope ici !</div>}
-          {upcoming.map((e) => {
+        <div className="cork">
+          {upcoming.length === 0 && <div className="pin-card" style={{ gridColumn: "1/-1" }}>Rien de prévu. Ajoute ton colloscope ici !</div>}
+          {upcoming.map((e, idx) => {
             const prep = tasks.filter((t) => t.evalId === e.id);
             const done = prep.filter((t) => t.done).length;
             const d = daysUntil(e.date);
             return (
-              <div key={e.id} className="card" style={{ borderTop: `3px solid ${subjectColor(e.subject)}` }}>
+              <div key={e.id} className={`pin-card ${e.type === "DS" || e.type === "Concours blanc" ? "ds" : ""}`} style={{ ["--rot" as string]: `${((idx * 37) % 7) - 3}deg`, ["--pin" as string]: subjectColor(e.subject) }}>
                 <div className="row between">
                   <span className={`pill ${e.type === "DS" || e.type === "Concours blanc" ? "red" : "purple"}`}>{e.type}</span>
                   <span className={`pill ${d <= 1 ? "gold" : ""}`}>{d === 0 ? "Aujourd'hui" : `J-${d}`}</span>
