@@ -6,12 +6,13 @@ import type {
   PronoteConfig, Session, Sheet, Task, Toast,
 } from "./types";
 import { schedule, type Rating, type Review } from "./srs";
+import { celebrate } from "./fx";
 import seed from "../data/seed.json";
 import {
   MATCH_COST_MIN, MAX_FACILITY, academyEveryHours, academyProspect, applyTraining, bestEleven,
   facilityCost, generateMarket, initialClub, levelFromXp, matchIncome, newSeason, playRound,
   playerValue, resultBonus, seasonOver, seasonPrize, sellPrice, sessionRewards, standings,
-  taskCompletionBonus, DIVISIONS,
+  taskCompletionBonus, DIVISIONS, FACILITIES,
 } from "./game";
 import { actualMinutes, currentStreak } from "./insights";
 import { isoDay, uid } from "./utils";
@@ -247,6 +248,7 @@ export const useStore = create<Store>()(
           const bonus = 200 * after;
           set((s) => ({ coins: s.coins + bonus }));
           toast({ title: `⬆️ Niveau ${after} !`, body: `Prime de la direction : +${bonus} k€`, tone: "gold" });
+          setTimeout(() => celebrate("levelup", `Niveau ${after} !`, `Prime de la direction : +${bonus} k€`), 3400);
         }
       };
 
@@ -280,7 +282,7 @@ export const useStore = create<Store>()(
           if (!task.rewarded) {
             const b = taskCompletionBonus(task.estimateMin, actualMinutes(patched, s.sessions));
             grant(b.xp, b.coins);
-            toast({ title: `✅ ${b.label}`, body: `+${b.xp} XP · +${b.coins} k€`, tone: "good" });
+            celebrate("cheese", "Tâche bouclée !", `${b.label} · +${b.xp} XP · +${b.coins} k€`);
           }
         },
         reopenTask: (id) =>
@@ -437,11 +439,8 @@ export const useStore = create<Store>()(
 
           set({ sessions: [...s.sessions, session], club });
           grant(r.xp, r.coins);
-          toast({
-            title: `⏱️ ${minutes} min de travail${streak > 1 ? ` · série ${streak} j 🔥` : ""}`,
-            body: [`+${r.xp} XP · +${r.coins} k€`, ...notes].join("\n"),
-            tone: "good",
-          });
+          celebrate("goal", `But ! ${minutes} min de travail`, `+${r.xp} XP · +${r.coins} k€${streak > 1 ? ` · série ${streak} j 🔥` : ""}`);
+          if (notes.length) toast({ title: "Au club", body: notes.join("\n"), tone: "good" });
         },
 
         // ---------- Club ----------
@@ -477,7 +476,7 @@ export const useStore = create<Store>()(
           if (k === "scouting") club.market = generateMarket(lvl + 1);
           if (k === "academy" && lvl === 0) club.academyLastAt = totalWorkMinutes(s.sessions);
           set({ coins: s.coins - cost, club });
-          toast({ title: "🏗️ Travaux terminés", body: `Niveau ${lvl + 1}`, tone: "gold" });
+          celebrate("build", lvl === 0 ? `${FACILITIES[k].label} construit !` : `${FACILITIES[k].label} agrandi !`, `Niveau ${lvl + 1}`);
         },
         refreshMarket: () => {
           const s = get();

@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { EDHEC_SUBJECTS, timerElapsedMs, useStore } from "./lib/store";
-import { MATCH_COST_MIN, levelFromXp, levelTitle } from "./lib/game";
-import { currentStreak, minutesByDay } from "./lib/insights";
+import { levelFromXp, levelTitle } from "./lib/game";
+import { currentStreak } from "./lib/insights";
 import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
-import { Bar, Modal, Toasts } from "./components/ui";
+import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
+import { Celebration } from "./components/Mascot";
 import { useCloud } from "./lib/platform";
 import Dashboard from "./views/Dashboard";
 import Focus from "./views/Focus";
@@ -22,21 +23,31 @@ import Warmup from "./views/Warmup";
 
 export type View = "home" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
 
-const NAV: Array<[View, string, string]> = [
-  ["home", "🏠", "QG"],
-  ["warmup", "🔥", "Échauffement"],
-  ["focus", "⏱️", "Focus"],
-  ["tasks", "✅", "To-do"],
-  ["edhec", "🎯", "Objectif EDHEC"],
-  ["vendredi", "🗞️", "Test du vendredi"],
-  ["plan", "🗓️", "Révisions"],
-  ["evals", "📝", "DS & khôlles"],
-  ["tt", "📅", "Emploi du temps"],
-  ["grades", "📊", "Notes"],
-  ["club", "⚽", "Mon club"],
-  ["stats", "📈", "Stats"],
-  ["settings", "⚙️", "Pronote & réglages"],
+type SectionId = "today" | "focus" | "study" | "agenda" | "city";
+/** 5 rubriques seulement ; les écrans d'une rubrique sont des onglets en haut de page. */
+const SECTIONS: Array<{ id: SectionId; label: string; icon: keyof typeof ICONS; views: Array<[View, string]> }> = [
+  { id: "today", label: "Aujourd'hui", icon: "home", views: [["home", "Aujourd'hui"]] },
+  { id: "focus", label: "Focus", icon: "timer", views: [["focus", "Focus"]] },
+  { id: "study", label: "Réviser", icon: "book", views: [["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
+  { id: "agenda", label: "Agenda", icon: "cal", views: [["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
+  { id: "city", label: "Ville", icon: "city", views: [["club", "Ville & club"], ["stats", "Stats"]] },
 ];
+const ALL_VIEWS: View[] = [...SECTIONS.flatMap((s) => s.views.map(([v]) => v)), "settings"];
+const sectionOf = (v: View) => SECTIONS.find((s) => s.views.some(([x]) => x === v));
+
+const ICONS = {
+  home: "M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z",
+  timer: "M12 8v5l3 2M9 2h6M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16z",
+  book: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7",
+  cal: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M9 2v4M15 2v4",
+  city: "M3 21h18M5 21V9l5-3v15M10 21V4l9 4v13M13 9h3M13 13h3M13 17h3M7 12h1M7 16h1",
+  gear: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z",
+};
+export const Icon = ({ name, size = 22 }: { name: keyof typeof ICONS; size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d={ICONS[name]} />
+  </svg>
+);
 
 export const navigate = (v: View) => {
   window.location.hash = v;
@@ -50,7 +61,7 @@ function useHashView(): View {
     window.addEventListener("hashchange", f);
     return () => window.removeEventListener("hashchange", f);
   }, []);
-  return NAV.some(([k]) => k === v) ? v : "home";
+  return ALL_VIEWS.includes(v) ? v : "home";
 }
 
 function beep() {
@@ -131,45 +142,36 @@ function PendingSessionModal() {
 }
 
 function TopBar() {
-  const { xp, coins, sessions, timer, club, settings } = useStore();
+  const { xp, coins, sessions, timer } = useStore();
   const lv = levelFromXp(xp);
   const streak = useMemo(() => currentStreak(sessions), [sessions]);
-  const today = minutesByDay(sessions).get(isoDay(new Date())) ?? 0;
   const [, tick] = useState(0);
   useEffect(() => {
     if (timer.status !== "running") return;
     const id = setInterval(() => tick((x) => x + 1), 1000);
     return () => clearInterval(id);
   }, [timer.status]);
-  const matches = Math.floor(club.matchMinutesBank / MATCH_COST_MIN);
   const el = timerElapsedMs(timer) / 1000;
   const cloud = useCloud();
+  const pct = Math.round((lv.into / lv.need) * 100);
   return (
     <div className="topbar">
-      <div className="lvl" title={`${xp} XP au total`}>
-        <div className="num">{lv.level}</div>
-        <div className="info">
-          <div className="row between small"><b>{levelTitle(lv.level)}</b><span className="muted">{lv.into}/{lv.need} XP</span></div>
-          <Bar value={lv.into} max={lv.need} />
-        </div>
+      <div className="lvl" title={`${xp} XP au total · ${lv.into}/${lv.need} vers le niveau ${lv.level + 1}`}>
+        <div className="lvl-ring" style={{ background: `conic-gradient(var(--accent) ${pct}%, var(--line) 0)` }}><span>{lv.level}</span></div>
+        <div className="info"><b>{levelTitle(lv.level)}</b><span className="muted small">{lv.into}/{lv.need} XP</span></div>
       </div>
-      <span className="chip" title="Budget du club">💰 {fmtMoney(coins)}</span>
-      <span className="chip" title="Série de jours ≥ 25 min">🔥 {streak} j</span>
-      <span className="chip" title={`Objectif du jour : ${settings.dailyGoalMin} min`}>
-        🎯 {Math.round(today)}/{settings.dailyGoalMin} min
-      </span>
-      {matches > 0 && <span className="chip click" onClick={() => navigate("club")} style={{ borderColor: "var(--accent)" }}>⚽ {matches} match{matches > 1 ? "s" : ""} dispo</span>}
       <span className="spacer" />
-      {cloud.status !== "local" && (
-        <span className="chip small" title={cloud.message ?? "Tes données sont sauvegardées dans ton compte claude.ai"} style={{ color: cloud.status === "error" ? "var(--red)" : "var(--muted)" }}>
-          {cloud.status === "connecting" ? "☁️ connexion…" : cloud.status === "saving" ? "☁️ sauvegarde…" : cloud.status === "waiting" ? "☁️ en attente…" : cloud.status === "error" ? "⚠️ non sauvegardé" : "☁️ sauvegardé"}
-        </span>
-      )}
       {timer.status !== "idle" && (
-        <span className="chip click" onClick={() => navigate("focus")} style={{ borderColor: timer.phase === "break" ? "var(--blue)" : "var(--accent)" }}>
-          {timer.status === "paused" ? "⏸️" : timer.phase === "break" ? "☕" : "⏱️"} {timer.mode === "free" ? fmtClock(el) : fmtClock(timer.targetMin * 60 - el)}
-        </span>
+        <button className="chip click timer-chip" onClick={() => navigate("focus")} data-phase={timer.phase}>
+          {timer.status === "paused" ? "⏸" : timer.phase === "break" ? "☕" : "●"} {timer.mode === "free" ? fmtClock(el) : fmtClock(timer.targetMin * 60 - el)}
+        </button>
       )}
+      <span className="chip" title="Budget du club">💰 {fmtMoney(coins)}</span>
+      <span className="chip" title="Série de jours avec au moins 25 min de travail">🔥 {streak}</span>
+      {cloud.status !== "local" && (
+        <span className={`cloud-dot ${cloud.status}`} title={cloud.message ?? (cloud.status === "synced" ? "Sauvegardé dans ton compte claude.ai" : cloud.status === "saving" ? "Sauvegarde…" : cloud.status === "connecting" ? "Connexion…" : "En attente de sauvegarde")} />
+      )}
+      <button className="icon-btn" aria-label="Réglages" onClick={() => navigate("settings")}><Icon name="gear" size={20} /></button>
     </div>
   );
 }
@@ -188,23 +190,32 @@ export default function App() {
   const soonEvals = evals.filter((e) => { const d = daysUntil(e.date); return d >= 0 && d <= 3; }).length;
   const warmedUp = useStore((s) => s.warmups.includes(isoDay(new Date())));
 
+  const section = sectionOf(view);
+  const badge = (id: SectionId) =>
+    id === "agenda" ? overdue + soonEvals : id === "study" ? (warmedUp ? 0 : 1) : 0;
+
   return (
     <div className="app">
       <nav className="sidebar">
         <div className="brand"><span className="ball">⚽</span> Prépa FC</div>
-        {NAV.map(([k, icon, label]) => (
-          <button key={k} className={`nav-btn ${view === k ? "active" : ""}`} onClick={() => navigate(k)}>
-            <span>{icon}</span>
-            <span>{label}</span>
-            {k === "tasks" && overdue > 0 && <span className="badge">{overdue}</span>}
-            {k === "warmup" && !warmedUp && <span className="badge" style={{ background: "var(--accent)", color: "#04140a" }}>!</span>}
-            {k === "evals" && soonEvals > 0 && <span className="badge" style={{ background: "var(--gold)", color: "#241500" }}>{soonEvals}</span>}
+        {SECTIONS.map((sec) => (
+          <button key={sec.id} className={`nav-btn ${section?.id === sec.id ? "active" : ""}`} onClick={() => navigate(sec.views[0][0])}>
+            <Icon name={sec.icon} />
+            <span>{sec.label}</span>
+            {badge(sec.id) > 0 && <span className="badge">{badge(sec.id)}</span>}
           </button>
         ))}
       </nav>
       <div className="main">
         <TopBar />
-        <div className="content">
+        <div className="content" key={view}>
+          {section && section.views.length > 1 && (
+            <div className="subnav">
+              {section.views.map(([v, label]) => (
+                <button key={v} className={v === view ? "on" : ""} onClick={() => navigate(v)}>{label}</button>
+              ))}
+            </div>
+          )}
           {view === "home" && <Dashboard />}
           {view === "warmup" && <Warmup />}
           {view === "edhec" && <Edhec />}
@@ -224,6 +235,7 @@ export default function App() {
       <PendingSessionModal />
       <ConfirmHost />
       <Toasts />
+      <Celebration />
     </div>
   );
 }

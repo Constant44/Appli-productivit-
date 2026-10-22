@@ -44,29 +44,31 @@ export function MatchSheet() {
   };
 
   const late = idle && cur && sheet.lateMin >= 5;
-  const shown = open ? sheet.timeline : sheet.timeline.filter((b) => b.kind !== "busy" || b.end > now).slice(0, 6);
+  // Vue réduite : seulement ce qui reste à venir
+  const shown = open ? sheet.timeline : sheet.timeline.filter((b) => b.end > now && b !== cur).slice(0, 4);
 
   return (
-    <div className="card" style={{ marginBottom: 16, borderColor: late ? "var(--red)" : undefined }}>
-      <h3>
-        📋 Feuille de match du jour
-        <span className="right small muted">
-          {fmtMin(sheet.playedMin)} jouées / {fmtMin(sheet.plannedMin)} prévues{sheet.missed ? ` · ${sheet.missed} créneau${sheet.missed > 1 ? "x" : ""} manqué${sheet.missed > 1 ? "s" : ""}` : ""}
+    <div className={`card kickoff-card ${late ? "late" : ""}`}>
+      <div className="row between" style={{ marginBottom: 10 }}>
+        <span className="eyebrow">Feuille de match du jour</span>
+        <span className="small muted">
+          {fmtMin(sheet.playedMin)} / {fmtMin(sheet.plannedMin)}{sheet.missed ? ` · ${sheet.missed} manqué${sheet.missed > 1 ? "s" : ""}` : ""}
         </span>
-      </h3>
+      </div>
+      <div className="day-progress"><div style={{ width: `${sheet.plannedMin ? Math.min(100, (sheet.playedMin / sheet.plannedMin) * 100) : 0}%` }} /></div>
 
       {cur ? (
-        <div className="reco" style={{ borderColor: late ? "var(--red)" : "var(--accent)", marginBottom: 10 }}>
-          <span style={{ fontSize: 22 }}>{late ? "⏰" : "⚽"}</span>
+        <div className="kickoff">
+          <span className="kickoff-ico">{late ? "⏰" : "⚽"}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div className="small muted">
               {late ? `Coup d'envoi prévu à ${hm(cur.start)} : ${sheet.lateMin} min de retard` : cur.status === "now" ? "C'est maintenant" : `Prochain créneau à ${hm(cur.start)}`}
             </div>
-            <b>{cur.label}</b>
+            <div className="kickoff-title">{cur.label}</div>
             {cur.subject && <div className="small muted">{cur.subject} · {hm(cur.start)}–{hm(cur.end)}</div>}
           </div>
           <div className="stack" style={{ gap: 6 }}>
-            <button className="btn primary" disabled={!idle} onClick={() => kickoff(cur)}>▶ Coup d'envoi</button>
+            <button className="btn primary big" disabled={!idle} onClick={() => kickoff(cur)}>▶ Coup d'envoi</button>
             {late && cur.kind === "work" && (
               <button className="btn sm ghost" disabled={!idle} onClick={() => kickoff(cur, "free")} title="Chronomètre libre : tu as le droit d'arrêter au bout de 5 min">
                 Juste 5 min
@@ -75,17 +77,17 @@ export function MatchSheet() {
           </div>
         </div>
       ) : (
-        <div className="reco" style={{ marginBottom: 10 }}>
-          <span style={{ fontSize: 22 }}>🌙</span>
+        <div className="kickoff">
+          <span className="kickoff-ico">🌙</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <b>Fin du temps réglementaire</b>
+            <div className="kickoff-title">Fin du temps réglementaire</div>
             <div className="small muted">
               {sheet.playedMin ? `${fmtMin(sheet.playedMin)} de travail aujourd'hui. ` : ""}
               {recos[0] ? `Encore un peu à la maison ? Prochaine tâche : ${recos[0].title}` : "Repos !"}
             </div>
           </div>
           {recos[0] && (
-            <button className="btn" disabled={!idle} onClick={() => { startTimer({ mode: "pomodoro", targetMin: settings.pomodoroWork, taskId: recos[0].id, subject: recos[0].subject }); navigate("focus"); }}>
+            <button className="btn big" disabled={!idle} onClick={() => { startTimer({ mode: "pomodoro", targetMin: settings.pomodoroWork, taskId: recos[0].id, subject: recos[0].subject }); navigate("focus"); }}>
               ⏱️ Prolongations
             </button>
           )}

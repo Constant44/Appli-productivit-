@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { totalWorkMinutes, useStore } from "../lib/store";
 import {
-  DIVISIONS, FACILITIES, MATCH_COST_MIN, MAX_FACILITY, bestEleven, facilityCost, marketRange,
+  DIVISIONS, MATCH_COST_MIN, bestEleven, marketRange,
   playerValue, seasonPrize, sellPrice, standings, teamStrength,
 } from "../lib/game";
-import { POSITIONS, type FacilityKey, type Player, type Position } from "../lib/types";
+import { POSITIONS, type Player, type Position } from "../lib/types";
 import { fmtMin, fmtMoney } from "../lib/utils";
 import { Bar, Field, Modal, Ovr, Seg } from "../components/ui";
 import { ask } from "../components/confirm";
+import { City } from "../components/City";
 
-type Tab = "home" | "squad" | "market" | "facilities" | "league";
+type Tab = "city" | "home" | "squad" | "market" | "league";
 
 const SPOTS: Record<Position, Array<[number, number]>> = {
   ATT: [[20, 17], [50, 13], [80, 17]],
@@ -19,7 +20,7 @@ const SPOTS: Record<Position, Array<[number, number]>> = {
 };
 
 export default function ClubView() {
-  const [tab, setTab] = useState<Tab>("home");
+  const [tab, setTab] = useState<Tab>("city");
   const club = useStore((s) => s.club);
   return (
     <>
@@ -30,12 +31,12 @@ export default function ClubView() {
           </h1>
           <p className="page-sub">{DIVISIONS[club.season.division]} · Saison {club.season.number} · Journée {Math.min(club.season.currentRound + 1, club.season.rounds.length)}/{club.season.rounds.length}</p>
         </div>
-        <Seg value={tab} onChange={setTab} options={[["home", "🏟️ Match"], ["squad", "👥 Effectif"], ["market", "💸 Mercato"], ["facilities", "🏗️ Infrastructures"], ["league", "🏆 Championnat"]]} />
+        <Seg value={tab} onChange={setTab} options={[["city", "🏙️ Ville"], ["home", "🏟️ Match"], ["squad", "👥 Effectif"], ["market", "💸 Mercato"], ["league", "🏆 Championnat"]]} />
       </div>
       {tab === "home" && <MatchTab />}
       {tab === "squad" && <SquadTab />}
       {tab === "market" && <MarketTab />}
-      {tab === "facilities" && <FacilitiesTab />}
+      {tab === "city" && <div className="card" style={{ padding: 0, overflow: "hidden" }}><City /></div>}
       {tab === "league" && <LeagueTab />}
     </>
   );
@@ -239,32 +240,6 @@ function MarketTab() {
         })}
         {club.market.length === 0 && <div className="empty">Le mercato est vide : continue à bosser pour que tes recruteurs trouvent des profils.</div>}
       </div>
-    </div>
-  );
-}
-
-function FacilitiesTab() {
-  const { club, coins, upgradeFacility } = useStore();
-  return (
-    <div className="grid g3">
-      {(Object.keys(FACILITIES) as FacilityKey[]).map((k) => {
-        const f = FACILITIES[k];
-        const lvl = club.facilities[k];
-        const max = lvl >= MAX_FACILITY;
-        const cost = facilityCost(k, lvl);
-        return (
-          <div key={k} className="card facility">
-            <div className="row between"><span className="icon">{f.icon}</span><span className="stars">{"★".repeat(lvl)}<span style={{ opacity: 0.25 }}>{"★".repeat(MAX_FACILITY - lvl)}</span></span></div>
-            <b style={{ fontSize: 16 }}>{f.label}</b>
-            <div className="small muted">{f.desc(lvl)}</div>
-            {!max && <div className="small">Niveau {lvl + 1} : <span className="muted">{f.desc(lvl + 1)}</span></div>}
-            <span className="spacer" />
-            <button className={`btn ${coins >= cost && !max ? "gold" : ""}`} disabled={max || coins < cost} onClick={() => upgradeFacility(k)}>
-              {max ? "Niveau max" : `Améliorer · ${fmtMoney(cost)}`}
-            </button>
-          </div>
-        );
-      })}
     </div>
   );
 }
