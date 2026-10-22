@@ -5,6 +5,7 @@ import { sessionRewards, sponsorMultiplier, streakMultiplier } from "../lib/game
 import { fmtClock, fmtMin, fmtTime, isoDay, subjectColor } from "../lib/utils";
 import { ask } from "../components/confirm";
 import { Field, Seg, SubjectSelect, DurationInput, Modal } from "../components/ui";
+import { Rat } from "../components/Mascot";
 
 export default function Focus() {
   const s = useStore();
@@ -38,77 +39,72 @@ export default function Focus() {
   const perMin = sessionRewards(1, { streak: streak + 1, staffLevel: club.facilities.staff });
   const todaySessions = sessions.filter((x) => isoDay(x.start) === isoDay(new Date())).sort((a, b) => b.start.localeCompare(a.start));
   const today = minutesByDay(sessions).get(isoDay(new Date())) ?? 0;
-  const R = 140;
-  const C = 2 * Math.PI * R;
-  const color = timer.phase === "break" ? "var(--blue)" : "var(--accent)";
+
+  const start = () => {
+    if ("Notification" in window && Notification.permission === "default") void Notification.requestPermission();
+    s.startTimer({ mode, targetMin: target, taskId: taskId || undefined, subject: taskId ? tasks.find((t) => t.id === taskId)?.subject : subject });
+  };
+  const brk = running && timer.phase === "break";
+
+  if (running)
+    return (
+      <div className={`focus-stage ${brk ? "brk" : ""} ${timer.status === "paused" ? "paused" : ""}`}>
+        <div className="eyebrow">{timer.status === "paused" ? "En pause" : brk ? "☕ Pause" : "Focus"}{task ? ` · ${task.subject}` : timer.subject ? ` · ${timer.subject}` : ""}</div>
+        <div className="focus-time">{fmtClock(shown)}</div>
+        {task && <div className="focus-task">{task.title}</div>}
+        <div className="track" aria-hidden>
+          <div className="track-line" />
+          <svg className="goal" viewBox="0 0 40 60"><rect x="4" y="4" width="32" height="52" fill="none" stroke="#fff" strokeWidth="3" /><path d="M8 8 L32 52 M32 8 L8 52 M8 20 H32 M8 32 H32 M8 44 H32" stroke="#ffffff55" strokeWidth="1" /></svg>
+          <div className="runner-rat" style={{ left: `calc(${(brk ? 0.5 : progress) * 100}% * 0.82)` }}>
+            <Rat mood={brk ? "sleep" : timer.status === "paused" ? "idle" : "run"} size={84} jersey={club.colorA} trim={club.colorB} />
+            {!brk && <span className="track-ball" />}
+          </div>
+        </div>
+        {!brk && (
+          <div className="focus-gains">+{Math.floor((el / 60) * perMin.xp)} XP · +{Math.floor((el / 60) * perMin.coins)} k€ · {fmtMin(today)} aujourd'hui</div>
+        )}
+        <div className="row" style={{ justifyContent: "center" }}>
+          {timer.status === "running" && <button className="btn big" onClick={s.pauseTimer}>⏸ Pause</button>}
+          {timer.status === "paused" && <button className="btn primary big" onClick={s.resumeTimer}>▶ Reprendre</button>}
+          <button className="btn big" onClick={s.stopTimer}>{brk ? "⏭ Fin de pause" : "⏹ Terminer"}</button>
+        </div>
+        <button className="btn sm ghost danger" style={{ marginTop: 6 }} onClick={async () => (await ask("Abandonner cette session sans la compter ?", { okLabel: "Abandonner", danger: true })) && s.cancelTimer()}>Abandonner</button>
+      </div>
+    );
 
   return (
     <>
-      <h1 className="page-title">Mode focus</h1>
-      <p className="page-sub">Chaque minute travaillée = XP pour toi + budget et entraînement pour ton club. Toutes les 90 min, un match se débloque.</p>
+      <h1 className="page-title">Focus</h1>
+      <p className="page-sub">Chaque minute = XP pour toi, budget et entraînement pour le club. Toutes les 90 min, un match se débloque.</p>
       <div className="grid g2">
-        <div className="card">
-          {!running && (
-            <div className="stack" style={{ marginBottom: 10 }}>
-              <Seg value={mode} onChange={setMode} options={[["pomodoro", "🍅 Pomodoro"], ["countdown", "⏳ Minuteur"], ["free", "⏱️ Chrono libre"]]} />
-              <div className="form-grid">
-                <Field label="Tâche">
-                  <select className="input" value={taskId} onChange={(e) => setTaskId(e.target.value)}>
-                    <option value="">— Pas de tâche précise —</option>
-                    {recos.map((r) => <option key={r.task.id} value={r.task.id}>[{r.task.subject}] {r.task.title}</option>)}
-                  </select>
-                </Field>
-                {!taskId && <Field label="Matière"><SubjectSelect value={subject} onChange={setSubject} /></Field>}
-                {mode !== "free" && (
-                  <Field label="Durée (min)">
-                    <input className="input" type="number" min={1} value={target} onChange={(e) => setTarget(Math.max(1, Number(e.target.value)))} />
-                  </Field>
-                )}
-              </div>
+        <div className="card stack" style={{ gap: 14 }}>
+          <Seg value={mode} onChange={setMode} options={[["pomodoro", "🍅 Pomodoro"], ["countdown", "⏳ Minuteur"], ["free", "⏱️ Chrono libre"]]} />
+          <Field label="Sur quoi ?">
+            <select className="input" value={taskId} onChange={(e) => setTaskId(e.target.value)}>
+              <option value="">— Pas de tâche précise —</option>
+              {recos.map((r) => <option key={r.task.id} value={r.task.id}>[{r.task.subject}] {r.task.title}</option>)}
+            </select>
+          </Field>
+          {!taskId && <Field label="Matière"><SubjectSelect value={subject} onChange={setSubject} /></Field>}
+          {mode !== "free" && (
+            <div className="row" style={{ gap: 6 }}>
+              {[25, 30, 45, 60, 90].map((m) => <button key={m} className={`btn sm ${target === m ? "primary" : ""}`} onClick={() => setTarget(m)}>{m} min</button>)}
+              <input className="input" type="number" min={1} value={target} onChange={(e) => setTarget(Math.max(1, Number(e.target.value)))} style={{ width: 80 }} aria-label="Durée en minutes" />
             </div>
           )}
-          <div className="timer-wrap">
-            <div className="ring">
-              <svg viewBox="0 0 320 320">
-                <circle cx="160" cy="160" r={R} stroke="var(--bg2)" strokeWidth="16" fill="none" />
-                <circle cx="160" cy="160" r={R} stroke={color} strokeWidth="16" fill="none" strokeLinecap="round"
-                  strokeDasharray={C} strokeDashoffset={C * (1 - progress)} style={{ transition: "stroke-dashoffset .3s linear" }} />
-              </svg>
-              <div className="center">
-                <div>
-                  <div className="muted small">{timer.status === "paused" ? "EN PAUSE" : timer.phase === "break" && running ? "☕ PAUSE" : running ? "FOCUS" : "PRÊT"}</div>
-                  <div className="time">{fmtClock(shown)}</div>
-                  {task && <div className="small" style={{ maxWidth: 200, margin: "0 auto" }}><span className="dot" style={{ background: subjectColor(task.subject) }} /> {task.title}</div>}
-                  {running && timer.phase === "work" && (
-                    <div className="small" style={{ color: "var(--gold)", marginTop: 6 }}>
-                      +{Math.floor((el / 60) * perMin.xp)} XP · +{Math.floor((el / 60) * perMin.coins)} k€
-                    </div>
-                  )}
-                </div>
-              </div>
+          <div className="focus-preview">
+            <Rat mood="idle" size={92} jersey={club.colorA} trim={club.colorB} />
+            <div>
+              <div className="focus-time sm">{mode === "free" ? "00:00" : fmtClock(target * 60)}</div>
+              <div className="small muted">{task ? task.title : "Session libre"}</div>
             </div>
           </div>
-          <div className="row" style={{ justifyContent: "center", marginTop: 12 }}>
-            {!running && (
-              <button className="btn primary big" onClick={() => {
-                if ("Notification" in window && Notification.permission === "default") void Notification.requestPermission();
-                s.startTimer({ mode, targetMin: target, taskId: taskId || undefined, subject: taskId ? tasks.find((t) => t.id === taskId)?.subject : subject });
-              }}>
-                ▶ Démarrer
-              </button>
-            )}
-            {timer.status === "running" && <button className="btn big" onClick={s.pauseTimer}>⏸ Pause</button>}
-            {timer.status === "paused" && <button className="btn primary big" onClick={s.resumeTimer}>▶ Reprendre</button>}
-            {running && (
-              <button className="btn big" onClick={s.stopTimer}>{timer.phase === "break" ? "⏭ Fin de pause" : "⏹ Terminer"}</button>
-            )}
-            {running && <button className="btn ghost danger" onClick={async () => (await ask("Abandonner cette session sans la compter ?", { okLabel: "Abandonner", danger: true })) && s.cancelTimer()}>Abandonner</button>}
-          </div>
+          <button className="btn primary big" style={{ justifyContent: "center" }} onClick={start}>▶ Démarrer</button>
         </div>
 
         <div className="stack">
           <div className="card">
-            <h3>💸 Tes gains actuels</h3>
+            <h3>💸 Tes gains</h3>
             <div className="grid g3" style={{ gap: 10 }}>
               <div className="stat"><span className="v">{perMin.xp}</span><span className="l">XP / min</span></div>
               <div className="stat"><span className="v">{perMin.coins} k€</span><span className="l">Budget / min</span></div>
