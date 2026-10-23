@@ -1575,5 +1575,1065 @@
   ],
   "answer": 2,
   "explain": "Whenever = chaque fois que."
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "Jane woke up late this morning. ___, she wasn’t late for work.",
+  "choices": [
+   "In spite of",
+   "However",
+   "Even though"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "You finish your homework; ___, I will make noodles for us.",
+  "choices": [
+   "meanwhile",
+   "besides",
+   "yet"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "Mary didn't come to the party. She stayed home___.",
+  "choices": [
+   "as a consequence",
+   "instead",
+   "furthermore"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "___I like you a lot, I could never live with you.",
+  "choices": [
+   "Besides",
+   "However",
+   "Even though"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "It was snowing very hard but I drove to his place___.",
+  "choices": [
+   "actually",
+   "anyway"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I would ask for a special meeting if I ___ her.",
+  "choices": [
+   "was",
+   "were",
+   "am",
+   "would be"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I would have applied for the job if I ___ the opportunity.",
+  "choices": [
+   "have had",
+   "had",
+   "had had",
+   "would have"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "Not only ___ Stephanie ___ first prize, but she was also offered a promotion.",
+  "choices": [
+   "has, won",
+   "Ø , has won",
+   "did, win",
+   "Ø , won"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I’ve found a solution to your computer problem. Simply try ___ the password again.",
+  "choices": [
+   "to enter",
+   "entering",
+   "enter",
+   "having entered"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "It’s high time you___home, but I’d rather you___with me to finish the report.",
+  "choices": [
+   "go/stay",
+   "went/stay",
+   "go/stayed",
+   "went/stayed"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I wish we ___ the contract!",
+  "choices": [
+   "had not signed",
+   "might not sign",
+   "do not sign",
+   "have not signed"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "Not only ___ about the theft, but she also ___ her colleague.",
+  "choices": [
+   "she lied/accused",
+   "did she lie/accused",
+   "did she lie/has accused",
+   "she lied/has accused"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "If the project had been a success, we ___ leaders on the market now.",
+  "choices": [
+   "would have been",
+   "will be",
+   "would be",
+   "will have been"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "If I ___ at the Head of the Department, I would change the whole organisation.",
+  "choices": [
+   "have been",
+   "had been",
+   "were",
+   "am"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "America’s 47,000-mile highway system, ………. built in the 50s, is totally overloaded today.",
+  "choices": [
+   "that were",
+   "which was",
+   "which were",
+   "who was"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The murder of two British nationals ………. by Scotland Yard.",
+  "choices": [
+   "is being investigated",
+   "investigates",
+   "is investigating",
+   "is investigated"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The students ___ to submit their assignments before Friday.",
+  "choices": [
+   "expect",
+   "are expected",
+   "are expecting",
+   "expected"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "All visitors ___ to wear a badge while they are in the building.",
+  "choices": [
+   "require",
+   "required",
+   "are required",
+   "have required"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "This test___us to be very focused.",
+  "choices": [
+   "require",
+   "requires",
+   "is required",
+   "requiring"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The company wants its product ___ safely and in a timely manner; otherwise it will seek an alternative shipper.",
+  "choices": [
+   "package",
+   "packaging",
+   "be packaged",
+   "packaged"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "It ___ that the new policy will reduce costs significantly.",
+  "choices": [
+   "is expected",
+   "expects",
+   "expects",
+   "expected"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "We have told the client that we hope by this time next week, the whole project ___.",
+  "choices": [
+   "completes",
+   "will complete",
+   "will be completed",
+   "is completed"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "I’m sorry I didn’t stay in my last job. I wish I ___.",
+  "choices": [
+   "stay",
+   "stayed",
+   "had stayed",
+   "would stay"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "If the wage parity agreement ___ approved, there might have been a strike.",
+  "choices": [
+   "was not",
+   "were not",
+   "will not be",
+   "had not been"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "Paul suggested that you ___ to hospital.",
+  "choices": [
+   "are admitted",
+   "are admitting",
+   "were admitting",
+   "be admitted"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "we___to work.",
+  "choices": [
+   "were making",
+   "made",
+   "were made",
+   "was made"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "I’ll be ___ my colleague’s clients while she is on a business trip abroad.",
+  "choices": [
+   "looking into",
+   "looking after",
+   "looking in",
+   "looking up"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "We are confident ___ making steady inroads and growing our market share significantly ___the next two quarters.",
+  "choices": [
+   "for, between",
+   "to, in",
+   "of, over",
+   "in, in"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "My manager has great interpersonal skills. She is really good ___ listening to people.",
+  "choices": [
+   "with",
+   "at",
+   "in",
+   "to"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "My manager has great interpersonal skills. She is really good ___ listening to people.",
+  "choices": [
+   "with",
+   "at",
+   "in",
+   "to"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Nobody believed Paul at first but he ___ to be right.",
+  "choices": [
+   "came out",
+   "turned out",
+   "worked out",
+   "carried out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The ongoing crisis forced the government to ___ the election date by two months.",
+  "choices": [
+   "lay out",
+   "put off",
+   "lay over",
+   "put out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Negotiations between the two NGOs were rather difficult, but ___ they found a suitable solution.",
+  "choices": [
+   "in the end",
+   "by the end",
+   "on the end",
+   "to the end"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "David, could you please ___ this e-mail to Todd as I don’t have his e-mail address?",
+  "choices": [
+   "pass off",
+   "forward",
+   "put through",
+   "make follow"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The ongoing crisis forced the government to ___ the election date by two months.",
+  "choices": [
+   "lay out",
+   "put off",
+   "lay over",
+   "put out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "She was fed up with her job and decided to ___ another profession.",
+  "choices": [
+   "look at",
+   "look after",
+   "look to",
+   "look into"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Marcia would like to ___ more responsibilty at work.",
+  "choices": [
+   "take up",
+   "take out",
+   "take on",
+   "take in"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Given the overall cost of the project, we should ___ the deal.",
+  "choices": [
+   "pull out of",
+   "pull away from",
+   "pull out from",
+   "pull off"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "___ our competitors forces us to ___ higher production costs.",
+  "choices": [
+   "Catching up with/put up with",
+   "Catching with/put up",
+   "Catching with/put up with",
+   "Catching up with/put up"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The company is ___ for £1,000,000.",
+  "choices": [
+   "on sale",
+   "in sale",
+   "for sale",
+   "up on sale"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "I suggest ___ his advice into account.",
+  "choices": [
+   "you to take",
+   "you having taken",
+   "you taking",
+   "you take"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "John wrote the report too quickly. I suggested ___ a few adjustments to it.",
+  "choices": [
+   "that he bring",
+   "that he is bringing",
+   "that he brings",
+   "him to bring"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "What do you ___ in the circumstances?",
+  "choices": [
+   "expect we to do",
+   "expect us to do",
+   "expect we do",
+   "to expect us to do"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "I recommend that Ms. Doyle ___ the conference in my place.",
+  "choices": [
+   "attend",
+   "attends",
+   "has attended",
+   "attended"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "If there ___ better communication, I would not resign.",
+  "choices": [
+   "were",
+   "was",
+   "will be",
+   "would be"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The bus company confirmed the 05:12 service from Atlanta ___ on time, but with this weather they expect it will almost certainly be delayed getting here.",
+  "choices": [
+   "leaves",
+   "left",
+   "leaving",
+   "to leave"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The country’s car manufacturers fear the industry ___ collapse if the government does not step in with a rescue package.",
+  "choices": [
+   "should",
+   "would",
+   "could",
+   "did"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "Janet Higley was promoted and will now ___ customer relations.",
+  "choices": [
+   "take care on",
+   "be responsible of",
+   "look for",
+   "look after"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The Board is concerned about high labor costs and ___ decide to outsource production to China.",
+  "choices": [
+   "may be",
+   "should have to",
+   "might",
+   "needs"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "It's important that she …………………. to take her medicine twice a day",
+  "choices": [
+   "remembers",
+   "may remember",
+   "remember",
+   "remembered"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "By the time he arrives, we ___ our meeting.",
+  "choices": [
+   "finish",
+   "will finish",
+   "will have finished",
+   "finished"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The yield ___ German government bonds is lower now than it ___ at any other stage since the introduction of the Euro currency.",
+  "choices": [
+   "on, was",
+   "in, have been",
+   "on, has been",
+   "over, is"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "As soon as we ___ the parcel, we will open it.",
+  "choices": [
+   "will receive",
+   "will be receiving",
+   "receive",
+   "received"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "We have just introduced new AI tools. Unfortunately, our staff ___ it.",
+  "choices": [
+   "are not used to using",
+   "are not use to using",
+   "are not used to use",
+   "did not use to use"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "I___ on this project for ten weeks when it was canceled.",
+  "choices": [
+   "worked",
+   "was working",
+   "has been working",
+   "had been working"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "“How long ___ for that company? “ “For your years and I resigned last year”.",
+  "choices": [
+   "have you worked",
+   "have you been working",
+   "did you worked",
+   "did you work"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "A team from our Houston office is coming today. Their flight ___ at 2 p.m.",
+  "choices": [
+   "will arrive",
+   "is arriving",
+   "is going to arrive",
+   "arrives"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "We ___ to the gala dinner tomorrow. I’ve already bought the tickets.",
+  "choices": [
+   "will go",
+   "go",
+   "are going",
+   "will have gone"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "I’ve found a solution to your computer problem. Simply try ___ the password again.",
+  "choices": [
+   "to enter",
+   "entering",
+   "enter",
+   "having entered"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Our department’s sales figures ___ by 12% this year.",
+  "choices": [
+   "rose",
+   "have risen",
+   "have rosen",
+   "rises"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The value of this stock ___ by 10 % since its introduction on the Dow Jones.",
+  "choices": [
+   "is going up",
+   "goes up",
+   "went up",
+   "has gone up"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "He ___ quite different since he ___ a new job.",
+  "choices": [
+   "is/has got",
+   "has been/has got",
+   "has been/got",
+   "is/has had"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Virna passed her exam last week. Her success ___ in the fact that she was very studious.",
+  "choices": [
+   "lain",
+   "lay",
+   "lie",
+   "laid"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "___ the trip was much longer than we had planned, we managed to get to the conference in time.",
+  "choices": [
+   "Despite",
+   "In spite of",
+   "However",
+   "Although"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "This is my roommate Joan. I ___ met, have you?",
+  "choices": [
+   "am not thinking you have",
+   "don’t think you haven’t",
+   "am thinking you haven’t",
+   "don’t think you’ve"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "___ the meeting was not going to be held, I ___ canceled my hotel room.",
+  "choices": [
+   "Had I known/would have",
+   "If I have known/would have",
+   "If I had known/had",
+   "Have I known/would have"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The CEO had his assistant ___ the memo.",
+  "choices": [
+   "to sign",
+   "sign",
+   "signing",
+   "signed"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Since 2010, we ___ with the same suppliers.",
+  "choices": [
+   "are working",
+   "work",
+   "worked",
+   "have been working"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The meeting ___ by the time we get to the venue.",
+  "choices": [
+   "will already start",
+   "will already have started",
+   "will be already started",
+   "would already have started"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Can anyone tell me if the intern ___ his new office yet?",
+  "choices": [
+   "gets shown",
+   "is being shown",
+   "were shown",
+   "has been shown"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The CEO stopped ___ when the market conditions became unstable.",
+  "choices": [
+   "to expand internationally",
+   "expanding internationally",
+   "expand internationally",
+   "expanded internationally"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Please remember ___ the financial report to the investors before the meeting.",
+  "choices": [
+   "sending",
+   "to send",
+   "send",
+   "sent"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "I remember ___ our first investor at a startup conference in Berlin.",
+  "choices": [
+   "to meet",
+   "meet",
+   "meeting",
+   "met"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The entrepreneur tried ___ the problem by cutting operational costs.",
+  "choices": [
+   "solving",
+   "solve",
+   "to solving",
+   "solved"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The startup is trying ___ a new logistics system, but it is very expensive.",
+  "choices": [
+   "implementing",
+   "to implementing",
+   "to implement",
+   "implement"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The CFO regrets ___ that the company will have to reduce staff next quarter.",
+  "choices": [
+   "to inform",
+   "informing",
+   "inform",
+   "informed"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "We hope you will not have any problems …………… with the press on this delicate issue.",
+  "choices": [
+   "to deal",
+   "for dealing",
+   "deal",
+   "dealing"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Although he was quite full from the large dinner, Professor Morgan could not ___ a piece of lemon pie for dessert.",
+  "choices": [
+   "stop ordering",
+   "without ordering",
+   "help but order",
+   "stop from order"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The company’s Director adopted a proactive approach in developing and maintaining a program of lectures which have helped COMBI ___ its objectives.",
+  "choices": [
+   "be furthering",
+   "further",
+   "to have furthered",
+   "to furthering"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "He is excited about the new promotion and looking forward to ___ more responsibilities.",
+  "choices": [
+   "taking in",
+   "take on",
+   "getting up",
+   "taking on"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Even though they urged us ___ it, we refused.",
+  "choices": [
+   "to do",
+   "doing",
+   "do",
+   "did"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "It's important that she …………………. to take her medicine twice a day",
+  "choices": [
+   "remembers",
+   "may remember",
+   "remember",
+   "remembered"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
  }
 ]
