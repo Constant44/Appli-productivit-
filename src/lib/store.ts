@@ -580,18 +580,26 @@ export const useStore = create<Store>()(
           const ev = mergeInto(s.evals, pack.evals);
           if (pack.evalHints) ev.list = ev.list.map((e) => (pack.evalHints![e.id] ? { ...e, hint: pack.evalHints![e.id] } : e));
           // Devoirs Pronote : ce qui a déjà été coché ou chronométré dans l'appli est conservé
-          const ta = mergeInto(s.tasks, pack.tasks?.map((t) => {
-            const old = s.tasks.find((x) => x.id === t.id);
+          // Import Pronote complet (avec emploi du temps) : les devoirs Pronote non faits de la période qui n'y sont plus
+          // sont remplacés (Pronote renouvelle ses identifiants) ; un devoir déjà coché reste coché (même matière, échéance, texte).
+          const pnTasks = (pack.tasks ?? []).filter((t) => t.source === "pronote");
+          const sameHw = (a: Task, b: Task) => a.subject === b.subject && a.due === b.due && a.title === b.title;
+          const baseTasks = pack.pronoteDays
+            ? s.tasks.filter((t) => t.source !== "pronote" || t.done || pnTasks.some((p) => p.id === t.id) || !(t.due && t.due >= pack.pronoteDays![0] && t.due <= pack.pronoteDays![1]))
+            : s.tasks;
+          const ta = mergeInto(baseTasks, pack.tasks?.filter((t) => !(t.source === "pronote" && baseTasks.some((x) => x.source === "pronote" && x.id !== t.id && x.done && sameHw(x, t)))).map((t) => {
+            const old = baseTasks.find((x) => x.id === t.id);
             return old ? { ...t, done: old.done || t.done, doneAt: old.doneAt, rewarded: old.rewarded, actualMinManual: old.actualMinManual, estimateMin: old.estimateMin, priority: old.priority } : t;
           }));
           // Une note Pronote remplace la même note saisie à la main (même jour, même valeur, même barème)
           const pnGrades = (pack.grades ?? []).filter((g) => g.source === "pronote");
+          // L'import Pronote contient toutes les notes de toutes les périodes : il remplace les notes Pronote précédentes.
           const baseGrades = pnGrades.length
-            ? s.grades.filter((g) => g.source !== "manual" || !pnGrades.some((p) => isoDay(p.date) === isoDay(g.date) && p.value === g.value && p.outOf === g.outOf && p.subject.split(" › ")[0] === g.subject.split(" › ")[0]))
+            ? s.grades.filter((g) => g.source === "manual" && !pnGrades.some((p) => isoDay(p.date) === isoDay(g.date) && p.value === g.value && p.outOf === g.outOf && p.subject.split(" › ")[0] === g.subject.split(" › ")[0]))
             : s.grades;
-          // Emploi du temps Pronote : remplace les cours saisis à la main (« edt-… ») sur la période couverte
+          // Emploi du temps Pronote : remplace les cours saisis à la main (« edt-… ») et l'import Pronote précédent sur la période couverte
           const baseLessons = pack.pronoteDays
-            ? s.lessons.filter((l) => !(l.id.startsWith("edt-") && isoDay(l.start) >= pack.pronoteDays![0] && isoDay(l.start) <= pack.pronoteDays![1]))
+            ? s.lessons.filter((l) => !((l.id.startsWith("edt-") || l.id.startsWith("pn-l-")) && isoDay(l.start) >= pack.pronoteDays![0] && isoDay(l.start) <= pack.pronoteDays![1]))
             : s.lessons;
           const gr = mergeInto(baseGrades, pack.grades);
           const le = mergeInto(baseLessons, pack.lessons);

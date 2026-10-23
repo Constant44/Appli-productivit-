@@ -43,3 +43,25 @@ describe("import Pronote", () => {
     expect(s.lessons.some((l) => l.id.startsWith("edt-2026-11-10"))).toBe(true);
   });
 });
+
+describe("imports Pronote successifs", () => {
+  beforeEach(() => useStore.getState().resetAll());
+  it("ne duplique ni les notes, ni les cours, ni les devoirs quand Pronote change ses identifiants", () => {
+    const pack = (n: string) => ({
+      id: `pronote-${n}`,
+      grades: [{ id: `pn-g${n}`, subject: "Maths", value: 8, outOf: 16, coefficient: 1, date: "2026-09-11T08:00:00+02:00", source: "pronote" as const }],
+      tasks: [{ id: `pn-hw-${n}`, title: "Conjugaison", subject: "Espagnol", kind: "devoir" as const, due: "2026-11-05", estimateMin: 30, priority: 2 as const, done: false, createdAt: "x", source: "pronote" as const }],
+      lessons: [{ id: `pn-l-${n}`, start: "2026-11-03T08:00:00+01:00", end: "2026-11-03T10:00:00+01:00", subject: "Gestion", canceled: false, isTest: false, kind: "lesson" as const }],
+      pronoteDays: ["2026-10-21", "2026-11-27"] as [string, string],
+    });
+    useStore.getState().mergePack(pack("a"));
+    useStore.getState().updateTask("pn-hw-a", { done: true });
+    useStore.getState().mergePack(pack("b"));
+    const s = useStore.getState();
+    expect(s.grades.filter((g) => g.source === "pronote")).toHaveLength(1);
+    expect(s.lessons.filter((l) => l.id.startsWith("pn-l-"))).toHaveLength(1);
+    const hw = s.tasks.filter((t) => t.source === "pronote");
+    expect(hw).toHaveLength(1);
+    expect(hw[0].done).toBe(true);
+  });
+});

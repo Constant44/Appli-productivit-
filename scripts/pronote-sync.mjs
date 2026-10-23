@@ -11,6 +11,7 @@
  *   - pack : paquet au format de l'appli (notes, devoirs → to-do, emploi du temps), à déposer dans la boîte de réception.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import pronoteMod from "./pawnote-2026.mjs";
 const pronote = pronoteMod;
 import { defaultFetcher } from "@literate.ink/utilities";
@@ -77,6 +78,12 @@ try {
   console.error(`ÉCHEC connexion Pronote : ${e?.name ?? "Erreur"} — ${e?.message ?? e}`);
   process.exit(1);
 }
+// Pronote chiffre ses identifiants par session : ils changent à chaque connexion.
+// On fabrique donc des identifiants stables à partir du contenu (sinon tout se dupliquerait chaque soir).
+const stable = (...parts) => createHash("sha1").update(parts.map((x) => String(x ?? "")).join("|")).digest("hex").slice(0, 16);
+const seen = new Map();
+const uniq = (id) => { const n = (seen.get(id) ?? 0) + 1; seen.set(id, n); return n > 1 ? `${id}-${n}` : id; };
+
 const now = new Date();
 const from = new Date(now.getTime() - 2 * 864e5);
 const to = new Date(now.getTime() + 35 * 864e5);
@@ -90,7 +97,7 @@ for (const period of tab?.periods ?? []) {
     const value = num(g.value), outOf = num(g.outOf);
     if (value == null || !outOf) continue; // absent, dispensé, non noté
     grades.push({
-      id: `pn-${g.id}`, subject: subjectOf(g.subject.name, outOf), value, outOf, coefficient: g.coefficient || 1,
+      id: uniq(`pn-${stable(g.subject.name, day(g.date), value, outOf, g.coefficient, g.comment)}`), subject: subjectOf(g.subject.name, outOf), value, outOf, coefficient: g.coefficient || 1,
       date: iso(g.date), label: g.comment || undefined, classAverage: num(g.average), source: "pronote", period: period.name,
     });
   }
@@ -102,7 +109,7 @@ const hw = await safe("Devoirs", () => pronote.assignmentsFromIntervals(session,
 for (const a of hw ?? []) {
   const text = a.description.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
   tasks.push({
-    id: `pn-hw-${a.id}`, title: text.length > 140 ? `${text.slice(0, 137)}…` : text || "Devoir", subject: subjectOf(a.subject.name, null),
+    id: uniq(`pn-hw-${stable(a.subject.name, day(a.deadline), a.description)}`), title: text.length > 140 ? `${text.slice(0, 137)}…` : text || "Devoir", subject: subjectOf(a.subject.name, null),
     kind: "devoir", due: day(a.deadline), estimateMin: a.length || 30, priority: 2, done: a.done, createdAt: now.toISOString(),
     source: "pronote", pronoteId: a.id,
   });
@@ -114,7 +121,7 @@ const tt = await safe("Emploi du temps", () => pronote.timetableFromIntervals(se
 if (tt) {
   pronote.parseTimetable(session, tt, { withCanceledClasses: true, withPlannedClasses: true, withSuperposedCanceledClasses: false });
   for (const c of tt.classes) {
-    const base = { id: `pn-l-${c.id}`, start: iso(c.startDate), end: iso(c.endDate), color: c.backgroundColor };
+    const base = { id: uniq(`pn-l-${stable(c.subject?.name ?? c.title, iso(c.startDate), iso(c.endDate))}`), start: iso(c.startDate), end: iso(c.endDate), color: c.backgroundColor };
     if (c.is === "lesson")
       lessons.push({ ...base, subject: subjectOf(c.subject?.name ?? "Cours", null), teacher: c.teacherNames.join(", ") || undefined, room: c.classrooms.join(", ") || undefined, canceled: c.canceled, isTest: c.test, status: c.status, kind: "lesson" });
     else if (c.is === "activity") lessons.push({ ...base, subject: c.title, title: c.title, canceled: false, isTest: false, kind: "activity" });
