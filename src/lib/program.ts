@@ -80,6 +80,8 @@ export function buildProgram(inp: ProgramInput): Task[] {
     const wd = new Date(`${d}T12:00:00`).getDay();
     if (wd === 4 && !inHolidays(d)) needs.push({ key: `actu-veille-${d}`, title: "Spécial veille de test : actu de la semaine + bios + mots", subject: "Approf. méthodo", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
     if (wd !== 5 && wd !== 6) needs.push({ key: `actu-${d}`, title: "Lire l'actu du jour (doc Actu) et noter 3 faits marquants", subject: "Approf. méthodo", minutes: 20, block: 20, from: d, to: d, priority: 1, kind: "fiche" });
+    // Anki chaque jour : d'abord les cartes dues (anglais EDHEC), puis 10 nouvelles
+    needs.push({ key: `anki-${d}`, title: "Anki : toutes les cartes dues (anglais EDHEC d'abord) + 10 nouvelles", subject: "EDHEC Anglais", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
   }
   // 3. EDHEC : un chapitre de micro par semaine (2 × 60 min), une synthèse toutes les deux semaines (le jour le plus libre), traduction 2 × 30 min / semaine
   const chapters = inp.edhec.chapters.filter((c) => c.level < 3);
