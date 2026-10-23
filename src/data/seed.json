@@ -1,0 +1,924 @@
+{
+ "id": "seed-2026-10-15",
+ "sheets": [
+  {
+   "id": "M51",
+   "kind": "mot",
+   "title": "Rédhibitoire",
+   "body": "Rédhibitoire\nEtymologie : Du latin redhibitorius, signifiant à la fois jugement, croyance philosophique, doctrine, opinion.\nDéfinition : Défaut de la chose vendue ou louée qui peut motiver la résolution judiciaire d'une vente. Par extension, qui constitue un défaut, un empêchement absolu, radical. On parle de vice rédhibitoire.\nExemple :\nJulia : \"Regarde la superbe sculpture que je viens d'acquérir… Ca vient d'Egypte ! C'est un Sphinx !\"\nAgrippine : \"Mais il lui manque le nez ! C'est rédhibitoire !\"",
+   "sentAt": "2026-09-09"
+  },
+  {
+   "id": "M52",
+   "kind": "mot",
+   "title": "Ploutocratie",
+   "body": "Ploutocratie\nEtymologie : Du grec ploutos et kratos, signifiant respectivement richesse et pouvoir.\nDéfinition : Littéralement, \"le gouvernement par la richesse\". Se dit d'un système politique ou social dans lequel le pouvoir est exercé par les personnes les plus riches.\nExemple :\nCaligula : \"T'es riche toi ?\"\nCésar : \"Oui. On peut dire ça. Pourquoi ?\"\nCaligula : \"Parce qu'il paraît qu'il faut de l'argent pour gouverner.\"\nCésar : \"T'es un vrai ploutocrate mon ami.\"",
+   "sentAt": "2026-09-09"
+  },
+  {
+   "id": "M53",
+   "kind": "mot",
+   "title": "Oligarchie",
+   "body": "Oligarchie\nEtymologie : Du grec oligos qui signifie \"peu de monde\" et arkhê, voulant dire \"commander, gouverner\".\nDéfinition : L'oligarchie est un régime politique ou un mode de gouvernement où le pouvoir est aux mains d'un petit groupe de personnes, d'une classe sociale ou d'une famille puissante. Par complémentaire, ce système est l'opposé de la démocratie (pouvoir exercé par l'ensemble des citoyens) et à l'autocratie (ou monarchie) où le pouvoir est exercé par un seul individu.\nExemple :\nPompée : \"Et les gars, on se ferait pas un petit gouvernement à trois, peinards ?\"\nCrassus : \"Une oligarchie pour Rome ? C'est pas déjà ce qu'on fait ?\"\nCésar : \"On a qu'à l'appeler autrement : Triumvirat, c'est pas mal.\"",
+   "sentAt": "2026-09-10"
+  },
+  {
+   "id": "M54",
+   "kind": "mot",
+   "title": "Équité",
+   "body": "Equité\nEtymologie : Du latin aequitas qui signifie \"égalité\".\nDéfinition : 1. L'équité est la qualité qui consiste à attribuer à chacun ce qui lui est dû en tenant compte des différences de situation et des besoins de chacun.\n2. L'équité se réfère aux principes de la justice naturelle et à un traitement impartial.\nExemple :\nJulia : \"Dis-moi Agrippine, c'est quoi ce délire ? J'apprends que tu as deux fois plus d'esclaves que moi ! Où est passée l'égalité ?\"\nAgrippine : \"Ma maison est deux fois plus grande. C'est de l'équité, pas de l'égalité.\"",
+   "sentAt": "2026-09-10"
+  },
+  {
+   "id": "M55",
+   "kind": "mot",
+   "title": "Altérité",
+   "body": "Altérité\nEtymologie : Du latin alteritas qui signifie \"autre\".\nDéfinition : Fait d'être un autre, caractère de ce qui est autre, i.e. distinct et extérieur à soi.\nExemple :\nCésar : \"En fait Néron, tu ne te préoccupe absolument pas de ce qui est ton altérité ? !…\"\nNéron : \"Je ne sais pas ce que c'est, mais si ce n'est pas moi, non.\"",
+   "sentAt": "2026-09-17"
+  },
+  {
+   "id": "M56",
+   "kind": "mot",
+   "title": "Abhorrer",
+   "body": "Abhorrer\nEtymologie : Du latin abhorrere qui signifie \"horreur\".\nDéfinition : Avoir en horreur, détester au plus haut point. Synonyme : exécrer, haïr.\nExemple :\nCésar : \"Ce Sénèque est un vieux con. Je l'abhorre !\"\nCaligula : \"Tu l'adores ?\"",
+   "sentAt": "2026-09-17"
+  },
+  {
+   "id": "M57",
+   "kind": "mot",
+   "title": "Sinécure",
+   "body": "Sinécure\nEtymologie : Abréviation du latin beneficium sine cura qui signifie \"bénéfice ecclésiastique sans travail\".\nDéfinition : Charge ou emploi où l'on est rétribué sans avoir rien (ou presque) à faire. Situation de tout repos. Utilisé souvent par négation : \"ce n'est pas une sinécure\".\nExemple :\nCésar : \"J'ai trouvé deux nouvelles fonctions. Je les ai surnommé Sin et Cos. Trop content.\"\nCaligula : \"T'aurais dû les appeler Sin et Cure !\"",
+   "sentAt": "2026-09-23"
+  },
+  {
+   "id": "M58",
+   "kind": "mot",
+   "title": "Hubris",
+   "body": "Hubris\nEtymologie : Vient du grec hú bris qui se traduit le plus souvent par \"démesure\".\nDéfinition : Désigne une démesure ou un orgueil excessif poussant un être humain à ignorer ses limites et à se croire l'égal des Dieux. Dans la mythologie, l'homme frappé d'hubris provoque la colère des Dieux et subit une chute fatale (Icare).\nExemple :\nNéron : \"Je suis le plus grand poète que la Terre ait connu. Meilleur que Calliopé et Erato.\"\nAgrippine : \"Tu finiras en enfer Néron.\"",
+   "sentAt": "2026-09-23"
+  },
+  {
+   "id": "M59",
+   "kind": "mot",
+   "title": "Paradigme",
+   "body": "Paradigme\nEtymologie : Vient du latin paradigma qui signifie \"exemple\".\nDéfinition : 1. A l'origine, en linguistique ou en philosophie il s'agit d'un terme donné comme modèle pour une déclinaison, une conjugaison ou qui sert de référence par analogie ou par imitation.\n2. De nos jours, on l'utilise plutôt comme un modèle de pensée, une représentation du monde ou un ensemble de règles partagées qui guident la réflexion et l'action dans un domaine donné.\nExemple :\nJulia : \"D'habitude, je me mettais toujours une petite crème de laideur pour aller en soirée. L'été dernier, j'avais encore un succès fou. Mais hier, les jeunes se sont moqués de moi.\"\nAgrippine : \"En effet, ce n'est plus à la mode. Le paradigme a changé.\"",
+   "sentAt": "2026-09-30"
+  },
+  {
+   "id": "M60",
+   "kind": "mot",
+   "title": "Hectique",
+   "body": "Hectique\nEtymologie : Vient du grec hektikos qui signifie \"continu, habituel\".\nDéfinition : 1. Adjectif désignant autrefois une personne extrêmement maigre. De nos jours, en médecine, il s'agit d'une fièvre prolongée ou continue marquée par de grands écarts de température, des frissons et un amaigrissement progressif.\n2. En anglais hectic qualifie un rythme effréné ou agité. Par remprunt, il prend depuis peu à peu ce sens en français aussi.\nExemple :\nCaligula : \"T'as croisé Néron ces jours-ci ? Il est hectique !\"\nCésar : \"Il a maigri ?\"\nCaligula : \"Mais non ! Il prend tellement de coke qu'il est survolté h24.\"",
+   "sentAt": "2026-09-30"
+  },
+  {
+   "id": "M61",
+   "kind": "mot",
+   "title": "Éponyme",
+   "body": "Eponyme\nEtymologie : Vient du grec epônumos, de epi, \"sur\" et onoma, \"nom\" qui signifie \"donner son nom à quelque chose\".\nDéfinition : Mot qualifiant ce qui donne son nom à quelque chose d'autre. Ainsi, en littérature, le personnage éponyme est celui dont le nom sert de titre à l'œuvre. (Le préfet de la Seine Eugène Poubelle est l'éponyme de la boîte à ordures.) Dans la Grèce antique, l'archonte éponyme était le magistrat dont le nom servait à désigner l'année en cours. Exemple :\nAgrippine : \"T'as une idée de pourquoi Athènes s'appelle comme ça ?\"\nCaligula : \"Parce qu'Athéna est son éponyme ?\"\nAgrippine : \"Quel rapport avec son nez ?\"",
+   "sentAt": "2026-10-07"
+  },
+  {
+   "id": "M62",
+   "kind": "mot",
+   "title": "Exégèse",
+   "body": "Exégèse\nEtymologie : Vient du grec exêgêsis qui signifie \"explication\".\nDéfinition : Interprétation philologique, historique ou doctrinale d'un texte dont le sens, la portée sont obscurs ou sujets à discussion. Commentaire détaillé, analyse d'un texte.\nExemple :\nCésar : \"Tu sais pourquoi Caligula dit de moi que je suis un 'coincoin' ?\"\nNéron : \"L'exégèse n'est pas très difficile à trouver…\"\nCésar : \"Parce qu'il n'y a que deux coins dans mon bureau ?\"",
+   "sentAt": "2026-10-07"
+  },
+  {
+   "id": "M63",
+   "kind": "mot",
+   "title": "Népotisme",
+   "body": "Népotisme\nEtymologie : Vient du latin nepos qui signifie \"neveu\".\nDéfinition : 1. Historiquement, faveur et autorité excessives accordées par certains papes à leurs neveux, leurs parents, dans l'administration de l'Eglise.\n2. Abus qu'une personne en place fait de son crédit, de son influence pour procurer des avantages, des emplois à sa famille, à ses amis.\nExemple :\nJulia : \"Dis-moi, tu ne crois pas que cette dynastie d'empereurs tourne au népotisme ?\"\nAgrippine : \"Disons plutôt que c'est une affaire de famille.\"",
+   "sentAt": "2026-10-14"
+  },
+  {
+   "id": "M64",
+   "kind": "mot",
+   "title": "Compersion",
+   "body": "Compersion\nEtymologie : Vient d'un néologisme forgé dans les années 70 − 80 par la communauté utopique et polyamoureuse kerista basée à San Francisco.\nDéfinition : Mot désignant le sentiment de joie et d'empathie ressenti lorsqu'une autre personne éprouve du bonheur, souvent présenté comme le contraire ou l'antidote à la jalousie. Se réjouir de la réussite d'autrui.\nExemple :\nCésar : \"J'ai eu une idée : est-ce qu'on ne pourrait pas dire qu'être jaloux, c'est voir la paille dans l'œil du voisin ?\"\nJulia : \"Oui. Et être compersif, c'est lui offrir une botte de paille !\"",
+   "sentAt": "2026-10-14"
+  },
+  {
+   "id": "P25",
+   "kind": "bio",
+   "title": "Marie Curie",
+   "body": "Marie Curie\n• Marie Curie est née le 7 novembre 1867 à Varsovie, sous le nom de Maria Skłodowska. Elle grandit dans une famille cultivée où l'éducation tient une place essentielle. Très tôt, elle se passionne pour les sciences malgré les difficultés en Pologne occupée.\n• Ne pouvant étudier librement dans son pays, elle décide de partir pour Paris. Elle s'inscrit à la Sorbonne, où elle étudie la physique et les mathématiques. Ses débuts sont difficiles, marqués par la pauvreté et des conditions de vie précaires. Elle obtient néanmoins d'excellents résultats universitaires.\n• En 1894, elle rencontre le physicien Pierre Curie. Ils partagent la même passion pour la recherche scientifique. Ils se marient en 1895 et commencent à travailler ensemble. Leur collaboration conduit à des découvertes majeures sur la radioactivité. Marie Curie introduit ce terme pour décrire ces phénomènes. Elle découvre deux nouveaux éléments : le radium et le polonium, ce dernier étant nommé en hommage à son pays natal.\n• Leurs recherches révolutionnent la compréhension de la matière et en 1903, elle reçoit le prix Nobel de physique avec Pierre Curie et Henri Becquerel. Elle devient la première femme à obtenir cette distinction. Après la mort tragique de Pierre Curie en 1906, elle poursuit seule leurs travaux. Elle devient la première femme professeure à la Sorbonne. En 1911, elle reçoit un second prix Nobel de chimie. Elle est ainsi la première personne à obtenir deux prix Nobel dans des domaines différents.\n• Pendant la Première Guerre mondiale, elle met en place des unités de radiologie mobiles. Ces « petites Curies » permettent de soigner de nombreux soldats. Elle contribue ainsi directement à sauver des vies.\n• Elle fonde ensuite l'Institut Curie à Paris. Elle y poursuit ses recherches et forme de nombreux scientifiques. Sa vie est marquée par un travail acharné et une grande détermination. Cependant, son exposition prolongée aux radiations affecte sa santé. Elle meurt le 4 juillet 1934 d'une maladie liée à ces radiations. Marie Curie reste aujourd'hui une figure emblématique de la science et un modèle d'engagement.\nAnecdote : Marie Curie transportait parfois des tubes contenant du radium dans ses poches… sans savoir à quel point c'était dangereux. La nuit, elle aimait admirer la faible lumière bleutée que ces substances dégageaient dans son laboratoire. Elle trouvait cela magnifique et fascinant, presque magique. À l'époque, les effets nocifs des radiations n'étaient pas encore bien connus. Elle manipulait ces matériaux sans protection, ce qui serait aujourd'hui impensable. Ses cahiers de laboratoire sont encore aujourd'hui radioactifs. Ils sont conservés dans des boîtes spéciales à la Bibliothèque nationale de France. Les chercheurs doivent porter des équipements de protection pour les consulter…\nCitations : \"Rien dans la vie n'est à craindre, tout est à comprendre.\"",
+   "sentAt": "2026-09-09"
+  },
+  {
+   "id": "P26",
+   "kind": "bio",
+   "title": "René Descartes",
+   "body": "René Descartes\n• René Descartes est un philosophe, mathématicien et scientifique français. Il naît\nle 31 mars 1596 à La Haye, en Touraine où il grandit dans une famille aisée et reçoit une bonne éducation notamment au collège jésuite de La Flèche qui venait d'ouvrir. Il y apprend notamment les mathématiques, la philosophie et les sciences.\n• Après ses études, Descartes entreprend plusieurs voyages en Europe. Il s'intéresse particulièrement aux mathématiques et à la recherche de la vérité et veut trouver une méthode permettant de mieux utiliser la raison. Pour cela, il décide de remettre en question ses connaissances et développe le principe du doute méthodique. Il cherche une vérité tellement certaine qu'il est impossible de la remettre en doute. Il arrive alors à la célèbre formule : « Je pense, donc je suis ». Cette idée devient l'un des fondements de sa philosophie.\n• En 1637, il publie son œuvre célèbre, Le Discours de la méthode, livre dans lequel il explique comment utiliser correctement la raison.\n• Descartes écrit également des ouvrages importants sur la philosophie et les sciences dans lesquels il s'intéresse notamment aux mathématiques, à la physique, à l'optique et à l'anatomie. Ses travaux influencent durablement les mathématiques et les sciences en général.\n• Descartes passe une grande partie de sa vie dans différents pays européens. Il s'installe notamment aux Pays-Bas, où il peut travailler librement.\n• En 1649, il se rend en Suède à la demande de la reine Christine. Il donne des cours de philosophie à la reine, malgré le climat très froid. Sa santé se fragilise pendant son séjour en Suède. René Descartes meurt à Stockholm le 11 février 1650. Il laisse une œuvre qui marque profondément la philosophie moderne. Il est aujourd'hui considéré comme l'un des grands penseurs de l'histoire occidentale.\nAnecdote : Il aimait rester au lit le matin et travaillait depuis son lit. A la Flèche, il obtint un régime de faveur lui laissant le droit de ne pas aller en cours le matin afin de ne pas déranger ses réflexions. Il est le premier à refuser d'écrire en latin afin que le peuple puisse s'initier ! Grand collectionneur de femmes, on lui doit quelques aventures rocambolesques. En effet, il était bretteur de très grand talent et il n'hésitait pas à répondre aux duels demandés par les maris trompés. (un certain décalage avec l'adjectif \"cartésien\" qui est dérivé de son nom…)\nCitations : \"Je pense donc je suis.\"",
+   "sentAt": "2026-09-10"
+  },
+  {
+   "id": "P27",
+   "kind": "bio",
+   "title": "Bouddha",
+   "body": "Bouddha\n• Bouddha est né sous le nom de Siddhartha Gautama dans le nord de l'Inde, à\nLumbini (dans l'actuel Népal) vers le Ve siècle avant J.-C. Son père était un chef du clan des Shakya, aussi Siddhartha grandit dans un milieu privilégié et protégé. Il se maria avec Yasodhara et eut un fils nommé Rahula.\n• Malgré sa vie confortable, Siddhartha se sentait insatisfait. Un jour, il découvrit successivement un vieillard, un malade et un mort. Ces rencontres lui firent comprendre que la souffrance faisait partie de la vie. Il rencontra également un ascète qui avait choisi une vie spirituelle. Ainsi, à environ 29 ans, Siddhartha quitta sa famille et son palais. Il devint un ascète à la recherche de la vérité. Pendant plusieurs années, il étudia auprès de différents maîtres spirituels, pratiquant des exercices très sévères et le jeûne.\n• Il comprit finalement que les privations extrêmes ne permettaient pas d'atteindre la libération et il choisit alors une voie équilibrée appelée la Voie du Milieu. Siddhartha s'assit sous un arbre à Bodh Gaya pour méditer profondément. Après une longue méditation, il atteignit l'Éveil. Il devint alors le Bouddha, ce qui signifie « l'Éveillé ». Il comprit notamment les causes de la souffrance et la manière de s'en libérer.\n• Il formula ensuite l'enseignement des Quatre Nobles Vérités ainsi que le Noble Chemin Octuple. Son premier enseignement fut donné à Sarnath, près de Bénarès. Il commença ainsi à rassembler des disciples autour de lui. Des hommes et des femmes de différentes origines rejoignirent progressivement sa communauté. Bouddha voyagea pendant plusieurs décennies pour transmettre son enseignement. Il enseignait notamment la compassion, la méditation, la sagesse et le détachement. Ses disciples conservèrent et transmirent ses enseignements après sa mort.\n• Bouddha mourut, selon la tradition, à Kushinagar, à un âge avancé. Son enseignement donna naissance au bouddhisme, qui s'est ensuite développé dans de nombreuses régions d'Asie et du monde.\nAnecdote : Son cousin Devadatta aurait, selon les récits traditionnels, lâché un éléphant furieux sur lui, mais Bouddha resta calme et l'animal s'apaisa.\nCitations : \"Ce que tu penses, tu le deviens.\"",
+   "sentAt": "2026-09-17"
+  },
+  {
+   "id": "P28",
+   "kind": "bio",
+   "title": "Machiavel",
+   "body": "Machiavel\n• Nicolas Machiavel est un penseur et homme politique italien né en 1469 à Florence\net mort en 1527. Il vit pendant la Renaissance italienne, une période marquée par les rivalités entre États et travaille notamment comme diplomate pour la République de Florence. Aussi, il observe directement les luttes de pouvoir entre dirigeants. Son expérience politique influence profondément sa pensée.\n• Son œuvre la plus célèbre est Le Prince, écrit vers 1513. Dans ce livre, il réfléchit à la manière dont un dirigeant peut conquérir et conserver le pouvoir. Machiavel cherche surtout à décrire la politique telle qu'elle fonctionne réellement. Il s'éloigne ainsi des réflexions qui décrivent uniquement le dirigeant idéal. Pour lui, un dirigeant doit savoir s'adapter aux circonstances. Il appelle cette capacité la virtù, désignant ainsi notamment l'énergie, l'habileté, la prudence et la capacité d'agir efficacement. Machiavel oppose cette notion à la fortune, qui représente les événements imprévisibles. Selon lui, un dirigeant ne contrôle pas tout ce qui lui arrive mais il peut essayer de maîtriser les circonstances grâce à son action.\n• Machiavel considère également que la politique peut nécessiter des décisions moralement difficiles. Il distingue donc parfois la morale privée des exigences de l'action politique. Il explique qu'un dirigeant doit savoir être à la fois renard et lion. Le renard symbolisant la ruse et l'intelligence stratégique alors que le lion représente la force et la capacité à imposer son autorité.\n• Machiavel estime aussi qu'il est utile pour un dirigeant d'être perçu comme vertueux. Cependant, il considère que l'apparence peut parfois être plus importante politiquement que la réalité.\n• La célèbre formule « la fin justifie les moyens » lui est souvent attribuée. Pourtant, cette phrase n'apparaît pas telle quelle dans Le Prince. Sa pensée est plus complexe que cette formule devenue célèbre.\n• Dans ses Discours sur la première décade de Tite-Live, il s'intéresse davantage aux institutions et à la république. Il considère notamment les conflits politiques comme pouvant jouer un rôle dans la liberté d'une république.\n• Son nom a donné l'adjectif « machiavélique », souvent associé à la ruse et à la manipulation politique. Machiavel reste ainsi une figure majeure de la pensée politique moderne, notamment pour son analyse réaliste du pouvoir.\nAnecdote : Après le retour des Médicis au pouvoir à Florence en 1512, Machiavel fut accusé de complot et emprisonné. Il fut même torturé lors de son interrogatoire, mais finit par être libéré.\nCitations : \"Il vaut mieux être craint qu'aimé, si l'on ne peut être les deux.\"",
+   "sentAt": "2026-09-23"
+  },
+  {
+   "id": "P29",
+   "kind": "bio",
+   "title": "Abraham Lincoln",
+   "body": "Lincoln\n• Abraham Lincoln est né le 12 février 1809 dans le Kentucky, aux États-Unis. Il\nvient d'une famille modeste et grandit dans un milieu rural. Il s'instruit en grande partie seul grâce à la lecture et devient avocat.\n• Il commence ensuite une carrière politique dans l'Illinois. En 1858, il affronte Stephen Douglas lors d'une célèbre série de débats politiques. Ces débats contribuent à le faire connaître dans tout le pays. En 1860, Lincoln est élu le 16e président des États-Unis. Son élection provoque une forte opposition dans plusieurs États du Sud qui font alors sécession et forment la Confédération.\n• La guerre de Sécession commence en 1861 après l'attaque de Fort Sumter. Lincoln veut principalement préserver l'Union des États-Unis. La question de l'esclavage devient progressivement centrale dans la guerre. Le 1er janvier 1863, il met en application la Proclamation d'émancipation. Celle-ci déclare libres les personnes réduites en esclavage dans les territoires en rébellion contre les États-Unis. Cette proclamation ne supprime cependant pas immédiatement l'esclavage dans tout le pays. Elle transforme néanmoins profondément les objectifs et la nature de la guerre. Elle permet également aux hommes noirs de rejoindre l'armée et la marine de l'Union.\n• Le 19 novembre 1863, Lincoln prononce son célèbre discours de Gettysburg. Ce discours ne dure que quelques minutes. Il y défend notamment l'idée d'une nation fondée sur la liberté et l'égalité. Il prononce la célèbre formule sur un gouvernement « du peuple, par le peuple, pour le peuple ». Il est réélu président en 1864.\n• Au début de 1865, les forces de l'Union prennent progressivement l'avantage. Lincoln souhaite avant tout une reconstruction du pays après la guerre et une réconciliation avec les États du Sud. Le 9 avril 1865, le général confédéré Robert E. Lee capitule à Appomattox.\n• Le 14 avril 1865, l'acteur et sympathisant confédéré John Wilkes Booth assassine Lincoln au Ford's Theatre à Washington. Il reste une figure majeure de l'histoire américaine, notamment pour son rôle dans la préservation de l'Union et l'émancipation des esclaves.\nAnecdote : Lincoln utilisait son célèbre chapeau haut-de-forme comme une sorte de rangement. Il y glissait parfois des lettres, des notes et des documents importants.\nCitations : \"Avec malice envers personne, avec charité pour tous.\"",
+   "sentAt": "2026-09-30"
+  },
+  {
+   "id": "P30",
+   "kind": "bio",
+   "title": "Averroès",
+   "body": "Averroès\n• Averroès (Ibn Rushd) est né en 1126 à Cordoue, dans une famille de juristes réputés.\nSon grand-père était cadi (juge) et imam de la grande mosquée de Cordoue.\n• Il étudie le droit, la théologie, la médecine, les mathématiques et la philosophie. Il sert des califes almohades avant de devenir cadi de Séville puis de Cordoue, et médecin de la cour à Marrakech.\n• Il est surtout connu pour ses commentaires sur Aristote, qu'il connaît très bien. On le surnommera « le Commentateur » dans l'Occident latin car il rédige des commentaires courts, moyens et longs, selon le niveau du lecteur. Il écrit aussi sur le droit : Bidayat al-mujtahid, traité de droit comparé entre écoles juridiques dans lequel il explique que chacun accède à la vérité par la voie qui lui convient. En médecine, son Kitab al-Kulliyyat (« Colliget ») est un ouvrage de référence.\n• Dans son Traité décisif (Fasl al-maqal), il défend l'accord entre philosophie et religion. Pour lui, la vérité est une : la religion et la philosophie ne peuvent se contredire. Il estime même que l'étude de la philosophie est recommandée par le Coran.\n• Il défend la possibilité pour les femmes d'accéder à des fonctions politiques et militaires. Il soutient une thèse controversée sur l'intellect : l'intellect agent serait unique et commun aux hommes.\n• Vers 1195, il tombe en disgrâce : ses livres sont condamnés et il est exilé à Lucena. Il est réhabilité peu avant sa mort, survenue en 1198 à Marrakech.\n• Ses œuvres sont traduites en latin au XIIIe siècle et influencent profondément la scolastique chrétienne, notamment Thomas d'Aquin. Dante le place dans les Limbes, parmi les grands sages de l'Antiquité.\nAnecdote : Selon la tradition, il n'aurait cessé d'étudier et d'écrire que deux nuits dans sa vie : celle de la mort de son père et celle de son mariage.\nCitations (sans doute apocryphe) : \"L'ignorance conduit à la peur, la peur conduit à la haine, et la haine conduit à la violence.\"",
+   "sentAt": "2026-10-07"
+  },
+  {
+   "id": "P31",
+   "kind": "bio",
+   "title": "Rosa Parks",
+   "body": "Rosa Parks\n• Rosa Parks est née le 4 février 1913 dans l'État de l'Alabama, aux États-Unis.\nElle est devenue une figure importante de la lutte contre le racisme et la ségrégation raciale. À cette époque, les personnes noires étaient victimes de nombreuses discriminations aux États-Unis ; notamment dans les États du Sud où les lois imposaient la séparation entre les personnes blanches et les personnes noires dans les lieux publics. La ségrégation.\n• Rosa Parks a grandi dans une société profondément marquée par le racisme. Dès son enfance, elle a été confrontée aux injustices et aux inégalités. Elle a étudié dans des écoles réservées aux enfants noirs. Elle a rejoint la NAACP, une association qui défendait les droits des Afro-Américains.\n• Le 1er décembre 1955, Rosa Parks prend le bus à Montgomery, en Alabama. À cette époque, les règles obligeaient les passagers noirs à céder leur place aux passagers blancs lorsque cela était nécessaire. Ce jour-là, le chauffeur lui demande de laisser sa place à un passager blanc. Rosa Parks refuse calmement d'obéir. Elle est alors arrêtée par la police. Son arrestation provoque une grande indignation au sein de la communauté noire.\n• Martin Luther King, pasteur engagé pour les droits civiques, participe à la mobilisation qui suit. Les habitants noirs de Montgomery organisent un boycott des bus. Pendant plus d'un an, ils refusent d'utiliser les transports en commun de la ville. Ce mouvement est principalement pacifique et vise à dénoncer la ségrégation. Le boycott se termine le 20 décembre 1956, après une décision de justice déclarant la ségrégation dans les bus inconstitutionnelle. Cette victoire représente une étape importante dans la lutte pour les droits civiques aux États-Unis. Rosa Parks devient alors un symbole de courage et de résistance face à l'injustice.\n• Elle continue de défendre l'égalité et les droits des Afro-Américains pendant de nombreuses années. En raison des menaces et des difficultés professionnelles qu'elle rencontre, elle déménage à Détroit, dans le Michigan. En 1996, elle reçoit la médaille présidentielle de la Liberté pour son engagement et en 1999 la médaille d'or du Congrès américain. Rosa Parks meurt le 24 octobre 2005, à l'âge de 92 ans.\n• Aujourd'hui, elle reste célèbre pour son courage et son rôle essentiel dans la lutte contre le racisme.\nAnecdote : Rosa Parks a déclaré, en substance, qu'elle n'avait pas refusé de se lever parce qu'elle était physiquement fatiguée, mais parce qu'elle était fatiguée de céder. En outre, elle n'était pas assise dans la partie réservée aux blancs.\nCitations : \"Je voudrais que l'on se souvienne de moi comme d'une personne qui voulait être libre… afin que les autres le soient aussi.\"",
+   "sentAt": "2026-10-14"
+  }
+ ],
+ "cards": [
+  {
+   "id": "M51-def",
+   "deck": "mot",
+   "ref": "M51",
+   "front": "Définition de « Rédhibitoire »",
+   "back": "Se dit d'un défaut de la chose vendue ou louée qui peut motiver la résolution judiciaire d'une vente. Par extension : qui constitue un défaut, un empêchement absolu, radical. On parle de « vice rédhibitoire »."
+  },
+  {
+   "id": "M52-def",
+   "deck": "mot",
+   "ref": "M52",
+   "front": "Définition de « Ploutocratie »",
+   "back": "Littéralement « le gouvernement par la richesse » : système politique ou social dans lequel le pouvoir est exercé par les personnes les plus riches."
+  },
+  {
+   "id": "M53-def",
+   "deck": "mot",
+   "ref": "M53",
+   "front": "Définition de « Oligarchie »",
+   "back": "Régime politique ou mode de gouvernement où le pouvoir est aux mains d'un petit groupe de personnes, d'une classe sociale ou d'une famille puissante. S'oppose à la démocratie (pouvoir de l'ensemble des citoyens) et à l'autocratie ou monarchie (pouvoir d'un seul)."
+  },
+  {
+   "id": "M54-def",
+   "deck": "mot",
+   "ref": "M54",
+   "front": "Définition de « Équité »",
+   "back": "1. Qualité qui consiste à attribuer à chacun ce qui lui est dû en tenant compte des différences de situation et des besoins de chacun. 2. Se réfère aux principes de la justice naturelle et à un traitement impartial. (Exemple de la fiche : « C'est de l'équité, pas de l'égalité. »)"
+  },
+  {
+   "id": "M55-def",
+   "deck": "mot",
+   "ref": "M55",
+   "front": "Définition de « Altérité »",
+   "back": "Fait d'être un autre, caractère de ce qui est autre, c'est-à-dire distinct et extérieur à soi."
+  },
+  {
+   "id": "M56-def",
+   "deck": "mot",
+   "ref": "M56",
+   "front": "Définition de « Abhorrer »",
+   "back": "Avoir en horreur, détester au plus haut point. Synonymes : exécrer, haïr."
+  },
+  {
+   "id": "M57-def",
+   "deck": "mot",
+   "ref": "M57",
+   "front": "Définition de « Sinécure »",
+   "back": "Charge ou emploi où l'on est rétribué sans avoir rien (ou presque) à faire. Situation de tout repos. Souvent employé à la forme négative : « ce n'est pas une sinécure »."
+  },
+  {
+   "id": "M58-def",
+   "deck": "mot",
+   "ref": "M58",
+   "front": "Définition de « Hubris »",
+   "back": "Démesure ou orgueil excessif poussant un être humain à ignorer ses limites et à se croire l'égal des Dieux. Dans la mythologie, l'homme frappé d'hubris provoque la colère des Dieux et subit une chute fatale (Icare)."
+  },
+  {
+   "id": "M59-def",
+   "deck": "mot",
+   "ref": "M59",
+   "front": "Définition de « Paradigme »",
+   "back": "1. À l'origine (linguistique, philosophie) : terme donné comme modèle pour une déclinaison, une conjugaison, ou qui sert de référence par analogie. 2. Aujourd'hui : modèle de pensée, représentation du monde ou ensemble de règles partagées qui guident la réflexion et l'action dans un domaine donné."
+  },
+  {
+   "id": "M60-def",
+   "deck": "mot",
+   "ref": "M60",
+   "front": "Définition de « Hectique »",
+   "back": "1. Autrefois : personne extrêmement maigre. En médecine : fièvre prolongée ou continue marquée par de grands écarts de température, des frissons et un amaigrissement progressif. 2. Sous l'influence de l'anglais hectic : qualifie un rythme effréné ou agité ; ce sens se répand en français."
+  },
+  {
+   "id": "M61-def",
+   "deck": "mot",
+   "ref": "M61",
+   "front": "Définition de « Éponyme »",
+   "back": "Qualifie ce qui donne son nom à quelque chose d'autre. En littérature, le personnage éponyme est celui dont le nom sert de titre à l'œuvre. Ex. : le préfet Eugène Poubelle est l'éponyme de la boîte à ordures. Dans la Grèce antique, l'archonte éponyme était le magistrat dont le nom désignait l'année en cours."
+  },
+  {
+   "id": "M62-def",
+   "deck": "mot",
+   "ref": "M62",
+   "front": "Définition de « Exégèse »",
+   "back": "Interprétation philologique, historique ou doctrinale d'un texte dont le sens ou la portée sont obscurs ou sujets à discussion. Par extension : commentaire détaillé, analyse d'un texte."
+  },
+  {
+   "id": "M63-def",
+   "deck": "mot",
+   "ref": "M63",
+   "front": "Définition de « Népotisme »",
+   "back": "1. Historiquement : faveur et autorité excessives accordées par certains papes à leurs neveux et parents dans l'administration de l'Église. 2. Abus qu'une personne en place fait de son crédit, de son influence, pour procurer des avantages, des emplois à sa famille, à ses amis."
+  },
+  {
+   "id": "M64-def",
+   "deck": "mot",
+   "ref": "M64",
+   "front": "Définition de « Compersion »",
+   "back": "Sentiment de joie et d'empathie ressenti lorsqu'une autre personne éprouve du bonheur, souvent présenté comme le contraire ou l'antidote de la jalousie. Se réjouir de la réussite d'autrui."
+  },
+  {
+   "id": "P25-1",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Naissance de Marie Curie (date, lieu, nom d'origine) ?",
+   "back": "7 novembre 1867 à Varsovie (Pologne occupée), née Maria Skłodowska."
+  },
+  {
+   "id": "P25-2",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Marie Curie — Où et quoi étudie-t-elle en France ?",
+   "back": "À Paris, à la Sorbonne : physique et mathématiques, dans des conditions précaires mais avec d'excellents résultats."
+  },
+  {
+   "id": "P25-3",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Pierre Curie : rencontre, mariage, apport commun ?",
+   "back": "Rencontre en 1894, mariage en 1895 ; travaux sur la radioactivité, terme qu'elle introduit."
+  },
+  {
+   "id": "P25-4",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Marie Curie — Quels éléments découvre-t-elle ?",
+   "back": "Le radium et le polonium (nommé en hommage à la Pologne)."
+  },
+  {
+   "id": "P25-5",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Marie Curie — Ses deux prix Nobel ?",
+   "back": "1903 : Nobel de physique avec Pierre Curie et Henri Becquerel (1re femme nobélisée). 1911 : Nobel de chimie (1re personne nobélisée dans deux domaines différents)."
+  },
+  {
+   "id": "P25-6",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Marie Curie — Que se passe-t-il en 1906 et après ?",
+   "back": "Mort de Pierre Curie ; elle poursuit seule et devient la 1re femme professeure à la Sorbonne."
+  },
+  {
+   "id": "P25-7",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Marie Curie — Son action pendant la Première Guerre mondiale ?",
+   "back": "Unités de radiologie mobiles, les « petites Curies », pour soigner les soldats."
+  },
+  {
+   "id": "P25-8",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Institut et mort de Marie Curie ?",
+   "back": "Fonde l'Institut Curie à Paris ; meurt le 4 juillet 1934 d'une maladie liée aux radiations."
+  },
+  {
+   "id": "P25-9",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Anecdote sur Marie Curie ?",
+   "back": "Elle gardait des tubes de radium dans ses poches et admirait leur lueur bleutée ; ses cahiers, encore radioactifs, sont conservés à la BnF."
+  },
+  {
+   "id": "P25-10",
+   "deck": "bio",
+   "ref": "P25",
+   "front": "Citation de Marie Curie ?",
+   "back": "« Rien dans la vie n'est à craindre, tout est à comprendre. »"
+  },
+  {
+   "id": "P26-1",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "Naissance de Descartes ?",
+   "back": "31 mars 1596 à La Haye, en Touraine ; famille aisée."
+  },
+  {
+   "id": "P26-2",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "Où Descartes est-il formé ?",
+   "back": "Au collège jésuite de La Flèche (mathématiques, philosophie, sciences)."
+  },
+  {
+   "id": "P26-3",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "Quelle méthode développe Descartes et à quelle formule aboutit-il ?",
+   "back": "Le doute méthodique, jusqu'à une vérité indubitable : « Je pense, donc je suis »."
+  },
+  {
+   "id": "P26-4",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "René Descartes — Œuvre célèbre de 1637 ?",
+   "back": "Le Discours de la méthode (comment bien utiliser la raison)."
+  },
+  {
+   "id": "P26-5",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "René Descartes — Domaines de ses travaux ?",
+   "back": "Philosophie, mathématiques, physique, optique, anatomie."
+  },
+  {
+   "id": "P26-6",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "René Descartes — Où s'installe-t-il pour travailler librement ?",
+   "back": "Aux Pays-Bas."
+  },
+  {
+   "id": "P26-7",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "Fin de vie de Descartes ?",
+   "back": "1649 : en Suède à la demande de la reine Christine, à qui il enseigne la philosophie ; meurt à Stockholm le 11 février 1650."
+  },
+  {
+   "id": "P26-8",
+   "deck": "bio",
+   "ref": "P26",
+   "front": "Anecdotes sur Descartes ?",
+   "back": "Travaillait au lit le matin (dispensé de cours le matin à La Flèche) ; refuse d'écrire en latin pour que le peuple puisse s'initier ; bretteur redoutable, il acceptait les duels des maris trompés."
+  },
+  {
+   "id": "P27-1",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Nom et naissance de Bouddha ?",
+   "back": "Siddhartha Gautama, né à Lumbini (actuel Népal, nord de l'Inde) vers le Ve siècle av. J.-C., fils d'un chef du clan des Shakya."
+  },
+  {
+   "id": "P27-2",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Famille de Siddhartha ?",
+   "back": "Épouse Yasodhara, fils Rahula."
+  },
+  {
+   "id": "P27-3",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Bouddha — Quelles rencontres le poussent à partir ?",
+   "back": "Un vieillard, un malade et un mort (la souffrance fait partie de la vie), puis un ascète. Il quitte son palais vers 29 ans."
+  },
+  {
+   "id": "P27-4",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Bouddha — Qu'est-ce que la Voie du Milieu ?",
+   "back": "Après avoir constaté que les privations extrêmes ne libèrent pas, il choisit une voie équilibrée."
+  },
+  {
+   "id": "P27-5",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Où atteint-il l'Éveil et que signifie « Bouddha » ?",
+   "back": "Sous un arbre à Bodh Gaya ; « Bouddha » signifie « l'Éveillé »."
+  },
+  {
+   "id": "P27-6",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Bouddha — Ses enseignements principaux ?",
+   "back": "Les Quatre Nobles Vérités et le Noble Chemin Octuple ; premier enseignement à Sarnath, près de Bénarès."
+  },
+  {
+   "id": "P27-7",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Mort de Bouddha ?",
+   "back": "À Kushinagar, à un âge avancé selon la tradition ; naissance du bouddhisme."
+  },
+  {
+   "id": "P27-8",
+   "deck": "bio",
+   "ref": "P27",
+   "front": "Anecdote et citation de Bouddha ?",
+   "back": "Son cousin Devadatta aurait lâché un éléphant furieux sur lui, qui s'apaisa. « Ce que tu penses, tu le deviens. »"
+  },
+  {
+   "id": "P28-1",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Dates et lieu de Machiavel ?",
+   "back": "Né en 1469 à Florence, mort en 1527 ; Renaissance italienne."
+  },
+  {
+   "id": "P28-2",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Machiavel — Quelle fonction exerce-t-il ?",
+   "back": "Diplomate pour la République de Florence."
+  },
+  {
+   "id": "P28-3",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Machiavel — Son œuvre la plus célèbre ?",
+   "back": "Le Prince, écrit vers 1513 : comment conquérir et conserver le pouvoir, en décrivant la politique telle qu'elle est."
+  },
+  {
+   "id": "P28-4",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Machiavel — Virtù et fortune ?",
+   "back": "Virtù : énergie, habileté, prudence, capacité d'agir efficacement ; fortune : événements imprévisibles que le dirigeant doit tenter de maîtriser."
+  },
+  {
+   "id": "P28-5",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Machiavel — Le renard et le lion ?",
+   "back": "Le dirigeant doit être renard (ruse, intelligence stratégique) et lion (force, autorité)."
+  },
+  {
+   "id": "P28-6",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Machiavel — « La fin justifie les moyens » ?",
+   "back": "Formule souvent attribuée à Machiavel mais absente telle quelle du Prince."
+  },
+  {
+   "id": "P28-7",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Autre œuvre de Machiavel ?",
+   "back": "Les Discours sur la première décade de Tite-Live : institutions, république, conflits politiques facteurs de liberté."
+  },
+  {
+   "id": "P28-8",
+   "deck": "bio",
+   "ref": "P28",
+   "front": "Anecdote et citation de Machiavel ?",
+   "back": "Au retour des Médicis (1512), accusé de complot, emprisonné et torturé, puis libéré. « Il vaut mieux être craint qu'aimé, si l'on ne peut être les deux. »"
+  },
+  {
+   "id": "P29-1",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Naissance et formation de Lincoln ?",
+   "back": "12 février 1809 dans le Kentucky, famille modeste ; autodidacte, devient avocat."
+  },
+  {
+   "id": "P29-2",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Abraham Lincoln — Débats de 1858 ?",
+   "back": "Contre Stephen Douglas, dans l'Illinois : ils le font connaître dans tout le pays."
+  },
+  {
+   "id": "P29-3",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Abraham Lincoln — Élection de 1860 et conséquence ?",
+   "back": "16e président des États-Unis ; des États du Sud font sécession et forment la Confédération."
+  },
+  {
+   "id": "P29-4",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Abraham Lincoln — Début de la guerre de Sécession ?",
+   "back": "1861, après l'attaque de Fort Sumter."
+  },
+  {
+   "id": "P29-5",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Abraham Lincoln — Proclamation d'émancipation ?",
+   "back": "Appliquée le 1er janvier 1863 : libère les esclaves des territoires en rébellion et permet aux hommes noirs de rejoindre l'armée de l'Union."
+  },
+  {
+   "id": "P29-6",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Abraham Lincoln — Discours de Gettysburg ?",
+   "back": "19 novembre 1863 : « gouvernement du peuple, par le peuple, pour le peuple »."
+  },
+  {
+   "id": "P29-7",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Fin de la guerre et mort de Lincoln ?",
+   "back": "Réélu en 1864 ; Lee capitule à Appomattox le 9 avril 1865 ; Lincoln est assassiné le 14 avril 1865 par John Wilkes Booth au Ford's Theatre."
+  },
+  {
+   "id": "P29-8",
+   "deck": "bio",
+   "ref": "P29",
+   "front": "Anecdote et citation de Lincoln ?",
+   "back": "Il rangeait lettres et notes dans son chapeau haut-de-forme. « Avec malice envers personne, avec charité pour tous. »"
+  },
+  {
+   "id": "P30-1",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Nom arabe, naissance et famille d'Averroès ?",
+   "back": "Ibn Rushd, né en 1126 à Cordoue, famille de juristes (grand-père cadi et imam de la grande mosquée)."
+  },
+  {
+   "id": "P30-2",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Averroès — Ses fonctions ?",
+   "back": "Au service des califes almohades ; cadi de Séville puis de Cordoue ; médecin de la cour à Marrakech."
+  },
+  {
+   "id": "P30-3",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Averroès — Pourquoi le surnomme-t-on « le Commentateur » ?",
+   "back": "Pour ses commentaires d'Aristote (courts, moyens et longs selon le niveau du lecteur)."
+  },
+  {
+   "id": "P30-4",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Averroès — Ses ouvrages de droit et de médecine ?",
+   "back": "Bidayat al-mujtahid (droit comparé) ; le Kitab al-Kulliyyat (« Colliget »), référence en médecine."
+  },
+  {
+   "id": "P30-5",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Averroès — Thèse du Traité décisif ?",
+   "back": "Accord entre philosophie et religion : la vérité est une, elles ne peuvent se contredire ; le Coran recommande la philosophie."
+  },
+  {
+   "id": "P30-6",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Positions audacieuses d'Averroès ?",
+   "back": "Accès des femmes aux fonctions politiques et militaires ; unicité de l'intellect agent, commun à tous les hommes."
+  },
+  {
+   "id": "P30-7",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Averroès — Disgrâce et mort ?",
+   "back": "Vers 1195 : livres condamnés, exil à Lucena ; réhabilité peu avant sa mort en 1198 à Marrakech."
+  },
+  {
+   "id": "P30-8",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Postérité d'Averroès ?",
+   "back": "Traduit en latin au XIIIe siècle, influence la scolastique (Thomas d'Aquin) ; Dante le place dans les Limbes."
+  },
+  {
+   "id": "P30-9",
+   "deck": "bio",
+   "ref": "P30",
+   "front": "Anecdote et citation d'Averroès ?",
+   "back": "Il n'aurait cessé d'étudier que deux nuits : celle de la mort de son père et celle de son mariage. « L'ignorance conduit à la peur, la peur à la haine, la haine à la violence » (sans doute apocryphe)."
+  },
+  {
+   "id": "P31-1",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Naissance de Rosa Parks ?",
+   "back": "4 février 1913 en Alabama (États-Unis)."
+  },
+  {
+   "id": "P31-2",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Rosa Parks — Contexte de sa jeunesse ?",
+   "back": "Ségrégation raciale dans le Sud ; écoles réservées aux enfants noirs ; elle rejoint la NAACP."
+  },
+  {
+   "id": "P31-3",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Rosa Parks — Que se passe-t-il le 1er décembre 1955 ?",
+   "back": "À Montgomery (Alabama), elle refuse de céder sa place dans le bus à un passager blanc ; elle est arrêtée."
+  },
+  {
+   "id": "P31-4",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Rosa Parks — Le boycott des bus de Montgomery ?",
+   "back": "Plus d'un an, avec Martin Luther King ; il se termine le 20 décembre 1956 après une décision de justice jugeant la ségrégation dans les bus inconstitutionnelle."
+  },
+  {
+   "id": "P31-5",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Rosa Parks — Suite de sa vie ?",
+   "back": "Menaces et difficultés : elle déménage à Détroit (Michigan) ; médaille présidentielle de la Liberté (1996), médaille d'or du Congrès (1999)."
+  },
+  {
+   "id": "P31-6",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Mort de Rosa Parks ?",
+   "back": "24 octobre 2005, à 92 ans."
+  },
+  {
+   "id": "P31-7",
+   "deck": "bio",
+   "ref": "P31",
+   "front": "Anecdote et citation de Rosa Parks ?",
+   "back": "Elle n'était pas « fatiguée physiquement » mais fatiguée de céder, et n'était pas assise dans la partie réservée aux Blancs. « Je voudrais que l'on se souvienne de moi comme d'une personne qui voulait être libre… afin que les autres le soient aussi. »"
+  },
+  {
+   "id": "actu-2026-10-09-1",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "À qui est attribué le prix Nobel de la paix 2026 ?",
+   "back": "À l'avocate sud-africaine Navi Pillay (85 ans), ex-haute-commissaire de l'ONU aux droits de l'homme, ex-présidente du Tribunal pénal international pour le Rwanda."
+  },
+  {
+   "id": "actu-2026-10-09-2",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Quelle institution internationale Washington sanctionne-t-elle ?",
+   "back": "La Cour pénale internationale (CPI), qui dénonce une « attaque contre l'État de droit »."
+  },
+  {
+   "id": "actu-2026-10-09-3",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Sur quoi l'UE et la Chine trouvent-elles un accord ?",
+   "back": "Limiter les exportations chinoises de voitures hybrides."
+  },
+  {
+   "id": "actu-2026-10-09-4",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Pourquoi la primaire à gauche est-elle prolongée ?",
+   "back": "À cause d'une cyberattaque contre la plateforme de vote (vote prolongé jusqu'à dimanche 18 h)."
+  },
+  {
+   "id": "actu-2026-10-09-5",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Quel parti remporte la présidence du parlement de Saxe-Anhalt, menaçant la coalition de Merz ?",
+   "back": "L'AfD (avec des voix d'élus CDU)."
+  },
+  {
+   "id": "actu-2026-10-09-6",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Que publie Mediapart sur Jordan Bardella ?",
+   "back": "Trois conversations Messenger de 2013 reliant son compte Twitter au fil de discussion antisémite."
+  },
+  {
+   "id": "actu-2026-10-09-7",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Combien de projets sur les terres rares l'UE soutient-elle ?",
+   "back": "46 (dont 6 en France), pour réduire la dépendance à la Chine."
+  },
+  {
+   "id": "actu-2026-10-09-8",
+   "deck": "actu",
+   "ref": "2026-10-09",
+   "date": "2026-10-09",
+   "front": "Quel maire de New York appelle à « abolir l'ICE » ?",
+   "back": "Zohran Mamdani."
+  },
+  {
+   "id": "actu-2026-10-10-1",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Que réclame Donald Trump pour l'Ukraine ?",
+   "back": "« Un nouveau président » à Kiev."
+  },
+  {
+   "id": "actu-2026-10-10-2",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quel accord Trump et Poutine signent-ils ?",
+   "back": "Un accord sur le gazole : la Russie fournit près de 5 millions de tonnes de gazole aux États-Unis et aux marchés mondiaux."
+  },
+  {
+   "id": "actu-2026-10-10-3",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quelle astronaute française revient sur Terre ?",
+   "back": "Sophie Adenot, après 237 jours dans l'espace."
+  },
+  {
+   "id": "actu-2026-10-10-4",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quel pays est frappé par un séisme de magnitude 7,7 ?",
+   "back": "Le Panama."
+  },
+  {
+   "id": "actu-2026-10-10-5",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quel pays interdit les réseaux sociaux aux moins de 15 ans au 1er novembre ?",
+   "back": "La Turquie."
+  },
+  {
+   "id": "actu-2026-10-10-6",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quel pays veut réautoriser la « force physique » à l'école en 2027 ?",
+   "back": "Le Danemark (interdite depuis 1967)."
+  },
+  {
+   "id": "actu-2026-10-10-7",
+   "deck": "actu",
+   "ref": "2026-10-10",
+   "date": "2026-10-10",
+   "front": "Quel mouvement d'opposition est réprimé en Inde ?",
+   "back": "Le « Parti du peuple cafard » (fondateur Abhijeet Dipke arrêté)."
+  },
+  {
+   "id": "actu-2026-10-11-1",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Quelle attaque frappe l'Arabie saoudite ?",
+   "back": "Une attaque houthiste contre l'aéroport de Riyad : 12 morts, plus de 300 blessés (dont une Française)."
+  },
+  {
+   "id": "actu-2026-10-11-2",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Que propose Zelensky en réponse à Trump ?",
+   "back": "60 jours de cessez-le-feu pour pouvoir organiser des élections."
+  },
+  {
+   "id": "actu-2026-10-11-3",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Quelle décision prend Mahmoud Abbas ?",
+   "back": "Il reporte les législatives et convoque présidentielle et législatives le 11 septembre 2027 (aucune élection depuis 2006)."
+  },
+  {
+   "id": "actu-2026-10-11-4",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Qui est visé par une tentative d'assassinat déjouée en Pologne ?",
+   "back": "Le Premier ministre Donald Tusk et son ministre de la Défense."
+  },
+  {
+   "id": "actu-2026-10-11-5",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Quelle association le ministère de l'Intérieur veut-il dissoudre ?",
+   "back": "Égalité et réconciliation, fondée par Alain Soral."
+  },
+  {
+   "id": "actu-2026-10-11-6",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Combien de noms l'UE ajoute-t-elle à ses sanctions contre la Russie ?",
+   "back": "Plus de 1 600."
+  },
+  {
+   "id": "actu-2026-10-11-7",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Quel déficit Roland Lescure défend-il pour 2027 ?",
+   "back": "5 % du PIB (il préfère éviter les ordonnances)."
+  },
+  {
+   "id": "actu-2026-10-11-8",
+   "deck": "actu",
+   "ref": "2026-10-11",
+   "date": "2026-10-11",
+   "front": "Quelles élections sont reportées sine die ?",
+   "back": "Les élections présidentielle et législatives en Haïti (prévues le 13 décembre)."
+  },
+  {
+   "id": "actu-2026-10-12-1",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Qui remporte la primaire de la gauche sociale-démocrate, avec quel score ?",
+   "back": "Raphaël Glucksmann (Place publique) avec 66 %, devant Olivier Faure (14 %)."
+  },
+  {
+   "id": "actu-2026-10-12-2",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "À qui est attribué le prix Nobel d'économie 2026 ?",
+   "back": "Aux Américains Robert Hall et Michael Woodford (fondements microéconomiques de la stabilisation macroéconomique)."
+  },
+  {
+   "id": "actu-2026-10-12-3",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Quelle cyberattaque frappe la France ?",
+   "back": "Les systèmes frigorifiques de centaines de supermarchés Intermarché et Coopérative U (faille d'un logiciel Danfoss)."
+  },
+  {
+   "id": "actu-2026-10-12-4",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Que se passe-t-il au collège Joseph-Lakanal d'Aubagne ?",
+   "back": "Un collégien de 14 ans tire au fusil de chasse sur son principal et une professeure."
+  },
+  {
+   "id": "actu-2026-10-12-5",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Que fait Joseph Kabila en RDC ?",
+   "back": "Il prend la tête d'un mouvement politico-militaire incluant les rebelles du M23."
+  },
+  {
+   "id": "actu-2026-10-12-6",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Quel ministre allemand démissionne ?",
+   "back": "La ministre du Travail Bärbel Bas (SPD), en plein débat sur les retraites."
+  },
+  {
+   "id": "actu-2026-10-12-7",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Quel lieu parisien est détruit par un incendie ?",
+   "back": "Le marché des Enfants-Rouges (plus vieux marché couvert de Paris, 3e arrondissement)."
+  },
+  {
+   "id": "actu-2026-10-12-8",
+   "deck": "actu",
+   "ref": "2026-10-12",
+   "date": "2026-10-12",
+   "front": "Quel cessez-le-feu annonce Trump ?",
+   "back": "Sur les infrastructures énergétiques russes et ukrainiennes, sans en informer Kiev au préalable."
+  }
+ ],
+ "actuDays": [
+  {
+   "id": "2026-10-09",
+   "title": "Actu du jour — vendredi 9 octobre"
+  },
+  {
+   "id": "2026-10-10",
+   "title": "Actu du jour — samedi 10 octobre"
+  },
+  {
+   "id": "2026-10-11",
+   "title": "Actu du jour — dimanche 11 octobre"
+  },
+  {
+   "id": "2026-10-12",
+   "title": "Actu du jour — lundi 12 octobre"
+  }
+ ]
+}

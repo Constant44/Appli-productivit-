@@ -1,0 +1,87 @@
+{
+ "id": "import-2026-10-millaret-v3",
+ "evals": [
+  {
+   "id": "kh-2026-11-18-ecrit",
+   "type": "DS",
+   "subject": "Entretien",
+   "date": "2026-11-18T11:00:00+01:00",
+   "durationMin": 30,
+   "topic": "Préparation à l'entretien · Épistémologie (de la science économique)",
+   "examiner": "Mme Millaret",
+   "source": "manual"
+  },
+  {
+   "id": "kh-2026-12-09-ecrit",
+   "type": "DS",
+   "subject": "Entretien",
+   "date": "2026-12-09T11:00:00+01:00",
+   "durationMin": 30,
+   "topic": "DS sur les 2 conférences de M. Rossi (13 et 27/11) — remplace l'anthropologie (mail du 12/10) · horaire à vérifier",
+   "examiner": "Mme Millaret",
+   "source": "manual"
+  }
+ ],
+ "lessons": [
+  {
+   "id": "conf-2026-11-13",
+   "start": "2026-11-13T14:00:00+01:00",
+   "end": "2026-11-13T16:00:00+01:00",
+   "subject": "Conférence",
+   "title": "Conférence de M. Rossi (épistémologie) · après le DS d'anglais, horaire à vérifier",
+   "teacher": "M. Rossi",
+   "canceled": false,
+   "isTest": false,
+   "kind": "activity"
+  },
+  {
+   "id": "conf-2026-11-27",
+   "start": "2026-11-27T13:00:00+01:00",
+   "end": "2026-11-27T15:00:00+01:00",
+   "subject": "Conférence",
+   "title": "Conférence de M. Rossi · horaire à vérifier",
+   "teacher": "M. Rossi",
+   "canceled": false,
+   "isTest": false,
+   "kind": "activity"
+  },
+  {
+   "id": "visio-2026-11-07",
+   "start": "2026-11-07T10:00:00+01:00",
+   "end": "2026-11-07T11:00:00+01:00",
+   "subject": "Orientation",
+   "title": "Visio « L'ENSAI, pourquoi pas moi ? » (anciens D2 Bordeaux)",
+   "canceled": false,
+   "isTest": false,
+   "kind": "activity"
+  }
+ ],
+ "tasks": [
+  {
+   "id": "t-epistemo-podcast",
+   "title": "Écouter « Qu'est-ce que l'épistémologie ? » + le podcast sur Bachelard (France Culture)",
+   "subject": "Entretien",
+   "kind": "revision",
+   "due": "2026-11-13",
+   "estimateMin": 45,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-21T15:00:00+02:00",
+   "source": "manual",
+   "notes": "https://www.radiofrance.fr/franceculture/podcasts/le-pourquoi-du-comment-philo/qu-est-ce-que-l-epistemologie-8961993 (lien Bachelard sur la page)"
+  },
+  {
+   "id": "t-epistemo-universalis",
+   "title": "Lire l'article Universalis « Épistémologie : histoire et structure de la science »",
+   "subject": "Entretien",
+   "kind": "fiche",
+   "due": "2026-11-13",
+   "estimateMin": 60,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-21T15:00:00+02:00",
+   "source": "manual",
+   "notes": "https://www.universalis.fr/encyclopedie/epistemologie/2-histoire-et-structure-de-la-science/ — article complet via e-sidoc (Pronote)"
+  }
+ ]
+}

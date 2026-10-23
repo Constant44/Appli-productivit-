@@ -1,0 +1,2639 @@
+[
+ {
+  "theme": "Commonly confused words",
+  "q": "Is he ___ living in London? – Yes, he hasn't moved.",
+  "choices": [
+   "already",
+   "always",
+   "still",
+   "yet"
+  ],
+  "answer": 2,
+  "explain": "Still = encore/toujours, action non terminée, placé avant le verbe."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "No, I haven't finished ___.",
+  "choices": [
+   "still",
+   "always",
+   "yet",
+   "already"
+  ],
+  "answer": 2,
+  "explain": "Yet = action attendue, en fin de phrase, dans les questions et négations."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "Our house is ___ a hospital – everybody is ill.",
+  "choices": [
+   "as",
+   "like",
+   "alike",
+   "such as"
+  ],
+  "answer": 1,
+  "explain": "Like = comparaison (ressembler à)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "I work ___ a bus driver.",
+  "choices": [
+   "such as",
+   "as",
+   "like",
+   "alike"
+  ],
+  "answer": 1,
+  "explain": "As = identité, fonction (en tant que)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "There are many types of animal, ___ the elephant and the tiger.",
+  "choices": [
+   "alike",
+   "like as",
+   "as",
+   "such as"
+  ],
+  "answer": 3,
+  "explain": "Such as = pour donner des exemples."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "I have lived in Paris ___ 2001.",
+  "choices": [
+   "ago",
+   "since",
+   "for",
+   "during"
+  ],
+  "answer": 1,
+  "explain": "Since + point de départ ; for + durée."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "My grandfather lived in Paris ___ the war.",
+  "choices": [
+   "ago",
+   "for",
+   "since",
+   "during"
+  ],
+  "answer": 3,
+  "explain": "During + nom désignant une période."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "She ___ me that she would be late.",
+  "choices": [
+   "said",
+   "spoke",
+   "told",
+   "says to"
+  ],
+  "answer": 2,
+  "explain": "Tell est toujours suivi d'un complément de personne (tell sb sth) ; say sth (to sb)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "He ___ a lot of money in his job.",
+  "choices": [
+   "earns",
+   "wins",
+   "gains",
+   "wons"
+  ],
+  "answer": 0,
+  "explain": "Earn = gagner par le travail ; win = gagner un jeu / une compétition."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "Can you ___ me your book?",
+  "choices": [
+   "owe",
+   "lend",
+   "borrow",
+   "take"
+  ],
+  "answer": 1,
+  "explain": "Lend = prêter ; borrow = emprunter."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "Jeremy has found a new ___ as a sales assistant.",
+  "choices": [
+   "labour",
+   "work",
+   "job",
+   "works"
+  ],
+  "answer": 2,
+  "explain": "A job = un emploi (dénombrable) ; work = du travail (indénombrable)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "Don't worry – she'll soon get used to ___ in a hot climate.",
+  "choices": [
+   "lived",
+   "living",
+   "live",
+   "have lived"
+  ],
+  "answer": 1,
+  "explain": "Be/get used to + V-ing (to est ici une préposition) = (s')habituer à."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "She ___ me of your sister.",
+  "choices": [
+   "remembers",
+   "remind",
+   "reminds",
+   "recalls"
+  ],
+  "answer": 2,
+  "explain": "Remind sb of sth = rappeler qch à qn ; remember = se rappeler."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "The sector is ___ going through a deep crisis.",
+  "choices": [
+   "eventually",
+   "actual",
+   "currently",
+   "actually"
+  ],
+  "answer": 2,
+  "explain": "Currently = actuellement (faux-ami : actually)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "The directors have not decided ___ they will recommend a dividend or hold over the profits.",
+  "choices": [
+   "weather",
+   "either",
+   "whether",
+   "if"
+  ],
+  "answer": 2,
+  "explain": "Whether est préféré (plus formel) quand l'alternative est donnée ; c'est la réponse attendue au concours."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "My teacher ___ me how to pass the exam.",
+  "choices": [
+   "learnt",
+   "taught",
+   "teached",
+   "learned"
+  ],
+  "answer": 1,
+  "explain": "Teach (taught) = enseigner ; learn = apprendre (soi-même)."
+ },
+ {
+  "theme": "Commonly confused words",
+  "q": "Be careful not to ___ your keys again.",
+  "choices": [
+   "loose",
+   "lose",
+   "lost",
+   "loosen"
+  ],
+  "answer": 1,
+  "explain": "To lose (un seul o) = perdre ; loose = desserré, en liberté."
+ },
+ {
+  "theme": "Numbers",
+  "q": "If you want to buy a new car, you can expect to pay around ___.",
+  "choices": [
+   "eleven thousands of pounds",
+   "eleven thousand of pounds",
+   "eleven thousands pound",
+   "eleven thousand pounds"
+  ],
+  "answer": 3,
+  "explain": "Nombre précis : thousand/hundred invariables, sans of ; mais pounds au pluriel.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Numbers",
+  "q": "The company decided to hold the conference in ___.",
+  "choices": [
+   "five stars hotel",
+   "an five star hotel",
+   "a five-star hotel",
+   "a five stars hotel"
+  ],
+  "answer": 2,
+  "explain": "Nombre employé comme adjectif composé : trait d'union et pas de -s.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Numbers",
+  "q": "There were ___ people at the event.",
+  "choices": [
+   "thousands of",
+   "thousands",
+   "thousand of",
+   "thousand"
+  ],
+  "answer": 0,
+  "explain": "Nombre non précis = nom : thousands of (des milliers de)."
+ },
+ {
+  "theme": "Numbers",
+  "q": "Can you change a ___ ?",
+  "choices": [
+   "note of ten pound",
+   "ten-pounds note",
+   "ten pounds note",
+   "ten-pound note"
+  ],
+  "answer": 3,
+  "explain": "Adjectif composé numérique invariable : a ten-pound note."
+ },
+ {
+  "theme": "Numbers",
+  "q": "Industrial output increased ___ 2% last quarter.",
+  "choices": [
+   "in",
+   "of",
+   "by",
+   "to"
+  ],
+  "answer": 2,
+  "explain": "Verbe + BY + chiffre : to increase by 2%."
+ },
+ {
+  "theme": "Numbers",
+  "q": "Net income was $476 million, an increase ___ 65 percent from last year.",
+  "choices": [
+   "of",
+   "in",
+   "by",
+   "at"
+  ],
+  "answer": 0,
+  "explain": "Nom + OF + chiffre : an increase of 65%."
+ },
+ {
+  "theme": "Numbers",
+  "q": "The rise ___ incidences of piracy in the region is very troubling.",
+  "choices": [
+   "of",
+   "by",
+   "in",
+   "on"
+  ],
+  "answer": 2,
+  "explain": "A rise/fall/increase/decrease IN + nom."
+ },
+ {
+  "theme": "Numbers",
+  "q": "Korean imports went up ___ 7% ___ 20%.",
+  "choices": [
+   "of … at",
+   "from … to",
+   "from … at",
+   "by … to"
+  ],
+  "answer": 1,
+  "explain": "Up/down FROM … TO … = passer de … à."
+ },
+ {
+  "theme": "Tenses",
+  "q": "I usually take my car to go to work but at the moment ___ the bus as my car is being repaired.",
+  "choices": [
+   "I take",
+   "I'm taking",
+   "I've been taking",
+   "I've taken"
+  ],
+  "answer": 1,
+  "explain": "Action temporaire (at the moment) : present continuous.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "It's high time the state ___ to subsidise electric cars.",
+  "choices": [
+   "decide",
+   "decided",
+   "decides",
+   "should decide"
+  ],
+  "answer": 1,
+  "explain": "It's (high) time / I'd rather + sujet + prétérit.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "I'd rather you ___ him the truth.",
+  "choices": [
+   "don't tell",
+   "didn't tell",
+   "not tell",
+   "won't tell"
+  ],
+  "answer": 1,
+  "explain": "I'd rather + sujet + prétérit (je préférerais que…)."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Can you remember ___ when you heard that Princess Diana had died?",
+  "choices": [
+   "what were you doing",
+   "what are you doing",
+   "what you were doing",
+   "what do you do"
+  ],
+  "answer": 2,
+  "explain": "Action en cours dans le passé (past continuous) + question indirecte : pas d'inversion.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "When I was a child, we ___ all get up early and go for a swim in the lake.",
+  "choices": [
+   "would",
+   "used",
+   "will",
+   "were"
+  ],
+  "answer": 0,
+  "explain": "Would = habitude répétée dans le passé (used serait correct seulement avec to).",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "So far cut-throat competition ___, but that may change in the future.",
+  "choices": [
+   "keeps prices relatively low",
+   "had kept prices relatively low",
+   "kept prices relatively low",
+   "has kept prices relatively low"
+  ],
+  "answer": 3,
+  "explain": "So far = lien passé-présent : present perfect.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "Mr Brown ___ in New York since 1987.",
+  "choices": [
+   "lived",
+   "has been living",
+   "is living",
+   "lives"
+  ],
+  "answer": 1,
+  "explain": "Since + action qui dure jusqu'à maintenant : present perfect (continuous). Jamais le présent.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "I ___ him for three years. (Je le connais depuis trois ans.)",
+  "choices": [
+   "have known",
+   "know",
+   "am knowing",
+   "knew"
+  ],
+  "answer": 0,
+  "explain": "Depuis + présent français = present perfect ; know ne se met pas en -ing."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Last time I saw her, she was wearing a sling because she ___ her arm.",
+  "choices": [
+   "has broken",
+   "broke",
+   "had broken",
+   "was breaking"
+  ],
+  "answer": 2,
+  "explain": "Antériorité dans le passé : past perfect.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "I ___ some cash when my wallet was stolen.",
+  "choices": [
+   "had been withdraw",
+   "withdrew",
+   "was withdrawing",
+   "have withdrawn"
+  ],
+  "answer": 2,
+  "explain": "Action en cours interrompue dans le passé : past continuous."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Last year, the company ___ to China.",
+  "choices": [
+   "relocates",
+   "relocated",
+   "had been relocating",
+   "has relocated"
+  ],
+  "answer": 1,
+  "explain": "Action terminée, date passée (last year) : prétérit."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Last weekend I was exhausted, as I ___ overtime all week.",
+  "choices": [
+   "am doing",
+   "have been doing",
+   "had been doing",
+   "will be doing"
+  ],
+  "answer": 2,
+  "explain": "Durée jusqu'à un moment du passé : past perfect continuous."
+ },
+ {
+  "theme": "Tenses",
+  "q": "My father ___ a small company.",
+  "choices": [
+   "run",
+   "runs",
+   "running",
+   "is run"
+  ],
+  "answer": 1,
+  "explain": "Present simple : -s à la 3e personne du singulier."
+ },
+ {
+  "theme": "Tenses",
+  "q": "I'll tell him as soon as I ___ him.",
+  "choices": [
+   "will see",
+   "see",
+   "would see",
+   "am going to see"
+  ],
+  "answer": 1,
+  "explain": "Après if, when, as soon as, whenever : présent pour parler du futur."
+ },
+ {
+  "theme": "Tenses",
+  "q": "When the shareholders ___ the results, they'll be very impressed.",
+  "choices": [
+   "see",
+   "will see",
+   "are going to see",
+   "would see"
+  ],
+  "answer": 0,
+  "explain": "When + présent à valeur de futur (pas de will après when)."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Peter: I'm having problems with my English. Paul: Don't worry – I ___ you.",
+  "choices": [
+   "help",
+   "have helped",
+   "'ll help",
+   "am helping"
+  ],
+  "answer": 2,
+  "explain": "Will = décision prise au moment où l'on parle."
+ },
+ {
+  "theme": "Tenses",
+  "q": "___ I help you with your cover letter?",
+  "choices": [
+   "Am",
+   "Do",
+   "Shall",
+   "Will"
+  ],
+  "answer": 2,
+  "explain": "Shall à la 1re personne pour une offre ou une suggestion."
+ },
+ {
+  "theme": "Tenses",
+  "q": "Where ___ tonight?",
+  "choices": [
+   "are you going",
+   "do you to go",
+   "you are going",
+   "do you went"
+  ],
+  "answer": 0,
+  "explain": "Present continuous pour un projet organisé ; inversion dans la question.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "By the time this project is submitted to the council, the public ___ interest.",
+  "choices": [
+   "is lost",
+   "loses",
+   "will losing",
+   "will have lost"
+  ],
+  "answer": 3,
+  "explain": "Bilan à un moment du futur (by the time) : future perfect.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "This time next month, ___ in this company for twenty years.",
+  "choices": [
+   "I have worked",
+   "I will work",
+   "I have been working",
+   "I will have been working"
+  ],
+  "answer": 3,
+  "explain": "Durée jusqu'à un point du futur : future perfect continuous.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Tenses",
+  "q": "I ___ the report by the end of the week.",
+  "choices": [
+   "finish",
+   "will have finished",
+   "have finished",
+   "had finished"
+  ],
+  "answer": 1,
+  "explain": "By + moment futur : future perfect (j'aurai terminé)."
+ },
+ {
+  "theme": "Translating the tenses",
+  "q": "« Les deux entreprises pensent à fusionner. » → The two companies ___ of merging.",
+  "choices": [
+   "have thought",
+   "are thinking",
+   "think",
+   "thought"
+  ],
+  "answer": 1,
+  "explain": "Action en cours / temporaire : le présent français se traduit par un present continuous."
+ },
+ {
+  "theme": "Translating the tenses",
+  "q": "« Nous nous connaissons depuis longtemps. » → We ___ each other for a long time.",
+  "choices": [
+   "have known",
+   "know",
+   "are knowing",
+   "knew"
+  ],
+  "answer": 0,
+  "explain": "Présent + depuis = present perfect."
+ },
+ {
+  "theme": "Translating the tenses",
+  "q": "« Combien de temps avez-vous travaillé à Madrid l'année dernière ? » → How long ___ in Madrid last year?",
+  "choices": [
+   "have you worked",
+   "do you work",
+   "had you worked",
+   "did you work"
+  ],
+  "answer": 3,
+  "explain": "Passé composé + date révolue (last year) = prétérit."
+ },
+ {
+  "theme": "Translating the tenses",
+  "q": "« Jusqu'à présent, progresser sur cette question s'est avéré difficile. » → Progress on the issue ___ difficult so far.",
+  "choices": [
+   "had proven",
+   "proved",
+   "proves",
+   "has proven"
+  ],
+  "answer": 3,
+  "explain": "Passé composé avec bilan présent (so far, jusqu'à présent) = present perfect."
+ },
+ {
+  "theme": "Translating the tenses",
+  "q": "« La production est sous-traitée depuis 2003. » → We ___ the production of our products since 2003.",
+  "choices": [
+   "have been subcontracting",
+   "are subcontracting",
+   "subcontracted",
+   "subcontract"
+  ],
+  "answer": 0,
+  "explain": "Présent + depuis, accent sur l'activité = present perfect continuous."
+ },
+ {
+  "theme": "Verb form",
+  "q": "Would you mind ___ part in a customer survey questionnaire?",
+  "choices": [
+   "to take",
+   "take",
+   "taking",
+   "to be taking"
+  ],
+  "answer": 2,
+  "explain": "Mind (et avoid, enjoy, suggest, consider…) + V-ing.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Verb form",
+  "q": "I am looking forward to ___ you again.",
+  "choices": [
+   "see",
+   "seeing",
+   "my seeing",
+   "I can see"
+  ],
+  "answer": 1,
+  "explain": "Look forward to : to est une préposition → V-ing.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Verb form",
+  "q": "He admitted ___ the bribe.",
+  "choices": [
+   "taking",
+   "to have take",
+   "take",
+   "to take"
+  ],
+  "answer": 0,
+  "explain": "Admit, deny, give up, miss + V-ing (action antérieure)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "I can't stand ___ in the rush hour.",
+  "choices": [
+   "drove",
+   "driving",
+   "drive",
+   "to driving"
+  ],
+  "answer": 1,
+  "explain": "Can't stand / don't mind + V-ing."
+ },
+ {
+  "theme": "Verb form",
+  "q": "I intend ___ my exam with flying colours.",
+  "choices": [
+   "passing",
+   "to pass",
+   "passed",
+   "pass"
+  ],
+  "answer": 1,
+  "explain": "To + base verbale = but, intention, futur (want, hope, intend, decide…)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "Don't forget ___ your sister tomorrow.",
+  "choices": [
+   "call",
+   "called",
+   "calling",
+   "to call"
+  ],
+  "answer": 3,
+  "explain": "Forget/remember + to = action à faire (futur)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "I remember ___ that film last year.",
+  "choices": [
+   "seeing",
+   "to see",
+   "see",
+   "to have see"
+  ],
+  "answer": 0,
+  "explain": "Remember + V-ing = se souvenir d'une action passée."
+ },
+ {
+  "theme": "Verb form",
+  "q": "Mustapha stopped ___: he hasn't had a cigarette for a month.",
+  "choices": [
+   "smoke",
+   "to smoke",
+   "to smoking",
+   "smoking"
+  ],
+  "answer": 3,
+  "explain": "Stop + V-ing = arrêter de faire ; stop + to = s'arrêter pour faire."
+ },
+ {
+  "theme": "Verb form",
+  "q": "The manager had his secretary ___ all of the information.",
+  "choices": [
+   "took down",
+   "take down",
+   "to take down",
+   "taking down"
+  ],
+  "answer": 1,
+  "explain": "Make / have / let + qn + base verbale (sans to)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "We want the invoices ___.",
+  "choices": [
+   "returned",
+   "returning",
+   "return",
+   "to return"
+  ],
+  "answer": 0,
+  "explain": "Want / have / get + objet + participe passé (sens passif)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "The car needs ___.",
+  "choices": [
+   "to clean",
+   "clean",
+   "cleaning",
+   "cleaned"
+  ],
+  "answer": 2,
+  "explain": "Need / want + V-ing = sens passif (a besoin d'être nettoyée)."
+ },
+ {
+  "theme": "Verb form",
+  "q": "___ in London is expensive.",
+  "choices": [
+   "Lived",
+   "Live",
+   "To living",
+   "Living"
+  ],
+  "answer": 3,
+  "explain": "Un verbe sujet se met en général en V-ing (vivre à Londres…)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "The meeting will be held ___ the boardroom.",
+  "choices": [
+   "in",
+   "into",
+   "on",
+   "at"
+  ],
+  "answer": 0,
+  "explain": "In = espace à trois dimensions (pièce, ville)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "The goods will be dispatched ___ Monday.",
+  "choices": [
+   "by",
+   "on",
+   "at",
+   "in"
+  ],
+  "answer": 1,
+  "explain": "On + jours et dates."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "The plane takes off at 11.00, so we must check in ___ 10.",
+  "choices": [
+   "at",
+   "by",
+   "within",
+   "until"
+  ],
+  "answer": 1,
+  "explain": "By = limite dans le temps (au plus tard)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "She's on leave ___ Monday.",
+  "choices": [
+   "by",
+   "until",
+   "since",
+   "within"
+  ],
+  "answer": 1,
+  "explain": "Until = jusqu'à (durée qui continue jusqu'à un moment)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "It depends ___ the price.",
+  "choices": [
+   "on",
+   "of",
+   "from",
+   "to"
+  ],
+  "answer": 0,
+  "explain": "Depend ON (dépendre de)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "The board is satisfied ___ the results.",
+  "choices": [
+   "by",
+   "of",
+   "with",
+   "about"
+  ],
+  "answer": 2,
+  "explain": "Satisfied WITH."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "Can you explain the procedure ___ me?",
+  "choices": [
+   "with",
+   "at",
+   "for",
+   "to"
+  ],
+  "answer": 3,
+  "explain": "Explain sth TO sb (jamais « explain me »)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "He was accused ___ taking a bribe.",
+  "choices": [
+   "for",
+   "of",
+   "with",
+   "about"
+  ],
+  "answer": 1,
+  "explain": "Accuse sb OF doing sth."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "She succeeded ___ convincing the board.",
+  "choices": [
+   "in",
+   "to",
+   "at",
+   "on"
+  ],
+  "answer": 0,
+  "explain": "Succeed IN doing sth."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "Passengers must refrain ___ smoking.",
+  "choices": [
+   "about",
+   "to",
+   "from",
+   "of"
+  ],
+  "answer": 2,
+  "explain": "Refrain FROM doing sth."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "The bank provided the start-up ___ a loan.",
+  "choices": [
+   "for",
+   "with",
+   "by",
+   "of"
+  ],
+  "answer": 1,
+  "explain": "Provide sb WITH sth."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "We need to discuss ___ before Friday.",
+  "choices": [
+   "the project",
+   "of the project",
+   "on the project",
+   "about the project"
+  ],
+  "answer": 0,
+  "explain": "Discuss sth : pas de préposition (discuter de)."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "São Paulo is the largest city ___ South America.",
+  "choices": [
+   "in",
+   "of",
+   "from",
+   "at"
+  ],
+  "answer": 0,
+  "explain": "Superlatif + lieu ou groupe : IN."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "One ___ ten people are using a food bank for the first time.",
+  "choices": [
+   "in",
+   "on",
+   "by",
+   "over"
+  ],
+  "answer": 0,
+  "explain": "One in ten / five out of ten = un sur dix."
+ },
+ {
+  "theme": "Prepositions",
+  "q": "___ working hard on the past papers, you will improve your chances of success.",
+  "choices": [
+   "For",
+   "In",
+   "With",
+   "By"
+  ],
+  "answer": 3,
+  "explain": "BY + V-ing = en faisant qch (moyen)."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "The meeting has been ___ until next week.",
+  "choices": [
+   "put through",
+   "put out",
+   "put off",
+   "put up"
+  ],
+  "answer": 2,
+  "explain": "Put off = reporter, retarder (aussi : dissuader)."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "I can't ___ this noise any longer.",
+  "choices": [
+   "put up",
+   "put down",
+   "put up with",
+   "put across"
+  ],
+  "answer": 2,
+  "explain": "Put up with = supporter, tolérer."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "Hold the line, I'll put you ___ to the manager.",
+  "choices": [
+   "through",
+   "out",
+   "across",
+   "off"
+  ],
+  "answer": 0,
+  "explain": "Put through = mettre en communication."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "They've ___ the prices again!",
+  "choices": [
+   "put aside",
+   "put down",
+   "put up",
+   "put off"
+  ],
+  "answer": 2,
+  "explain": "Put up (prices, taxes) = augmenter."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "I put it ___ his inexperience.",
+  "choices": [
+   "down to",
+   "off",
+   "across",
+   "up with"
+  ],
+  "answer": 0,
+  "explain": "Put down to = mettre sur le compte de."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "I don't want to put you ___ – I can take a taxi.",
+  "choices": [
+   "off",
+   "across",
+   "out",
+   "aside"
+  ],
+  "answer": 2,
+  "explain": "Put sb out = déranger, gêner."
+ },
+ {
+  "theme": "Phrasal verbs",
+  "q": "He knows his stuff, but he can't put it ___.",
+  "choices": [
+   "out",
+   "across",
+   "aside",
+   "through"
+  ],
+  "answer": 1,
+  "explain": "Put across = faire comprendre, communiquer."
+ },
+ {
+  "theme": "Conditionals",
+  "q": "If everybody ___ more attention to the environment, climatic change would be better controlled.",
+  "choices": [
+   "paying",
+   "paid",
+   "pays",
+   "will be paying"
+  ],
+  "answer": 1,
+  "explain": "If + prétérit … would + base verbale (2e conditionnel).",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Conditionals",
+  "q": "If he had worked harder, he ___ his exam.",
+  "choices": [
+   "would have passed",
+   "would pass",
+   "will pass",
+   "had passed"
+  ],
+  "answer": 0,
+  "explain": "If + past perfect … would have + participe passé (3e conditionnel)."
+ },
+ {
+  "theme": "Conditionals",
+  "q": "If you work hard, you ___ your exam.",
+  "choices": [
+   "will pass",
+   "passed",
+   "would pass",
+   "would have passed"
+  ],
+  "answer": 0,
+  "explain": "If + présent … will (situation probable)."
+ },
+ {
+  "theme": "Conditionals",
+  "q": "If I ___ you, I wouldn't trust him.",
+  "choices": [
+   "would be",
+   "were",
+   "am",
+   "was being"
+  ],
+  "answer": 1,
+  "explain": "Après if, were est la forme correcte pour to be (If I were you)."
+ },
+ {
+  "theme": "Conditionals",
+  "q": "___ you listened to my advice, you would have succeeded.",
+  "choices": [
+   "Have",
+   "Had",
+   "Would",
+   "Did"
+  ],
+  "answer": 1,
+  "explain": "Inversion littéraire sans if : Had + sujet + participe passé = If you had…"
+ },
+ {
+  "theme": "Conditionals",
+  "q": "___ you have any questions, please do not hesitate to contact us.",
+  "choices": [
+   "Should",
+   "Would",
+   "Shall",
+   "Were"
+  ],
+  "answer": 0,
+  "explain": "Should + sujet = If you should… (style formel)."
+ },
+ {
+  "theme": "Conditionals",
+  "q": "I will lend you the money ___ you repay me by the weekend.",
+  "choices": [
+   "as long as",
+   "even if",
+   "as much as",
+   "whether"
+  ],
+  "answer": 0,
+  "explain": "As long as = pourvu que (condition).",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Conditionals",
+  "q": "I won't do it ___ you phone me.",
+  "choices": [
+   "as long",
+   "whether",
+   "unless",
+   "if"
+  ],
+  "answer": 2,
+  "explain": "Unless = à moins que (si … ne … pas)."
+ },
+ {
+  "theme": "Modals",
+  "q": "While he was watching TV, a stranger rang the door bell and he ___ go and answer the door.",
+  "choices": [
+   "must",
+   "obliged to",
+   "had to",
+   "has to"
+  ],
+  "answer": 2,
+  "explain": "Must n'a pas de passé : had to.",
+  "source": "exemple du support PGE-PGO"
+ },
+ {
+  "theme": "Modals",
+  "q": "I'm afraid I won't ___ come tomorrow.",
+  "choices": [
+   "be able to",
+   "can",
+   "may to",
+   "could"
+  ],
+  "answer": 0,
+  "explain": "Can n'a pas de futur : will be able to."
+ },
+ {
+  "theme": "Modals",
+  "q": "You ___ be completely bilingual to pass the exam – it isn't required.",
+  "choices": [
+   "shouldn't to",
+   "don't have to",
+   "can't",
+   "mustn't"
+  ],
+  "answer": 1,
+  "explain": "Don't have to / needn't = pas obligé ; mustn't = interdiction."
+ },
+ {
+  "theme": "Modals",
+  "q": "« Il aurait dû le faire. » → He ___ it.",
+  "choices": [
+   "must have done",
+   "needn't have done",
+   "could have done",
+   "should have done"
+  ],
+  "answer": 3,
+  "explain": "Should have + participe = aurait dû."
+ },
+ {
+  "theme": "Modals",
+  "q": "The door was open – someone ___ it. (déduction)",
+  "choices": [
+   "must have opened",
+   "should have opened",
+   "ought open",
+   "needn't have opened"
+  ],
+  "answer": 0,
+  "explain": "Must have + participe = a dû (déduction quasi certaine)."
+ },
+ {
+  "theme": "Passives",
+  "q": "Millions of emails ___ every day.",
+  "choices": [
+   "are send",
+   "sent",
+   "are sent",
+   "send"
+  ],
+  "answer": 2,
+  "explain": "Passif = be + participe passé (attention aux irréguliers : sent)."
+ },
+ {
+  "theme": "Passives",
+  "q": "« On a annulé la réunion. » → The meeting ___.",
+  "choices": [
+   "has been cancelled",
+   "is cancelling",
+   "has cancelled",
+   "have been cancel"
+  ],
+  "answer": 0,
+  "explain": "« On » se traduit souvent par un passif ; ici present perfect passif."
+ },
+ {
+  "theme": "Passives",
+  "q": "The emails ___ as we speak.",
+  "choices": [
+   "have sent",
+   "are been sent",
+   "are being sent",
+   "are sending"
+  ],
+  "answer": 2,
+  "explain": "Passif du present continuous : am/is/are being + participe passé."
+ },
+ {
+  "theme": "Inversions",
+  "q": "Not only ___ her mortgage, but she has also bought herself a convertible.",
+  "choices": [
+   "did Sally paid off",
+   "has Sally paid off",
+   "Sally paid off",
+   "Sally has paid off"
+  ],
+  "answer": 1,
+  "explain": "Mot négatif en tête (not only, never, rarely…) : inversion sujet/auxiliaire."
+ },
+ {
+  "theme": "Inversions",
+  "q": "Rarely ___ such a strong recovery.",
+  "choices": [
+   "have we seen",
+   "we have seen",
+   "seen we have",
+   "we saw"
+  ],
+  "answer": 0,
+  "explain": "Rarely / seldom / hardly en tête de phrase → inversion."
+ },
+ {
+  "theme": "Inversions",
+  "q": "My children love camping and so ___ I.",
+  "choices": [
+   "does",
+   "am",
+   "do",
+   "have"
+  ],
+  "answer": 2,
+  "explain": "So + auxiliaire + sujet = moi aussi (l'auxiliaire reprend le présent simple : do)."
+ },
+ {
+  "theme": "Inversions",
+  "q": "My wife doesn't like hiking and ___ do I.",
+  "choices": [
+   "also",
+   "either",
+   "neither",
+   "so"
+  ],
+  "answer": 2,
+  "explain": "Neither + auxiliaire + sujet = moi non plus."
+ },
+ {
+  "theme": "Make / Do",
+  "q": "The company ___ a huge profit last year.",
+  "choices": [
+   "got",
+   "had",
+   "made",
+   "did"
+  ],
+  "answer": 2,
+  "explain": "Make a profit / money (idée de produire, créer)."
+ },
+ {
+  "theme": "Make / Do",
+  "q": "Could you ___ me a favour?",
+  "choices": [
+   "do",
+   "give",
+   "make",
+   "take"
+  ],
+  "answer": 0,
+  "explain": "Do sb a favour = rendre service."
+ },
+ {
+  "theme": "Make / Do",
+  "q": "Don't ___ a fuss about it.",
+  "choices": [
+   "make",
+   "have",
+   "take",
+   "do"
+  ],
+  "answer": 0,
+  "explain": "Make a fuss = faire une histoire."
+ },
+ {
+  "theme": "Make / Do",
+  "q": "We have ___ business with this supplier for years.",
+  "choices": [
+   "done",
+   "taken",
+   "made",
+   "given"
+  ],
+  "answer": 0,
+  "explain": "Do business (idée d'activité)."
+ },
+ {
+  "theme": "Make / Do",
+  "q": "There's no budget left, so we'll have to ___ do with what we have.",
+  "choices": [
+   "do",
+   "have",
+   "make",
+   "get"
+  ],
+  "answer": 2,
+  "explain": "To make do = faire avec."
+ },
+ {
+  "theme": "Countable / Uncountable nouns",
+  "q": "Let me give you ___: work a little every day.",
+  "choices": [
+   "some advices",
+   "advices",
+   "a piece of advice",
+   "an advice"
+  ],
+  "answer": 2,
+  "explain": "Advice est indénombrable : a piece of advice."
+ },
+ {
+  "theme": "Countable / Uncountable nouns",
+  "q": "The information you gave me ___ wrong.",
+  "choices": [
+   "are",
+   "have been",
+   "were",
+   "is"
+  ],
+  "answer": 3,
+  "explain": "Information est indénombrable : verbe au singulier."
+ },
+ {
+  "theme": "Countable / Uncountable nouns",
+  "q": "We bought new ___ for the office.",
+  "choices": [
+   "furniture",
+   "furnitures",
+   "a furniture",
+   "furnitures pieces"
+  ],
+  "answer": 0,
+  "explain": "Furniture (comme luggage, research, equipment, software) est indénombrable."
+ },
+ {
+  "theme": "Countable / Uncountable nouns",
+  "q": "There are too many American TV ___ shown in France.",
+  "choices": [
+   "serie",
+   "series",
+   "seriess",
+   "serieses"
+  ],
+  "answer": 1,
+  "explain": "Series, species, means : singulier = pluriel."
+ },
+ {
+  "theme": "Countable / Uncountable nouns",
+  "q": "Where ___ my jeans?",
+  "choices": [
+   "is",
+   "was",
+   "are",
+   "does"
+  ],
+  "answer": 2,
+  "explain": "Jeans, trousers, scissors, glasses : toujours pluriels."
+ },
+ {
+  "theme": "Articles",
+  "q": "___ is rising again this year.",
+  "choices": [
+   "A unemployment",
+   "Unemployment",
+   "An unemployment",
+   "The unemployment"
+  ],
+  "answer": 1,
+  "explain": "Indénombrable au sens général : article zéro (le chômage = unemployment)."
+ },
+ {
+  "theme": "Articles",
+  "q": "She's ___ doctor.",
+  "choices": [
+   "—",
+   "a",
+   "the",
+   "an"
+  ],
+  "answer": 1,
+  "explain": "Profession : article a obligatoire (contrairement au français)."
+ },
+ {
+  "theme": "Articles",
+  "q": "He is ___ honest man.",
+  "choices": [
+   "a",
+   "an",
+   "the",
+   "—"
+  ],
+  "answer": 1,
+  "explain": "An devant un son voyelle (h muet)."
+ },
+ {
+  "theme": "Articles",
+  "q": "He studies at ___ university near Lille.",
+  "choices": [
+   "an",
+   "a",
+   "—",
+   "one's"
+  ],
+  "answer": 1,
+  "explain": "A devant un son consonne : university se prononce « you- »."
+ },
+ {
+  "theme": "Articles",
+  "q": "___ visited France last year.",
+  "choices": [
+   "The queen of Elizabeth",
+   "A Queen Elizabeth",
+   "Queen Elizabeth",
+   "The Queen Elizabeth"
+  ],
+  "answer": 2,
+  "explain": "Titre + nom propre : pas d'article."
+ },
+ {
+  "theme": "Articles",
+  "q": "He lives in ___ Netherlands.",
+  "choices": [
+   "—",
+   "the",
+   "a",
+   "an"
+  ],
+  "answer": 1,
+  "explain": "The devant les pays-unités politiques au pluriel (the Netherlands, the United States)."
+ },
+ {
+  "theme": "Determiners",
+  "q": "He doesn't have ___ money.",
+  "choices": [
+   "much",
+   "many",
+   "a few",
+   "few"
+  ],
+  "answer": 0,
+  "explain": "Much + indénombrable (phrases négatives/questions)."
+ },
+ {
+  "theme": "Determiners",
+  "q": "He has ___ friends than his brother.",
+  "choices": [
+   "less",
+   "much",
+   "fewer",
+   "little"
+  ],
+  "answer": 2,
+  "explain": "Fewer + dénombrable pluriel ; less + indénombrable."
+ },
+ {
+  "theme": "Determiners",
+  "q": "Have you got ___ minutes? There are a few things I want to discuss.",
+  "choices": [
+   "little",
+   "a few",
+   "a little",
+   "few"
+  ],
+  "answer": 1,
+  "explain": "A few = quelques (dénombrable) ; few = peu."
+ },
+ {
+  "theme": "Determiners",
+  "q": "She's got ___ beautiful eyes.",
+  "choices": [
+   "so much",
+   "so",
+   "such a",
+   "such"
+  ],
+  "answer": 3,
+  "explain": "Such + nom (avec ou sans adjectif) ; such a + dénombrable singulier."
+ },
+ {
+  "theme": "Determiners",
+  "q": "The exam was ___ difficult that several candidates walked out.",
+  "choices": [
+   "so",
+   "such a",
+   "too much",
+   "such"
+  ],
+  "answer": 0,
+  "explain": "So + adjectif seul."
+ },
+ {
+  "theme": "Determiners",
+  "q": "Why was ___ project put forward?",
+  "choices": [
+   "such a",
+   "such",
+   "a so",
+   "so a"
+  ],
+  "answer": 0,
+  "explain": "Such a + nom dénombrable singulier (un tel projet)."
+ },
+ {
+  "theme": "Determiners",
+  "q": "___ hard she tried, she couldn't remember my name.",
+  "choices": [
+   "Whatever",
+   "However",
+   "Whichever",
+   "Whenever"
+  ],
+  "answer": 1,
+  "explain": "However + adjectif/adverbe = si … que, malgré."
+ },
+ {
+  "theme": "Determiners",
+  "q": "___ happens, stay calm.",
+  "choices": [
+   "Whenever",
+   "Wherever",
+   "Whatever",
+   "However"
+  ],
+  "answer": 2,
+  "explain": "Whatever = quoi que, quel que soit."
+ },
+ {
+  "theme": "Determiners",
+  "q": "___ it rains, the roof leaks.",
+  "choices": [
+   "Whatever",
+   "Whichever",
+   "Whenever",
+   "However"
+  ],
+  "answer": 2,
+  "explain": "Whenever = chaque fois que."
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "Jane woke up late this morning. ___, she wasn’t late for work.",
+  "choices": [
+   "In spite of",
+   "However",
+   "Even though"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "You finish your homework; ___, I will make noodles for us.",
+  "choices": [
+   "meanwhile",
+   "besides",
+   "yet"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "Mary didn't come to the party. She stayed home___.",
+  "choices": [
+   "as a consequence",
+   "instead",
+   "furthermore"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "___I like you a lot, I could never live with you.",
+  "choices": [
+   "Besides",
+   "However",
+   "Even though"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Mots de liaison (Wooclap)",
+  "q": "It was snowing very hard but I drove to his place___.",
+  "choices": [
+   "actually",
+   "anyway"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I would ask for a special meeting if I ___ her.",
+  "choices": [
+   "was",
+   "were",
+   "am",
+   "would be"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I would have applied for the job if I ___ the opportunity.",
+  "choices": [
+   "have had",
+   "had",
+   "had had",
+   "would have"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "Not only ___ Stephanie ___ first prize, but she was also offered a promotion.",
+  "choices": [
+   "has, won",
+   "Ø , has won",
+   "did, win",
+   "Ø , won"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I’ve found a solution to your computer problem. Simply try ___ the password again.",
+  "choices": [
+   "to enter",
+   "entering",
+   "enter",
+   "having entered"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "It’s high time you___home, but I’d rather you___with me to finish the report.",
+  "choices": [
+   "go/stay",
+   "went/stay",
+   "go/stayed",
+   "went/stayed"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "I wish we ___ the contract!",
+  "choices": [
+   "had not signed",
+   "might not sign",
+   "do not sign",
+   "have not signed"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "Not only ___ about the theft, but she also ___ her colleague.",
+  "choices": [
+   "she lied/accused",
+   "did she lie/accused",
+   "did she lie/has accused",
+   "she lied/has accused"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "If the project had been a success, we ___ leaders on the market now.",
+  "choices": [
+   "would have been",
+   "will be",
+   "would be",
+   "will have been"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Conditionnel / irréel (Wooclap)",
+  "q": "If I ___ at the Head of the Department, I would change the whole organisation.",
+  "choices": [
+   "have been",
+   "had been",
+   "were",
+   "am"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "America’s 47,000-mile highway system, ………. built in the 50s, is totally overloaded today.",
+  "choices": [
+   "that were",
+   "which was",
+   "which were",
+   "who was"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The murder of two British nationals ………. by Scotland Yard.",
+  "choices": [
+   "is being investigated",
+   "investigates",
+   "is investigating",
+   "is investigated"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The students ___ to submit their assignments before Friday.",
+  "choices": [
+   "expect",
+   "are expected",
+   "are expecting",
+   "expected"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "All visitors ___ to wear a badge while they are in the building.",
+  "choices": [
+   "require",
+   "required",
+   "are required",
+   "have required"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "This test___us to be very focused.",
+  "choices": [
+   "require",
+   "requires",
+   "is required",
+   "requiring"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "The company wants its product ___ safely and in a timely manner; otherwise it will seek an alternative shipper.",
+  "choices": [
+   "package",
+   "packaging",
+   "be packaged",
+   "packaged"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "It ___ that the new policy will reduce costs significantly.",
+  "choices": [
+   "is expected",
+   "expects",
+   "expects",
+   "expected"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "We have told the client that we hope by this time next week, the whole project ___.",
+  "choices": [
+   "completes",
+   "will complete",
+   "will be completed",
+   "is completed"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "I’m sorry I didn’t stay in my last job. I wish I ___.",
+  "choices": [
+   "stay",
+   "stayed",
+   "had stayed",
+   "would stay"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "If the wage parity agreement ___ approved, there might have been a strike.",
+  "choices": [
+   "was not",
+   "were not",
+   "will not be",
+   "had not been"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "Paul suggested that you ___ to hospital.",
+  "choices": [
+   "are admitted",
+   "are admitting",
+   "were admitting",
+   "be admitted"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Voix passive (Wooclap)",
+  "q": "we___to work.",
+  "choices": [
+   "were making",
+   "made",
+   "were made",
+   "was made"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "I’ll be ___ my colleague’s clients while she is on a business trip abroad.",
+  "choices": [
+   "looking into",
+   "looking after",
+   "looking in",
+   "looking up"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "We are confident ___ making steady inroads and growing our market share significantly ___the next two quarters.",
+  "choices": [
+   "for, between",
+   "to, in",
+   "of, over",
+   "in, in"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "My manager has great interpersonal skills. She is really good ___ listening to people.",
+  "choices": [
+   "with",
+   "at",
+   "in",
+   "to"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "My manager has great interpersonal skills. She is really good ___ listening to people.",
+  "choices": [
+   "with",
+   "at",
+   "in",
+   "to"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Nobody believed Paul at first but he ___ to be right.",
+  "choices": [
+   "came out",
+   "turned out",
+   "worked out",
+   "carried out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The ongoing crisis forced the government to ___ the election date by two months.",
+  "choices": [
+   "lay out",
+   "put off",
+   "lay over",
+   "put out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Negotiations between the two NGOs were rather difficult, but ___ they found a suitable solution.",
+  "choices": [
+   "in the end",
+   "by the end",
+   "on the end",
+   "to the end"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "David, could you please ___ this e-mail to Todd as I don’t have his e-mail address?",
+  "choices": [
+   "pass off",
+   "forward",
+   "put through",
+   "make follow"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The ongoing crisis forced the government to ___ the election date by two months.",
+  "choices": [
+   "lay out",
+   "put off",
+   "lay over",
+   "put out"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "She was fed up with her job and decided to ___ another profession.",
+  "choices": [
+   "look at",
+   "look after",
+   "look to",
+   "look into"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Marcia would like to ___ more responsibilty at work.",
+  "choices": [
+   "take up",
+   "take out",
+   "take on",
+   "take in"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "Given the overall cost of the project, we should ___ the deal.",
+  "choices": [
+   "pull out of",
+   "pull away from",
+   "pull out from",
+   "pull off"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "___ our competitors forces us to ___ higher production costs.",
+  "choices": [
+   "Catching up with/put up with",
+   "Catching with/put up",
+   "Catching with/put up with",
+   "Catching up with/put up"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Prépositions et phrasal verbs (Wooclap)",
+  "q": "The company is ___ for £1,000,000.",
+  "choices": [
+   "on sale",
+   "in sale",
+   "for sale",
+   "up on sale"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "I suggest ___ his advice into account.",
+  "choices": [
+   "you to take",
+   "you having taken",
+   "you taking",
+   "you take"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "John wrote the report too quickly. I suggested ___ a few adjustments to it.",
+  "choices": [
+   "that he bring",
+   "that he is bringing",
+   "that he brings",
+   "him to bring"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "What do you ___ in the circumstances?",
+  "choices": [
+   "expect we to do",
+   "expect us to do",
+   "expect we do",
+   "to expect us to do"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "I recommend that Ms. Doyle ___ the conference in my place.",
+  "choices": [
+   "attend",
+   "attends",
+   "has attended",
+   "attended"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "If there ___ better communication, I would not resign.",
+  "choices": [
+   "were",
+   "was",
+   "will be",
+   "would be"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The bus company confirmed the 05:12 service from Atlanta ___ on time, but with this weather they expect it will almost certainly be delayed getting here.",
+  "choices": [
+   "leaves",
+   "left",
+   "leaving",
+   "to leave"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The country’s car manufacturers fear the industry ___ collapse if the government does not step in with a rescue package.",
+  "choices": [
+   "should",
+   "would",
+   "could",
+   "did"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "Janet Higley was promoted and will now ___ customer relations.",
+  "choices": [
+   "take care on",
+   "be responsible of",
+   "look for",
+   "look after"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "The Board is concerned about high labor costs and ___ decide to outsource production to China.",
+  "choices": [
+   "may be",
+   "should have to",
+   "might",
+   "needs"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Subjonctif (Wooclap)",
+  "q": "It's important that she …………………. to take her medicine twice a day",
+  "choices": [
+   "remembers",
+   "may remember",
+   "remember",
+   "remembered"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "By the time he arrives, we ___ our meeting.",
+  "choices": [
+   "finish",
+   "will finish",
+   "will have finished",
+   "finished"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The yield ___ German government bonds is lower now than it ___ at any other stage since the introduction of the Euro currency.",
+  "choices": [
+   "on, was",
+   "in, have been",
+   "on, has been",
+   "over, is"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "As soon as we ___ the parcel, we will open it.",
+  "choices": [
+   "will receive",
+   "will be receiving",
+   "receive",
+   "received"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "We have just introduced new AI tools. Unfortunately, our staff ___ it.",
+  "choices": [
+   "are not used to using",
+   "are not use to using",
+   "are not used to use",
+   "did not use to use"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "I___ on this project for ten weeks when it was canceled.",
+  "choices": [
+   "worked",
+   "was working",
+   "has been working",
+   "had been working"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "“How long ___ for that company? “ “For your years and I resigned last year”.",
+  "choices": [
+   "have you worked",
+   "have you been working",
+   "did you worked",
+   "did you work"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "A team from our Houston office is coming today. Their flight ___ at 2 p.m.",
+  "choices": [
+   "will arrive",
+   "is arriving",
+   "is going to arrive",
+   "arrives"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "We ___ to the gala dinner tomorrow. I’ve already bought the tickets.",
+  "choices": [
+   "will go",
+   "go",
+   "are going",
+   "will have gone"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "I’ve found a solution to your computer problem. Simply try ___ the password again.",
+  "choices": [
+   "to enter",
+   "entering",
+   "enter",
+   "having entered"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Our department’s sales figures ___ by 12% this year.",
+  "choices": [
+   "rose",
+   "have risen",
+   "have rosen",
+   "rises"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The value of this stock ___ by 10 % since its introduction on the Dow Jones.",
+  "choices": [
+   "is going up",
+   "goes up",
+   "went up",
+   "has gone up"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "He ___ quite different since he ___ a new job.",
+  "choices": [
+   "is/has got",
+   "has been/has got",
+   "has been/got",
+   "is/has had"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Virna passed her exam last week. Her success ___ in the fact that she was very studious.",
+  "choices": [
+   "lain",
+   "lay",
+   "lie",
+   "laid"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "___ the trip was much longer than we had planned, we managed to get to the conference in time.",
+  "choices": [
+   "Despite",
+   "In spite of",
+   "However",
+   "Although"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "This is my roommate Joan. I ___ met, have you?",
+  "choices": [
+   "am not thinking you have",
+   "don’t think you haven’t",
+   "am thinking you haven’t",
+   "don’t think you’ve"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "___ the meeting was not going to be held, I ___ canceled my hotel room.",
+  "choices": [
+   "Had I known/would have",
+   "If I have known/would have",
+   "If I had known/had",
+   "Have I known/would have"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The CEO had his assistant ___ the memo.",
+  "choices": [
+   "to sign",
+   "sign",
+   "signing",
+   "signed"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Since 2010, we ___ with the same suppliers.",
+  "choices": [
+   "are working",
+   "work",
+   "worked",
+   "have been working"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "The meeting ___ by the time we get to the venue.",
+  "choices": [
+   "will already start",
+   "will already have started",
+   "will be already started",
+   "would already have started"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Les temps (Wooclap)",
+  "q": "Can anyone tell me if the intern ___ his new office yet?",
+  "choices": [
+   "gets shown",
+   "is being shown",
+   "were shown",
+   "has been shown"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The CEO stopped ___ when the market conditions became unstable.",
+  "choices": [
+   "to expand internationally",
+   "expanding internationally",
+   "expand internationally",
+   "expanded internationally"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Please remember ___ the financial report to the investors before the meeting.",
+  "choices": [
+   "sending",
+   "to send",
+   "send",
+   "sent"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "I remember ___ our first investor at a startup conference in Berlin.",
+  "choices": [
+   "to meet",
+   "meet",
+   "meeting",
+   "met"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The entrepreneur tried ___ the problem by cutting operational costs.",
+  "choices": [
+   "solving",
+   "solve",
+   "to solving",
+   "solved"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The startup is trying ___ a new logistics system, but it is very expensive.",
+  "choices": [
+   "implementing",
+   "to implementing",
+   "to implement",
+   "implement"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The CFO regrets ___ that the company will have to reduce staff next quarter.",
+  "choices": [
+   "to inform",
+   "informing",
+   "inform",
+   "informed"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "We hope you will not have any problems …………… with the press on this delicate issue.",
+  "choices": [
+   "to deal",
+   "for dealing",
+   "deal",
+   "dealing"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Although he was quite full from the large dinner, Professor Morgan could not ___ a piece of lemon pie for dessert.",
+  "choices": [
+   "stop ordering",
+   "without ordering",
+   "help but order",
+   "stop from order"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "The company’s Director adopted a proactive approach in developing and maintaining a program of lectures which have helped COMBI ___ its objectives.",
+  "choices": [
+   "be furthering",
+   "further",
+   "to have furthered",
+   "to furthering"
+  ],
+  "answer": 1,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "He is excited about the new promotion and looking forward to ___ more responsibilities.",
+  "choices": [
+   "taking in",
+   "take on",
+   "getting up",
+   "taking on"
+  ],
+  "answer": 3,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "Even though they urged us ___ it, we refused.",
+  "choices": [
+   "to do",
+   "doing",
+   "do",
+   "did"
+  ],
+  "answer": 0,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ },
+ {
+  "theme": "Verbe + verbe (Wooclap)",
+  "q": "It's important that she …………………. to take her medicine twice a day",
+  "choices": [
+   "remembers",
+   "may remember",
+   "remember",
+   "remembered"
+  ],
+  "answer": 2,
+  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
+  "source": "wooclap"
+ }
+]

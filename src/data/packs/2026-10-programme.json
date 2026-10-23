@@ -1,0 +1,669 @@
+{
+ "id": "import-2026-10-programme-v1",
+ "cards": [
+  {
+   "id": "voc-shareholders",
+   "deck": "anglais",
+   "front": "🇬🇧 Shareholders",
+   "back": "actionnaires",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-stock-exchange",
+   "deck": "anglais",
+   "front": "🇬🇧 Stock exchange",
+   "back": "la Bourse",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-trade-fair",
+   "deck": "anglais",
+   "front": "🇬🇧 Trade fair",
+   "back": "salon commercial",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-market-share",
+   "deck": "anglais",
+   "front": "🇬🇧 Market share",
+   "back": "part de marché",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-goods",
+   "deck": "anglais",
+   "front": "🇬🇧 Goods",
+   "back": "marchandise",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-deadline",
+   "deck": "anglais",
+   "front": "🇬🇧 Deadline",
+   "back": "date limite",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-parent-company",
+   "deck": "anglais",
+   "front": "🇬🇧 Parent company",
+   "back": "maison/société mère",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-subsidiary",
+   "deck": "anglais",
+   "front": "🇬🇧 Subsidiary",
+   "back": "filiale",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-target",
+   "deck": "anglais",
+   "front": "🇬🇧 Target",
+   "back": "cible",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-subscribe",
+   "deck": "anglais",
+   "front": "🇬🇧 To subscribe",
+   "back": "s'abonner à",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-register",
+   "deck": "anglais",
+   "front": "🇬🇧 To register",
+   "back": "s'inscrire",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-boom",
+   "deck": "anglais",
+   "front": "🇬🇧 Boom",
+   "back": "montée en flèche, forte progression",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-go-bankrupt",
+   "deck": "anglais",
+   "front": "🇬🇧 To go bankrupt",
+   "back": "faire faillite",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-go-bust",
+   "deck": "anglais",
+   "front": "🇬🇧 To go bust",
+   "back": "faire faillite",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-boom-bust",
+   "deck": "anglais",
+   "front": "🇬🇧 Boom/bust",
+   "back": "cycle d'expansion et de récession (alternance essor/effondrement)",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-overdrawn",
+   "deck": "anglais",
+   "front": "🇬🇧 Overdrawn",
+   "back": "à découvert",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-range",
+   "deck": "anglais",
+   "front": "🇬🇧 A range",
+   "back": "une gamme",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-ceo-chief-executive-officer",
+   "deck": "anglais",
+   "front": "🇬🇧 CEO (chief executive officer)",
+   "back": "directeur général",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-board-of-directors",
+   "deck": "anglais",
+   "front": "🇬🇧 Board of directors",
+   "back": "conseil d'administration",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-boardroom",
+   "deck": "anglais",
+   "front": "🇬🇧 Boardroom",
+   "back": "salle du conseil, salle de conférence",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-intake",
+   "deck": "anglais",
+   "front": "🇬🇧 Intake",
+   "back": "nouvelles recrues",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-wages-salary",
+   "deck": "anglais",
+   "front": "🇬🇧 Wages, salary",
+   "back": "le salaire",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-relocate",
+   "deck": "anglais",
+   "front": "🇬🇧 To relocate",
+   "back": "délocaliser",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-outsource",
+   "deck": "anglais",
+   "front": "🇬🇧 To outsource",
+   "back": "externaliser, sous-traiter",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-ship",
+   "deck": "anglais",
+   "front": "🇬🇧 To ship",
+   "back": "transporter, expédier",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-shipment",
+   "deck": "anglais",
+   "front": "🇬🇧 A shipment",
+   "back": "une cargaison",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-the-workforce",
+   "deck": "anglais",
+   "front": "🇬🇧 The workforce",
+   "back": "le personnel, la main d'œuvre",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-commodities",
+   "deck": "anglais",
+   "front": "🇬🇧 Commodities",
+   "back": "produits de base, denrées",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-warehouse",
+   "deck": "anglais",
+   "front": "🇬🇧 A warehouse",
+   "back": "un entrepôt",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-plant-factory",
+   "deck": "anglais",
+   "front": "🇬🇧 Plant, factory",
+   "back": "usine",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-tip",
+   "deck": "anglais",
+   "front": "🇬🇧 A tip",
+   "back": "un pourboire",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-currency",
+   "deck": "anglais",
+   "front": "🇬🇧 Currency",
+   "back": "la monnaie, la devise",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-customs",
+   "deck": "anglais",
+   "front": "🇬🇧 Customs",
+   "back": "la douane",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-overtime",
+   "deck": "anglais",
+   "front": "🇬🇧 Overtime",
+   "back": "heures supplémentaires",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-flexitime",
+   "deck": "anglais",
+   "front": "🇬🇧 Flexitime",
+   "back": "horaires flexibles",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-headquarters-hq",
+   "deck": "anglais",
+   "front": "🇬🇧 Headquarters (HQ)",
+   "back": "le siège",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-retailers",
+   "deck": "anglais",
+   "front": "🇬🇧 Retailers",
+   "back": "détaillants",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-wholesaler",
+   "deck": "anglais",
+   "front": "🇬🇧 Wholesaler",
+   "back": "grossiste",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-outlet",
+   "deck": "anglais",
+   "front": "🇬🇧 Outlet",
+   "back": "magasin, point de vente",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-packaging",
+   "deck": "anglais",
+   "front": "🇬🇧 Packaging",
+   "back": "le conditionnement, l'emballage",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-samples",
+   "deck": "anglais",
+   "front": "🇬🇧 Samples",
+   "back": "échantillons",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-word-of-mouth",
+   "deck": "anglais",
+   "front": "🇬🇧 Word of mouth",
+   "back": "le bouche-à-oreille",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-bill-invoice",
+   "deck": "anglais",
+   "front": "🇬🇧 Bill/invoice",
+   "back": "facture",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-receipt",
+   "deck": "anglais",
+   "front": "🇬🇧 Receipt",
+   "back": "reçu, ticket de caisse",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-purchase",
+   "deck": "anglais",
+   "front": "🇬🇧 Purchase",
+   "back": "achat",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-email-e-mail",
+   "deck": "anglais",
+   "front": "🇬🇧 Email/e-mail",
+   "back": "un mail",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-junk-mail",
+   "deck": "anglais",
+   "front": "🇬🇧 Junk mail",
+   "back": "imprimés publicitaires",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-applicants",
+   "deck": "anglais",
+   "front": "🇬🇧 Applicants",
+   "back": "candidats",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-hire-recruit",
+   "deck": "anglais",
+   "front": "🇬🇧 To hire/recruit",
+   "back": "recruter, embaucher",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-fire",
+   "deck": "anglais",
+   "front": "🇬🇧 To fire",
+   "back": "renvoyer",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-hire-and-fire",
+   "deck": "anglais",
+   "front": "🇬🇧 To hire and fire",
+   "back": "embaucher et licencier (à volonté)",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-quit",
+   "deck": "anglais",
+   "front": "🇬🇧 To quit",
+   "back": "démissionner",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-make-redundant",
+   "deck": "anglais",
+   "front": "🇬🇧 To make redundant",
+   "back": "licencier",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-endorse",
+   "deck": "anglais",
+   "front": "🇬🇧 To endorse",
+   "back": "faire de la publicité pour",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-charge",
+   "deck": "anglais",
+   "front": "🇬🇧 To charge",
+   "back": "facturer",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-bus-train-fare",
+   "deck": "anglais",
+   "front": "🇬🇧 (bus/train) fare",
+   "back": "prix du billet (de train/de bus)",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-fees",
+   "deck": "anglais",
+   "front": "🇬🇧 Fees",
+   "back": "honoraires",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-put-back",
+   "deck": "anglais",
+   "front": "🇬🇧 To put back",
+   "back": "retarder, remettre à plus tard",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-postpone",
+   "deck": "anglais",
+   "front": "🇬🇧 To postpone",
+   "back": "repousser, remettre à plus tard",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-skyrocket",
+   "deck": "anglais",
+   "front": "🇬🇧 To skyrocket",
+   "back": "monter en flèche",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-plummet",
+   "deck": "anglais",
+   "front": "🇬🇧 To plummet",
+   "back": "dégringoler, s'effondrer",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-to-peak",
+   "deck": "anglais",
+   "front": "🇬🇧 To peak",
+   "back": "atteindre son plus haut niveau",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-the-credit-crunch",
+   "deck": "anglais",
+   "front": "🇬🇧 The credit crunch",
+   "back": "la crise/le resserrement du crédit",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-recovery",
+   "deck": "anglais",
+   "front": "🇬🇧 Recovery",
+   "back": "reprise, redressement",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-perks-fringe-benefits",
+   "deck": "anglais",
+   "front": "🇬🇧 Perks / fringe benefits",
+   "back": "avantages en nature",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-real-estate",
+   "deck": "anglais",
+   "front": "🇬🇧 Real estate",
+   "back": "l'immobilier",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-products",
+   "deck": "anglais",
+   "front": "🇬🇧 Products",
+   "back": "produits",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-pitch",
+   "deck": "anglais",
+   "front": "🇬🇧 Pitch",
+   "back": "boniment, baratin ou présentation",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-it-information-technology",
+   "deck": "anglais",
+   "front": "🇬🇧 IT (information technology)",
+   "back": "l'informatique",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-brands",
+   "deck": "anglais",
+   "front": "🇬🇧 Brands",
+   "back": "les marques",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-bid",
+   "deck": "anglais",
+   "front": "🇬🇧 A bid",
+   "back": "une enchère",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-a-bonus",
+   "deck": "anglais",
+   "front": "🇬🇧 A bonus",
+   "back": "une prime",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-counterfeit-fake",
+   "deck": "anglais",
+   "front": "🇬🇧 Counterfeit/fake",
+   "back": "contrefaçon, faux",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-deposit",
+   "deck": "anglais",
+   "front": "🇬🇧 Deposit",
+   "back": "dépôt, acompte",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-top-of-the-range-upmarket",
+   "deck": "anglais",
+   "front": "🇬🇧 Top-of-the-range, upmarket",
+   "back": "haut de gamme",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-downmarket",
+   "deck": "anglais",
+   "front": "🇬🇧 Downmarket",
+   "back": "bas de gamme",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-balance-sheet",
+   "deck": "anglais",
+   "front": "🇬🇧 Balance sheet",
+   "back": "bilan",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-bank-statement",
+   "deck": "anglais",
+   "front": "🇬🇧 Bank statement",
+   "back": "relevé de compte",
+   "ref": "EDHEC · 100 mots clés business English"
+  },
+  {
+   "id": "voc-billboard-hoarding",
+   "deck": "anglais",
+   "front": "🇬🇧 Billboard/hoarding",
+   "back": "panneau publicitaire/d'affichage",
+   "ref": "EDHEC · 100 mots clés business English"
+  }
+ ],
+ "tasks": [
+  {
+   "id": "t-2026-brandenburg-exos",
+   "title": "Dire à M. Brandenburg (ou via le délégué) quels exos corriger en priorité à la rentrée",
+   "subject": "Microéconomie",
+   "kind": "perso",
+   "due": "2026-10-28",
+   "estimateMin": 10,
+   "priority": 3,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-sageaux-rattrapage",
+   "title": "Demander à M. Sageaux la nouvelle date du rattrapage de khôlle de maths",
+   "subject": "Maths",
+   "kind": "perso",
+   "due": "2026-11-03",
+   "estimateMin": 5,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-vocab-economy",
+   "title": "EDHEC anglais : vocabulaire « The Economy » chapitres 56 à 76 (Moodle)",
+   "subject": "EDHEC Anglais",
+   "kind": "fiche",
+   "due": "2026-11-01",
+   "estimateMin": 90,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-qcm-essentials",
+   "title": "EDHEC anglais : « QCM essentials » + « thème-version phrases » (dossier EDHEC du Moodle)",
+   "subject": "EDHEC Anglais",
+   "kind": "exercices",
+   "due": "2026-11-01",
+   "estimateMin": 60,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-podcast-en",
+   "title": "Écouter un épisode NPR / Guardian Today in Focus / Politics Weekly (consigne de Mme Terroni)",
+   "subject": "Anglais",
+   "kind": "revision",
+   "due": "2026-11-01",
+   "estimateMin": 30,
+   "priority": 1,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-rossi-lectures",
+   "title": "Avant la conférence Rossi du 13/11 : podcasts France Culture « Qu'est-ce que l'épistémologie » + Bachelard, article Universalis « Épistémologie » (e-sidoc)",
+   "subject": "Entretien",
+   "kind": "fiche",
+   "due": "2026-11-12",
+   "estimateMin": 150,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  },
+  {
+   "id": "t-2026-arvelum",
+   "title": "Refaire le dossier 1 du DS de gestion (ENS Arvelum) avec le corrigé envoyé le 20/10",
+   "subject": "Gestion",
+   "kind": "exercices",
+   "due": "2026-11-02",
+   "estimateMin": 90,
+   "priority": 2,
+   "done": false,
+   "createdAt": "2026-10-23T12:00:00.000Z",
+   "source": "manual"
+  }
+ ],
+ "evals": [
+  {
+   "id": "ds-2026-12-18-partiels",
+   "type": "Concours blanc",
+   "subject": "Partiels",
+   "date": "2026-12-18T08:00:00+01:00",
+   "durationMin": 240,
+   "source": "manual",
+   "hint": "Partiels de fin de semestre (planning V2), contenu non précisé"
+  }
+ ],
+ "evalHints": {
+  "ds-2026-11-06": "arbitrage consommation-épargne / modèles CS en équilibre général (ch. 3 Hachon-Laurent), travail-loisir",
+  "kh-2026-11-05-micr": "arbitrages travail-loisir et intertemporel, producteur et marché (ch. 3 à 6)",
+  "kh-2026-11-17-micr": "arbitrages + chapitres vus après les vacances",
+  "kh-2026-11-17-gest": "coûts complets, méthode ABC, coûts variables",
+  "kh-2026-11-10-math": "probabilités, variables aléatoires discrètes finies (TD04)",
+  "kh-2026-11-24-math": "variables aléatoires discrètes (suite du TD04)",
+  "kh-2026-11-16-écon": "politique budgétaire et monnaie",
+  "ds-2026-11-20": "politique budgétaire + monnaie, plan détaillé",
+  "kh-2026-11-02-angl": "actualité anglophone (NPR, Guardian) + méthode de l'essay",
+  "kh-2026-11-04-entr": "épistémologie (lectures de la conférence Rossi)",
+  "ds-2026-12-04": "probabilités et variables aléatoires",
+  "ds-2026-12-11": "contrôle de gestion (coûts complets, ABC, coûts variables) + management"
+ }
+}
