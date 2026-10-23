@@ -296,7 +296,7 @@ export async function startCloudSync() {
   keepLocal.clear();
   repair();
   if (dirty.size) schedule(1500);
-  await pullInbox(db);
+  await pullInbox(db, root);
 
   // Au retour sur l'appli (autre appareil utilisé entre-temps) : on recharge si quelqu'un d'autre a écrit.
   document.addEventListener("visibilitychange", async () => {
@@ -307,7 +307,7 @@ export async function startCloudSync() {
         await loadRemote();
         repair();
       }
-      await pullInbox(db);
+      await pullInbox(db, root);
     } catch {
       /* on réessaiera au prochain retour */
     }
@@ -318,12 +318,15 @@ export async function startCloudSync() {
  * Boîte de réception : la tâche automatique (Claude, chaque soir) y dépose des paquets de contenu
  * (nouveaux mots / personnages du prof, questions sur l'actu du jour). On fusionne ceux pas encore vus.
  */
-async function pullInbox(db: any) {
+async function pullInbox(db: any, root?: string) {
   try {
-    const snap = await db.collection("inbox").get();
+    // inbox partagée (actu, mots du prof) + inbox privée (Pronote : notes, devoirs, emploi du temps)
+    const shared = await db.collection("inbox").get();
+    const own = root ? await db.collection(`${root}/inbox/packs`).get().catch(() => ({ docs: [] })) : { docs: [] };
     const done = new Set(useStore.getState().inboxDone);
     let added = 0;
-    for (const d of snap.docs) {
+    const docs = [...shared.docs, ...own.docs].sort((a: { id: string }, b: { id: string }) => a.id.localeCompare(b.id));
+    for (const d of docs) {
       if (done.has(d.id)) continue;
       const pack = { ...clone(d.data() as ContentPack), id: d.id };
       added += useStore.getState().mergePack(pack);

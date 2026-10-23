@@ -11,7 +11,8 @@
  *   - pack : paquet au format de l'appli (notes, devoirs → to-do, emploi du temps), à déposer dans la boîte de réception.
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import * as pronote from "pawnote";
+import pronoteMod from "./pawnote-2026.mjs";
+const pronote = pronoteMod;
 import { defaultFetcher } from "@literate.ink/utilities";
 
 const [, , authPath, outPath] = process.argv;
@@ -102,7 +103,7 @@ for (const a of hw ?? []) {
   const text = a.description.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&#39;/g, "'").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
   tasks.push({
     id: `pn-hw-${a.id}`, title: text.length > 140 ? `${text.slice(0, 137)}…` : text || "Devoir", subject: subjectOf(a.subject.name, null),
-    kind: "devoir", due: day(a.deadline), estimateMin: a.length ?? 30, priority: 2, done: a.done, createdAt: now.toISOString(),
+    kind: "devoir", due: day(a.deadline), estimateMin: a.length || 30, priority: 2, done: a.done, createdAt: now.toISOString(),
     source: "pronote", pronoteId: a.id,
   });
 }
