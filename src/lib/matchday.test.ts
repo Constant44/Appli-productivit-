@@ -56,3 +56,18 @@ describe("moyennes comme Pronote", () => {
     expect(r.overall.toFixed(2)).toBe("8.91");
   });
 });
+
+import { neededGrade, subjectAverages as avgs } from "./insights";
+describe("objectif de moyenne", () => {
+  it("la note calculée donne exactement la moyenne visée", () => {
+    const g = [
+      { id: "a", subject: "Maths", value: 8, outOf: 16, coefficient: 1, date: "2026-09-11", source: "pronote" as const },
+      { id: "b", subject: "Macroéconomie", value: 11, outOf: 20, coefficient: 1, date: "2026-09-17", source: "pronote" as const },
+      { id: "c", subject: "Anglais", value: 11.5, outOf: 20, coefficient: 1, date: "2026-09-15", source: "pronote" as const },
+    ];
+    const { x } = neededGrade(g, "Maths", 11);
+    expect(x).toBeGreaterThan(0);
+    const after = avgs([...g, { id: "s", subject: "Maths", value: x, outOf: 20, coefficient: 1, date: "", source: "manual" }]).overall;
+    expect(after).toBeCloseTo(11, 6);
+  });
+});

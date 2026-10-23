@@ -143,6 +143,25 @@ export function subjectAverages(grades: Grade[], subjectCoefs: Record<string, nu
   return { bySubject: out.sort((a, b) => b.coef - a.coef || a.subject.localeCompare(b.subject)), overall, classOverall };
 }
 
+/** Matière du bulletin correspondant à un DS / une khôlle de l'agenda. */
+export function gradeSubjectOfEval(evalSubject: string): string {
+  if (evalSubject === "Entretien") return `Approf. méthodo${SUB_SEP}Entretien écrit`;
+  if (evalSubject === "Économie") return "Macroéconomie";
+  return evalSubject;
+}
+
+/**
+ * Note qu'il faut obtenir (sur 20) à une nouvelle évaluation pour que la moyenne générale atteigne `target`.
+ * La moyenne générale est affine en la nouvelle note : on l'évalue à 0 et à 20 puis on résout.
+ * Renvoie aussi la moyenne obtenue avec 0 et 20 pour dire « déjà acquis » ou « hors de portée ».
+ */
+export function neededGrade(grades: Grade[], subject: string, target: number, coefs: Record<string, number> = DEFAULT_SUBJECT_COEFS, coefficient = 1) {
+  const at = (v: number) => subjectAverages([...grades, { id: "_sim", subject, value: v, outOf: 20, coefficient, date: "", source: "manual" }], coefs).overall;
+  const lo = at(0), hi = at(20);
+  const x = hi === lo ? NaN : ((target - lo) / (hi - lo)) * 20;
+  return { x, lo, hi };
+}
+
 // ================= Recommandations =================
 
 export type Reco = { task: Task; score: number; reasons: string[] };

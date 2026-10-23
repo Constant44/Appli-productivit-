@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useStore } from "../lib/store";
-import { DEFAULT_SUBJECT_COEFS, subjectAverages } from "../lib/insights";
+import { DEFAULT_SUBJECT_COEFS, gradeSubjectOfEval, neededGrade, subjectAverages } from "../lib/insights";
 import { fmtDay, isoDay, subjectColor } from "../lib/utils";
 import { Field, Modal, SubjectSelect } from "../components/ui";
 
@@ -101,8 +101,72 @@ export default function Grades() {
           </div>
         </div>
       </div>
+      {!Number.isNaN(overall) && <TargetCard overall={overall} coefs={coefs} />}
       {add && <AddGrade onClose={() => setAdd(false)} />}
     </>
+  );
+}
+
+/** Objectif de moyenne : la note à viser au prochain DS / à la prochaine khôlle de chaque matière. */
+function TargetCard({ overall, coefs }: { overall: number; coefs: Record<string, number> }) {
+  const grades = useStore((s) => s.grades);
+  const evals = useStore((s) => s.evals);
+  const [target, setTarget] = useState(() => Math.min(18, Math.ceil(overall * 2) / 2 + 1));
+  const rows = useMemo(() => {
+    const now = Date.now();
+    const next = new Map<string, (typeof evals)[number]>();
+    for (const e of [...evals].sort((a, b) => a.date.localeCompare(b.date))) {
+      if (+new Date(e.date) < now) continue;
+      const subj = gradeSubjectOfEval(e.subject);
+      if (!(subj.split(" › ")[0] in coefs) || next.has(subj)) continue;
+      next.set(subj, e);
+    }
+    return [...next.entries()].map(([subj, e]) => ({ subj, e, ...neededGrade(grades, subj, target, coefs) }))
+      .sort((a, b) => a.e.date.localeCompare(b.e.date));
+  }, [grades, evals, coefs, target]);
+  // Même note partout : la moyenne générale est affine en cette note commune.
+  const common = useMemo(() => {
+    if (!rows.length) return NaN;
+    const at = (v: number) => subjectAverages([...grades, ...rows.map((r, k) => ({ id: `_s${k}`, subject: r.subj, value: v, outOf: 20, coefficient: 1, date: "", source: "manual" as const }))], coefs).overall;
+    const lo = at(0), hi = at(20);
+    return hi === lo ? NaN : ((target - lo) / (hi - lo)) * 20;
+  }, [rows, grades, coefs, target]);
+  const de = (s: string) => (/^[aeiouyéèêàâîôûh]/i.test(s) ? `d'${s.toLowerCase()}` : `de ${s.toLowerCase()}`);
+  return (
+    <section className="card target-card">
+      <h3>🎯 Objectif de moyenne</h3>
+      <div className="row" style={{ gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+        <label htmlFor="target-avg" className="small">Je vise</label>
+        <input id="target-avg" type="range" min={8} max={18} step={0.5} value={target} onChange={(e) => setTarget(Number(e.target.value))} />
+        <b className="target-val">{target.toFixed(1).replace(".", ",")}</b>
+        <span className="small muted">aujourd'hui : {overall.toFixed(2).replace(".", ",")}</span>
+      </div>
+      {!Number.isNaN(common) && (
+        <p className="target-headline">
+          {common <= 0 ? "Objectif déjà atteint, même avec 0 partout." : common > 20 ? `Hors de portée sur les ${rows.length} prochaines épreuves : il faudra plus de temps.` : <>Il te faut <b>{(Math.ceil(common * 4) / 4).toString().replace(".", ",")}/20</b> en moyenne sur tes {rows.length} prochaines épreuves.</>}
+        </p>
+      )}
+      <p className="small muted" style={{ margin: "4px 0 10px" }}>Épreuve par épreuve, si tout le reste ne bouge pas (note /20, coef 1 : une estimation) :</p>
+      <div className="target-list">
+        {rows.length === 0 && <div className="empty">Aucune épreuve à venir dans une matière notée.</div>}
+        {rows.map((r) => {
+          const done = r.x <= 0, out = r.x > 20;
+          return (
+            <div key={r.subj} className="target-row">
+              <span className="subject-bar" style={{ background: subjectColor(r.subj.split(" › ")[0]) }} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="title">{r.e.type} {de(r.e.subject)}</div>
+                <div className="small muted">{fmtDay(r.e.date)} · compte en {r.subj.replace(" › ", " · ")}</div>
+              </div>
+              <b className={`target-need ${done ? "ok" : out ? "low" : r.x >= 14 ? "hard" : ""}`}>
+                {done ? "acquis" : out ? "> 20" : `${(Math.ceil(r.x * 4) / 4).toString().replace(".", ",")}/20`}
+              </b>
+            </div>
+          );
+        })}
+      </div>
+      {rows.some((r) => r.x > 20) && <p className="small muted" style={{ marginBottom: 0 }}>« &gt; 20 » : une seule épreuve ne suffit pas, il faudra en enchaîner plusieurs bonnes.</p>}
+    </section>
   );
 }
 
