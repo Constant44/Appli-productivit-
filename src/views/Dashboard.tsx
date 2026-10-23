@@ -13,6 +13,7 @@ import { DayRing } from "../components/Celebration";
 import { Room } from "../components/Rooms";
 import { City, useCityStats } from "../components/City";
 import { AskTopicsCard, ProgramCard } from "../components/Program";
+import { WeekReview } from "../components/WeekReview";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -110,6 +111,7 @@ export default function Dashboard() {
       </div>
 
       <aside className="home-aside">
+        {(now.getDay() === 0 || now.getDay() === 1) && <WeekReview compact />}
         <section className="card" style={{ marginBottom: 16 }}>
           <h3>Prochaines échéances <button className="btn sm ghost right" onClick={() => setEditEval({})}>+ DS / khôlle</button></h3>
           {upcoming.length === 0 ? (
