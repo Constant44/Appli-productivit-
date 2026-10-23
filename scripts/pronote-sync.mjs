@@ -51,9 +51,7 @@ function subjectOf(name, outOf) {
 }
 
 async function login() {
-  // Les établissements reliés à un ENT redirigent la page de connexion vers le CAS : bydlg force la page Pronote elle-même.
   const session = pronote.createSessionHandle((req) => {
-    if (/mobile\.[a-z]+\.html$/.test(req.url.pathname) && !req.url.searchParams.has("bydlg")) req.url.searchParams.set("bydlg", "A6ABB224-12DD-4E31-AD3E-8A39A1C2C335");
     if (process.env.PN_DEBUG) console.error("REQ", String(req.url).replace(/login=[^&]*/, "login=…"), req.method ?? "GET");
     return defaultFetcher(req).then((r) => {
       // Pronote 2026 écrit « Start ({…});} catch » : pawnote 1.6 attend « Start ({…})} catch ».
