@@ -25,7 +25,7 @@ export type ProgramInput = {
   capacity?: Record<string, number>;
 };
 
-type Need = { key: string; title: string; subject: string; minutes: number; from: string; to: string; evalId?: string; due?: string; block: number; priority: 1 | 2 | 3; kind: Task["kind"]; /** peut déborder la capacité du jour (préparation d'épreuve) */ must?: boolean };
+type Need = { key: string; title: string; subject: string; minutes: number; from: string; to: string; evalId?: string; due?: string; block: number; priority: 1 | 2 | 3; kind: Task["kind"]; /** peut déborder la capacité du jour (préparation d'épreuve) */ must?: boolean; link?: string };
 
 /** Volume de préparation selon l'épreuve (minutes) et étalement (jours avant). */
 function prepFor(e: Evaluation): { minutes: number; spread: number } {
@@ -78,7 +78,7 @@ export function buildProgram(inp: ProgramInput): Task[] {
   // 2. Veille du test d'actu (jeudi) + lecture quotidienne de l'actu, hors vacances
   for (const d of days) {
     const wd = new Date(`${d}T12:00:00`).getDay();
-    if (wd === 4 && !inHolidays(d)) needs.push({ key: `actu-veille-${d}`, title: "Spécial veille de test : actu de la semaine + bios + mots", subject: "Approf. méthodo", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
+    if (wd === 4 && !inHolidays(d)) needs.push({ key: `actu-veille-${d}`, title: "Spécial veille de test : actu de la semaine + bios + mots", subject: "Approf. méthodo", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision", link: "vendredi" });
     if (wd !== 5 && wd !== 6) needs.push({ key: `actu-${d}`, title: "Lire l'actu du jour (doc Actu) et noter 3 faits marquants", subject: "Approf. méthodo", minutes: 20, block: 20, from: d, to: d, priority: 1, kind: "fiche" });
     // Anki chaque jour : d'abord les cartes dues (anglais EDHEC), puis 10 nouvelles
     needs.push({ key: `anki-${d}`, title: "Anki : toutes les cartes dues (anglais EDHEC d'abord) + 10 nouvelles", subject: "EDHEC Anglais", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
@@ -91,12 +91,14 @@ export function buildProgram(inp: ProgramInput): Task[] {
     if (ch) {
       const key = `edhec-${ch.id}`;
       const left = 120 - (doneMin.get(key) ?? 0);
-      if (left > 0) needs.push({ key, title: `EDHEC micro · ${ch.name} : cours + exercices (Hachon & Laurent)`, subject: "Microéconomie", minutes: left, block: 60, from: ws, to: we, priority: 2, kind: "exercices" });
+      if (left > 0) needs.push({ key, title: `EDHEC micro · ${ch.name} : cours + exercices (Hachon & Laurent)`, subject: "Microéconomie", minutes: left, block: 60, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
     }
     if (w % 2 === 0) {
-      needs.push({ key: `edhec-syn-${ws}`, title: "EDHEC synthèse : une synthèse chronométrée (3h) dans l'entraîneur", subject: "EDHEC Synthèse", minutes: 180, block: 180, from: ws, to: we, priority: 2, kind: "exercices" });
+      needs.push({ key: `edhec-syn-${ws}`, title: "EDHEC synthèse : une synthèse chronométrée (3h) dans l'entraîneur", subject: "EDHEC Synthèse", minutes: 180, block: 180, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
     }
-    needs.push({ key: `edhec-trad-${ws}`, title: "EDHEC anglais : 15 phrases de traduction + correction", subject: "EDHEC Anglais", minutes: 60, block: 30, from: ws, to: we, priority: 1, kind: "exercices" });
+    needs.push({ key: `edhec-trad-${ws}`, title: "Thème-version de Mme Terroni : 6 phrases + corrigé (EDHEC › Anglais)", subject: "EDHEC Anglais", minutes: 60, block: 30, from: ws, to: we, priority: 1, kind: "exercices", link: "edhec" });
+    // une semaine sur deux (en alternance avec la synthèse) : QCM blanc en conditions réelles
+    if (w % 2 === 1) needs.push({ key: `edhec-blanc-${ws}`, title: "QCM blanc d'anglais : 50 questions en 50 min (EDHEC › Anglais)", subject: "EDHEC Anglais", minutes: 50, block: 50, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
   }
 
   // Répartition : échéance la plus proche d'abord, un bloc par besoin et par jour, jour le moins chargé d'abord
@@ -134,7 +136,7 @@ export function buildProgram(inp: ProgramInput): Task[] {
     out.push({
       id: `prog-${n.key}-${d}-${i}`, title: n.title, subject: n.subject, kind: n.kind, due: n.due ?? n.to, estimateMin: m,
       priority: n.priority, done: false, createdAt: `${t0}T00:00:00.000Z`, source: "manual", evalId: n.evalId,
-      plannedFor: d, program: n.key,
+      plannedFor: d, program: n.key, link: n.link,
     });
   }
 }
@@ -142,7 +144,7 @@ export function buildProgram(inp: ProgramInput): Task[] {
 /** Remplace les tâches du programme non faites par un programme recalculé (null si rien ne change). */
 export function mergeProgram(tasks: Task[], fresh: Task[]): Task[] | null {
   const old = tasks.filter((t) => t.program && !t.done);
-  const sig = (l: Task[]) => l.map((t) => `${t.id.replace(/-b$/, "")}|${t.estimateMin}|${t.title}`).sort().join("\n");
+  const sig = (l: Task[]) => l.map((t) => `${t.id.replace(/-b$/, "")}|${t.estimateMin}|${t.title}|${t.link ?? ""}`).sort().join("\n");
   if (sig(old) === sig(fresh)) return null;
   const keep = tasks.filter((t) => !t.program || t.done);
   const ids = new Set(keep.map((t) => t.id));

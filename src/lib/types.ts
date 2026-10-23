@@ -34,6 +34,8 @@ export type Task = {
   /** Programme quotidien : jour prévu (ISO) et clé du besoin couvert */
   plannedFor?: string;
   program?: string;
+  /** Écran de l'appli où faire ce travail (programme quotidien) */
+  link?: string;
 };
 
 export type EvalType = "DS" | "Khôlle" | "DM" | "Concours blanc" | "Interro" | "Oral";
@@ -270,5 +272,7 @@ export type EdhecState = {
   chapters: Array<{ id: string; name: string; level: 0 | 1 | 2 | 3 }>;
   annales: Annale[];
   syntheses: Array<{ id: string; date: string; theme: string; note?: number; words?: number; minutes?: number; feedback?: string }>;
-  english: Array<{ date: string; score: number; total: number }>;
+  english: Array<{ date: string; score: number; total: number; mode?: "blanc"; minutes?: number; byTheme?: Record<string, [number, number]> }>;
+  /** Thème-version de Mme Terroni : dernière note /2 par phrase */
+  tv?: Record<string, { score: number; date: string; n: number }>;
 };

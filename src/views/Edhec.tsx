@@ -1,3 +1,4 @@
+import { QcmBlanc, TvTrainer } from "../components/EdhecEnglish";
 import METHODS from "../data/edhec-methods.json";
 import { useMemo, useState } from "react";
 import { EDHEC_SUBJECTS, useStore } from "../lib/store";
@@ -210,7 +211,15 @@ function AnglaisTab() {
         <EnglishQuiz count={10} />
       </div>
       <div className="card">
-        <h3>✍️ Traduction (thème)</h3>
+        <h3>🏁 QCM blanc · 50 questions, 50 min</h3>
+        <QcmBlanc />
+      </div>
+      <div className="card">
+        <h3>📝 Thème-version de Mme Terroni</h3>
+        <TvTrainer />
+      </div>
+      <div className="card">
+        <h3>✍️ Phrases inédites (Claude)</h3>
         <Translation />
       </div>
       <AnnalesCard kinds={["anglais"]} hint="Chaque PDF contient le sujet, le corrigé et le rapport du jury." />

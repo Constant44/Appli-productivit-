@@ -4,6 +4,7 @@ import { useStore } from "../lib/store";
 import type { Evaluation, Task } from "../lib/types";
 import { addDays, daysUntil, fmtDay, fmtMin, isoDay, subjectColor } from "../lib/utils";
 import { CompleteTaskModal } from "./forms";
+import { navigate, type View } from "../App";
 
 const WD = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
 
@@ -34,9 +35,9 @@ export function ProgramCard() {
             <div key={t.id} className={`todo ${t.done ? "done" : ""}`}>
               <button className={`check ${t.done ? "on" : ""}`} aria-label="Terminer" disabled={t.done} onClick={() => setCompleting(t)}>{t.done ? "✓" : ""}</button>
               <span className="subject-bar" style={{ background: subjectColor(t.subject) }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1, minWidth: 0, cursor: t.link ? "pointer" : undefined }} onClick={() => t.link && navigate(t.link as View)}>
                 <div className="title" style={{ textDecoration: t.done ? "line-through" : undefined, opacity: t.done ? 0.6 : 1 }}>{t.title}</div>
-                <div className="small muted">{t.subject} · {fmtMin(t.estimateMin)}</div>
+                <div className="small muted">{t.subject} · {fmtMin(t.estimateMin)}{t.link ? " · ouvrir →" : ""}</div>
               </div>
             </div>
           ))}
