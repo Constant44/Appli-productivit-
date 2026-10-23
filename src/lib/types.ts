@@ -31,6 +31,9 @@ export type Task = {
   notes?: string;
   /** Récompense déjà versée (évite les doubles gains) */
   rewarded?: boolean;
+  /** Programme quotidien : jour prévu (ISO) et clé du besoin couvert */
+  plannedFor?: string;
+  program?: string;
 };
 
 export type EvalType = "DS" | "Khôlle" | "DM" | "Concours blanc" | "Interro" | "Oral";
@@ -44,6 +47,8 @@ export type Evaluation = {
   date: string;
   durationMin?: number;
   topic?: string;
+  /** Piste trouvée dans les mails / le Drive, en attendant le programme confirmé */
+  hint?: string;
   examiner?: string;
   room?: string;
   /** Note obtenue /20 une fois connue */
@@ -254,6 +259,8 @@ export type ContentPack = {
   chapters?: Array<{ id: string; name: string }>;
   /** Import Pronote : jours couverts par l'emploi du temps importé (remplace les cours saisis à la main sur cette période) */
   pronoteDays?: [string, string];
+  /** Pistes de programme pour des DS / khôlles existants (n'écrase jamais le programme saisi) */
+  evalHints?: Record<string, string>;
   settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[]; subjectCoefs?: Record<string, number> };
 };
 

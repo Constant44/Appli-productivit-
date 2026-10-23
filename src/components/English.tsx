@@ -3,7 +3,16 @@ import { useStore } from "../lib/store";
 import { askJson, AiError, useAi } from "../lib/ai";
 import { isoDay, uid } from "../lib/utils";
 
+import BANK from "../data/edhec-qcm.json";
+
 type Q = { sentence: string; choices: string[]; answer: number; rule: string };
+
+/** Banque de QCM tirée des supports EDHEC du Drive (fonctionne sans Claude). */
+const bankQuiz = (n: number): Q[] =>
+  [...(BANK as Array<{ theme: string; q: string; choices: string[]; answer: number; explain: string }>)]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, n)
+    .map((x) => ({ sentence: x.q, choices: x.choices, answer: x.answer, rule: `${x.explain} (${x.theme})` }));
 
 const THEMES = [
   "temps verbaux (present perfect, past simple, futur)", "prépositions", "faux-amis", "modaux", "articles et déterminants",
@@ -65,14 +74,15 @@ Réponds en JSON : {"questions": [{"sentence": "...___...", "choices": ["a","b",
     onDone?.(score, qs.length);
   };
 
-  if (ai === false) return <div className="empty">Le QCM est généré par Claude : ouvre la version claude.ai de l'appli.</div>;
+  const fromBank = () => { setQs(bankQuiz(count)); setI(0); setScore(0); setPicked(null); setFinished(false); setError(""); };
   if (!qs || finished)
     return (
       <div className="stack" style={{ alignItems: "flex-start" }}>
         {finished && qs && (
           <div className="flash-front">Score : {score}/{qs.length} {score === qs.length ? "🏆" : ""}<div className="small muted" style={{ fontWeight: 400 }}>Tes erreurs sont devenues des cartes « Anglais » qui reviendront dans tes révisions.</div></div>
         )}
-        <button className="btn primary big" disabled={busy} onClick={load}>{busy ? "Claude prépare tes questions…" : finished ? "▶ Nouveau QCM" : `▶ Lancer un QCM de ${count} questions`}</button>
+        <button className="btn primary big" onClick={fromBank}>▶ {finished ? "Nouveau QCM" : `QCM de ${count} questions`} · banque EDHEC ({BANK.length})</button>
+        {ai !== false && <button className="btn ghost" disabled={busy} onClick={load}>{busy ? "Claude prépare tes questions…" : "✨ QCM inédit généré par Claude"}</button>}
         {error && <div className="small" style={{ color: "var(--red)" }}>{error}</div>}
       </div>
     );

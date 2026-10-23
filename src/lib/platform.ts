@@ -74,7 +74,17 @@ class PendingSet<T extends string> extends Set<T> {
   }
 }
 
+/** Synchro en place (abonnement posé) : on ne la relance pas une seconde fois. */
+let running = false;
+
+/** Bouton des réglages : force l'envoi si la synchro tourne, sinon retente la connexion. */
+export async function retryOrForce() {
+  if (running) return forceSync();
+  await startCloudSync();
+}
+
 export async function startCloudSync() {
+  if (running) return;
   if (!runtime()) {
     useCloud.setState({ status: "local", message: "Appli ouverte hors de claude.ai : données gardées sur cet appareil.", detail: "pas de runtime claude.ai" });
     return;
@@ -265,6 +275,7 @@ export async function startCloudSync() {
     await flush();
   }
   useCloud.setState({ status: "synced" });
+  running = true;
   forceImpl = () => {
     markAll();
     backoff = 0;

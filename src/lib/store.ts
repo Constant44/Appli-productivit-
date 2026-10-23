@@ -1,3 +1,4 @@
+import { buildProgram, KNOWN_CAPACITY, mergeProgram } from "./program";
 import { useMemo } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -135,6 +136,7 @@ type Actions = {
   deleteCgTest: (id: string) => void;
   updateEdhec: (fn: (e: EdhecState) => EdhecState) => void;
   markWarmup: () => void;
+  regenerateProgram: () => void;
   toggleFallen: (sheetId: string) => void;
 
   // Pronote & data
@@ -191,10 +193,13 @@ function mergeEdhec(e: EdhecState, pack: ContentPack): EdhecState {
 }
 
 /** Packs embarqués dans l'appli (src/data/packs/*.json), fusionnés une seule fois chacun. */
-const EMBEDDED_PACKS = Object.values(import.meta.glob<ContentPack>("../data/packs/*.json", { eager: true, import: "default" }));
+const EMBEDDED_PACKS = Object.values(import.meta.glob<ContentPack>("../data/packs/*.json", { eager: true, import: "default" }))
+  // les pistes de programme s'appliquent aux DS / khôlles déjà importés
+  .sort((a, b) => Number(!!a.evalHints) - Number(!!b.evalHints));
 
 export function applyEmbeddedPacks() {
   for (const p of EMBEDDED_PACKS) if (!useStore.getState().inboxDone.includes(p.id)) useStore.getState().mergePack(p);
+  useStore.getState().regenerateProgram();
 }
 
 const freshData = (): Data => ({
@@ -558,6 +563,14 @@ export const useStore = create<Store>()(
             },
           })),
 
+        // ---------- Programme quotidien ----------
+        regenerateProgram: () => {
+          const s = get();
+          const fresh = buildProgram({ today: new Date(), evals: s.evals, tasks: s.tasks, edhec: s.edhec, dailyGoalMin: s.settings.dailyGoalMin, capacity: KNOWN_CAPACITY });
+          const next = mergeProgram(s.tasks, fresh);
+          if (next) set({ tasks: next });
+        },
+
         // ---------- Révisions ----------
         mergePack: (pack) => {
           const s = get();
@@ -565,6 +578,7 @@ export const useStore = create<Store>()(
           const ca = mergeInto(s.cards, pack.cards);
           const ad = mergeInto(s.actuDays, pack.actuDays);
           const ev = mergeInto(s.evals, pack.evals);
+          if (pack.evalHints) ev.list = ev.list.map((e) => (pack.evalHints![e.id] ? { ...e, hint: pack.evalHints![e.id] } : e));
           // Devoirs Pronote : ce qui a déjà été coché ou chronométré dans l'appli est conservé
           const ta = mergeInto(s.tasks, pack.tasks?.map((t) => {
             const old = s.tasks.find((x) => x.id === t.id);

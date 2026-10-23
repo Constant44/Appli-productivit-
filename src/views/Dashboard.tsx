@@ -12,6 +12,7 @@ import { DebriefModal } from "../components/DebriefModal";
 import { DayRing } from "../components/Celebration";
 import { Room } from "../components/Rooms";
 import { City, useCityStats } from "../components/City";
+import { AskTopicsCard, ProgramCard } from "../components/Program";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -26,8 +27,8 @@ export default function Dashboard() {
   const timer = useStore((s) => s.timer);
 
   const now = new Date();
-  const recos = useMemo(() => recommend(tasks, evals, grades).slice(0, 3), [tasks, evals, grades]);
-  const unprepared = useMemo(() => unpreparedEvals(evals, tasks).slice(0, 2), [evals, tasks]);
+  const recos = useMemo(() => recommend(tasks.filter((t) => !t.program), evals, grades).slice(0, 3), [tasks, evals, grades]);
+  const unprepared = useMemo(() => unpreparedEvals(evals, tasks).filter((e) => !tasks.some((t) => t.evalId === e.id)).slice(0, 2), [evals, tasks]);
   const toDebrief = evals.filter((e) => !e.debrief && daysUntil(e.date) < 0 && daysUntil(e.date) >= -7 && +new Date(e.date) < Date.now()).slice(0, 2);
   const upcoming = evals.filter((e) => +new Date(e.date) >= Date.now() - 36e5).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
   const today = minutesByDay(sessions).get(isoDay(now)) ?? 0;
@@ -65,6 +66,10 @@ export default function Dashboard() {
 
       <MatchSheet />
 
+      <ProgramCard />
+
+      <AskTopicsCard />
+
       <TodayTiles />
 
       {(toDebrief.length > 0 || unprepared.length > 0) && (
@@ -83,7 +88,7 @@ export default function Dashboard() {
       )}
 
         <section className="card" style={{ marginBottom: 16 }}>
-          <h3>À faire <button className="btn sm ghost right" onClick={() => setEditTask({})}>+ Tâche</button></h3>
+          <h3>Autres tâches <button className="btn sm ghost right" onClick={() => setEditTask({})}>+ Tâche</button></h3>
           {recos.length === 0 ? (
             <div className="empty">Rien en attente. Ajoute une tâche ou profite 🙌</div>
           ) : (

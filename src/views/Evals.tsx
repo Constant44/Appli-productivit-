@@ -1,3 +1,4 @@
+import { TopicAsk } from "../components/Program";
 import { useState } from "react";
 import { useStore } from "../lib/store";
 import { resultBonus } from "../lib/game";
@@ -38,7 +39,10 @@ export default function Evals() {
         <div className="cork">
           {upcoming.length === 0 && <div className="pin-card" style={{ gridColumn: "1/-1" }}>Rien de prévu. Ajoute ton colloscope ici !</div>}
           {upcoming.map((e, idx) => {
-            const prep = tasks.filter((t) => t.evalId === e.id);
+            const prep = tasks.filter((t) => t.evalId === e.id && !t.program);
+            const prog = tasks.filter((t) => t.program === `ev-${e.id}`);
+            const progDone = prog.filter((t) => t.done).reduce((a, t) => a + t.estimateMin, 0);
+            const progAll = prog.reduce((a, t) => a + t.estimateMin, 0);
             const done = prep.filter((t) => t.done).length;
             const d = daysUntil(e.date);
             return (
@@ -50,9 +54,10 @@ export default function Evals() {
                 <h3 style={{ margin: "10px 0 4px", fontSize: 18 }}>{e.subject}</h3>
                 <div className="small muted">{fmtDay(e.date)} · {fmtTime(e.date)}{e.durationMin ? ` · ${fmtMin(e.durationMin)}` : ""}{e.room ? ` · ${e.room}` : ""}</div>
                 {e.examiner && <div className="small muted">👤 {e.examiner}</div>}
-                {e.topic && <div className="small" style={{ marginTop: 6 }}>📚 {e.topic}</div>}
+                {e.topic ? <div className="small" style={{ marginTop: 6 }}>📚 {e.topic}</div> : <TopicAsk ev={e} compact />}
                 {e.source === "pronote" && <span className="pill blue" style={{ marginTop: 6 }}>Pronote</span>}
                 <hr className="sep" />
+                {progAll > 0 && <div className="row between small" style={{ marginBottom: 4 }}><span>Programme quotidien</span><b>{fmtMin(progDone)} / {fmtMin(progAll)}</b></div>}
                 <div className="row between small"><span>Préparation</span><b>{done}/{prep.length}</b></div>
                 <Bar value={done} max={prep.length || 1} tone="gold" />
                 <div className="stack" style={{ gap: 4, marginTop: 8 }}>

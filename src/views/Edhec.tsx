@@ -1,3 +1,4 @@
+import METHODS from "../data/edhec-methods.json";
 import { useMemo, useState } from "react";
 import { EDHEC_SUBJECTS, useStore } from "../lib/store";
 import { addDays, daysUntil, fmtDay, fmtMin, isoDay, startOfWeek, uid } from "../lib/utils";
@@ -48,6 +49,7 @@ export default function Edhec() {
       {tab === "micro" && <MicroTab />}
       {tab === "synthese" && <SyntheseTab />}
       {tab === "anglais" && <AnglaisTab />}
+      <MethodCard k={tab === "plan" ? "oral" : tab} />
     </>
   );
 }
@@ -213,6 +215,20 @@ function AnglaisTab() {
       </div>
       <AnnalesCard kinds={["anglais"]} hint="Chaque PDF contient le sujet, le corrigé et le rapport du jury." />
     </div>
+  );
+}
+
+const METHOD_TITLE: Record<string, string> = { micro: "📐 Méthode micro", synthese: "📰 Méthode synthèse", anglais: "🇬🇧 Méthode anglais", oral: "🎤 Oral EDHEC" };
+
+/** Fiches méthode tirées des conseils EDHEC du Drive. */
+function MethodCard({ k }: { k: string }) {
+  const text = (METHODS as Record<string, string>)[k];
+  if (!text) return null;
+  return (
+    <details className="card method-card" style={{ marginTop: 16 }}>
+      <summary><b>{METHOD_TITLE[k]}</b> <span className="small muted">· conseils de ton dossier EDHEC</span></summary>
+      <div className="sheet-body small" style={{ whiteSpace: "pre-wrap", marginTop: 10 }}>{text}</div>
+    </details>
   );
 }
 

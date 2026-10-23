@@ -711,3 +711,19 @@ label.field > span { font-weight: 600; }
 .sync-state.s-local i { background: #94a3b8; } .sync-state.s-waiting i, .sync-state.s-connecting i, .sync-state.s-saving i { background: var(--gold); } .sync-state.s-error i { background: var(--red); }
 .cloud-dot { cursor: pointer; }
 .cloud-dot.local { background: #64748b; }
+
+/* ---------- Programme quotidien ---------- */
+.program-card .day-progress { margin-bottom: 10px; }
+.program-week { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 10px; }
+.program-day { border: 1px solid var(--line); border-radius: 12px; padding: 10px; background: rgba(127,127,127,.07); }
+.program-day-h { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+.program-line { display: flex; gap: 6px; align-items: baseline; margin: 3px 0; line-height: 1.3; }
+.program-line .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; transform: translateY(-1px); }
+.ask-card { border-left: 4px solid #f5b301; }
+.topic-ask { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.topic-ask:last-child { border-bottom: 0; }
+.topic-ask .input { flex: 1; min-width: 0; padding: 8px 10px; font-size: 14px; }
+.topic-ask.compact { border: 0; padding: 4px 0 0; }
+.pin-card .topic-ask .input { background: rgba(255,255,255,.75); color: #222; }
+.method-card summary { cursor: pointer; list-style: none; } .method-card summary::-webkit-details-marker { display: none; }
+.program-line .muted { white-space: nowrap; }

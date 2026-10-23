@@ -5,7 +5,7 @@ import { syncPronote } from "../lib/pronote";
 import { demoData } from "../lib/demo";
 import { fmtDay, fmtTime } from "../lib/utils";
 import { Field, Seg } from "../components/ui";
-import { forceSync, saveFile, useCloud } from "../lib/platform";
+import { retryOrForce, saveFile, useCloud } from "../lib/platform";
 import { ask } from "../components/confirm";
 
 export default function Settings() {
@@ -160,7 +160,7 @@ export default function Settings() {
                 </div>
                 {cloud.detail && <div className="small muted">Détail : {cloud.detail}</div>}
               </div>
-              {cloud.status !== "local" && <button className="btn sm" onClick={forceSync}>Forcer la sauvegarde</button>}
+              <button className="btn sm" onClick={() => void retryOrForce()}>{cloud.status === "local" || cloud.status === "error" ? "Réessayer la connexion" : "Forcer la sauvegarde"}</button>
             </div>
             <div className="row">
               <button className="btn" onClick={() => void saveFile(`prepa-fc-${new Date().toISOString().slice(0, 10)}.json`, exportData())}>⬇️ Exporter (sauvegarde)</button>

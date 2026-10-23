@@ -152,11 +152,17 @@ export function recommend(tasks: Task[], evals: Evaluation[], grades: Grade[], n
   const avgOf = (s: string) => bySubject.find((x) => x.subject.toLowerCase() === groupOf(s).toLowerCase())?.avg;
   const upcoming = evals.filter((e) => new Date(e.date) >= startOfDay(now));
 
+  const today = isoDay(now);
   return tasks
-    .filter((t) => !t.done)
+    // le programme des jours suivants n'est pas encore à faire
+    .filter((t) => !t.done && !(t.plannedFor && t.plannedFor > today))
     .map((t) => {
       const reasons: string[] = [];
       let score = 0;
+      if (t.plannedFor) {
+        score += 20;
+        reasons.push("programme du jour");
+      }
       const linked = t.evalId ? evals.find((e) => e.id === t.evalId) : undefined;
       const deadline = t.due ?? (linked ? isoDay(linked.date) : undefined);
       if (deadline) {

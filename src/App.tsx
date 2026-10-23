@@ -226,6 +226,15 @@ export default function App() {
   const overdue = tasks.filter((t) => !t.done && t.due && daysUntil(t.due) < 0).length;
   const soonEvals = evals.filter((e) => { const d = daysUntil(e.date); return d >= 0 && d <= 3; }).length;
   const warmedUp = useStore((s) => s.warmups.includes(isoDay(new Date())));
+  // Programme quotidien : recalculé quand un DS / une khôlle change, et chaque jour (après le chargement de la sauvegarde)
+  const cloud = useCloud((c) => c.status);
+  const evalSig = evals.map((e) => `${e.id}${e.date}${e.topic ?? ""}${e.durationMin ?? ""}`).join("|");
+  const [day, setDay] = useState(isoDay(new Date()));
+  useEffect(() => { const t = setInterval(() => setDay(isoDay(new Date())), 60_000); return () => clearInterval(t); }, []);
+  useEffect(() => {
+    if (cloud === "connecting" || (cloud === "waiting" && !useCloud.getState().lastSaved)) return;
+    useStore.getState().regenerateProgram();
+  }, [evalSig, day, cloud === "connecting"]);
 
   const section = sectionOf(view);
   const device = useDevice();
