@@ -31,6 +31,7 @@ const SYNC_KEYS = [
 ] as const;
 type SyncKey = (typeof SYNC_KEYS)[number];
 const CHUNK = 400;
+const clone = <T,>(x: T): T => (x === undefined ? x : JSON.parse(JSON.stringify(x)));
 
 export type CloudStatus = "local" | "connecting" | "synced" | "saving" | "waiting" | "error";
 export const useCloud = create<{ status: CloudStatus; message?: string; detail?: string; lastSaved?: number }>(() => ({ status: "local" }));
@@ -120,8 +121,9 @@ export async function startCloudSync() {
   const loadRemote = async () => {
     const meta = await metaRef.get();
     if (!meta.exists) return false;
-    const m = meta.data() as { chunks: Partial<Record<SyncKey, number>>; stamp: string };
-    m.chunks = { ...(m.chunks ?? {}) };
+    // Les documents lus sont gelés (lecture seule) : on travaille toujours sur des copies.
+    const raw = meta.data() as { chunks?: Partial<Record<SyncKey, number>>; stamp: string };
+    const m = { chunks: { ...(raw.chunks ?? {}) }, stamp: raw.stamp };
     const patch: Record<string, unknown> = {};
     for (const key of SYNC_KEYS) {
       if (keepLocal.has(key)) continue;
@@ -135,7 +137,7 @@ export async function startCloudSync() {
       if (n === 0) {
         const snap = await db.doc(`${root}/${key}`).get();
         if (snap.exists) {
-          patch[key] = (snap.data() as { v: unknown }).v;
+          patch[key] = clone((snap.data() as { v: unknown }).v);
           written.set(`${root}/${key}`, JSON.stringify(snap.data()));
         }
       } else {
@@ -145,7 +147,7 @@ export async function startCloudSync() {
           const snap = await db.doc(`${root}/${key}-${i}`).get();
           if (snap.exists) {
             found = true;
-            parts.push(...((snap.data() as { v: unknown[] }).v ?? []));
+            parts.push(...clone((snap.data() as { v: unknown[] }).v ?? []));
             written.set(`${root}/${key}-${i}`, JSON.stringify(snap.data()));
           }
         }
@@ -323,7 +325,7 @@ async function pullInbox(db: any) {
     let added = 0;
     for (const d of snap.docs) {
       if (done.has(d.id)) continue;
-      const pack = { ...(d.data() as ContentPack), id: d.id };
+      const pack = { ...clone(d.data() as ContentPack), id: d.id };
       added += useStore.getState().mergePack(pack);
     }
     if (added > 0) useStore.getState().toast({ title: "📬 Nouveautés importées", body: `${added} nouvelles cartes ou fiches à réviser`, tone: "good" });
