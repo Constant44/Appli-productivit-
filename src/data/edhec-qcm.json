@@ -1949,19 +1949,6 @@
  },
  {
   "theme": "Prépositions et phrasal verbs (Wooclap)",
-  "q": "My manager has great interpersonal skills. She is really good ___ listening to people.",
-  "choices": [
-   "with",
-   "at",
-   "in",
-   "to"
-  ],
-  "answer": 1,
-  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
-  "source": "wooclap"
- },
- {
-  "theme": "Prépositions et phrasal verbs (Wooclap)",
   "q": "Nobody believed Paul at first but he ___ to be right.",
   "choices": [
    "came out",
@@ -2007,19 +1994,6 @@
    "forward",
    "put through",
    "make follow"
-  ],
-  "answer": 1,
-  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
-  "source": "wooclap"
- },
- {
-  "theme": "Prépositions et phrasal verbs (Wooclap)",
-  "q": "The ongoing crisis forced the government to ___ the election date by two months.",
-  "choices": [
-   "lay out",
-   "put off",
-   "lay over",
-   "put out"
   ],
   "answer": 1,
   "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
@@ -2326,19 +2300,6 @@
  },
  {
   "theme": "Les temps (Wooclap)",
-  "q": "I’ve found a solution to your computer problem. Simply try ___ the password again.",
-  "choices": [
-   "to enter",
-   "entering",
-   "enter",
-   "having entered"
-  ],
-  "answer": 1,
-  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
-  "source": "wooclap"
- },
- {
-  "theme": "Les temps (Wooclap)",
   "q": "Our department’s sales figures ___ by 12% this year.",
   "choices": [
    "rose",
@@ -2620,19 +2581,6 @@
    "did"
   ],
   "answer": 0,
-  "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
-  "source": "wooclap"
- },
- {
-  "theme": "Verbe + verbe (Wooclap)",
-  "q": "It's important that she …………………. to take her medicine twice a day",
-  "choices": [
-   "remembers",
-   "may remember",
-   "remember",
-   "remembered"
-  ],
-  "answer": 2,
   "explain": "Corrigé du QCM Wooclap de Mme Terroni.",
   "source": "wooclap"
  }
