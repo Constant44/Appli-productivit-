@@ -10,6 +10,7 @@ import { addDays, daysUntil, fmtClock, fmtMin, fmtRelDay, isoDay, subjectColor }
 import { CompleteTaskModal } from "../components/forms";
 import { navigate, type View } from "../App";
 import { EDHEC_DATE } from "./Edhec";
+import { calAlarmStatus } from "../lib/calAlarm";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -145,7 +146,7 @@ export default function Coach() {
           <div className="dir-label">EN COURS</div>
           <h2>{runTask?.title ?? timer.subject ?? "Session de travail"}</h2>
           <div className="dir-clock">{fmtClock(Math.round(left))}</div>
-          <p className="dir-how">📵 Téléphone dans une autre pièce. Un seul onglet ouvert. Si une idée parasite arrive, note-la et continue.<br />⏰ Laisse l'appli ouverte : l'écran reste allumé et l'alarme sonne à la fin.</p>
+          <p className="dir-how">📵 Téléphone dans une autre pièce. Un seul onglet ouvert. Si une idée parasite arrive, note-la et continue.<br />{calAlarmStatus.state === "on" ? "🔔 Rappel programmé dans ton Google Agenda : tu seras notifié même sur une autre app." : "⏰ Laisse l'appli ouverte : l'écran reste allumé et l'alarme sonne à la fin."}</p>
           <div className="dir-actions">
             {timer.status === "running"
               ? <button className="btn big" onClick={pauseTimer}>⏸ Pause</button>

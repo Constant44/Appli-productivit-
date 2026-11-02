@@ -44,6 +44,8 @@ export type Settings = {
   dayEnd?: string;
   /** Coefficients des matières au bulletin */
   subjectCoefs?: Record<string, number>;
+  /** Rappel Google Agenda à la fin de chaque pomodoro (vraie notification) */
+  calendarAlarm?: boolean;
 };
 
 export type PronoteSyncPayload = {

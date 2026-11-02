@@ -134,6 +134,9 @@ export default function Settings() {
             <label className="row small" style={{ marginTop: 10 }}>
               <input type="checkbox" checked={settings.sound} onChange={(e) => updateSettings({ sound: e.target.checked })} /> Son en fin de session
             </label>
+            <label className="row small" style={{ marginTop: 6 }}>
+              <input type="checkbox" checked={settings.calendarAlarm !== false} onChange={(e) => updateSettings({ calendarAlarm: e.target.checked })} /> Notification Google Agenda à la fin de chaque pomodoro (même téléphone verrouillé)
+            </label>
           </div>
           <div className="card">
             <h3>📚 Matières</h3>

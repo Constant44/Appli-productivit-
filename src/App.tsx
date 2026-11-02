@@ -6,6 +6,7 @@ import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
 import { rearmWake, ringAlarm } from "./lib/alarm";
+import { syncCalendarAlarm } from "./lib/calAlarm";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
@@ -71,6 +72,7 @@ function useHashView(): View {
 function TimerWatcher() {
   const timer = useStore((s) => s.timer);
   const sound = useStore((s) => s.settings.sound);
+  useEffect(() => syncCalendarAlarm(timer), [timer.status, timer.startedAt, timer.phase]);
   useEffect(() => {
     rearmWake(timer.status === "running");
     const back = () => document.visibilityState === "visible" && rearmWake(useStore.getState().timer.status === "running");
