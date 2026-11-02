@@ -1,6 +1,7 @@
 import { buildProgram, KNOWN_CAPACITY, mergeProgram } from "./program";
 import { useMemo } from "react";
 import { create } from "zustand";
+import { armAlarm, stopAlarm } from "./alarm";
 import { persist } from "zustand/middleware";
 import type {
   ActuDay, Card, CgTest, Club, ContentPack, CustomEvent, Debrief, EdhecState, Evaluation, FacilityKey, Grade, Lesson, Plan,
@@ -375,8 +376,10 @@ export const useStore = create<Store>()(
         deleteCustomEvent: (id) => set((s) => ({ customEvents: s.customEvents.filter((e) => e.id !== id) })),
 
         // ---------- Timer ----------
-        startTimer: ({ mode, targetMin, taskId, subject, phase = "work" }) =>
-          set({ timer: { status: "running", mode, phase, startedAt: Date.now(), accumulatedMs: 0, targetMin, taskId, subject } }),
+        startTimer: ({ mode, targetMin, taskId, subject, phase = "work" }) => {
+          armAlarm();
+          set({ timer: { status: "running", mode, phase, startedAt: Date.now(), accumulatedMs: 0, targetMin, taskId, subject } });
+        },
         pauseTimer: () =>
           set((s) =>
             s.timer.status !== "running"
@@ -402,6 +405,7 @@ export const useStore = create<Store>()(
         },
         cancelTimer: () => set((s) => ({ timer: { ...s.timer, status: "idle", accumulatedMs: 0, startedAt: 0, phase: "work" } })),
         resolvePending: (focus, note) => {
+          stopAlarm();
           const p = get().pending;
           if (!p) return;
           set({ pending: null });

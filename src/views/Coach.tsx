@@ -111,6 +111,8 @@ export default function Coach() {
   };
 
   const running = timer.status !== "idle" && timer.phase === "work";
+  const onBreak = timer.status !== "idle" && timer.phase === "break";
+  const breakLeft = onBreak ? Math.max(0, timer.targetMin * 60 - timerElapsedMs(timer) / 1000) : 0;
   const runTask = running ? tasks.find((t) => t.id === timer.taskId) : undefined;
   const left = running ? Math.max(0, timer.targetMin * 60 - timerElapsedMs(timer) / 1000) : 0;
   const nextEval = evals.filter((e) => +new Date(e.date) >= +now).sort((a, b) => a.date.localeCompare(b.date))[0];
@@ -130,12 +132,20 @@ export default function Coach() {
         </div>
       </header>
 
-      {running ? (
+      {onBreak ? (
+        <section className="directive" style={{ ["--dir" as string]: "#38bdf8" }}>
+          <div className="dir-label">PAUSE</div>
+          <h2>Lève-toi, bois un verre d'eau, pas d'écran.</h2>
+          <div className="dir-clock">{fmtClock(Math.round(breakLeft))}</div>
+          <p className="dir-how">L'alarme sonne à la fin de la pause. Laisse l'appli ouverte.</p>
+          <div className="dir-actions"><button className="btn ghost" onClick={() => useStore.getState().cancelTimer()}>Passer la pause</button></div>
+        </section>
+      ) : running ? (
         <section className="directive live">
           <div className="dir-label">EN COURS</div>
           <h2>{runTask?.title ?? timer.subject ?? "Session de travail"}</h2>
           <div className="dir-clock">{fmtClock(Math.round(left))}</div>
-          <p className="dir-how">📵 Téléphone dans une autre pièce. Un seul onglet ouvert. Si une idée parasite arrive, note-la et continue.</p>
+          <p className="dir-how">📵 Téléphone dans une autre pièce. Un seul onglet ouvert. Si une idée parasite arrive, note-la et continue.<br />⏰ Laisse l'appli ouverte : l'écran reste allumé et l'alarme sonne à la fin.</p>
           <div className="dir-actions">
             {timer.status === "running"
               ? <button className="btn big" onClick={pauseTimer}>⏸ Pause</button>

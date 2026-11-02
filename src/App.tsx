@@ -5,6 +5,7 @@ import { daysUntil, fmtClock, isoDay } from "./lib/utils";
 import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
+import { rearmWake, ringAlarm } from "./lib/alarm";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
@@ -66,28 +67,16 @@ function useHashView(): View {
   return ALL_VIEWS.includes(v) ? v : "home";
 }
 
-function beep() {
-  try {
-    const ctx = new AudioContext();
-    [0, 0.25, 0.5].forEach((t, i) => {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.frequency.value = [660, 880, 990][i];
-      g.gain.setValueAtTime(0.15, ctx.currentTime + t);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.22);
-      o.connect(g).connect(ctx.destination);
-      o.start(ctx.currentTime + t);
-      o.stop(ctx.currentTime + t + 0.25);
-    });
-  } catch {
-    /* audio indisponible */
-  }
-}
-
 /** Surveille le timer : titre de l'onglet, fin automatique des pomodoros et des pauses. */
 function TimerWatcher() {
   const timer = useStore((s) => s.timer);
   const sound = useStore((s) => s.settings.sound);
+  useEffect(() => {
+    rearmWake(timer.status === "running");
+    const back = () => document.visibilityState === "visible" && rearmWake(useStore.getState().timer.status === "running");
+    document.addEventListener("visibilitychange", back);
+    return () => document.removeEventListener("visibilitychange", back);
+  }, [timer.status]);
   useEffect(() => {
     if (timer.status !== "running") {
       document.title = "Prépa FC";
@@ -99,9 +88,12 @@ function TimerWatcher() {
       const counting = timer.mode !== "free";
       document.title = `${counting ? fmtClock(target - el) : fmtClock(el)} · ${timer.phase === "break" ? "Pause" : "Focus"}`;
       if (counting && el >= target) {
-        if (sound) beep();
-        if ("Notification" in window && Notification.permission === "granted")
-          new Notification(timer.phase === "break" ? "Pause terminée, on y retourne !" : "Session terminée 🎉");
+        if (sound) ringAlarm();
+        try {
+          if ("Notification" in window && Notification.permission === "granted")
+            new Notification(timer.phase === "break" ? "Pause terminée, on y retourne !" : "Pomodoro terminé 🎉");
+        } catch { /* notifications indisponibles dans la page */ }
+        if (timer.phase === "break") useStore.getState().toast({ title: "⏰ Pause terminée", body: "On y retourne : ouvre « Maintenant » pour le bloc suivant.", tone: "good" });
         useStore.getState().stopTimer();
       }
     }, 500);
