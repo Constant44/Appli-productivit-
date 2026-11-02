@@ -8,10 +8,10 @@ import { navigate, type View } from "../App";
 
 const WD = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
 
-export function ProgramCard() {
+export function ProgramCard({ openWeek = false }: { openWeek?: boolean } = {}) {
   const tasks = useStore((s) => s.tasks);
   const [completing, setCompleting] = useState<Task | null>(null);
-  const [week, setWeek] = useState(false);
+  const [week, setWeek] = useState(openWeek);
   const today = isoDay(new Date());
   const byDay = useMemo(() => {
     const m = new Map<string, Task[]>();

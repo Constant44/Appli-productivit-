@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { EDHEC_SUBJECTS, timerElapsedMs, useStore } from "./lib/store";
-import { levelFromXp, levelTitle } from "./lib/game";
 import { currentStreak } from "./lib/insights";
-import { daysUntil, fmtClock, fmtMoney, isoDay } from "./lib/utils";
+import { daysUntil, fmtClock, isoDay } from "./lib/utils";
 import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
-import Dashboard from "./views/Dashboard";
+import Coach from "./views/Coach";
+import Planning from "./views/Planning";
+import More from "./views/More";
 import Focus from "./views/Focus";
 import Tasks from "./views/Tasks";
 import Planner from "./views/Planner";
@@ -23,18 +24,16 @@ import Edhec from "./views/Edhec";
 import Vendredi from "./views/Vendredi";
 import Warmup from "./views/Warmup";
 
-export type View = "home" | "study" | "agenda" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
+export type View = "home" | "planning" | "more" | "study" | "agenda" | "warmup" | "focus" | "tasks" | "edhec" | "vendredi" | "plan" | "evals" | "tt" | "grades" | "club" | "stats" | "settings";
 
-type SectionId = "today" | "focus" | "study" | "agenda" | "city";
-/** 5 rubriques seulement ; les écrans d'une rubrique sont des onglets en haut de page. */
+type SectionId = "today" | "planning" | "more";
+/** 3 rubriques : la consigne du moment, le planning, et tout le reste. */
 const SECTIONS: Array<{ id: SectionId; label: string; icon: keyof typeof ICONS; views: Array<[View, string]> }> = [
-  { id: "today", label: "Aujourd'hui", icon: "home", views: [["home", "Aujourd'hui"]] },
-  { id: "focus", label: "Focus", icon: "timer", views: [["focus", "Focus"]] },
-  { id: "study", label: "Réviser", icon: "book", views: [["study", "Bureau d'étude"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"]] },
-  { id: "agenda", label: "Agenda", icon: "cal", views: [["agenda", "Bureau du coach"], ["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
-  { id: "city", label: "Ville", icon: "city", views: [["club", "Prépa City"], ["stats", "Stats"]] },
+  { id: "today", label: "Maintenant", icon: "home", views: [["home", "Maintenant"], ["focus", "Chrono"]] },
+  { id: "planning", label: "Planning", icon: "cal", views: [["planning", "Planning"], ["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
+  { id: "more", label: "Plus", icon: "grid", views: [["more", "Plus"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"], ["stats", "Stats"], ["club", "Prépa City"], ["study", "Bureau d'étude"], ["agenda", "Bureau du coach"], ["settings", "Réglages"]] },
 ];
-const ALL_VIEWS: View[] = [...SECTIONS.flatMap((s) => s.views.map(([v]) => v)), "settings"];
+const ALL_VIEWS: View[] = SECTIONS.flatMap((s) => s.views.map(([v]) => v));
 const sectionOf = (v: View) => SECTIONS.find((s) => s.views.some(([x]) => x === v));
 
 const ICONS = {
@@ -42,6 +41,7 @@ const ICONS = {
   timer: "M12 8v5l3 2M9 2h6M12 22a8 8 0 1 0 0-16 8 8 0 0 0 0 16z",
   book: "M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7",
   cal: "M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 10h16M9 2v4M15 2v4",
+  grid: "M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z",
   city: "M3 21h18M5 21V9l5-3v15M10 21V4l9 4v13M13 9h3M13 13h3M13 17h3M7 12h1M7 16h1",
   gear: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z",
 };
@@ -113,23 +113,33 @@ function TimerWatcher() {
 function PendingSessionModal() {
   const pending = useStore((s) => s.pending);
   const resolve = useStore((s) => s.resolvePending);
+  const completeTask = useStore((s) => s.completeTask);
   const task = useStore((s) => s.tasks.find((t) => t.id === pending?.taskId));
   const [focus, setFocus] = useState(4);
   const [note, setNote] = useState("");
+  const [blockDone, setBlockDone] = useState(true);
   if (!pending) return null;
+  const finish = () => {
+    resolve(focus, note.trim() ? `Rappel : ${note.trim()}` : "");
+    if (task && !task.done && blockDone) completeTask(task.id);
+    setNote(""); setBlockDone(true);
+  };
   return (
     <Modal
       title={`🎉 ${pending.minutes} min de travail !`}
-      onClose={() => resolve(focus, note)}
+      onClose={finish}
       actions={
         <>
           <button className="btn danger" onClick={() => resolve(null)}>Ne pas compter</button>
-          <button className="btn primary" onClick={() => { resolve(focus, note); setNote(""); }}>Encaisser les gains</button>
+          <button className="btn primary" onClick={finish}>Valider</button>
         </>
       }
     >
       {task && <p className="muted" style={{ marginTop: 0 }}>Sur : <b style={{ color: "var(--text)" }}>{task.title}</b></p>}
-      <p>Ta concentration sur cette session ? <span className="muted small">(influence les gains de ±20 %)</span></p>
+      <p style={{ marginBottom: 6 }}><b>1 minute, sans regarder tes notes :</b> écris les 3 idées clés de ce que tu viens de travailler.</p>
+      <p className="small muted" style={{ marginTop: 0 }}>Te forcer à te rappeler fixe bien mieux que relire.</p>
+      <textarea id="recall-note" className="input" rows={3} placeholder="1. …  2. …  3. …" value={note} onChange={(e) => setNote(e.target.value)} />
+      <p style={{ marginBottom: 6 }}>Ta concentration ?</p>
       <div className="row">
         {[1, 2, 3, 4, 5].map((n) => (
           <button key={n} className={`btn ${focus === n ? "primary" : ""}`} onClick={() => setFocus(n)}>
@@ -137,8 +147,12 @@ function PendingSessionModal() {
           </button>
         ))}
       </div>
-      <input className="input" style={{ marginTop: 12 }} placeholder="Note rapide (optionnel) : ce que j'ai fait, ce qui a bloqué…" value={note} onChange={(e) => setNote(e.target.value)} />
-      {pending.nextBreak && <p className="small muted">Une pause démarrera ensuite automatiquement.</p>}
+      {task && !task.done && (
+        <label className="row small" style={{ gap: 8, marginTop: 12, cursor: "pointer" }}>
+          <input type="checkbox" checked={blockDone} onChange={(e) => setBlockDone(e.target.checked)} /> Bloc terminé (le cocher dans le programme)
+        </label>
+      )}
+      {pending.nextBreak && <p className="small muted">Une pause de {useStore.getState().settings.pomodoroBreak} min démarre ensuite : lève-toi, bois, pas d'écran.</p>}
     </Modal>
   );
 }
@@ -179,8 +193,7 @@ function useShortcuts(view: View) {
 }
 
 function TopBar() {
-  const { xp, coins, sessions, timer } = useStore();
-  const lv = levelFromXp(xp);
+  const { sessions, timer } = useStore();
   const streak = useMemo(() => currentStreak(sessions), [sessions]);
   const [, tick] = useState(0);
   useEffect(() => {
@@ -190,20 +203,15 @@ function TopBar() {
   }, [timer.status]);
   const el = timerElapsedMs(timer) / 1000;
   const cloud = useCloud();
-  const pct = Math.round((lv.into / lv.need) * 100);
   return (
     <div className="topbar">
-      <div className="lvl" title={`${xp} XP au total · ${lv.into}/${lv.need} vers le niveau ${lv.level + 1}`}>
-        <div className="lvl-ring" style={{ background: `conic-gradient(var(--accent) ${pct}%, var(--line) 0)` }}><span>{lv.level}</span></div>
-        <div className="info"><b>{levelTitle(lv.level)}</b><span className="muted small">{lv.into}/{lv.need} XP</span></div>
-      </div>
+      <div className="brand-top"><span className="ball">⚽</span> Prépa FC</div>
       <span className="spacer" />
       {timer.status !== "idle" && (
         <button className="chip click timer-chip" onClick={() => navigate("focus")} data-phase={timer.phase}>
           {timer.status === "paused" ? "⏸" : timer.phase === "break" ? "☕" : "●"} {timer.mode === "free" ? fmtClock(el) : fmtClock(timer.targetMin * 60 - el)}
         </button>
       )}
-      <span className="chip" title="Budget du club">💰 {fmtMoney(coins)}</span>
       <span className="chip" title="Série de jours avec au moins 25 min de travail">🔥 {streak}</span>
       {(
         <span role="button" tabIndex={0} onClick={() => navigate("settings")} className={`cloud-dot ${cloud.status}`} title={cloud.message ?? (cloud.status === "synced" ? "Sauvegardé dans ton compte claude.ai" : cloud.status === "saving" ? "Sauvegarde…" : cloud.status === "connecting" ? "Connexion…" : "En attente de sauvegarde")} />
@@ -225,7 +233,6 @@ export default function App() {
   const evals = useStore((s) => s.evals);
   const overdue = tasks.filter((t) => !t.done && t.due && daysUntil(t.due) < 0).length;
   const soonEvals = evals.filter((e) => { const d = daysUntil(e.date); return d >= 0 && d <= 3; }).length;
-  const warmedUp = useStore((s) => s.warmups.includes(isoDay(new Date())));
   // Programme quotidien : recalculé quand un DS / une khôlle change, et chaque jour (après le chargement de la sauvegarde)
   const cloud = useCloud((c) => c.status);
   const evalSig = evals.map((e) => `${e.id}${e.date}${e.topic ?? ""}${e.durationMin ?? ""}`).join("|");
@@ -239,8 +246,7 @@ export default function App() {
   const section = sectionOf(view);
   const device = useDevice();
   useShortcuts(view);
-  const badge = (id: SectionId) =>
-    id === "agenda" ? overdue + soonEvals : id === "study" ? (warmedUp ? 0 : 1) : 0;
+  const badge = (id: SectionId) => (id === "planning" ? overdue + soonEvals : 0);
 
   return (
     <div className="app" data-section={section?.id ?? "settings"} data-device={device}>
@@ -262,10 +268,9 @@ export default function App() {
               <button className="back" onClick={() => navigate(section.views[0][0])}>‹ {section.views[0][1]}</button>
             </div>
           )}
-          {view === "settings" && (
-            <div className="backbar"><button className="back" onClick={() => navigate("home")}>‹ Aujourd'hui</button></div>
-          )}
-          {view === "home" && <Dashboard />}
+          {view === "home" && <Coach />}
+          {view === "planning" && <Planning />}
+          {view === "more" && <More />}
           {view === "study" && <StudyHub />}
           {view === "agenda" && <AgendaHub />}
           {view === "warmup" && <Warmup />}

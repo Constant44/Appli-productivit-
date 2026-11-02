@@ -71,7 +71,7 @@ export function buildProgram(inp: ProgramInput): Task[] {
     needs.push({
       key, evalId: e.id, due: ed, subject: e.subject, minutes: left, block: e.type === "DS" ? 60 : 45,
       from: isoDay(addDays(new Date(`${ed}T12:00:00`), -spread)), to: isoDay(addDays(new Date(`${ed}T12:00:00`), -1)),
-      title: `Préparer ${e.type === "Khôlle" ? "la khôlle" : e.type === "DS" ? "le DS" : "l'épreuve"} de ${e.subject} (${fmtD(ed)})${what}`,
+      title: `Préparer ${e.type === "Khôlle" ? "la khôlle" : e.type === "DS" ? "le DS" : "l'épreuve"} ${/^[aeiouyéèêàâîôûh]/i.test(e.subject) ? `d'${e.subject.toLowerCase()}` : `de ${e.subject.toLowerCase()}`} (${fmtD(ed)})${what}`,
       priority: e.type === "DS" ? 3 : 2, kind: "revision", must: true,
     });
   }
@@ -123,7 +123,9 @@ export function buildProgram(inp: ProgramInput): Task[] {
         if (left <= 0) break;
         const free = cap.get(d)! - used.get(d)!;
         if (free < Math.min(n.block, left) && (pass < 3 || !n.must)) continue;
-        const m = Math.min(n.block, left);
+        // dernier passage (préparation d'épreuve) : on tolère 30 min de plus que la capacité, jamais davantage
+        const m = pass < 3 ? Math.min(n.block, left) : Math.min(n.block, left, free + 30);
+        if (m < 15) continue;
         placeBlock(n, d, m, i++);
         left -= m;
       }
@@ -133,6 +135,9 @@ export function buildProgram(inp: ProgramInput): Task[] {
 
   function placeBlock(n: Need, d: string, m: number, i: number) {
     used.set(d, (used.get(d) ?? 0) + m);
+    // un seul bloc par besoin et par jour : deux heures de DS le même jour = un bloc de 2 h
+    const same = out.find((t) => t.program === n.key && t.plannedFor === d);
+    if (same) { same.estimateMin += m; return; }
     out.push({
       id: `prog-${n.key}-${d}-${i}`, title: n.title, subject: n.subject, kind: n.kind, due: n.due ?? n.to, estimateMin: m,
       priority: n.priority, done: false, createdAt: `${t0}T00:00:00.000Z`, source: "manual", evalId: n.evalId,
