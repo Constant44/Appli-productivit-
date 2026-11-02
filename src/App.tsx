@@ -6,7 +6,7 @@ import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
 import { rearmWake, ringAlarm } from "./lib/alarm";
-import { syncCalendarAlarm } from "./lib/calAlarm";
+import { calAlarmStatus, syncCalendarAlarm } from "./lib/calAlarm";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
@@ -74,7 +74,7 @@ function TimerWatcher() {
   const sound = useStore((s) => s.settings.sound);
   useEffect(() => syncCalendarAlarm(timer), [timer.status, timer.startedAt, timer.phase]);
   useEffect(() => {
-    rearmWake(timer.status === "running");
+    rearmWake(timer.status === "running" && calAlarmStatus.state !== "on");
     const back = () => document.visibilityState === "visible" && rearmWake(useStore.getState().timer.status === "running");
     document.addEventListener("visibilitychange", back);
     return () => document.removeEventListener("visibilitychange", back);
@@ -90,7 +90,8 @@ function TimerWatcher() {
       const counting = timer.mode !== "free";
       document.title = `${counting ? fmtClock(target - el) : fmtClock(el)} · ${timer.phase === "break" ? "Pause" : "Focus"}`;
       if (counting && el >= target) {
-        if (sound) ringAlarm();
+        // en BU : pas de son quand le rappel Google Agenda est programmé, la notification suffit
+        if (sound && calAlarmStatus.state !== "on") ringAlarm();
         try {
           if ("Notification" in window && Notification.permission === "granted")
             new Notification(timer.phase === "break" ? "Pause terminée, on y retourne !" : "Pomodoro terminé 🎉");
