@@ -39,6 +39,7 @@ export default function Tasks() {
   const upcomingEvals = useMemo(() => evals.filter((e) => +new Date(e.date) > Date.now() - 864e5).sort((a, b) => a.date.localeCompare(b.date)), [evals]);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [showDone, setShowDone] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const mine = useMemo(() => tasks.filter((t) => !t.program), [tasks]);
   const todo = mine.filter((t) => !t.done);
@@ -127,15 +128,26 @@ export default function Tasks() {
                 return (
                   <div key={t.id} className="subject-task">
                     <button className="tick-btn" aria-label="Terminer" onClick={() => setCompleting(t)} />
-                    <button className="subject-task-t" onClick={() => setEdit(t)}>
-                      {t.priority === 3 && <b className="late-txt">! </b>}{t.title}
+                    <div className="subject-task-body">
+                      <button className={`subject-task-t ${expandedId === t.id ? "full" : ""}`} onClick={() => setExpandedId(expandedId === t.id ? null : t.id)} aria-expanded={expandedId === t.id}>
+                        {t.priority === 3 && <b className="late-txt">! </b>}{t.title}
+                      </button>
                       <span className="subject-task-m">
                         {due && <span className={`due ${due.tone}`}>{due.text}</span>}
                         {t.kind !== "devoir" && <span>{TASK_KIND_LABEL[t.kind]}</span>}
-                        {t.notes && <span title={t.notes}>📝 {t.notes.length > 40 ? `${t.notes.slice(0, 40)}…` : t.notes}</span>}
+                        {t.notes && expandedId !== t.id && <span>📝 {t.notes.length > 40 ? `${t.notes.slice(0, 40)}…` : t.notes}</span>}
                         {t.source === "pronote" && <span className="pn">Pronote</span>}
                       </span>
-                    </button>
+                      {expandedId === t.id && (
+                        <div className="subject-task-open">
+                          {t.notes && <p className="subject-task-notes">📝 {t.notes}</p>}
+                          <div className="row" style={{ gap: 8 }}>
+                            <button className="btn sm" onClick={() => setEdit(t)}>Modifier</button>
+                            <button className="btn sm primary" onClick={() => setCompleting(t)}>✓ Fait</button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}

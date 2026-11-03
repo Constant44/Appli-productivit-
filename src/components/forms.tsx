@@ -44,7 +44,7 @@ export function TaskForm({ initial, onClose }: { initial?: TaskDraft; onClose: (
     >
       <div className="stack">
         <Field label="Intitulé">
-          <input className="input" autoFocus value={d.title} onChange={(e) => set({ title: e.target.value })} onKeyDown={(e) => e.key === "Enter" && save()} placeholder="ex : Exos 1 à 8 feuille probas" />
+          <textarea className="input task-title-input" autoFocus rows={Math.min(5, Math.max(2, Math.ceil((d.title?.length ?? 0) / 40)))} value={d.title} onChange={(e) => set({ title: e.target.value })} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); save(); } }} placeholder="ex : Exos 1 à 8 feuille probas" />
         </Field>
         <div className="form-grid">
           <Field label="Matière"><SubjectSelect value={d.subject ?? ""} onChange={(v) => set({ subject: v })} /></Field>

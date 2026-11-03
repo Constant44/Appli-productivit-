@@ -854,3 +854,9 @@ label.field > span { font-weight: 600; }
 .prio-seg button.on.p3 { background: var(--red); }
 .todo-add-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; }
 .todo-field .input, .todo-field select.input { flex: none; width: 100%; }
+.subject-task-body { flex: 1; min-width: 0; }
+.subject-task-t { display: block; width: 100%; font-size: 15px; line-height: 1.4; -webkit-line-clamp: 3; }
+.subject-task-t.full { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.subject-task-open { margin-top: 8px; display: grid; gap: 8px; }
+.subject-task-notes { margin: 0; font-size: 14px; line-height: 1.45; white-space: pre-wrap; color: var(--text); background: color-mix(in srgb, var(--text) 5%, transparent); padding: 8px 10px; border-radius: 10px; }
+.task-title-input { font-size: 16px; line-height: 1.4; resize: vertical; }
