@@ -5,7 +5,7 @@ import { daysUntil, fmtClock, isoDay } from "./lib/utils";
 import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
-import { syncCalendarAlarm } from "./lib/calAlarm";
+import { logPomodoroToCalendar, syncCalendarAlarm } from "./lib/calAlarm";
 import { knownPlaces } from "./lib/focusInsights";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
@@ -113,6 +113,7 @@ function PendingSessionModal() {
   const finish = () => {
     // la note sur 10 donne aussi la note 1-5 des gains du jeu
     resolve(focus10 ? Math.max(1, Math.ceil(focus10 / 2)) : 4, note.trim() ? `Rappel : ${note.trim()}` : "", { focus10: focus10 ?? undefined, place: where });
+    void logPomodoroToCalendar({ minutes: pending.minutes, title: task?.title ?? pending.subject ?? "Session de travail", focus10: focus10 ?? undefined, place: where, recall: note.trim() || undefined });
     setNote(""); setFocus10(null); setPlace(null); setOther("");
   };
   return (

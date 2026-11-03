@@ -132,7 +132,7 @@ export default function Settings() {
               </Field>
             </div>
             <label className="row small" style={{ marginTop: 10 }}>
-              <input type="checkbox" checked={settings.calendarAlarm !== false} onChange={(e) => updateSettings({ calendarAlarm: e.target.checked })} /> Notification Google Agenda à la fin de chaque pomodoro (même téléphone verrouillé)
+              <input type="checkbox" checked={settings.calendarAlarm !== false} onChange={(e) => updateSettings({ calendarAlarm: e.target.checked })} /> Google Agenda : notification à la fin de chaque pomodoro (même téléphone verrouillé) et bloc 🍅 gardé dans l'agenda pour chaque session validée
             </label>
           </div>
           <div className="card">

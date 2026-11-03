@@ -77,3 +77,30 @@ export function syncCalendarAlarm(t: TimerState) {
   }
   if (counting) void create(t, key);
 }
+
+/**
+ * Garde une trace de chaque pomodoro validé dans l'agenda : un bloc « 🍅 » du début à la fin de la session,
+ * sans rappel. Les blocs s'accumulent jour après jour.
+ */
+export async function logPomodoroToCalendar(s: { minutes: number; title: string; focus10?: number; place?: string; recall?: string }) {
+  if (useStore.getState().settings.calendarAlarm === false || s.minutes < 5) return;
+  const mcp = await capability("mcp");
+  if (!mcp) return;
+  const end = Date.now();
+  const start = end - s.minutes * 60000;
+  const details = [
+    s.focus10 ? `Concentration : ${s.focus10}/10` : "",
+    s.place ? `Lieu : ${s.place}` : "",
+    s.recall ? `Idées clés : ${s.recall}` : "",
+    "Ajouté par Prépa FC.",
+  ].filter(Boolean).join("\n");
+  try {
+    await mcp.callTool(SERVER, "create_event", {
+      summary: `🍅 ${s.title.slice(0, 70)}`, startTime: local(start), endTime: local(end),
+      colorId: "11", useDefaultReminders: false, availability: "AVAILABILITY_FREE", notificationLevel: "NONE",
+      description: details,
+    }, { cache: false });
+  } catch {
+    /* agenda indisponible : la session reste enregistrée dans l'appli */
+  }
+}
