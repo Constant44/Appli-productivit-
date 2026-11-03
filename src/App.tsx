@@ -100,16 +100,12 @@ function TimerWatcher() {
 function PendingSessionModal() {
   const pending = useStore((s) => s.pending);
   const resolve = useStore((s) => s.resolvePending);
-  const completeTask = useStore((s) => s.completeTask);
   const task = useStore((s) => s.tasks.find((t) => t.id === pending?.taskId));
-  const [focus, setFocus] = useState(4);
   const [note, setNote] = useState("");
-  const [blockDone, setBlockDone] = useState(true);
   if (!pending) return null;
   const finish = () => {
-    resolve(focus, note.trim() ? `Rappel : ${note.trim()}` : "");
-    if (task && !task.done && blockDone) completeTask(task.id);
-    setNote(""); setBlockDone(true);
+    resolve(4, note.trim() ? `Rappel : ${note.trim()}` : "");
+    setNote("");
   };
   return (
     <Modal
@@ -126,19 +122,6 @@ function PendingSessionModal() {
       <p style={{ marginBottom: 6 }}><b>1 minute, sans regarder tes notes :</b> écris les 3 idées clés de ce que tu viens de travailler.</p>
       <p className="small muted" style={{ marginTop: 0 }}>Te forcer à te rappeler fixe bien mieux que relire.</p>
       <textarea id="recall-note" className="input" rows={3} placeholder="1. …  2. …  3. …" value={note} onChange={(e) => setNote(e.target.value)} />
-      <p style={{ marginBottom: 6 }}>Ta concentration ?</p>
-      <div className="row">
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} className={`btn ${focus === n ? "primary" : ""}`} onClick={() => setFocus(n)}>
-            {["😵", "😕", "😐", "🙂", "🔥"][n - 1]} {n}
-          </button>
-        ))}
-      </div>
-      {task && !task.done && (
-        <label className="row small" style={{ gap: 8, marginTop: 12, cursor: "pointer" }}>
-          <input type="checkbox" checked={blockDone} onChange={(e) => setBlockDone(e.target.checked)} /> Bloc terminé (le cocher dans le programme)
-        </label>
-      )}
       {pending.nextBreak && <p className="small muted">Une pause de {useStore.getState().settings.pomodoroBreak} min démarre ensuite : lève-toi, bois, pas d'écran.</p>}
     </Modal>
   );
