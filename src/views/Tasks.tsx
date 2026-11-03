@@ -4,8 +4,8 @@
  */
 import { useMemo, useState } from "react";
 import { useStore } from "../lib/store";
-import type { Task } from "../lib/types";
-import { daysUntil, fmtDay, subjectColor } from "../lib/utils";
+import { TASK_KIND_LABEL, type Task, type TaskKind } from "../lib/types";
+import { daysUntil, fmtDay, isoDay, subjectColor } from "../lib/utils";
 import { CompleteTaskModal, TaskForm } from "../components/forms";
 
 const SHOWN = 5;
@@ -29,6 +29,14 @@ export default function Tasks() {
   const [completing, setCompleting] = useState<Task | null>(null);
   const [title, setTitle] = useState("");
   const [subject, setSubject] = useState(subjectsList[0] ?? "Maths");
+  const [due, setDue] = useState("");
+  const [priority, setPriority] = useState<1 | 2 | 3>(2);
+  const [kind, setKind] = useState<TaskKind>("devoir");
+  const [evalId, setEvalId] = useState("");
+  const [notes, setNotes] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const evals = useStore((s) => s.evals);
+  const upcomingEvals = useMemo(() => evals.filter((e) => +new Date(e.date) > Date.now() - 864e5).sort((a, b) => a.date.localeCompare(b.date)), [evals]);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   const [showDone, setShowDone] = useState(false);
 
@@ -50,8 +58,12 @@ export default function Tasks() {
 
   const add = () => {
     if (!title.trim()) return;
-    addTask({ title: title.trim(), subject, kind: "devoir", estimateMin: 45, priority: 2 });
-    setTitle("");
+    const ev = evals.find((e) => e.id === evalId);
+    addTask({
+      title: title.trim(), subject, kind, estimateMin: 45, priority,
+      due: due || (ev ? isoDay(ev.date) : undefined), evalId: evalId || undefined, notes: notes.trim() || undefined,
+    });
+    setTitle(""); setDue(""); setPriority(2); setKind("devoir"); setEvalId(""); setNotes(""); setExpanded(false);
   };
 
   return (
@@ -61,12 +73,45 @@ export default function Tasks() {
         <span className="small muted">{todo.length} à faire{late ? <> · <b className="late-txt">{late} en retard</b></> : ""}</span>
       </header>
 
-      <form className="todo-add" onSubmit={(e) => { e.preventDefault(); add(); }}>
-        <input id="todo-title" className="input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Nouvelle tâche…" aria-label="Nouvelle tâche" />
-        <select id="todo-subject" className="input" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Matière">
-          {subjectsList.map((s) => <option key={s}>{s}</option>)}
-        </select>
-        <button className="btn primary" disabled={!title.trim()}>Ajouter</button>
+      <form className={`todo-add card ${expanded || title ? "open" : ""}`} onSubmit={(e) => { e.preventDefault(); add(); }}>
+        <div className="todo-add-row">
+          <input id="todo-title" className="input" value={title} onChange={(e) => setTitle(e.target.value)} onFocus={() => setExpanded(true)} placeholder="Nouvelle tâche…" aria-label="Nouvelle tâche" />
+          <select id="todo-subject" className="input" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Matière">
+            {subjectsList.map((x) => <option key={x}>{x}</option>)}
+          </select>
+        </div>
+        {(expanded || title) && (
+          <div className="todo-add-more">
+            <label className="todo-field"><span>Type</span>
+              <select id="todo-kind" className="input" value={kind} onChange={(e) => setKind(e.target.value as TaskKind)}>
+                {(Object.keys(TASK_KIND_LABEL) as TaskKind[]).map((k) => <option key={k} value={k}>{TASK_KIND_LABEL[k]}</option>)}
+              </select>
+            </label>
+            <label className="todo-field"><span>Pour le</span>
+              <input id="todo-due" className="input" type="date" value={due} onChange={(e) => setDue(e.target.value)} />
+            </label>
+            <label className="todo-field"><span>Prépare un DS / une khôlle</span>
+              <select id="todo-eval" className="input" value={evalId} onChange={(e) => { setEvalId(e.target.value); const ev = evals.find((x) => x.id === e.target.value); if (ev) { setSubject(ev.subject); if (kind === "devoir") setKind("revision"); } }}>
+                <option value="">Non</option>
+                {upcomingEvals.map((e) => <option key={e.id} value={e.id}>{e.type} {e.subject} · {fmtDay(e.date)}</option>)}
+              </select>
+            </label>
+            <div className="todo-field"><span>Priorité</span>
+              <div className="prio-seg" role="group" aria-label="Priorité">
+                {([[1, "Basse"], [2, "Normale"], [3, "Haute"]] as const).map(([v, l]) => (
+                  <button type="button" key={v} className={priority === v ? `on p${v}` : ""} onClick={() => setPriority(v)}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <label className="todo-field wide"><span>Notes</span>
+              <textarea id="todo-notes" className="input" rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Page, exercices, consignes…" />
+            </label>
+            <div className="todo-add-actions">
+              <button type="button" className="btn ghost" onClick={() => { setTitle(""); setExpanded(false); }}>Annuler</button>
+              <button className="btn primary" disabled={!title.trim()}>Ajouter</button>
+            </div>
+          </div>
+        )}
       </form>
 
       {groups.length === 0 && <div className="card empty">Rien à faire en dehors du programme du jour 🙌</div>}
@@ -86,6 +131,8 @@ export default function Tasks() {
                       {t.priority === 3 && <b className="late-txt">! </b>}{t.title}
                       <span className="subject-task-m">
                         {due && <span className={`due ${due.tone}`}>{due.text}</span>}
+                        {t.kind !== "devoir" && <span>{TASK_KIND_LABEL[t.kind]}</span>}
+                        {t.notes && <span title={t.notes}>📝 {t.notes.length > 40 ? `${t.notes.slice(0, 40)}…` : t.notes}</span>}
                         {t.source === "pronote" && <span className="pn">Pronote</span>}
                       </span>
                     </button>

@@ -837,3 +837,20 @@ label.field > span { font-weight: 600; }
 .subject-task-m .pn { color: var(--blue); }
 .subject-task.done .subject-task-t { text-decoration: line-through; opacity: .55; cursor: default; }
 .app[data-device="phone"] .subject-grid { grid-template-columns: 1fr; }
+.todo-add { display: block; padding: 12px; margin-bottom: 16px; }
+.todo-add-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.todo-add-row .input:first-child { flex: 1 1 220px; min-width: 0; }
+.todo-add-row select.input { flex: 0 1 180px; width: auto; }
+.todo-add-more { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 12px; margin-top: 12px; }
+.todo-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.todo-field > span { font-size: 12px; color: var(--muted); font-weight: 600; }
+.todo-field.wide { grid-column: 1 / -1; }
+.todo-field textarea { resize: vertical; }
+.prio-seg { display: flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.prio-seg button { flex: 1; border: 0; background: transparent; color: inherit; font: inherit; font-size: 13px; padding: 8px 4px; cursor: pointer; }
+.prio-seg button.on { font-weight: 700; color: #04140a; }
+.prio-seg button.on.p1 { background: var(--muted); }
+.prio-seg button.on.p2 { background: var(--accent); }
+.prio-seg button.on.p3 { background: var(--red); }
+.todo-add-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; }
+.todo-field .input, .todo-field select.input { flex: none; width: 100%; }
