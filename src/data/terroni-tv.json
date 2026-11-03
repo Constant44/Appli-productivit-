@@ -1,0 +1,387 @@
+[
+ {
+  "id": "tv1",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Le premier ministre britannique, Keir Starmer, s’est soumis devant les caméras à un test de dépistage du virus de l’immunodéficience humaine (VIH).",
+  "dst": "The British Prime Minister, Keir Starmer, took a blood/screening test in front of a camera to determine if he had HIV (human immunodeficiency virus)."
+ },
+ {
+  "id": "tv2",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Au printemps 2024, quand il était encore chef de file du Labour britannique, Keir Starmer promettait déjà une remise à plat des relations avec l’Union européenne.",
+  "dst": "In Spring 2024, when he was still at the head of the Labour party, Keir Starmer had already promised a reset / to straighten things up on the relations with the European Union."
+ },
+ {
+  "id": "tv3",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Le Royaume-Uni souffre en ce moment même de l’inflation et le gouvernement conservateur ne semble pas pouvoir booster l’économie.",
+  "dst": "The United Kingdom is currently / is now suffering from inflation and the conservative government doesn’t seem to be able to boost the economy."
+ },
+ {
+  "id": "tv4",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Le gouvernement conservateur de Rishi Sunak préfère pointer la migration illégale et concentrer son énergie à mettre en œuvre un accord controversé de déportation vers le Rwanda des demandeurs d’asile arrivés par la Manche sur des bateaux pneumatiques.",
+  "dst": "The conservative government of Rishi Sunak prefers to point at illegal immigration and muster its forces on developing a controversial agreement on the removal of asylum seekers to Rwanda, who came on inflatable boats / small boats across the English Channel."
+ },
+ {
+  "id": "tv5",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "En 2023, la Cour suprême a établi que l’administration Biden avait outrepassé son autorité avec son projet d’annuler plus de 400 milliards de dollars de dette étudiante, détruisant l’espoir de dizaines de millions d’emprunteurs et imposant de nouvelles restrictions au pouvoir présidentiel.",
+  "dst": "In 2023, the Supreme Court ruled that the Biden administration had overstepped its authority with its plan to cancel more than $400 billion in student debt, crushing the hopes of tens of millions of borrowers and imposing new restrictions on presidential power."
+ },
+ {
+  "id": "tv6",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "L’accord du Vendredi saint fut signé en 1998 en Irlande du Nord. Grâce à cet accord, le pays a retrouvé la paix après trois décennies de guerre civile où des groupes terroristes armés se sont affrontés. Depuis 2016, beaucoup de choses ont changé à cause du Brexit.",
+  "dst": "The Good Friday agreement was signed in 1998 in Northern Ireland. Thanks to this agreement, the country found peace after three decades of civil war where armed terrorist groups fought against each other. Since 2016, many things have changed because of Brexit."
+ },
+ {
+  "id": "tv7",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Depuis la fin du marché unique et de l’union douanière, la Grande-Bretagne rencontre des difficultés économiques, qui ont été renforcées par le covid et la guerre en Ukraine. Ainsi, il y a désormais une majorité de Britanniques qui pensent que le Brexit était une erreur.",
+  "dst": "Since the end of the single market and the customs union, Great Britain has faced economic difficulties, which were worsened by covid and the war in Ukraine. As a consequence, there is now a majority of Britons who think that Brexit was a mistake."
+ },
+ {
+  "id": "tv8",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Quand est-ce que la reine Elizabeth II est décédée ? Elle est décédée en septembre 2022 et son fils lui a succédé. La monarchie britannique est très riche et elle est connue dans le monde entier. Il y a bien sûr eu des scandales dans le passé, mais elle reste très populaire.",
+  "dst": "When did Elizabeth II die? She died in September 2022 and her son succeeded her. The British monarchy is very wealthy and is renowned throughout the world. There were scandals of course in the past, but it remains very popular."
+ },
+ {
+  "id": "tv9",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Qui sera le prochain roi après Charles III ? L’héritier de la couronne britannique est le Prince William.",
+  "dst": "Who will be the next king after Charles III? The heir to the British throne/crown is Prince William."
+ },
+ {
+  "id": "tv10",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "La République d’Irlande a annoncé, mercredi 20 décembre, qu’elle saisissait la Cour européenne des droits de l’homme (CEDH) pour contester la légalité d’une loi britannique d’amnistie (le « Northern Ireland Troubles Act »), au motif qu’elle est « incompatible avec les obligations du Royaume-Uni dans le cadre de la Convention européenne des droits de l’homme ».",
+  "dst": "The Republic of Ireland announced on Wednesday December 20 that it was lodging a case with the European Court of Human Rights in order to challenge the legality of a British amnesty law (the Northern Ireland Troubles Act), considering that it is “incompatible with the obligations of the United Kingdom within the framework of the European Convention on Human Rights”."
+ },
+ {
+  "id": "tv11",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Cette année, le 5 mars, quinze Etats et un territoire américains votent en même temps lors de primaires et de caucus dans le cadre du Super Tuesday.",
+  "dst": "On March 5 this year, 15 states and one American territory are voting at the same time / simultaneously in primaries and caucuses during Super Tuesday."
+ },
+ {
+  "id": "tv12",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "A 81 ans, Joe Biden est le candidat le plus âgé à occuper la présidence et à se représenter, ce qui inquiète une partie de ceux qui ont voté pour lui en 2020. Dans un récent sondage du New York Times, 61 % de ses électeurs le trouvaient ainsi « trop vieux pour être efficace ».",
+  "dst": "At 81 years old, Joe Biden is the oldest candidate to be president and to run for office again, which worries some of those who voted for him in 2020. In a recent poll from the NYT, 61% of his electors indeed found him “too old to be efficient”."
+ },
+ {
+  "id": "tv13",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Il a toujours été hautement improbable que la Cour suprême, avec sa majorité conservatrice, maintienne la décision du Colorado de supprimer Donald Trump de ses bulletins de vote, simplement parce qu’il a tenté un coup d’Etat après avoir perdu les élections de 2020.",
+  "dst": "It was always unlikely that the Supreme Court, with its right-wing majority, would uphold Colorado’s ruling throwing Donald Trump off the ballot merely because he tried to execute a coup after losing the 2020 election."
+ },
+ {
+  "id": "tv14",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Après la rupture avec l’Union européenne, le regret dudit Brexit concerne désormais une nette majorité des Britanniques.",
+  "dst": "After the breakup with / the withdrawal from the European Union, regret over Brexit now concerns a great majority of British people."
+ },
+ {
+  "id": "tv15",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Les six magistrats conservateurs ont jugé, contre l’avis des trois progressistes, contraire à la Constitution les procédures d’admission sur les campus prenant en compte la couleur de la peau ou l’origine ethnique des candidats.",
+  "dst": "The six conservative judges have ruled – against the 3 progressive judges – that admission policies on campuses that considered the applicants’ skin color or ethnic origin were contrary to the Constitution."
+ },
+ {
+  "id": "tv16",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "A mi-mandat, le président américain peut s’enorgueillir d’un bilan réformateur inespéré, dans une Amérique fracturée, avec un Sénat acquis à son parti par la plus fragile des marges.",
+  "dst": "Half-way through his term of office, the American president can take pride in an unexpected record of reformative policies, enacted in a divided America where the Senate is dominated by his party with a very slight margin."
+ },
+ {
+  "id": "tv17",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Désormais, 60 % des Britanniques affirment que la sortie de l’Union européenne (UE) a été une erreur, contre 40 % qui la soutiennent.",
+  "dst": "Now, 60% of the British claim that leaving the EU was a mistake, against 40% of people who support the decision."
+ },
+ {
+  "id": "tv18",
+  "dir": "theme",
+  "sec": "US & UK politics",
+  "src": "Les Britanniques ont même trouvé un nom pour désigner ceux qui souhaitent revenir dans l’UE : les « rejoiners ».",
+  "dst": "The British have even found a name to designate those who wish to go back to the EU: the “rejoiners”."
+ },
+ {
+  "id": "tv19",
+  "dir": "theme",
+  "sec": "Relations internationales",
+  "src": "Le président américain exige que les Européens portent à 5 % de leur produit intérieur brut (PIB) leurs dépenses de défense, pour assumer davantage la sécurité collective du continent, aujourd’hui largement assurée par les Etats-Unis.",
+  "dst": "The American president demands that Europeans increase / urges the Europeans to increase their defense spending to 5% of their GDP, in order to better ensure the collective security of their continent, which is today mainly guaranteed by the United States."
+ },
+ {
+  "id": "tv20",
+  "dir": "theme",
+  "sec": "Relations internationales",
+  "src": "Deux années après le déclenchement de la plus grande guerre que l’Europe ait connue depuis 1945, les Européens doivent formuler une stratégie et adresser les bons messages à différentes audiences : les Ukrainiens, les Européens, les Américains et les Russes.",
+  "dst": "Two years after the start of the largest war Europe has known since 1945, Europeans must come up with / design a new strategy and deliver the right messages to various audiences: Ukrainians, Europeans, Americans and Russians."
+ },
+ {
+  "id": "tv21",
+  "dir": "theme",
+  "sec": "Relations internationales",
+  "src": "Les suites de la guerre menée par la Russie en Ukraine, l’extension éventuelle du conflit entre Israël et le Hamas, la poursuite ou non des troubles en mer Rouge pèseront dans les équations économiques.",
+  "dst": "The pursuit of the war led by Russia in Ukraine, the potential expansion of the conflict between Israel and Hamas, the continuation or the end of the troubles in the Red Sea will bear on economic matters."
+ },
+ {
+  "id": "tv22",
+  "dir": "theme",
+  "sec": "Relations internationales",
+  "src": "Le président Joe Biden a passé trois heures en Egypte à la conférence mondiale sur le climat qui se tient à Charm El-Cheikh, avant de s’envoler vers l’Asie, où il participera notamment au sommet du G20.",
+  "dst": "President Joe Biden spent 3 hours in Egypt at the international conference on climate change held in Sharm-El-Sheikh, before flying to Asia where he will take part in the G20 summit, among other things."
+ },
+ {
+  "id": "tv23",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Chez Amazon, les syndicats britanniques alertent sur les cadences infernales qui forcent les employés à être toujours plus productifs.",
+  "dst": "At Amazon, the British (trade) unions warn of the inhumane work pace that forces employees to be always more productive."
+ },
+ {
+  "id": "tv24",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Le marché du travail demeure extrêmement favorable aux Etats-Unis, en dépit de la hausse des taux d’intérêt et des licenciements dans la tech.",
+  "dst": "The labour market / the job market remains extremely dynamic / strong in the United States, in spite of / despite the rise in interest rates and the layoffs in the tech industry."
+ },
+ {
+  "id": "tv25",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Aux Etats-Unis, l’inflation cède enfin le pas et les prix affichent une baisse de 0,1 % grâce à l’action de la banque centrale américaine sur les taux d’intérêt.",
+  "dst": "In the United States, inflation is finally receding / retreating and prices show a 0.1% decrease thanks to the action of the Fed / the Federal Reserve on interest rates."
+ },
+ {
+  "id": "tv26",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "Across the insurance industry as a whole, assessing the risks posed by investments is made harder by the proliferation of offshore reinsurance.",
+  "dst": "Dans le secteur des assurances en général, évaluer les risques liés aux investissements devient plus difficile en raison de la prolifération des réassurances à l’étranger."
+ },
+ {
+  "id": "tv27",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "The UK spends less on low-carbon energy policy than any other major European economy, analysis has shown, despite evidence that such spending could lower household bills and increase economic growth more than the tax cuts the government has planned.",
+  "dst": "Une étude a montré que le Royaume-Uni dépensait moins pour les énergies bas carbone que les autres grandes économies européennes, malgré les preuves que ces dépenses pouvaient réduire les factures des ménages et stimuler la croissance, bien plus que les réductions d’impôts que le gouvernement a prévues."
+ },
+ {
+  "id": "tv28",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "China has set its target for GDP growth at 5%, in line with analysts’ expectations for another year of historically modest ambitions for the economy, amid regional tensions and its demographic crisis.",
+  "dst": "La Chine a établi son objectif de croissance à 5 %, en lien avec les projections des analystes qui anticipent une année supplémentaire aux ambitions économiques modestes, face à des tensions régionales et une crise démographique."
+ },
+ {
+  "id": "tv29",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "L’ancien premier ministre Boris Johnson a longtemps pu attribuer au Covid-19 les mauvaises performances économiques du pays. Mais cet enfumage n’est plus possible.",
+  "dst": "The former British PM Boris Johnson has long been able to attribute / put down the country’s bad economic performance to Covid-19. But this trick / deceit is no longer possible."
+ },
+ {
+  "id": "tv30",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Selon le Fonds monétaire international, parmi les principales économies du monde, le Royaume-Uni sera en 2023 la seule à être en récession.",
+  "dst": "According to the IMF, the UK will be the only country in recession in 2023 among the most powerful economies in the world."
+ },
+ {
+  "id": "tv31",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "En rétablissant des contrôles douaniers, le Brexit a entravé les relations avec l’UE, principal débouché du pays, amputant de 15 % le commerce britannique.",
+  "dst": "By reinstating customs checks, Brexit has hampered the relations with the EU, which is the main trading partner of the country, shrinking / cutting British trade by 15%."
+ },
+ {
+  "id": "tv32",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Que sont ces puces électroniques dont la pénurie perturbe l’économie mondiale ?",
+  "dst": "What are the electronic chips whose shortage is disrupting the world’s economy?"
+ },
+ {
+  "id": "tv33",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "La loi a pour but de faire évoluer l’économie américaine vers les énergies renouvelables, de limiter le prix de certains médicaments et créer un taux d’imposition minimal sur les grosses entreprises.",
+  "dst": "The law aims at gearing the American economy towards renewable energies, limiting the price of some drugs and creating a minimum tax rate for big companies."
+ },
+ {
+  "id": "tv34",
+  "dir": "theme",
+  "sec": "Économie & business",
+  "src": "Depuis une vingtaine d’années, la productivité ralentit en France par rapport à des économies dynamiques comme l’Allemagne ou les Etats-Unis.",
+  "dst": "For twenty years or so, productivity has been slowing down in France compared to dynamic economies like Germany or the United States."
+ },
+ {
+  "id": "tv35",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "Rising interest rates and unemployment over recent months have put pressure on household disposable incomes, forcing some families to cut or suspend their monthly mortgage payments.",
+  "dst": "L’augmentation des taux d’intérêt et du chômage au cours des derniers mois a pesé sur les revenus disponibles des ménages, forçant certaines familles à réduire ou suspendre le remboursement mensuel de leurs prêts immobiliers."
+ },
+ {
+  "id": "tv36",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "Buy-to-let mortgage payers have also come under pressure in parts of the country where tenants are struggling with the cost of living crisis.",
+  "dst": "Les emprunteurs qui ont fait des investissements locatifs sont aussi sous pression dans certaines parties du pays où les locataires ne s’en sortent pas à cause de la crise du coût de la vie."
+ },
+ {
+  "id": "tv37",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "The movie Barbie swept in like a pastel-hued tsunami through an industry that had been sluggish since the pandemic, with cinemas failing to get as many people through the door as they had pre-Covid.",
+  "dst": "Le film Barbie a déferlé comme un tsunami aux tons pastel sur une industrie qui sommeillait depuis la pandémie et dont les cinémas n’arrivaient pas à attirer autant de spectateurs qu’avant le covid."
+ },
+ {
+  "id": "tv38",
+  "dir": "version",
+  "sec": "Économie & business",
+  "src": "After decades of overspending and waste in other Olympic host cities, Paris promised to scale down: it already had 95% of the sporting facilities in place and did not need to build a main stadium from scratch, unlike London for the 2012 Games.",
+  "dst": "Après des décennies de dépenses extravagantes et de gâchis dans d’autres villes olympiques, Paris a promis de réduire la voilure : la ville possédait déjà 95 % des équipements sportifs et n’avait pas besoin de construire un stade principal à partir de rien, à l’inverse de Londres pour les Jeux de 2012."
+ },
+ {
+  "id": "tv39",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Les édiles parisiens reprochent aux SUV de polluer, mais aussi de s’arroger une part excessive de l’espace public et d’accroître la gravité des accidents de la circulation.",
+  "dst": "The Parisian elected officials accuse SUVs of polluting but also of taking a disproportionate part of public space and of making road accidents worse. (to aggravate / to worsen ; SUV: sport utility vehicle)"
+ },
+ {
+  "id": "tv40",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Le réchauffement climatique est devenu un problème politique et économique dans les années 1980, lorsque les gens ont compris ce qui se passait sur notre planète. Depuis, les catastrophes naturelles sont de plus en plus fréquentes et les organisations internationales cherchent des solutions.",
+  "dst": "Global warming became an economic and political problem in the 1980s, when people understood what was happening to our planet. Since then, natural disasters have become more and more frequent and international organizations have been looking for solutions."
+ },
+ {
+  "id": "tv41",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Gobelet à usage unique à la pause café, colis pour les achats en ligne, bouteilles d’eau… Les Européens n’ont jamais généré autant de déchets d’emballages.",
+  "dst": "Single-use cups during coffee breaks, parcels for online purchases, bottles of water… Europeans have never produced as much packaging waste."
+ },
+ {
+  "id": "tv42",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Pendant douze mois, partout dans le monde, dans l’air et les océans, au cœur des villes et sur les plus hauts sommets, les jauges de températures ont explosé.",
+  "dst": "For twelve months, everywhere in the world, in the air as in the oceans, at the heart of cities and on the highest summits, temperatures have broken all records."
+ },
+ {
+  "id": "tv43",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Au Canada, plus de 18,5 millions d’hectares de forêt ont brûlé lors d’incendies qui ont duré de fin mars jusqu’à l’automne.",
+  "dst": "In Canada, more than 18.5 million hectares of forest have burnt down in fires which lasted from late March to the fall."
+ },
+ {
+  "id": "tv44",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "La loi prévoyant le plus gros investissement aux Etats-Unis dans la lutte contre le changement climatique vient d'être signée.",
+  "dst": "A law providing for the largest investment in the US in the fight against climate change has just been signed."
+ },
+ {
+  "id": "tv45",
+  "dir": "theme",
+  "sec": "Environnement",
+  "src": "Malgré plusieurs mesures sociales d’ampleur, le président des Etats-Unis n’inspire pas confiance sur les questions économiques, y compris dans son propre camp.",
+  "dst": "In spite of several significant social protection measures, the American president doesn’t inspire confidence on economic questions, including among his own party members."
+ },
+ {
+  "id": "tv46",
+  "dir": "theme",
+  "sec": "Société",
+  "src": "L’infirmière Lucy Letby est-elle l’une des pires meurtrières en série de l’histoire du Royaume-Uni ou une innocente ?",
+  "dst": "Is the nurse Lucy Letby one of the worst serial killers in the history of the United Kingdom or an innocent?"
+ },
+ {
+  "id": "tv47",
+  "dir": "theme",
+  "sec": "Société",
+  "src": "Le Los Angeles Times a annoncé, mardi 23 janvier, le licenciement de plus d’un cinquième de sa rédaction, tandis que les journalistes du groupe d’édition Condé Nast, qui compte notamment Vanity Fair et Vogue, ont manifesté à New York contre un plan social.",
+  "dst": "The LA Times announced on Tuesday January 23 that it would lay off more than one fifth of its editorial staff, while journalists from the publishing house Condé Nast, which notably owns Vanity Fair and Vogue, demonstrated in NYC against redundancy plans."
+ },
+ {
+  "id": "tv48",
+  "dir": "version",
+  "sec": "Société",
+  "src": "The student loan debt is an anchor around the neck of millions of Americans who therefore face important dilemmas in their lives, such as when to buy a house, start a business or get married.",
+  "dst": "La dette étudiante est un fardeau pour des millions d’Américains qui font ainsi face à des dilemmes importants dans leur vie, comme savoir quand acheter une maison, monter son entreprise ou se marier."
+ },
+ {
+  "id": "tv49",
+  "dir": "version",
+  "sec": "Société",
+  "src": "Many students can’t repay their debts and as a consequence higher education is no longer a tool for social mobility as it was first intended to be.",
+  "dst": "Beaucoup d’étudiants ne peuvent pas rembourser leurs dettes et par conséquent l’enseignement supérieur n’est plus l’outil de mobilité sociale qu’il devait être au départ."
+ },
+ {
+  "id": "tv50",
+  "dir": "theme",
+  "sec": "Société",
+  "src": "A quelques mois des Jeux olympiques et paralympiques 2024, l’accessibilité des sites sportifs et de l’hôtellerie a été améliorée, avec l’objectif d’attirer plus de public.",
+  "dst": "Within months of the 2024 Olympics and Paralympics, the accessibility of sports venues and hotels has been improved in order to attract a larger audience."
+ },
+ {
+  "id": "tv51",
+  "dir": "theme",
+  "sec": "Société",
+  "src": "Un an après avoir supprimé le droit fédéral à l’avortement, la plus haute juridiction américaine, à majorité conservatrice, a banni l’affirmative action, c’est-à-dire la discrimination positive en faveur des minorités à l’entrée des universités.",
+  "dst": "One year after banning the federal right to abortion, the highest American court, whose majority is conservative, has banned affirmative action, that is to say positive discrimination in favor of minorities in university admissions."
+ },
+ {
+  "id": "tv52",
+  "dir": "version",
+  "sec": "Médias",
+  "src": "The explosive success of TikTok, a Chinese-owned short-video app which launched in 2017 and quickly had young people hooked, has sparked a wave of copycats.",
+  "dst": "Le succès détonant de TikTok, une application chinoise de vidéos courtes qui a rapidement captivé les jeunes dès son lancement en 2017, a donné lieu à une vague d’imitations."
+ },
+ {
+  "id": "tv53",
+  "dir": "version",
+  "sec": "Médias",
+  "src": "As users’ newsfeeds become unmoored from their network of friends and family, they are posting less about themselves.",
+  "dst": "Alors que le fil d’actualités des utilisateurs se détache progressivement de leurs réseaux familial et amical, ces derniers publient moins sur eux-mêmes."
+ },
+ {
+  "id": "tv54",
+  "dir": "theme",
+  "sec": "Médias",
+  "src": "Encore célébré il y a deux ans comme un héros de l’industrie et du high-tech, Elon Musk voit son image désormais profondément abîmée.",
+  "dst": "Still acclaimed two years ago as an industrial and high-tech hero, Elon Musk now has a profoundly tarnished image. (to shatter a mirror : briser un miroir)"
+ },
+ {
+  "id": "tv55",
+  "dir": "theme",
+  "sec": "Médias",
+  "src": "Avec le rachat de Twitter, en octobre 2022, l’impulsivité d’Elon Musk et sa conception très sélective de la liberté d’expression sont apparues en pleine lumière.",
+  "dst": "With the buyout of Twitter in October 2022, Elon Musk’s impulsiveness as well as his very selective conception of freedom of speech have appeared in broad daylight."
+ }
+]

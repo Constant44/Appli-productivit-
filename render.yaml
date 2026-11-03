@@ -1,0 +1,10 @@
+# Hébergement de la version complète (avec Pronote) sur Render — offre gratuite.
+# render.com → New → Blueprint → choisir ce dépôt.
+services:
+  - type: web
+    name: prepa-fc
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
