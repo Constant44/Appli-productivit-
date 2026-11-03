@@ -876,3 +876,7 @@ label.field > span { font-weight: 600; }
 .fm-row.few { opacity: .45; }
 .fm-k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .coach-tip { margin-top: 6px; color: var(--accent); }
+.todo-page.embedded { max-width: none; margin: 0; }
+.todo-embedded-title { margin: 0; font-size: 20px; }
+.coach .todo-page.embedded .subject-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.app[data-device="phone"] .coach .todo-page.embedded .subject-grid { grid-template-columns: 1fr; }

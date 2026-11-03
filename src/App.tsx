@@ -31,8 +31,8 @@ export type View = "home" | "planning" | "more" | "study" | "agenda" | "warmup" 
 type SectionId = "today" | "planning" | "more";
 /** 3 rubriques : la consigne du moment, le planning, et tout le reste. */
 const SECTIONS: Array<{ id: SectionId; label: string; icon: keyof typeof ICONS; views: Array<[View, string]> }> = [
-  { id: "today", label: "Maintenant", icon: "home", views: [["home", "Maintenant"], ["focus", "Chrono"]] },
-  { id: "planning", label: "Planning", icon: "cal", views: [["planning", "Planning"], ["tasks", "To-do"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
+  { id: "today", label: "Maintenant", icon: "home", views: [["home", "Maintenant"], ["focus", "Chrono"], ["tasks", "To-do"]] },
+  { id: "planning", label: "Planning", icon: "cal", views: [["planning", "Planning"], ["evals", "DS & khôlles"], ["tt", "Emploi du temps"], ["grades", "Notes"]] },
   { id: "more", label: "Plus", icon: "grid", views: [["more", "Plus"], ["warmup", "Échauffement"], ["vendredi", "Test du vendredi"], ["edhec", "EDHEC"], ["plan", "Planning"], ["stats", "Stats"], ["club", "Prépa City"], ["study", "Bureau d'étude"], ["agenda", "Bureau du coach"], ["settings", "Réglages"]] },
 ];
 const ALL_VIEWS: View[] = SECTIONS.flatMap((s) => s.views.map(([v]) => v));

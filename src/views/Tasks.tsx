@@ -20,7 +20,7 @@ function dueLabel(t: Task): { text: string; tone: "late" | "soon" | "" } | null 
   return { text: fmtDay(`${t.due}T12:00:00`), tone: "" };
 }
 
-export default function Tasks() {
+export default function Tasks({ embedded = false }: { embedded?: boolean } = {}) {
   const tasks = useStore((s) => s.tasks);
   const subjectsList = useStore((s) => s.settings.subjects);
   const addTask = useStore((s) => s.addTask);
@@ -68,9 +68,9 @@ export default function Tasks() {
   };
 
   return (
-    <div className="todo-page">
+    <div className={`todo-page ${embedded ? "embedded" : ""}`}>
       <header className="todo-head">
-        <h1 className="page-title" style={{ margin: 0 }}>To-do</h1>
+        {embedded ? <h2 className="todo-embedded-title">📌 Ma to-do</h2> : <h1 className="page-title" style={{ margin: 0 }}>To-do</h1>}
         <span className="small muted">{todo.length} à faire{late ? <> · <b className="late-txt">{late} en retard</b></> : ""}</span>
       </header>
 

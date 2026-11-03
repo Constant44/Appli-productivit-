@@ -12,6 +12,7 @@ import { navigate, type View } from "../App";
 import { EDHEC_DATE } from "./Edhec";
 import { calAlarmStatus } from "../lib/calAlarm";
 import { focusInsights } from "../lib/focusInsights";
+import Tasks from "./Tasks";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -197,9 +198,11 @@ export default function Coach() {
         </section>
       )}
 
+      <Tasks embedded />
+
       {ordered.length > (current?.kind === "task" ? 1 : 0) && (
         <section className="coach-list">
-          <h3>Ensuite</h3>
+          <h3>Programme : ensuite</h3>
           {ordered.filter((t) => !(current?.kind === "task" && current.task.id === t.id)).map((t) => (
             <div key={t.id} className="coach-row">
               <span className="subject-bar" style={{ background: subjectColor(t.subject) }} />
