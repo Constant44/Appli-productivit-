@@ -163,7 +163,7 @@ function useShortcuts(view: View) {
       }
       if (e.key === "n" || e.key === "N") {
         navigate("tasks");
-        setTimeout(() => (document.querySelector("input[placeholder^='Ajout rapide']") as HTMLInputElement | null)?.focus(), 80);
+        setTimeout(() => (document.querySelector("#todo-title") as HTMLInputElement | null)?.focus(), 80);
         return;
       }
       if (e.key === " " && view === "focus") {
