@@ -215,6 +215,15 @@ export default function App() {
     // matières EDHEC toujours disponibles (données synchronisées d'une version antérieure)
     const missing = EDHEC_SUBJECTS.filter((x) => !subjects.includes(x));
     if (missing.length) useStore.getState().updateSettings({ subjects: [...subjects, ...missing] });
+    // « EDHEC Anglais » fusionnée dans « Anglais » : tâches et sessions renommées, matière retirée
+    const st = useStore.getState();
+    if (subjects.includes("EDHEC Anglais") || st.tasks.some((t) => t.subject === "EDHEC Anglais") || st.sessions.some((x) => x.subject === "EDHEC Anglais")) {
+      const fix = <T extends { subject?: string }>(x: T): T => (x.subject === "EDHEC Anglais" ? { ...x, subject: "Anglais" } : x);
+      useStore.setState({
+        tasks: st.tasks.map(fix), sessions: st.sessions.map(fix),
+        settings: { ...st.settings, subjects: [...new Set(subjects.filter((x) => x !== "EDHEC Anglais").concat(subjects.includes("Anglais") ? [] : ["Anglais"]))] },
+      });
+    }
   }, [subjects]);
   const tasks = useStore((s) => s.tasks);
   const evals = useStore((s) => s.evals);

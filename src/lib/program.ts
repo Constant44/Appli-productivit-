@@ -81,7 +81,7 @@ export function buildProgram(inp: ProgramInput): Task[] {
     if (wd === 4 && !inHolidays(d)) needs.push({ key: `actu-veille-${d}`, title: "Spécial veille de test : actu de la semaine + bios + mots", subject: "Approf. méthodo", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision", link: "vendredi" });
     if (wd !== 5 && wd !== 6) needs.push({ key: `actu-${d}`, title: "Lire l'actu du jour (doc Actu) et noter 3 faits marquants", subject: "Approf. méthodo", minutes: 20, block: 20, from: d, to: d, priority: 1, kind: "fiche" });
     // Anki chaque jour : d'abord les cartes dues (anglais EDHEC), puis 10 nouvelles
-    needs.push({ key: `anki-${d}`, title: "Anki : toutes les cartes dues (anglais EDHEC d'abord) + 10 nouvelles", subject: "EDHEC Anglais", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
+    needs.push({ key: `anki-${d}`, title: "Anki : toutes les cartes dues (anglais EDHEC d'abord) + 10 nouvelles", subject: "Anglais", minutes: 30, block: 30, from: d, to: d, priority: 3, kind: "revision" });
   }
   // 3. EDHEC : un chapitre de micro par semaine (2 × 60 min), une synthèse toutes les deux semaines (le jour le plus libre), traduction 2 × 30 min / semaine
   const chapters = inp.edhec.chapters.filter((c) => c.level < 3);
@@ -96,9 +96,9 @@ export function buildProgram(inp: ProgramInput): Task[] {
     if (w % 2 === 0) {
       needs.push({ key: `edhec-syn-${ws}`, title: "EDHEC synthèse : une synthèse chronométrée (3h) dans l'entraîneur", subject: "EDHEC Synthèse", minutes: 180, block: 180, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
     }
-    needs.push({ key: `edhec-trad-${ws}`, title: "Thème-version de Mme Terroni : 6 phrases + corrigé (EDHEC › Anglais)", subject: "EDHEC Anglais", minutes: 60, block: 30, from: ws, to: we, priority: 1, kind: "exercices", link: "edhec" });
+    needs.push({ key: `edhec-trad-${ws}`, title: "Thème-version de Mme Terroni : 6 phrases + corrigé (EDHEC › Anglais)", subject: "Anglais", minutes: 60, block: 30, from: ws, to: we, priority: 1, kind: "exercices", link: "edhec" });
     // une semaine sur deux (en alternance avec la synthèse) : QCM blanc en conditions réelles
-    if (w % 2 === 1) needs.push({ key: `edhec-blanc-${ws}`, title: "QCM blanc d'anglais : 50 questions en 50 min (EDHEC › Anglais)", subject: "EDHEC Anglais", minutes: 50, block: 50, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
+    if (w % 2 === 1) needs.push({ key: `edhec-blanc-${ws}`, title: "QCM blanc d'anglais : 50 questions en 50 min (EDHEC › Anglais)", subject: "Anglais", minutes: 50, block: 50, from: ws, to: we, priority: 2, kind: "exercices", link: "edhec" });
   }
 
   // Répartition : échéance la plus proche d'abord, un bloc par besoin et par jour, jour le moins chargé d'abord

@@ -152,8 +152,11 @@ type Actions = {
 
 export type Store = Data & Actions;
 
-const DEFAULT_SUBJECTS = ["Maths", "Économie", "Microéconomie", "Droit", "Gestion", "Anglais", "LV2", "Culture générale", "Histoire", "EDHEC Synthèse", "EDHEC Anglais"];
-export const EDHEC_SUBJECTS = ["EDHEC Synthèse", "EDHEC Anglais", "Microéconomie"];
+const DEFAULT_SUBJECTS = ["Maths", "Économie", "Microéconomie", "Droit", "Gestion", "Anglais", "LV2", "Culture générale", "Histoire", "EDHEC Synthèse"];
+/** Matières toujours présentes (l'anglais EDHEC est compté dans « Anglais »). */
+export const EDHEC_SUBJECTS = ["EDHEC Synthèse", "Microéconomie"];
+/** Matières dont le temps compte pour l'EDHEC. */
+export const EDHEC_TIME_SUBJECTS = ["EDHEC Synthèse", "Microéconomie", "Anglais"];
 
 /** Table des matières de Hachon & Laurent, « Microéconomie ». */
 const MICRO_CHAPTERS = [

@@ -1,7 +1,7 @@
 import { QcmBlanc, TvTrainer } from "../components/EdhecEnglish";
 import METHODS from "../data/edhec-methods.json";
 import { useMemo, useState } from "react";
-import { EDHEC_SUBJECTS, useStore } from "../lib/store";
+import { EDHEC_TIME_SUBJECTS, useStore } from "../lib/store";
 import { addDays, daysUntil, fmtDay, fmtMin, isoDay, startOfWeek, uid } from "../lib/utils";
 import { Bar, Field, Seg } from "../components/ui";
 import { EnglishQuiz, Translation } from "../components/English";
@@ -61,7 +61,7 @@ function WeekSplit() {
     const ws = startOfWeek(new Date()).toISOString();
     const week = sessions.filter((s) => s.start >= ws);
     return {
-      edhec: week.filter((s) => EDHEC_SUBJECTS.includes(s.subject ?? "")).reduce((a, s) => a + s.minutes, 0),
+      edhec: week.filter((s) => EDHEC_TIME_SUBJECTS.includes(s.subject ?? "")).reduce((a, s) => a + s.minutes, 0),
       total: week.reduce((a, s) => a + s.minutes, 0),
     };
   }, [sessions]);
@@ -111,7 +111,7 @@ function PlanTab() {
             );
           })}
         </div>
-        <p className="small muted">Pour que tes heures comptent ici, choisis la matière « Microéconomie », « EDHEC Synthèse » ou « EDHEC Anglais » quand tu lances une session.</p>
+        <p className="small muted">Pour que tes heures comptent ici, choisis la matière « Microéconomie », « EDHEC Synthèse » ou « Anglais » quand tu lances une session.</p>
       </div>
       <ResourcesCard />
     </div>
