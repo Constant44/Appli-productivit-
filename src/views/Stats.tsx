@@ -1,4 +1,5 @@
 import { WeekReview } from "../components/WeekReview";
+import { FocusMap } from "../components/FocusMap";
 import { useMemo } from "react";
 import { useStore } from "../lib/store";
 import { calibrationData, minutesByDay } from "../lib/insights";
@@ -40,6 +41,7 @@ export default function Stats() {
       <h1 className="page-title">Statistiques</h1>
       <p className="page-sub">Ton volume de travail et surtout : est-ce que tu estimes bien le temps que prennent les choses ?</p>
       <WeekReview />
+      <FocusMap />
       <div className="grid g4" style={{ marginBottom: 16 }}>
         <div className="card stat"><span className="v">{fmtMin(total)}</span><span className="l">Travail total</span></div>
         <div className="card stat"><span className="v">{fmtMin(weekTotals[7].m)}</span><span className="l">Cette semaine</span></div>

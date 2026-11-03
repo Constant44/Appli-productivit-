@@ -118,8 +118,8 @@ type Actions = {
   resumeTimer: () => void;
   stopTimer: () => void;
   cancelTimer: () => void;
-  logSession: (s: { minutes: number; taskId?: string; subject?: string; focus?: number; note?: string; start?: string }) => void;
-  resolvePending: (focus: number | null, note?: string) => void;
+  logSession: (s: { minutes: number; taskId?: string; subject?: string; focus?: number; focus10?: number; place?: string; note?: string; start?: string }) => void;
+  resolvePending: (focus: number | null, note?: string, extra?: { focus10?: number; place?: string }) => void;
 
   // Club
   buyPlayer: (id: string) => void;
@@ -407,22 +407,22 @@ export const useStore = create<Store>()(
           if (minutes < 1) toast({ title: "Session trop courte", body: "Moins d'1 minute : non comptée.", tone: "warn" });
         },
         cancelTimer: () => set((s) => ({ timer: { ...s.timer, status: "idle", accumulatedMs: 0, startedAt: 0, phase: "work" } })),
-        resolvePending: (focus, note) => {
+        resolvePending: (focus, note, extra) => {
           const p = get().pending;
           if (!p) return;
           set({ pending: null });
-          if (focus !== null) get().logSession({ minutes: p.minutes, taskId: p.taskId, subject: p.subject, focus, note });
+          if (focus !== null) get().logSession({ minutes: p.minutes, taskId: p.taskId, subject: p.subject, focus, note, ...extra });
           if (p.nextBreak) {
             const st = get().settings;
             get().startTimer({ mode: "pomodoro", targetMin: st.pomodoroBreak, phase: "break", taskId: p.taskId, subject: p.subject });
           }
         },
 
-        logSession: ({ minutes, taskId, subject, focus, note, start }) => {
+        logSession: ({ minutes, taskId, subject, focus, focus10, place, note, start }) => {
           const s = get();
           const task = taskId ? s.tasks.find((t) => t.id === taskId) : undefined;
           const startIso = start ?? new Date(Date.now() - minutes * 60000).toISOString();
-          const provisional: Session = { id: uid(), taskId, subject: subject ?? task?.subject, start: startIso, minutes, focus, xp: 0, coins: 0, note };
+          const provisional: Session = { id: uid(), taskId, subject: subject ?? task?.subject, start: startIso, minutes, focus, focus10, place, xp: 0, coins: 0, note };
           const streak = currentStreak([...s.sessions, provisional]);
           const r = sessionRewards(minutes, { streak, focus, staffLevel: s.club.facilities.staff });
           const session = { ...provisional, xp: r.xp, coins: r.coins };

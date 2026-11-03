@@ -79,8 +79,12 @@ export type Session = {
   subject?: string;
   start: string;
   minutes: number;
-  /** Qualité de concentration ressentie 1-5 */
+  /** Qualité de concentration ressentie 1-5 (gains du jeu) */
   focus?: number;
+  /** Concentration notée sur 10 en fin de session */
+  focus10?: number;
+  /** Lieu de travail (BU, chez moi…) */
+  place?: string;
   xp: number;
   coins: number;
   note?: string;

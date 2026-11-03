@@ -6,6 +6,7 @@ import { Modal, Toasts } from "./components/ui";
 import { ConfirmHost } from "./components/confirm";
 import { Celebration } from "./components/Celebration";
 import { syncCalendarAlarm } from "./lib/calAlarm";
+import { knownPlaces } from "./lib/focusInsights";
 import { StudyHub, AgendaHub } from "./views/Hubs";
 import { useDevice } from "./lib/device";
 import { useCloud } from "./lib/platform";
@@ -100,12 +101,19 @@ function TimerWatcher() {
 function PendingSessionModal() {
   const pending = useStore((s) => s.pending);
   const resolve = useStore((s) => s.resolvePending);
+  const sessions = useStore((s) => s.sessions);
   const task = useStore((s) => s.tasks.find((t) => t.id === pending?.taskId));
+  const places = useMemo(() => knownPlaces(sessions), [sessions]);
   const [note, setNote] = useState("");
+  const [focus10, setFocus10] = useState<number | null>(null);
+  const [place, setPlace] = useState<string | null>(null);
+  const [other, setOther] = useState("");
   if (!pending) return null;
+  const where = place === "__other" ? other.trim() || undefined : place ?? places[0];
   const finish = () => {
-    resolve(4, note.trim() ? `Rappel : ${note.trim()}` : "");
-    setNote("");
+    // la note sur 10 donne aussi la note 1-5 des gains du jeu
+    resolve(focus10 ? Math.max(1, Math.ceil(focus10 / 2)) : 4, note.trim() ? `Rappel : ${note.trim()}` : "", { focus10: focus10 ?? undefined, place: where });
+    setNote(""); setFocus10(null); setPlace(null); setOther("");
   };
   return (
     <Modal
@@ -122,6 +130,20 @@ function PendingSessionModal() {
       <p style={{ marginBottom: 6 }}><b>1 minute, sans regarder tes notes :</b> écris les 3 idées clés de ce que tu viens de travailler.</p>
       <p className="small muted" style={{ marginTop: 0 }}>Te forcer à te rappeler fixe bien mieux que relire.</p>
       <textarea id="recall-note" className="input" rows={3} placeholder="1. …  2. …  3. …" value={note} onChange={(e) => setNote(e.target.value)} />
+      <p style={{ marginBottom: 6 }}><b>Ta concentration</b> <span className="small muted">sur 10</span></p>
+      <div className="focus10" role="group" aria-label="Concentration sur 10">
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+          <button key={n} type="button" className={focus10 === n ? "on" : ""} style={{ ["--h" as string]: `${(n - 1) * 12}` }} onClick={() => setFocus10(n)}>{n}</button>
+        ))}
+      </div>
+      <p style={{ marginBottom: 6 }}><b>Où es-tu ?</b></p>
+      <div className="place-chips">
+        {places.map((p) => (
+          <button key={p} type="button" className={(place ?? places[0]) === p && place !== "__other" ? "on" : ""} onClick={() => setPlace(p)}>{p}</button>
+        ))}
+        <button type="button" className={place === "__other" ? "on" : ""} onClick={() => setPlace("__other")}>+ Autre</button>
+      </div>
+      {place === "__other" && <input id="place-other" className="input" style={{ marginTop: 8 }} autoFocus placeholder="ex : BU Montaigne, train…" value={other} onChange={(e) => setOther(e.target.value)} />}
       {pending.nextBreak && <p className="small muted">Une pause de {useStore.getState().settings.pomodoroBreak} min démarre ensuite : lève-toi, bois, pas d'écran.</p>}
     </Modal>
   );

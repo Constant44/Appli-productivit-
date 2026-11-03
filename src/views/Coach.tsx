@@ -11,6 +11,7 @@ import { CompleteTaskModal } from "../components/forms";
 import { navigate, type View } from "../App";
 import { EDHEC_DATE } from "./Edhec";
 import { calAlarmStatus } from "../lib/calAlarm";
+import { focusInsights } from "../lib/focusInsights";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
 const MONTHS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -117,6 +118,12 @@ export default function Coach() {
   const runTask = running ? tasks.find((t) => t.id === timer.taskId) : undefined;
   const left = running ? Math.max(0, timer.targetMin * 60 - timerElapsedMs(timer) / 1000) : 0;
   const nextEval = evals.filter((e) => +new Date(e.date) >= +now).sort((a, b) => a.date.localeCompare(b.date))[0];
+  const sessions = useStore((s) => s.sessions);
+  const focusTip = useMemo(() => {
+    const f = focusInsights(sessions);
+    if (!f.best) return "";
+    return `Tu te concentres le mieux ${f.best.key} (${f.best.avg.toFixed(1).replace(".", ",")}/10) : garde-y les blocs les plus durs.`;
+  }, [sessions]);
   const hello = now.getHours() < 12 ? "Bonjour" : now.getHours() < 18 ? "Bon après-midi" : "Bonsoir";
 
   return (
@@ -131,6 +138,7 @@ export default function Coach() {
           {todo.length + (warmedUp ? 0 : 1) === 0 ? "Journée bouclée" : `${fmtMin(doneMin)} faites sur ${fmtMin(totalMin)} · ${todo.length + (warmedUp ? 0 : 1)} étape${todo.length + (warmedUp ? 0 : 1) > 1 ? "s" : ""} restante${todo.length + (warmedUp ? 0 : 1) > 1 ? "s" : ""}`}
           {nextEval ? ` · prochain : ${nextEval.type} ${de(nextEval.subject)} ${fmtRelDay(nextEval.date)}` : ""}
         </div>
+        {focusTip && <div className="small coach-tip">🎯 {focusTip}</div>}
       </header>
 
       {onBreak ? (

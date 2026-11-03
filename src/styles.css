@@ -860,3 +860,19 @@ label.field > span { font-weight: 600; }
 .subject-task-open { margin-top: 8px; display: grid; gap: 8px; }
 .subject-task-notes { margin: 0; font-size: 14px; line-height: 1.45; white-space: pre-wrap; color: var(--text); background: color-mix(in srgb, var(--text) 5%, transparent); padding: 8px 10px; border-radius: 10px; }
 .task-title-input { font-size: 16px; line-height: 1.4; resize: vertical; }
+
+/* ---------- Concentration /10 et lieu ---------- */
+.focus10 { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+.focus10 button { border: 1px solid var(--line); background: transparent; color: var(--text); font: inherit; font-weight: 700; padding: 9px 0; border-radius: 8px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.focus10 button.on { background: hsl(var(--h) 75% 50%); border-color: transparent; color: #0b1120; }
+.place-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.place-chips button { border: 1px solid var(--line); background: transparent; color: var(--text); font: inherit; font-size: 14px; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+.place-chips button.on { background: var(--accent); border-color: var(--accent); color: #04140a; font-weight: 700; }
+.fm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.fm-col h4 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.fm-row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr) auto auto; gap: 8px; align-items: center; font-size: 13px; padding: 3px 0; }
+.fm-row .bar { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--text) 10%, transparent); overflow: hidden; }
+.fm-row .bar div { height: 100%; border-radius: 4px; }
+.fm-row.few { opacity: .45; }
+.fm-k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coach-tip { margin-top: 6px; color: var(--accent); }
