@@ -1,19 +1,16 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useStore } from "../lib/store";
-import { calibrationData, correctedEstimate, spentMinutes } from "../lib/insights";
 import { EVAL_TYPES, TASK_KIND_LABEL, type Evaluation, type Task, type TaskKind } from "../lib/types";
-import { fmtDay, fmtMin, fmtTime, isoDay } from "../lib/utils";
-import { DurationInput, Field, Modal, Seg, SubjectSelect } from "./ui";
+import { fmtDay, fmtTime, isoDay } from "../lib/utils";
+import { Field, Modal, Seg, SubjectSelect } from "./ui";
 
 type TaskDraft = Partial<Task>;
 
 export function TaskForm({ initial, onClose }: { initial?: TaskDraft; onClose: () => void }) {
-  const { addTask, updateTask, deleteTask, tasks, sessions, plans, evals, settings } = useStore();
+  const { addTask, updateTask, deleteTask, plans, evals, settings } = useStore();
   const [d, setD] = useState<TaskDraft>({
     title: "", subject: settings.subjects[0] ?? "Maths", kind: "devoir", estimateMin: 45, priority: 2, ...initial,
   });
-  const cal = useMemo(() => calibrationData(tasks, sessions), [tasks, sessions]);
-  const corr = correctedEstimate(d.estimateMin ?? 0, d.subject ?? "", cal);
   const editing = !!initial?.id;
   const upcomingEvals = evals.filter((e) => new Date(e.date) > new Date(Date.now() - 864e5)).sort((a, b) => +new Date(a.date) - +new Date(b.date));
   const set = (p: TaskDraft) => setD((x) => ({ ...x, ...p }));
@@ -63,23 +60,6 @@ export function TaskForm({ initial, onClose }: { initial?: TaskDraft; onClose: (
         <Field label="Priorité">
           <Seg value={d.priority ?? 2} onChange={(v) => set({ priority: v as 1 | 2 | 3 })} options={[[1, "Basse"], [2, "Normale"], [3, "🔥 Haute"]]} />
         </Field>
-        <Field label="Temps estimé (min)">
-          <DurationInput value={d.estimateMin} onChange={(v) => set({ estimateMin: v })} />
-        </Field>
-        {corr.basis && Math.abs(corr.factor - 1) > 0.08 && (
-          <div className="pill gold" style={{ whiteSpace: "normal" }}>
-            🎯 D'après ton historique{corr.basis !== "global" ? ` en ${corr.basis}` : ""}, tu mets ×{corr.factor.toFixed(2)} le temps prévu :
-            compte plutôt ~{fmtMin(corr.value)}.
-          </div>
-        )}
-        {editing && (
-          <Field label={`Temps réel (min) — sessions chronométrées : ${fmtMin(spentMinutes(initial as Task, sessions))}`}>
-            <input
-              className="input" type="number" min={0} placeholder="laisser vide = temps des sessions"
-              value={d.actualMinManual ?? ""} onChange={(e) => set({ actualMinManual: e.target.value === "" ? undefined : Number(e.target.value) })}
-            />
-          </Field>
-        )}
         <div className="form-grid">
           <Field label="Plan de révision">
             <select className="input" value={d.planId ?? ""} onChange={(e) => set({ planId: e.target.value })}>
@@ -105,12 +85,9 @@ export function TaskForm({ initial, onClose }: { initial?: TaskDraft; onClose: (
   );
 }
 
-/** Modale « J'ai fini » : demande le temps réel. */
+/** Modale « J'ai fini » : simple confirmation (le temps passé vient du chrono s'il a tourné). */
 export function CompleteTaskModal({ task, onClose }: { task: Task; onClose: () => void }) {
-  const { sessions, completeTask } = useStore();
-  const spent = spentMinutes(task, sessions);
-  const [actual, setActual] = useState<number | undefined>(task.actualMinManual ?? (spent || undefined));
-  const err = actual && task.estimateMin ? actual / task.estimateMin - 1 : null;
+  const completeTask = useStore((s) => s.completeTask);
   return (
     <Modal
       title="✅ Tâche terminée"
@@ -118,21 +95,12 @@ export function CompleteTaskModal({ task, onClose }: { task: Task; onClose: () =
       actions={
         <>
           <button className="btn" onClick={onClose}>Annuler</button>
-          <button className="btn primary" onClick={() => { completeTask(task.id, actual); onClose(); }}>Valider</button>
+          <button className="btn primary" onClick={() => { completeTask(task.id); onClose(); }}>Valider</button>
         </>
       }
     >
       <p style={{ marginTop: 0 }}><b>{task.title}</b></p>
-      <p className="muted">Tu avais estimé <b>{fmtMin(task.estimateMin)}</b>.{spent > 0 && <> Tes sessions chronométrées font <b>{fmtMin(spent)}</b>.</>} Combien de temps ça t'a <i>réellement</i> pris ?</p>
-      <DurationInput value={actual} onChange={setActual} />
-      {err !== null && (
-        <p className="small" style={{ marginBottom: 0 }}>
-          Écart : <b style={{ color: Math.abs(err) <= 0.15 ? "var(--accent)" : Math.abs(err) <= 0.3 ? "var(--gold)" : "var(--red)" }}>
-            {err >= 0 ? "+" : ""}{Math.round(err * 100)} %
-          </b>{" "}
-          {Math.abs(err) <= 0.15 ? "→ bonus estimation chirurgicale 🎯" : Math.abs(err) <= 0.3 ? "→ bonus bonne estimation" : "→ pas de bonus précision, mais l'appli apprend ton rythme"}
-        </p>
-      )}
+      <p className="muted" style={{ marginBottom: 0 }}>Tu confirmes que c'est fait ?</p>
     </Modal>
   );
 }

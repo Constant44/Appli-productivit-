@@ -5,7 +5,7 @@
 import { useMemo, useState } from "react";
 import { useStore } from "../lib/store";
 import type { Task } from "../lib/types";
-import { daysUntil, fmtDay, fmtMin, subjectColor } from "../lib/utils";
+import { daysUntil, fmtDay, subjectColor } from "../lib/utils";
 import { CompleteTaskModal, TaskForm } from "../components/forms";
 
 const SHOWN = 5;
@@ -87,7 +87,6 @@ export default function Tasks() {
                       <span className="subject-task-m">
                         {due && <span className={`due ${due.tone}`}>{due.text}</span>}
                         {t.source === "pronote" && <span className="pn">Pronote</span>}
-                        <span>{fmtMin(t.estimateMin)}</span>
                       </span>
                     </button>
                   </div>
