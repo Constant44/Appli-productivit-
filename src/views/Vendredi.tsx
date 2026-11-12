@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { useActiveCards, useStore } from "../lib/store";
-import { actuWeekStart, buildQueue, isDue, nextTestDay, shuffle } from "../lib/srs";
+import { actuWeekStart, buildQueue, inActuWeek, isDue, nextTestDay, shuffle } from "../lib/srs";
 import { askJson, AiError, useAi } from "../lib/ai";
 import type { Card, Deck, Sheet } from "../lib/types";
 import { addDays, daysUntil, fmtDay, isoDay } from "../lib/utils";
@@ -48,10 +48,9 @@ function useDeckStats(decks: Deck[]) {
   const cards = useActiveCards();
   const reviews = useStore((s) => s.reviews);
   return useMemo(() => {
-    const ws = actuWeekStart();
     return decks.map((deck) => {
       let list = cards.filter((c) => c.deck === deck);
-      if (deck === "actu") list = list.filter((c) => !c.date || new Date(c.date) >= new Date(+ws - 864e5));
+      if (deck === "actu") list = list.filter((c) => inActuWeek(c));
       return {
         deck,
         total: list.length,
@@ -93,8 +92,7 @@ function ReviewTab() {
   };
   const daily = () => buildQueue(cards, reviews, { newLimit: 20, max: 40, decks: ["actu", "bio", "mot"] });
   const eveQueue = () => {
-    const ws = +actuWeekStart() - 864e5;
-    const actu = cards.filter((c) => c.deck === "actu" && (!c.date || +new Date(c.date) >= ws));
+    const actu = cards.filter((c) => c.deck === "actu" && inActuWeek(c));
     const weak = cards
       .filter((c) => c.deck !== "actu" && c.deck !== "anglais" && c.deck !== "micro")
       .sort((a, b) => (reviews[a.id]?.interval ?? -1) - (reviews[b.id]?.interval ?? -1))
@@ -158,7 +156,7 @@ function ReviewTab() {
         <div className="row">
           <button className="btn" onClick={() => start(shuffle(cards.filter((c) => c.deck === "bio")), "personnages")}>👤 Tous les personnages</button>
           <button className="btn" onClick={() => start(shuffle(cards.filter((c) => c.deck === "mot")), "mots")}>📖 Tous les mots</button>
-          <button className="btn" onClick={() => start(shuffle(cards.filter((c) => c.deck === "actu" && (!c.date || +new Date(c.date) >= +actuWeekStart() - 864e5))), "actu de la semaine")}>🗞️ Actu de la semaine</button>
+          <button className="btn" onClick={() => start(shuffle(cards.filter((c) => c.deck === "actu" && inActuWeek(c))), "actu de la semaine")}>🗞️ Actu de la semaine</button>
         </div>
       </div>
     </div>

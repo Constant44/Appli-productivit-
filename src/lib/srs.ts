@@ -39,6 +39,16 @@ export function nextTestDay(now = new Date()) {
 /** Début de la « semaine d'actu » couverte par le prochain test : le vendredi précédent. */
 export const actuWeekStart = (now = new Date()) => addDays(nextTestDay(now), -7);
 
+/**
+ * Une carte d'actu ne compte que pour la semaine du prochain test : du vendredi (lendemain du test précédent)
+ * au jeudi soir. Les semaines passées ne reviennent plus. Les cartes non datées restent.
+ */
+export function inActuWeek(c: Pick<Card, "deck" | "date">, now = new Date()) {
+  if (c.deck !== "actu" || !c.date) return true;
+  const d = c.date.slice(0, 10);
+  return d >= isoDay(actuWeekStart(now)) && d < isoDay(nextTestDay(now));
+}
+
 export function schedule(prev: Review | undefined, rating: Rating, card: Pick<Card, "deck">, now = new Date()): Review {
   const ease0 = prev?.ease ?? 2.5;
   const reps0 = prev?.reps ?? 0;
@@ -73,8 +83,7 @@ export const isDue = (r: Review | undefined, now = new Date()) => !!r && new Dat
  */
 export function buildQueue(cards: Card[], reviews: Record<string, Review>, opts: { newLimit: number; max: number; decks?: string[] }, now = new Date()) {
   const pool = cards.filter((c) => !opts.decks || opts.decks.includes(c.deck));
-  const weekStart = actuWeekStart(now);
-  const inWeek = (c: Card) => c.deck !== "actu" || (c.date ? new Date(c.date) >= addDays(weekStart, -1) : true);
+  const inWeek = (c: Card) => inActuWeek(c, now);
   const due = pool
     .filter((c) => isDue(reviews[c.id], now) && inWeek(c))
     .sort((a, b) => +new Date(reviews[a.id].due) - +new Date(reviews[b.id].due));

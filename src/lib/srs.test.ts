@@ -42,6 +42,23 @@ describe("répétition espacée", () => {
   });
 });
 
+describe("actu : seulement la semaine du test", () => {
+  it("le jeudi 12/11, on révise du ven. 6/11 au jeu. 12/11 ; le jeu. 5/11 ne revient plus", async () => {
+    const { inActuWeek } = await import("./srs");
+    const now = new Date("2026-11-12T18:00:00");
+    const a = (date: string) => ({ deck: "actu" as const, date });
+    expect(inActuWeek(a("2026-11-05"), now)).toBe(false);
+    expect(inActuWeek(a("2026-11-06"), now)).toBe(true);
+    expect(inActuWeek(a("2026-11-12"), now)).toBe(true);
+    // vendredi après le test : on passe à la nouvelle semaine
+    expect(inActuWeek(a("2026-11-12"), new Date("2026-11-13T14:00:00"))).toBe(false);
+    expect(inActuWeek(a("2026-11-13"), new Date("2026-11-13T14:00:00"))).toBe(true);
+    const due = { due: "2026-11-01T00:00:00.000Z", interval: 1, ease: 2.5, reps: 1, lapses: 0, last: "" };
+    const q = buildQueue([card("old", "actu", "2026-11-05"), card("new", "actu", "2026-11-09")], { old: due, new: due }, { newLimit: 5, max: 10 }, now);
+    expect(q.map((c) => c.id)).toEqual(["new"]);
+  });
+});
+
 describe("fiches déjà tombées", () => {
   it("les cartes d'une fiche tombée sortent des révisions, l'actu reste", async () => {
     const { activeCards } = await import("./store");
