@@ -10,6 +10,8 @@
  *   - refresh : nouvelles infos de connexion (le token change à chaque connexion, il faut le garder pour la fois suivante)
  *   - pack : paquet au format de l'appli (notes, devoirs → to-do, emploi du temps), à déposer dans la boîte de réception.
  */
+// Pronote donne les heures à l'heure de Paris ; la machine est en UTC. Sans ceci, tous les cours sont décalés d'une heure.
+process.env.TZ = "Europe/Paris";
 import { readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import pronoteMod from "./pawnote-2026.mjs";
