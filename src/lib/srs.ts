@@ -40,6 +40,26 @@ export function nextTestDay(now = new Date()) {
 export const actuWeekStart = (now = new Date()) => addDays(nextTestDay(now), -7);
 
 /**
+ * Le test du vendredi porte, en alternance, soit sur 2 mots, soit sur 1 personnage.
+ * Repère : le test du 13/11/2026 portait sur les mots. Les vendredis de vacances (pas de test) ne comptent pas.
+ */
+const FOCUS_ANCHOR = "2026-11-13";
+export function testFocus(now = new Date()): "mot" | "bio" {
+  const target = isoDay(nextTestDay(now));
+  let n = 0;
+  if (target >= FOCUS_ANCHOR) {
+    for (let d = new Date(`${FOCUS_ANCHOR}T12:00:00`); isoDay(d) < target; d = addDays(d, 7)) if (!inHolidays(isoDay(addDays(d, 7)))) n++;
+  } else {
+    for (let d = new Date(`${FOCUS_ANCHOR}T12:00:00`); isoDay(d) > target; d = addDays(d, -7)) if (!inHolidays(isoDay(d))) n++;
+  }
+  return n % 2 === 0 ? "mot" : "bio";
+}
+export const FOCUS_LABEL = { mot: "semaine des mots", bio: "semaine du personnage" } as const;
+
+/** Cartes de l'autre catégorie (pas au programme du prochain test) : quelques cartes dues seulement, pour ne pas les oublier. */
+const OFF_FOCUS_MAX = 3;
+
+/**
  * Une carte d'actu ne compte que pour la semaine du prochain test : du vendredi (lendemain du test précédent)
  * au jeudi soir. Les semaines passées ne reviennent plus. Les cartes non datées restent.
  */
@@ -84,12 +104,18 @@ export const isDue = (r: Review | undefined, now = new Date()) => !!r && new Dat
 export function buildQueue(cards: Card[], reviews: Record<string, Review>, opts: { newLimit: number; max: number; decks?: string[] }, now = new Date()) {
   const pool = cards.filter((c) => !opts.decks || opts.decks.includes(c.deck));
   const inWeek = (c: Card) => inActuWeek(c, now);
-  const due = pool
+  // Semaine des mots ou du personnage : la catégorie du prochain test passe en premier, l'autre est réduite au minimum
+  const focus = testFocus(now);
+  const off = focus === "mot" ? "bio" : "mot";
+  const rank = (c: Card) => (c.deck === "actu" ? 0 : c.deck === focus ? 1 : c.deck === off ? 3 : 2);
+  const dueAll = pool
     .filter((c) => isDue(reviews[c.id], now) && inWeek(c))
-    .sort((a, b) => +new Date(reviews[a.id].due) - +new Date(reviews[b.id].due));
+    .sort((a, b) => rank(a) - rank(b) || +new Date(reviews[a.id].due) - +new Date(reviews[b.id].due));
+  let offLeft = OFF_FOCUS_MAX;
+  const due = dueAll.filter((c) => c.deck !== off || offLeft-- > 0);
   const fresh = pool
-    .filter((c) => !reviews[c.id] && inWeek(c))
-    .sort((a, b) => Number(b.deck === "actu") - Number(a.deck === "actu") || (b.date ?? "").localeCompare(a.date ?? ""))
+    .filter((c) => !reviews[c.id] && inWeek(c) && c.deck !== off)
+    .sort((a, b) => rank(a) - rank(b) || (b.date ?? "").localeCompare(a.date ?? ""))
     .slice(0, opts.newLimit);
   return interleave([...due, ...fresh]).slice(0, opts.max);
 }

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { useActiveCards, useStore } from "../lib/store";
-import { actuWeekStart, buildQueue, inActuWeek, isDue, nextTestDay, shuffle } from "../lib/srs";
+import { FOCUS_LABEL, actuWeekStart, buildQueue, inActuWeek, testFocus, isDue, nextTestDay, shuffle } from "../lib/srs";
 import { askJson, AiError, useAi } from "../lib/ai";
 import type { Card, Deck, Sheet } from "../lib/types";
 import { addDays, daysUntil, fmtDay, isoDay } from "../lib/utils";
@@ -94,7 +94,7 @@ function ReviewTab() {
   const eveQueue = () => {
     const actu = cards.filter((c) => c.deck === "actu" && inActuWeek(c));
     const weak = cards
-      .filter((c) => c.deck !== "actu" && c.deck !== "anglais" && c.deck !== "micro")
+      .filter((c) => c.deck === testFocus())
       .sort((a, b) => (reviews[a.id]?.interval ?? -1) - (reviews[b.id]?.interval ?? -1))
       .slice(0, 30);
     return [...shuffle(actu), ...shuffle(weak)];
@@ -123,6 +123,9 @@ function ReviewTab() {
           ✅ Séance terminée : <b>{summary.ok}/{summary.seen}</b> réponses justes du premier coup ou après reprise. Les cartes ratées reviendront plus tôt.
         </div>
       )}
+      <div className="card focus-week">
+        {testFocus() === "mot" ? "📖" : "👤"} Prochain test : <b>{FOCUS_LABEL[testFocus()]}</b>. Les révisions te font surtout travailler {testFocus() === "mot" ? "les mots" : "les personnages"}, plus quelques {testFocus() === "mot" ? "personnages" : "mots"} pour ne pas les oublier.
+      </div>
       <div className="deck-stats">
         {stats.map((s) => (
           <div key={s.deck} className="card stat">

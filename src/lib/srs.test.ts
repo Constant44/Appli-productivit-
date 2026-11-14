@@ -36,7 +36,7 @@ describe("répétition espacée", () => {
     expect(isoDay(nextTestDay(new Date("2026-10-21T10:00:00")))).toBe("2026-11-06");
   });
   it("la file met l'actu de la semaine devant et respecte la limite de nouvelles cartes", () => {
-    const cards = [card("b1"), card("b2"), card("a1", "actu", "2026-10-12"), card("old", "actu", "2026-09-01")];
+    const cards = [card("b1", "mot"), card("b2", "mot"), card("a1", "actu", "2026-10-12"), card("old", "actu", "2026-09-01")];
     const q = buildQueue(cards, {}, { newLimit: 2, max: 10 }, thu);
     expect(q.map((c) => c.id)).toEqual(["a1", "b1"]);
   });
@@ -56,6 +56,30 @@ describe("actu : seulement la semaine du test", () => {
     const due = { due: "2026-11-01T00:00:00.000Z", interval: 1, ease: 2.5, reps: 1, lapses: 0, last: "" };
     const q = buildQueue([card("old", "actu", "2026-11-05"), card("new", "actu", "2026-11-09")], { old: due, new: due }, { newLimit: 5, max: 10 }, now);
     expect(q.map((c) => c.id)).toEqual(["new"]);
+  });
+});
+
+describe("semaine des mots / du personnage", () => {
+  it("alterne à chaque test, en sautant les vacances", async () => {
+    const { testFocus } = await import("./srs");
+    expect(testFocus(new Date("2026-11-12T10:00:00"))).toBe("mot"); // test du 13/11
+    expect(testFocus(new Date("2026-11-14T10:00:00"))).toBe("bio"); // test du 20/11
+    expect(testFocus(new Date("2026-11-21T10:00:00"))).toBe("mot"); // 27/11
+    expect(testFocus(new Date("2026-11-05T10:00:00"))).toBe("bio"); // 6/11
+    // 18/12 = bio ; vacances jusqu'au 3/01 ; 8/01 = mot
+    expect(testFocus(new Date("2026-12-15T10:00:00"))).toBe("bio");
+    expect(testFocus(new Date("2026-12-22T10:00:00"))).toBe("mot");
+  });
+  it("semaine du personnage : pas de nouveaux mots, au plus 3 mots dus", () => {
+    const now = new Date("2026-11-14T10:00:00");
+    const due = { due: "2026-11-01T00:00:00.000Z", interval: 1, ease: 2.5, reps: 1, lapses: 0, last: "" };
+    const mots = Array.from({ length: 6 }, (_, i) => ({ ...card(`m${i}`), deck: "mot" as const, ref: `M${i}` }));
+    const bios = Array.from({ length: 4 }, (_, i) => ({ ...card(`b${i}`), deck: "bio" as const, ref: `P${i}` }));
+    const reviews = Object.fromEntries([...mots.slice(0, 5), bios[0]].map((c) => [c.id, due]));
+    const q = buildQueue([...mots, ...bios], reviews, { newLimit: 10, max: 50 }, now);
+    expect(q.filter((c) => c.deck === "mot")).toHaveLength(3);
+    expect(q.filter((c) => c.deck === "bio")).toHaveLength(4);
+    expect(q.find((c) => c.id === "m5")).toBeUndefined();
   });
 });
 
