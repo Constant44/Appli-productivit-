@@ -130,7 +130,7 @@ if (tt) {
   }
 }
 
-const pack = { id: `pronote-${now.toISOString().slice(0, 16).replace(/[:T]/g, "-")}`, grades, tasks, lessons, pronoteDays: lessons.length ? [day(from), day(to)] : undefined };
+const pack = { id: `pronote-${now.toISOString().slice(0, 16).replace(/[:T]/g, "-")}`, at: now.toISOString(), grades, tasks, lessons, pronoteDays: lessons.length ? [day(from), day(to)] : undefined };
 writeFileSync(outPath, JSON.stringify({
   refresh: { url: refresh.url, username: refresh.username, token: refresh.token, deviceUUID: auth.deviceUUID },
   user: { name: session.user.name, className: session.userResource.className },

@@ -265,6 +265,8 @@ export type ContentPack = {
   chapters?: Array<{ id: string; name: string }>;
   /** Import Pronote : jours couverts par l'emploi du temps importé (remplace les cours saisis à la main sur cette période) */
   pronoteDays?: [string, string];
+  /** Date de dépôt (paquets privés Pronote) : l'appli ne lit que les paquets récents. */
+  at?: string;
   /** Pistes de programme pour des DS / khôlles existants (n'écrase jamais le programme saisi) */
   evalHints?: Record<string, string>;
   settings?: { pomodoroWork?: number; pomodoroBreak?: number; dailyGoalMin?: number; addSubjects?: string[]; subjectCoefs?: Record<string, number> };

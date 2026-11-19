@@ -9,7 +9,7 @@
  */
 import { create } from "zustand";
 import { applyEmbeddedPacks, onlyDefinitions, useStore } from "./store";
-import type { ContentPack } from "./types";
+import type { Card, ContentPack, Sheet } from "./types";
 import { uid } from "./utils";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -317,23 +317,72 @@ export async function startCloudSync() {
 /**
  * Boîte de réception : la tâche automatique (Claude, chaque soir) y dépose des paquets de contenu
  * (nouveaux mots / personnages du prof, questions sur l'actu du jour). On fusionne ceux pas encore vus.
+ *
+ * - L'inbox partagée (actu, mots) et l'inbox privée (Pronote) sont lues séparément : si l'une échoue, l'autre passe.
+ * - Côté Pronote, on ne lit que les paquets récents (champ `at`) : chaque import pèse ~20 Kio, les lire tous
+ *   à chaque ouverture finissait par bloquer la lecture (et l'actu avec).
+ * - Un paquet qui provoque une erreur est sauté, sans arrêter les suivants.
+ * - Réparation : les fiches et cartes de mots / personnages déjà importées mais absentes de l'appareil sont remises.
  */
-async function pullInbox(db: any, root?: string) {
-  try {
-    // inbox partagée (actu, mots du prof) + inbox privée (Pronote : notes, devoirs, emploi du temps)
-    const shared = await db.collection("inbox").get();
-    const own = root ? await db.collection(`${root}/inbox/packs`).get().catch(() => ({ docs: [] })) : { docs: [] };
-    const done = new Set(useStore.getState().inboxDone);
-    let added = 0;
-    const docs = [...shared.docs, ...own.docs].sort((a: { id: string }, b: { id: string }) => a.id.localeCompare(b.id));
-    for (const d of docs) {
+const byId = (a: { id: string }, b: { id: string }) => a.id.localeCompare(b.id);
+const withTimeout = <T,>(p: Promise<T>, ms = 20000) =>
+  Promise.race([p, new Promise<T>((_, rej) => setTimeout(() => rej(new Error("délai dépassé")), ms))]);
+type InboxDoc = { id: string; data: () => unknown };
+
+export async function pullInbox(db: any, root?: string) {
+  const done = new Set(useStore.getState().inboxDone);
+  let added = 0;
+  const merge = (docs: InboxDoc[]) => {
+    for (const d of [...docs].sort(byId)) {
       if (done.has(d.id)) continue;
-      const pack = { ...clone(d.data() as ContentPack), id: d.id };
-      added += useStore.getState().mergePack(pack);
+      try {
+        added += useStore.getState().mergePack({ ...clone(d.data() as ContentPack), id: d.id });
+        done.add(d.id);
+      } catch (e) {
+        console.warn("paquet ignoré", d.id, e);
+      }
     }
-    if (added > 0) useStore.getState().toast({ title: "📬 Nouveautés importées", body: `${added} nouvelles cartes ou fiches à réviser`, tone: "good" });
+  };
+
+  // 1. Inbox partagée : actu, mots et personnages du prof
+  try {
+    const shared = (await withTimeout(db.collection("inbox").limit(1000).get())) as { docs: InboxDoc[] };
+    repairCards(shared.docs);
+    merge(shared.docs);
   } catch {
-    /* boîte vide ou indisponible */
+    /* boîte vide ou indisponible : on réessaiera au prochain retour */
+  }
+
+  // 2. Inbox privée : imports Pronote des 3 derniers jours (chaque import contient déjà toutes les notes)
+  if (root) {
+    try {
+      const since = new Date(Date.now() - 3 * 864e5).toISOString();
+      const own = (await withTimeout(db.collection(`${root}/inbox/packs`).where("at", ">=", since).limit(100).get())) as { docs: InboxDoc[] };
+      merge(own.docs);
+    } catch {
+      /* indisponible : on réessaiera */
+    }
+  }
+  if (added > 0) useStore.getState().toast({ title: "📬 Nouveautés importées", body: `${added} nouvelles cartes ou fiches à réviser`, tone: "good" });
+}
+
+/** Remet les fiches et cartes (mots, personnages) d'un paquet déjà importé qui manqueraient sur l'appareil. */
+function repairCards(docs: InboxDoc[]) {
+  try {
+    const s = useStore.getState();
+    const haveCards = new Set(s.cards.map((c) => c.id));
+    const haveSheets = new Set(s.sheets.map((x) => x.id));
+    const cards: Card[] = [];
+    const sheets: Sheet[] = [];
+    for (const d of docs) {
+      if (!d.id.startsWith("mots-") || !s.inboxDone.includes(d.id)) continue;
+      const p = d.data() as ContentPack;
+      for (const c of p.cards ?? []) if ((c.deck === "mot" || c.deck === "bio") && !haveCards.has(c.id)) cards.push(clone(c));
+      for (const x of p.sheets ?? []) if (!haveSheets.has(x.id)) sheets.push(clone(x));
+    }
+    if (cards.length || sheets.length) s.mergePack({ id: `repair-${new Date().toISOString().slice(0, 10)}-${cards.length}-${sheets.length}`, cards, sheets });
+  } catch {
+    /* réparation facultative */
   }
 }
 
