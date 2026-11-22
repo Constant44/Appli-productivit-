@@ -3,6 +3,9 @@
  */
 import { addDays, daysBetween, fmtDur, fromMin, toMin, type ISODate } from "./dates";
 import { expand, type Occ, type Plan } from "./model";
+import { lightsOut, wakeAt } from "./routine";
+
+export { logSleep, nightOf } from "./routine";
 
 /** Catégorie concernée par une échéance, d'après son titre. */
 export function deadlineCat(title: string): string | undefined {
@@ -76,13 +79,6 @@ export function coachLine(plan: Plan, today: ISODate): string[] {
 
 /* ------------------------------------------------------------------ sommeil */
 
-/** Date de la « nuit » : un coucher entre minuit et 6 h compte pour la veille. */
-export const nightOf = (at: Date) => {
-  const d = new Date(at);
-  if (d.getHours() < 6) d.setDate(d.getDate() - 1);
-  const p = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
-};
 const hm = (iso: string) => {
   const d = new Date(iso);
   return d.getHours() * 60 + d.getMinutes();
@@ -98,19 +94,20 @@ export function sleepStats(plan: Plan, from: ISODate, to: ISODate): SleepStats {
   const durs: number[] = [];
   let onTimeBed = 0;
   let onTimeWake = 0;
-  const bedT = bedMin(`2000-01-01T${plan.prefs.bedTarget}:00`);
-  const wakeT = toMin(plan.prefs.wakeTarget);
+  // objectifs du jour : extinction = fin de la lecture du soir, lever = début de la routine du matin
+  const bedT = (d: ISODate) => bedMin(`2000-01-01T${lightsOut(plan, d)}:00`);
+  const wakeT = (d: ISODate) => toMin(wakeAt(plan, d));
   for (let d = from; d <= to; d = addDays(d, 1)) {
     const n = plan.sleep[d];
     const next = plan.sleep[addDays(d, 1)];
     if (n?.bed) {
       beds.push(bedMin(n.bed));
-      if (bedMin(n.bed) <= bedT + 15) onTimeBed++;
+      if (bedMin(n.bed) <= bedT(d) + 15) onTimeBed++;
     }
     const w = plan.sleep[d]?.wake;
     if (w) {
       wakes.push(hm(w));
-      if (hm(w) <= wakeT + 15) onTimeWake++;
+      if (hm(w) <= wakeT(d) + 15) onTimeWake++;
     }
     if (n?.bed && next?.wake) {
       const m = (new Date(next.wake).getTime() - new Date(n.bed).getTime()) / 60000;
@@ -127,11 +124,4 @@ export function sleepStats(plan: Plan, from: ISODate, to: ISODate): SleepStats {
     avgSleep: avg(durs),
     onTimeBed, onTimeWake, logged: beds.length + wakes.length,
   };
-}
-
-/** Enregistrer un lever ou un coucher. */
-export function logSleep(plan: Plan, kind: "bed" | "wake", at = new Date()): Plan {
-  const p = (n: number) => String(n).padStart(2, "0");
-  const day = kind === "bed" ? nightOf(at) : `${at.getFullYear()}-${p(at.getMonth() + 1)}-${p(at.getDate())}`;
-  return { ...plan, sleep: { ...plan.sleep, [day]: { ...(plan.sleep[day] ?? {}), [kind]: at.toISOString() } } };
 }

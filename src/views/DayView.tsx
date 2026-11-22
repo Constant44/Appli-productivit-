@@ -1,12 +1,13 @@
 /** JOURNÉE : ce que je dois faire aujourd'hui, à quelle heure, ce qui est fait, ce qui reste. */
 import { useMemo } from "react";
-import { addDays, fmtDur, fmtLong, fmtShort, fromMin, nowMin, toMin, today } from "../lib/dates";
+import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib/dates";
 import { expand, overdue, postpone, toggleDone, type Occ } from "../lib/model";
-import { coachLine, essentials, logSleep } from "../lib/coach";
+import { coachLine, essentials } from "../lib/coach";
 import { useFocus } from "../lib/focus";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import TimeGrid from "../components/TimeGrid";
+import { EveningRoutine, MorningRoutine, routineNow } from "../components/RoutineCards";
 import { Ring, timeLabel, useCats } from "../components/common";
 
 export default function DayView() {
@@ -41,11 +42,7 @@ export default function DayView() {
   const coach = useMemo(() => (isToday ? coachLine(plan, t) : []), [plan, t, isToday]);
   // séances d'aujourd'hui déjà dépassées et non faites → proposer de recaler la journée
   const behind = isToday ? tasks.filter((o) => !o.done && o.start && toMin(o.start) + o.minutes <= n && o.cat !== "lecture") : [];
-  const woke = plan.sleep[t]?.wake;
-  const hour = new Date().getHours();
-  const showMorning = isToday && !woke && hour >= 5 && hour < 15;
-  const showEvening = isToday && n >= toMin(plan.prefs.bedTarget) - 45 && !plan.sleep[t]?.bed;
-  const tomorrowFirst = useMemo(() => expand(plan, addDays(t, 1), addDays(t, 1)).find((o) => o.start && o.cat !== "vie"), [plan, t]);
+  const routine = isToday ? routineNow(plan, t, n) : null;
   const startable = (o?: Occ) => o && o.check && !o.done && !focusOn;
 
   const Row = ({ o }: { o: Occ }) => {
@@ -86,25 +83,8 @@ export default function DayView() {
           <div><b>{fmtDur(doneMin)}</b><span>sur {fmtDur(plannedMin)}</span></div>
         </div>
 
-        {showMorning && (
-          <div className="checkin">
-            <div>
-              <b>Bonjour. Tu es debout ?</b>
-              <span className="muted small">Objectif : lever à {plan.prefs.wakeTarget}. Note l'heure, ça compte dans ton bilan.</span>
-            </div>
-            <button className="btn primary" onClick={() => apply((p) => logSleep(p, "wake"), `Levé à ${fromMin(nowMin())}`)}>Je suis levé · {fromMin(nowMin())}</button>
-          </div>
-        )}
-
-        {showEvening && (
-          <div className="checkin night">
-            <div>
-              <b>Fin de journée : {done.length}/{tasks.length} séances validées.</b>
-              <span className="muted small">{tomorrowFirst ? `Demain : ${tomorrowFirst.title} à ${tomorrowFirst.start}. ` : ""}Téléphone posé, livre, lumière éteinte à {plan.prefs.bedTarget}.</span>
-            </div>
-            <button className="btn" onClick={() => apply((p) => logSleep(p, "bed"), "Bonne nuit. Téléphone posé.")}>Bonne nuit</button>
-          </div>
-        )}
+        {routine?.kind === "matin" && <MorningRoutine date={routine.date} />}
+        {routine?.kind === "soir" && <EveningRoutine night={routine.night} />}
 
         {coach.length > 0 && (
           <div className="coach">

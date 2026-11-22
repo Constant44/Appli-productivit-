@@ -8,6 +8,7 @@ import { useUI } from "../lib/ui";
 import EditSheet from "./EditSheet";
 import { CopySheet } from "../views/Grades";
 import { CatDot, PRIO_LABEL, quickDates, timeLabel, useCats } from "./common";
+import { RoutineEditor } from "./RoutineCards";
 
 export default function SheetHost() {
   const sheet = useUI((s) => s.sheet);
@@ -147,6 +148,10 @@ function SettingsSheet() {
   return (
     <div className="sheet-body">
       <h2 className="sheet-title">Réglages</h2>
+
+      <h3 className="h3">Routines du matin et du soir</h3>
+      <p className="muted small">Le matin part de ton lever du jour (début de « Routine du matin »), le soir de l'extinction (fin de la lecture). Les étapes liées au sommeil et à la lecture se gardent ; tu peux changer leur texte et leur minute.</p>
+      <RoutineEditor />
 
       <h3 className="h3">Objectifs</h3>
       <p className="muted small">Comptés uniquement à partir des séances validées. « Semaine » : remis à zéro chaque lundi ; le Mois les additionne.</p>

@@ -1,7 +1,7 @@
 /** Dans le Bilan : notes Pronote (progressions, baisses) et analyse des copies corrigées (erreurs récurrentes). */
 import { useMemo, useState } from "react";
 import { addDays, fmtDM, today, type ISODate } from "../lib/dates";
-import { errorTypesFor, fmt20, fmtNum, gradeInsights, gradesOfWeek, on20, recurringErrors, summarize, type Copy } from "../lib/grades";
+import { errorTypesFor, fmt20, fmtNum, gradeInsights, gradesOfWeek, isUngraded, on20, recurringErrors, summarize, UNGRADED_LABEL, type Copy } from "../lib/grades";
 import { uid } from "../lib/model";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
@@ -96,7 +96,7 @@ export function CopiesSection() {
         <h3 className="h3">Analyse des copies</h3>
         <button className="btn sm primary" onClick={() => open({ kind: "copy" })}>+ Ajouter une copie corrigée</button>
       </div>
-      <p className="muted small">Pour chaque DS, synthèse ou khôlle corrigée : la note et le type de chaque erreur. Les erreurs qui reviennent te disent quoi travailler. Tu peux aussi m'envoyer la copie corrigée (photo ou PDF) : je fais l'analyse et elle arrive ici.</p>
+      <p className="muted small">Pour chaque DS ou khôlle corrigé : la note et le type de chaque erreur. La synthèse n'est pas notée (correction PGE-PGO) : on relève seulement les erreurs de la correction. Les erreurs qui reviennent te disent quoi travailler. Tu peux aussi m'envoyer la copie corrigée (photo ou PDF) : je fais l'analyse et elle arrive ici.</p>
       <div className="copies-grid">
         {subjects.map((cat) => {
           const c = cats.get(cat);
@@ -125,7 +125,7 @@ export function CopiesSection() {
                 {list.slice(0, 4).map((x) => (
                   <li key={x.id}>
                     <button onClick={() => open({ kind: "copy", id: x.id })}>
-                      <span className="copy-grade">{x.grade !== undefined && x.outOf ? fmt20((x.grade / x.outOf) * 20) : "—"}</span>
+                      <span className={`copy-grade ${isUngraded(x) ? "corr" : ""}`}>{isUngraded(x) ? "corrigé" : x.grade !== undefined && x.outOf ? fmt20((x.grade / x.outOf) * 20) : "—"}</span>
                       <span className="copy-title">{x.title}<span className="muted small"> · {fmtDM(x.date)}</span></span>
                       <span className="copy-errs">{x.errors.slice(0, 3).map((e) => <em key={e.type}>{e.type}</em>)}{x.errors.length > 3 && <em>+{x.errors.length - 3}</em>}</span>
                     </button>
@@ -155,7 +155,8 @@ export function CopySheet({ id, cat }: { id?: string; cat?: string }) {
   const toggle = (t: string) => up({ errors: has(t) ? c.errors.filter((e) => e.type !== t) : [...c.errors, { type: t }] });
   const types = [...new Set([...errorTypesFor(c.cat), ...c.errors.map((e) => e.type)])];
   const save = () => {
-    const copy = { ...c, title: c.title.trim() || `${c.kind} du ${fmtDM(c.date)}` };
+    const base = { ...c, title: c.title.trim() || `${c.kind} du ${fmtDM(c.date)}` };
+    const copy: Copy = isUngraded(base) ? { ...base, grade: undefined, outOf: undefined } : base;
     apply((p) => ({ ...p, copies: existing ? p.copies.map((x) => (x.id === copy.id ? copy : x)) : [...p.copies, { ...copy, source: "app" }] }), existing ? "Copie mise à jour" : "Copie ajoutée à l'analyse");
     close();
   };
@@ -163,14 +164,14 @@ export function CopySheet({ id, cat }: { id?: string; cat?: string }) {
     <div className="sheet-body">
       <h2 className="sheet-title">{existing ? "Copie corrigée" : "Ajouter une copie corrigée"}</h2>
       <div className="grid2">
-        <label className="field"><span>Intitulé</span><input id="cp-title" className="input" value={c.title} onChange={(e) => up({ title: e.target.value })} placeholder="DS 3 : oligopole / Synthèse devoir 1…" /></label>
+        <label className="field"><span>Intitulé</span><input id="cp-title" className="input" value={c.title} onChange={(e) => up({ title: e.target.value })} placeholder={isUngraded(c) ? "Synthèse devoir 1 (correction PGE-PGO)" : "DS 3 : oligopole…"} /></label>
         <label className="field"><span>Date</span><input id="cp-date" className="input" type="date" value={c.date} onChange={(e) => up({ date: e.target.value })} /></label>
       </div>
       <div className="field">
         <span>Matière</span>
         <div className="chips">
           {plan.categories.filter((x) => x.tracked && !["anki", "sport", "lecture", "actu"].includes(x.id)).map((x) => (
-            <button type="button" key={x.id} className={`chip ${c.cat === x.id ? "on" : ""}`} style={{ ["--c" as string]: x.color }} onClick={() => up({ cat: x.id })}><span className="dot" style={{ background: x.color }} />{x.name}</button>
+            <button type="button" key={x.id} className={`chip ${c.cat === x.id ? "on" : ""}`} style={{ ["--c" as string]: x.color }} onClick={() => up(x.id === "synthese" ? { cat: x.id, kind: "Synthèse" } : { cat: x.id, kind: c.kind === "Synthèse" ? "DS" : c.kind })}><span className="dot" style={{ background: x.color }} />{x.name}</button>
           ))}
         </div>
       </div>
@@ -179,6 +180,12 @@ export function CopySheet({ id, cat }: { id?: string; cat?: string }) {
           <span>Type</span>
           <div className="seg">{(["DS", "Synthèse", "Khôlle", "Devoir", "Concours blanc"] as Copy["kind"][]).map((k) => <button type="button" key={k} className={c.kind === k ? "on" : ""} onClick={() => up({ kind: k })}>{k}</button>)}</div>
         </div>
+        {isUngraded(c) ? (
+          <div className="field">
+            <span>Note</span>
+            <p className="ungraded">{UNGRADED_LABEL}. Relève les erreurs signalées dans la correction : c'est ça qui compte.</p>
+          </div>
+        ) : (
         <div className="field">
           <span>Note</span>
           <div className="row gap">
@@ -187,6 +194,7 @@ export function CopySheet({ id, cat }: { id?: string; cat?: string }) {
             <input id="cp-out" className="input sm" type="number" min={1} value={c.outOf ?? 20} onChange={(e) => up({ outOf: Number(e.target.value) || 20 })} />
           </div>
         </div>
+        )}
       </div>
       <div className="field">
         <span>Erreurs relevées dans la correction</span>

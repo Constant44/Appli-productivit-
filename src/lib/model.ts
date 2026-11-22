@@ -9,6 +9,7 @@
  */
 import { addDays, daysBetween, inHolidays, mondayOf, range, toMin, weekday, type ISODate } from "./dates";
 import type { Copy } from "./grades";
+import { DEFAULT_ROUTINES, type RoutineLog, type Routines } from "./routineDefaults";
 
 export type Prio = "fixe" | "important" | "facultatif";
 export type Scope = "one" | "following" | "all";
@@ -41,7 +42,8 @@ export type Activity = {
   /** échéance importante (DS, khôlle, rendu, concours) : mise en avant dans Mois et Année */
   deadline?: boolean;
   notes?: string;
-  source?: "seed" | "gcal" | "user";
+  /** seed : planning de départ ; gcal : ton Google Agenda ; inbox : ajouté par l'import du soir ; user : toi */
+  source?: "seed" | "gcal" | "inbox" | "user";
   extId?: string;
   /** modifiée à la main : l'import de l'agenda ne l'écrase plus */
   edited?: boolean;
@@ -81,7 +83,33 @@ export type Plan = {
   prefs: Prefs;
   /** copies corrigées et erreurs (DS, synthèses, khôlles) */
   copies: Copy[];
+  /** routines du matin et du soir (étapes modifiables dans les réglages) */
+  routines: Routines;
+  /** étapes cochées, par jour (matin) ou par soir */
+  routineLog: RoutineLog;
 };
+
+/** Titres et notes corrigés depuis la première version (appliqués seulement si tu n'y as pas touché). */
+const RETITLE: Record<string, { from: string; title: string; notes?: string }> = {
+  lecture: {
+    from: "Téléphone posé sur le lit · lecture · extinction 23 h 15",
+    title: "Lecture au lit (livre papier) · extinction 23 h 15",
+    notes: "Téléphone en charge loin du lit depuis 22 h 30, réveil à l'autre bout de la chambre. Pas d'écran.",
+  },
+};
+const SYNTH_NOTE = "Non noté : c'est corrigé par PGE-PGO. Quand tu reçois la correction, ajoute-la dans Bilan → Analyse des copies (sans note).";
+const SYNTH_IDS = new Set(["ev-synth-1", "ev-synth-2", "ev-synth-3", "ev-synth-4"]);
+
+function migrateActivity(a: Activity): Activity {
+  if (a.edited) return a;
+  const r = Object.values(RETITLE).find((x) => x.from === a.title);
+  if (r) return { ...a, title: r.title, notes: r.notes ?? a.notes };
+  if (SYNTH_IDS.has(a.id)) {
+    const title = a.title.includes("non noté") ? a.title : `${a.title.replace(" (Drive)", "")} · non noté, corrigé`;
+    if (title !== a.title || !a.notes) return { ...a, title, notes: a.notes || SYNTH_NOTE };
+  }
+  return a;
+}
 
 /** Complète un plan enregistré par une version antérieure. */
 export const normalize = (p: Plan): Plan => ({
@@ -89,6 +117,9 @@ export const normalize = (p: Plan): Plan => ({
   copies: p.copies ?? [],
   // la tirelire PS5 a été retirée à ta demande
   goals: (p.goals ?? []).filter((g) => g.id !== "g-ps5"),
+  activities: (p.activities ?? []).map(migrateActivity),
+  routines: p.routines?.matin && p.routines?.soir ? p.routines : DEFAULT_ROUTINES,
+  routineLog: p.routineLog ?? {},
 });
 
 export type Occ = {
@@ -164,7 +195,7 @@ export function expand(plan: Plan, from: ISODate, to: ISODate): Occ[] {
   }
   for (const a of plan.activities) {
     if (!a.repeat) {
-      if (a.date >= from && a.date <= to) out.push(makeOcc(plan, a, keyOf(a.id, ONCE), a.date));
+      if (a.date >= from && a.date <= to && !plan.overrides[keyOf(a.id, ONCE)]?.deleted) out.push(makeOcc(plan, a, keyOf(a.id, ONCE), a.date));
       continue;
     }
     const lo = a.date > from ? a.date : from;
@@ -194,7 +225,7 @@ export const findOcc = (plan: Plan, key: string): Occ | undefined => {
   const { id, orig } = parseKey(key);
   const a = plan.activities.find((x) => x.id === id);
   if (!a) return undefined;
-  if (!a.repeat) return makeOcc(plan, a, key, a.date);
+  if (!a.repeat) return plan.overrides[key]?.deleted ? undefined : makeOcc(plan, a, key, a.date);
   if (!seriesHits(a, orig) || plan.overrides[key]?.deleted) return undefined;
   return makeOcc(plan, a, key, orig, plan.overrides[key]);
 };
@@ -327,6 +358,12 @@ export function deleteOccurrence(plan: Plan, key: string, scope: Scope): Plan {
     done: withoutKeys(plan.done, ofSeries(id)),
     postponed: plan.postponed.filter((p) => !ofSeries(id)(p.key)),
   });
+  // élément importé (agenda, import du soir) : on garde une trace de la suppression, sinon l'import suivant le recréerait
+  if (!a.repeat && (a.source === "gcal" || a.source === "inbox")) {
+    const done = { ...plan.done };
+    delete done[key];
+    return { ...plan, overrides: { ...plan.overrides, [key]: { deleted: true } }, done };
+  }
   if (!a.repeat || scope === "all") return dropAll();
   if (scope === "one") {
     const done = { ...plan.done };

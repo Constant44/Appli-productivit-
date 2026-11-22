@@ -8,6 +8,7 @@
  */
 import type { Activity, Category, Goal, Override, Plan, Prio, Repeat } from "./model";
 import { DEFAULT_PREFS, keyOf } from "./model";
+import { DEFAULT_ROUTINES } from "./routineDefaults";
 
 export const CATEGORIES: Category[] = [
   { id: "maths", name: "Maths", color: "#2F6BFF", tracked: true },
@@ -72,8 +73,8 @@ export const WEEK_TEMPLATE: Activity[] = [
   S("Déjeuner (Crous)", "vie", "fixe", [ME], "11:15", "12:00"),
   S("Déjeuner", "vie", "fixe", [LU, SA, DI], "12:30", "13:15"),
   S("Dîner (45 min max)", "vie", "fixe", [LU, MA, ME, JE, VE, SA, DI], "18:45", "19:30"),
-  S("Téléphone posé sur le lit · lecture · extinction 23 h 15", "lecture", "important", [DI, LU, MA, JE], "22:45", "23:15",
-    { notes: "Veille d'un cours à 8 h : 8 h de sommeil. Livre, pas d'écran." }),
+  S("Lecture au lit (livre papier) · extinction 23 h 15", "lecture", "important", [DI, LU, MA, JE], "22:45", "23:15",
+    { notes: "Téléphone en charge loin du lit depuis 22 h 30, réveil à l'autre bout de la chambre. Pas d'écran." }),
 
   // ---------- LUNDI : journée BU (9 h–19 h)
   S("Maths : exercices", "maths", "important", [LU], "09:15", "10:00"),
@@ -135,29 +136,34 @@ export const WEEK_TEMPLATE: Activity[] = [
 ];
 
 /** Échéances (khôlles, DS, rendus, concours). Les khôlles et DS viennent de ton Google Agenda. */
+export const CONF_NOTE = "Simple conférence, pas une épreuve. Prends des notes : le DS de prépa entretien du 9/12 porte sur cette conférence et celle du 13/11 (mail de Mme Millaret du 12/10). Horaire à vérifier.";
+export const DS_ROSSI = "DS prépa entretien : sur les 2 conférences de M. Rossi (13 et 27/11)";
+export const DS_ROSSI_NOTE = "Annoncé par Mme Millaret (mail du 12/10) : « le 9 décembre sera un DS qui portera sur les deux conférences de Monsieur Rossi des 13 et 27 novembre ».";
+
 export const DEADLINES: Activity[] = [
   O("gcal-jhgu3k3kkfdia4s3fetc3qnuik", "Khôlle de maths (T. Sageaux, F104)", "eval", "2026-11-24", "18:00", "19:00", { deadline: true, source: "gcal" }),
   O("ev-espagnol-1125", "Éval d'espagnol", "eval", "2026-11-25", "14:00", "16:00", { deadline: true }),
   O("ev-ecomon-1126", "Éval d'éco monétaire (TD 1 et 2) : à confirmer", "eval", "2026-11-26", "09:45", "11:15", { deadline: true }),
-  O("gcal-d02pc7bm3j1jgilen04p5bom4c", "Conférence de M. Rossi (horaire à vérifier)", "cours", "2026-11-27", "13:00", "15:00", { prio: "fixe", source: "gcal" }),
+  O("gcal-d02pc7bm3j1jgilen04p5bom4c", "Conférence de M. Rossi", "cours", "2026-11-27", "13:00", "15:00", { prio: "fixe", source: "gcal", notes: CONF_NOTE }),
   O("gcal-plv8kbkii8u8rd5o7js7il707o", "Khôlle d'anglais (C. Terroni, F052)", "eval", "2026-11-30", "10:00", "12:00", { deadline: true, source: "gcal" }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20261204T120000Z", "DS de maths (4 h)", "eval", "2026-12-04", "13:00", "17:00", { deadline: true, source: "gcal" }),
-  O("gcal-gj3tf6b84jsb9ho2s7l2t4fep8", "DS préparation à l'entretien : conférences de M. Rossi", "eval", "2026-12-09", "11:00", "11:30", { deadline: true, source: "gcal" }),
-  O("ev-synth-1", "Synthèse EDHEC · devoir 1 à rendre (Drive)", "eval", "2026-12-09", undefined, undefined, { deadline: true, minutes: 0 }),
+  O("gcal-gj3tf6b84jsb9ho2s7l2t4fep8", DS_ROSSI, "eval", "2026-12-09", "11:00", "11:30", { deadline: true, source: "gcal", notes: DS_ROSSI_NOTE }),
+  O("task-rossi-relire", "Prépa entretien : relire tes notes des 2 conférences Rossi + le texte de Furet", "cours", "2026-12-08", undefined, undefined, { minutes: 45, check: true, prio: "important", source: "inbox" }),
+  O("ev-synth-1", "Synthèse EDHEC · devoir 1 à rendre · non noté, corrigé", "eval", "2026-12-09", undefined, undefined, { deadline: true, minutes: 0 }),
   O("gcal-o9s14do36as43nhkm4v7kmr0og", "Khôlle de micro (A. Brandenburg)", "eval", "2026-12-10", "17:00", "18:00", { deadline: true, source: "gcal" }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20261211T120000Z", "DS de gestion (4 h)", "eval", "2026-12-11", "13:00", "17:00", { deadline: true, source: "gcal" }),
   O("gcal-0e8ivlv9tavmdlajfoi4jb9ikk", "Khôlle d'entretien (C. Agard, E01)", "eval", "2026-12-16", "14:00", "16:00", { deadline: true, source: "gcal" }),
   O("gcal-rlufjlqu22e6l11q3g4c3ts8fg", "Khôlle de maths (D. Roumilhac, E08)", "eval", "2026-12-17", "17:00", "18:00", { deadline: true, source: "gcal" }),
   O("ev-synth-2s", "Synthèse : sujet du devoir 2 disponible (Skool)", "eval", "2026-12-18", undefined, undefined, { minutes: 0, prio: "important" }),
-  O("ev-synth-2", "Synthèse EDHEC · devoir 2 à rendre", "eval", "2027-01-08", undefined, undefined, { deadline: true, minutes: 0 }),
+  O("ev-synth-2", "Synthèse EDHEC · devoir 2 à rendre · non noté, corrigé", "eval", "2027-01-08", undefined, undefined, { deadline: true, minutes: 0 }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20270108T120000Z", "DS (matière à préciser)", "eval", "2027-01-08", "13:00", "17:00", { deadline: true, source: "gcal" }),
   O("ev-synth-3s", "Synthèse : sujet du devoir 3 disponible", "eval", "2027-01-15", undefined, undefined, { minutes: 0, prio: "important" }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20270115T120000Z", "DS (matière à préciser)", "eval", "2027-01-15", "13:00", "17:00", { deadline: true, source: "gcal" }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20270122T120000Z", "DS (matière à préciser)", "eval", "2027-01-22", "13:00", "17:00", { deadline: true, source: "gcal" }),
   O("gcal-27c5d2i3oatkv321ik09iosfpr_20270129T120000Z", "DS (matière à préciser)", "eval", "2027-01-29", "13:00", "17:00", { deadline: true, source: "gcal" }),
-  O("ev-synth-3", "Synthèse EDHEC · devoir 3 à rendre", "eval", "2027-02-05", undefined, undefined, { deadline: true, minutes: 0 }),
+  O("ev-synth-3", "Synthèse EDHEC · devoir 3 à rendre · non noté, corrigé", "eval", "2027-02-05", undefined, undefined, { deadline: true, minutes: 0 }),
   O("ev-synth-4s", "Synthèse : sujet du devoir 4 disponible", "eval", "2027-02-22", undefined, undefined, { minutes: 0, prio: "important" }),
-  O("ev-synth-4", "Synthèse EDHEC · devoir 4 à rendre", "eval", "2027-03-15", undefined, undefined, { deadline: true, minutes: 0 }),
+  O("ev-synth-4", "Synthèse EDHEC · devoir 4 à rendre · non noté, corrigé", "eval", "2027-03-15", undefined, undefined, { deadline: true, minutes: 0 }),
   O("ev-edhec", "ÉCRITS EDHEC Pré-Master", "eval", "2027-04-03", undefined, undefined, { deadline: true, minutes: 0 }),
 ];
 
@@ -231,5 +237,7 @@ export function seedPlan(): Plan {
     sleep: {},
     prefs: { ...DEFAULT_PREFS },
     copies: [],
+    routines: structuredClone(DEFAULT_ROUTINES),
+    routineLog: {},
   };
 }

@@ -6,6 +6,7 @@ import {
 } from "./model";
 import { computeReview } from "./review";
 import { seedPlan } from "./seed";
+import { DEFAULT_ROUTINES } from "./routineDefaults";
 
 const base = (acts: Activity[] = []): Plan => ({
   v: 2,
@@ -15,6 +16,7 @@ const base = (acts: Activity[] = []): Plan => ({
     { id: "cours", name: "Cours", color: "#999", tracked: false },
   ],
   activities: acts, overrides: {}, done: {}, postponed: [], goals: [], reviews: {}, sleep: {}, prefs: { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" }, copies: [],
+  routines: structuredClone(DEFAULT_ROUTINES), routineLog: {},
 });
 // série : maths lundi + jeudi 9 h–10 h à partir du lundi 23/11
 const maths: Activity = { id: "m", title: "Maths", cat: "maths", prio: "important", date: "2026-11-23", start: "09:00", end: "10:00", repeat: { days: [0, 3], every: 1 }, check: true };

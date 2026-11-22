@@ -34,6 +34,10 @@ export const ERROR_TYPES: Record<string, string[]> = {
 };
 export const errorTypesFor = (cat: string) => ERROR_TYPES[cat] ?? ERROR_TYPES.default;
 
+/** La synthèse EDHEC n'est pas notée : PGE-PGO renvoie une correction, on n'analyse que les erreurs. */
+export const isUngraded = (c: Pick<Copy, "cat" | "kind">) => c.cat === "synthese" || c.kind === "Synthèse";
+export const UNGRADED_LABEL = "Correction PGE-PGO · non notée";
+
 /** Matière Pronote → catégorie de l'appli. */
 export function subjectCat(subject: string): string {
   const s = subject.toLowerCase();
