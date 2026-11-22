@@ -1,0 +1,393 @@
+/**
+ * Modèle unique de l'appli : toutes les vues (Journée, Semaine, Mois, Année, Bilan) lisent les mêmes données.
+ *
+ * - Une ACTIVITÉ est soit ponctuelle (une date), soit récurrente (jours de la semaine, toutes les 1 ou 2 semaines).
+ * - Une OCCURRENCE est calculée à la volée : rien n'est dupliqué, donc rien ne peut se dédoubler à l'actualisation.
+ *   Clé stable : `<id>@<date d'origine>` (série) ou `<id>@1` (ponctuelle).
+ * - Une EXCEPTION (override) modifie, déplace ou supprime UNE occurrence d'une série sans toucher au reste.
+ * - VALIDÉ ≠ PROGRAMMÉ : seules les occurrences cochées (`done`) comptent comme réalisées.
+ */
+import { addDays, daysBetween, inHolidays, mondayOf, range, toMin, weekday, type ISODate } from "./dates";
+
+export type Prio = "fixe" | "important" | "facultatif";
+export type Scope = "one" | "following" | "all";
+
+export type Category = { id: string; name: string; color: string; /** compte dans le bilan (travail, sport…) */ tracked: boolean };
+
+export type Repeat = {
+  /** 0 = lundi … 6 = dimanche */
+  days: number[];
+  every: 1 | 2;
+  until?: ISODate;
+  /** pas d'occurrence pendant les vacances scolaires (cours) */
+  skipHolidays?: boolean;
+};
+
+export type Activity = {
+  id: string;
+  title: string;
+  cat: string;
+  prio: Prio;
+  /** date (ponctuelle) ou première date (série) */
+  date: ISODate;
+  start?: string;
+  end?: string;
+  /** durée d'une tâche sans horaire */
+  minutes?: number;
+  repeat?: Repeat;
+  /** true : séance / tâche à cocher (comptée dans le suivi) ; false : événement fixe (cours, repas, échéance) */
+  check: boolean;
+  /** échéance importante (DS, khôlle, rendu, concours) : mise en avant dans Mois et Année */
+  deadline?: boolean;
+  notes?: string;
+  source?: "seed" | "gcal" | "user";
+  extId?: string;
+  /** modifiée à la main : l'import de l'agenda ne l'écrase plus */
+  edited?: boolean;
+};
+
+export type OccFields = Partial<Pick<Activity, "title" | "cat" | "prio" | "start" | "end" | "minutes" | "notes" | "check" | "deadline">>;
+export type Override = OccFields & { date?: ISODate; deleted?: boolean };
+export type Done = { at: string; minutes: number };
+export type Postpone = { key: string; from: ISODate; to: ISODate; at: string };
+
+export type Goal = {
+  id: string;
+  label: string;
+  cat?: string;
+  unit: "h" | "séances" | "€";
+  target: number;
+  period: "semaine" | "mois" | "total";
+  /** valeur saisie à la main (épargne…) */
+  manual?: number;
+};
+
+export type Plan = {
+  v: 2;
+  categories: Category[];
+  activities: Activity[];
+  overrides: Record<string, Override>;
+  done: Record<string, Done>;
+  postponed: Postpone[];
+  goals: Goal[];
+  reviews: Record<ISODate, unknown>;
+};
+
+export type Occ = {
+  key: string;
+  id: string;
+  orig: ISODate;
+  date: ISODate;
+  start?: string;
+  end?: string;
+  minutes: number;
+  title: string;
+  cat: string;
+  prio: Prio;
+  check: boolean;
+  deadline: boolean;
+  notes?: string;
+  series: boolean;
+  moved: boolean;
+  done?: Done;
+  source?: Activity["source"];
+};
+
+export type OccPatch = OccFields & { date?: ISODate; repeat?: Repeat | null };
+
+export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+export const ONCE = "1";
+export const keyOf = (id: string, orig: ISODate | typeof ONCE) => `${id}@${orig}`;
+export const parseKey = (key: string) => {
+  const i = key.lastIndexOf("@");
+  return { id: key.slice(0, i), orig: key.slice(i + 1) };
+};
+
+/** Durée en minutes (une plage qui passe minuit est comptée jusqu'au lendemain). */
+export const durationOf = (start?: string, end?: string, minutes?: number) => {
+  if (start && end) {
+    const d = toMin(end) - toMin(start);
+    return d > 0 ? d : d + 24 * 60;
+  }
+  return minutes ?? 30;
+};
+
+/** La série a-t-elle une occurrence d'origine ce jour-là ? */
+export function seriesHits(a: Activity, d: ISODate): boolean {
+  const r = a.repeat;
+  if (!r) return d === a.date;
+  if (d < a.date || (r.until && d > r.until)) return false;
+  if (!r.days.includes(weekday(d))) return false;
+  if (r.every === 2 && Math.round(daysBetween(mondayOf(a.date), mondayOf(d)) / 7) % 2 !== 0) return false;
+  if (r.skipHolidays && inHolidays(d)) return false;
+  return true;
+}
+
+function makeOcc(plan: Plan, a: Activity, key: string, orig: ISODate, ov?: Override): Occ {
+  const f = { ...a, ...(ov ?? {}) };
+  return {
+    key, id: a.id, orig, date: ov?.date ?? (a.repeat ? orig : a.date),
+    start: f.start, end: f.end, minutes: durationOf(f.start, f.end, f.minutes),
+    title: f.title, cat: f.cat, prio: f.prio, check: f.check, deadline: !!f.deadline, notes: f.notes,
+    series: !!a.repeat, moved: !!ov?.date && ov.date !== orig, done: plan.done[key], source: a.source,
+  };
+}
+
+/** Toutes les occurrences entre deux dates (incluses), triées par jour puis par heure. */
+export function expand(plan: Plan, from: ISODate, to: ISODate): Occ[] {
+  const out: Occ[] = [];
+  // exceptions qui DÉPLACENT une occurrence : indexées par série
+  const moved = new Map<string, Array<[ISODate, Override]>>();
+  for (const [k, ov] of Object.entries(plan.overrides)) {
+    if (!ov.date || ov.deleted) continue;
+    const { id, orig } = parseKey(k);
+    if (!moved.has(id)) moved.set(id, []);
+    moved.get(id)!.push([orig, ov]);
+  }
+  for (const a of plan.activities) {
+    if (!a.repeat) {
+      if (a.date >= from && a.date <= to) out.push(makeOcc(plan, a, keyOf(a.id, ONCE), a.date));
+      continue;
+    }
+    const lo = a.date > from ? a.date : from;
+    const hi = a.repeat.until && a.repeat.until < to ? a.repeat.until : to;
+    if (lo <= hi) {
+      for (const d of range(lo, hi)) {
+        if (!seriesHits(a, d)) continue;
+        const key = keyOf(a.id, d);
+        const ov = plan.overrides[key];
+        if (ov?.deleted) continue;
+        const date = ov?.date ?? d;
+        if (date < from || date > to) continue; // déplacée hors de la période
+        out.push(makeOcc(plan, a, key, d, ov));
+      }
+    }
+    // occurrences d'origine hors période mais déplacées DANS la période
+    for (const [orig, ov] of moved.get(a.id) ?? []) {
+      if (orig >= from && orig <= to) continue; // déjà traitée
+      if (ov.date! < from || ov.date! > to || !seriesHits(a, orig)) continue;
+      out.push(makeOcc(plan, a, keyOf(a.id, orig), orig, ov));
+    }
+  }
+  return out.sort((x, y) => x.date.localeCompare(y.date) || (x.start ?? "99").localeCompare(y.start ?? "99") || x.title.localeCompare(y.title));
+}
+
+export const findOcc = (plan: Plan, key: string): Occ | undefined => {
+  const { id, orig } = parseKey(key);
+  const a = plan.activities.find((x) => x.id === id);
+  if (!a) return undefined;
+  if (!a.repeat) return makeOcc(plan, a, key, a.date);
+  if (!seriesHits(a, orig) || plan.overrides[key]?.deleted) return undefined;
+  return makeOcc(plan, a, key, orig, plan.overrides[key]);
+};
+
+/* ------------------------------------------------------------------ modifications (fonctions pures) */
+
+const pick = (p: OccPatch): OccFields => {
+  const o: OccFields = {};
+  for (const k of ["title", "cat", "prio", "start", "end", "minutes", "notes", "check", "deadline"] as const) {
+    if (k in p) (o as Record<string, unknown>)[k] = p[k];
+  }
+  return o;
+};
+const withoutKeys = <T,>(rec: Record<string, T>, test: (k: string) => boolean) =>
+  Object.fromEntries(Object.entries(rec).filter(([k]) => !test(k)));
+const ofSeries = (id: string) => (k: string) => parseKey(k).id === id;
+
+export function addActivity(plan: Plan, a: Activity): Plan {
+  return { ...plan, activities: [...plan.activities, a] };
+}
+
+/** Réattribue les exceptions, validations et reports d'une série (à partir d'une date) à une autre série. */
+function rekey(plan: Plan, fromId: string, toId: string, fromDate: ISODate): Pick<Plan, "overrides" | "done" | "postponed"> {
+  const move = (k: string) => {
+    const { id, orig } = parseKey(k);
+    return id === fromId && orig >= fromDate ? keyOf(toId, orig) : k;
+  };
+  const remap = <T,>(rec: Record<string, T>) => Object.fromEntries(Object.entries(rec).map(([k, v]) => [move(k), v]));
+  return { overrides: remap(plan.overrides), done: remap(plan.done), postponed: plan.postponed.map((p) => ({ ...p, key: move(p.key) })) };
+}
+
+/**
+ * Modifier une occurrence.
+ * - `one` : seulement celle-ci (exception) ;
+ * - `following` : celle-ci et toutes les suivantes (la série est coupée en deux, le passé ne bouge pas) ;
+ * - `all` : toute la série.
+ * `repeat` : un objet transforme en récurrente, `null` transforme en ponctuelle.
+ */
+export function editOccurrence(plan: Plan, key: string, patch: OccPatch, scope: Scope): Plan {
+  const { id, orig } = parseKey(key);
+  const a = plan.activities.find((x) => x.id === id);
+  if (!a) return plan;
+  const fields = pick(patch);
+  const replace = (next: Activity) => plan.activities.map((x) => (x.id === id ? next : x));
+
+  // --- ponctuelle
+  if (!a.repeat) {
+    if (patch.repeat) {
+      // ponctuelle → récurrente : la validation éventuelle suit la date
+      const date = patch.date ?? a.date;
+      const next: Activity = { ...a, ...fields, date, repeat: patch.repeat, edited: true };
+      const done = { ...plan.done };
+      if (done[key]) { done[keyOf(id, date)] = done[key]; delete done[key]; }
+      return { ...plan, activities: replace(next), done };
+    }
+    return { ...plan, activities: replace({ ...a, ...fields, date: patch.date ?? a.date, edited: true }) };
+  }
+
+  // --- série → ponctuelle
+  if (patch.repeat === null) {
+    const occ = findOcc(plan, key);
+    if (!occ) return plan;
+    const once: Activity = {
+      id: uid(), title: occ.title, cat: occ.cat, prio: occ.prio, date: occ.date, start: occ.start, end: occ.end,
+      minutes: occ.start ? undefined : occ.minutes, check: occ.check, deadline: occ.deadline, notes: occ.notes, source: "user",
+      ...fields, ...(patch.date ? { date: patch.date } : {}),
+    };
+    let next = scope === "one" ? deleteOccurrence(plan, key, "one") : deleteOccurrence(plan, key, "following");
+    next = addActivity(next, once);
+    if (plan.done[key]) next = { ...next, done: { ...next.done, [keyOf(once.id, ONCE)]: plan.done[key] } };
+    return next;
+  }
+
+  if (scope === "one") {
+    const ov: Override = { ...(plan.overrides[key] ?? {}), ...fields };
+    if (patch.date) ov.date = patch.date;
+    return { ...plan, overrides: { ...plan.overrides, [key]: ov } };
+  }
+
+  const isFirst = orig <= a.date;
+  if (scope === "all" || isFirst) {
+    const repeat = patch.repeat ?? a.repeat;
+    const next: Activity = { ...a, ...fields, repeat, edited: true };
+    // nouvelle première date (changement de jour de début de série)
+    if (patch.date && scope === "all" && patch.repeat) next.date = patch.date;
+    // les champs modifiés pour toute la série remplacent ceux des exceptions
+    const keys = Object.keys(fields);
+    const overrides = Object.fromEntries(
+      Object.entries(plan.overrides).map(([k, ov]) => {
+        if (!ofSeries(id)(k) || !keys.length) return [k, ov];
+        const o = { ...ov };
+        for (const f of keys) delete (o as Record<string, unknown>)[f];
+        return [k, o];
+      }),
+    );
+    // un changement de date ne concerne que l'occurrence choisie (la série garde ses jours)
+    if (patch.date && patch.date !== orig && !(scope === "all" && patch.repeat)) overrides[key] = { ...(overrides[key] ?? {}), date: patch.date };
+    return { ...plan, activities: replace(next), overrides };
+  }
+
+  // "following" : on coupe la série à `orig`
+  const newId = uid();
+  const old: Activity = { ...a, repeat: { ...a.repeat, until: addDays(orig, -1) } };
+  const repeat = patch.repeat ?? a.repeat;
+  const fresh: Activity = { ...a, ...fields, id: newId, date: orig, repeat: { ...repeat, until: a.repeat.until }, edited: true };
+  const moved = rekey(plan, id, newId, orig);
+  // les champs modifiés remplacent ceux des exceptions futures
+  const keys = Object.keys(fields);
+  const overrides = Object.fromEntries(
+    Object.entries(moved.overrides).map(([k, ov]) => {
+      if (!ofSeries(newId)(k) || !keys.length) return [k, ov];
+      const o = { ...ov };
+      for (const f of keys) delete (o as Record<string, unknown>)[f];
+      return [k, o];
+    }),
+  );
+  if (patch.date && patch.date !== orig) overrides[keyOf(newId, orig)] = { ...(overrides[keyOf(newId, orig)] ?? {}), date: patch.date };
+  return { ...plan, ...moved, overrides, activities: [...replace(old), fresh] };
+}
+
+/** Supprimer une occurrence, les suivantes ou toute la série. */
+export function deleteOccurrence(plan: Plan, key: string, scope: Scope): Plan {
+  const { id, orig } = parseKey(key);
+  const a = plan.activities.find((x) => x.id === id);
+  if (!a) return plan;
+  const dropAll = (): Plan => ({
+    ...plan,
+    activities: plan.activities.filter((x) => x.id !== id),
+    overrides: withoutKeys(plan.overrides, ofSeries(id)),
+    done: withoutKeys(plan.done, ofSeries(id)),
+    postponed: plan.postponed.filter((p) => !ofSeries(id)(p.key)),
+  });
+  if (!a.repeat || scope === "all") return dropAll();
+  if (scope === "one") {
+    const done = { ...plan.done };
+    delete done[key];
+    return { ...plan, overrides: { ...plan.overrides, [key]: { deleted: true } }, done };
+  }
+  if (orig <= a.date) return dropAll();
+  const later = (k: string) => {
+    const p = parseKey(k);
+    return p.id === id && p.orig >= orig;
+  };
+  return {
+    ...plan,
+    activities: plan.activities.map((x) => (x.id === id ? { ...x, repeat: { ...x.repeat!, until: addDays(orig, -1) } } : x)),
+    overrides: withoutKeys(plan.overrides, later),
+    done: withoutKeys(plan.done, later),
+  };
+}
+
+/** Déplacer UNE occurrence (glisser-déposer) en gardant sa durée. */
+export function moveOccurrence(plan: Plan, key: string, date: ISODate, start?: string): Plan {
+  const occ = findOcc(plan, key);
+  if (!occ) return plan;
+  const patch: OccPatch = { date };
+  if (start && occ.start && occ.end) {
+    const dur = occ.minutes;
+    const s = toMin(start);
+    patch.start = start;
+    patch.end = `${String(Math.floor(((s + dur) % 1440) / 60)).padStart(2, "0")}:${String((s + dur) % 60).padStart(2, "0")}`;
+  }
+  return editOccurrence(plan, key, patch, "one");
+}
+
+/** Cocher / décocher. La durée retenue est celle de la séance (modifiable). */
+export function toggleDone(plan: Plan, key: string, minutes?: number, at = new Date().toISOString()): Plan {
+  const done = { ...plan.done };
+  if (done[key]) delete done[key];
+  else {
+    const occ = findOcc(plan, key);
+    if (!occ) return plan;
+    done[key] = { at, minutes: minutes ?? occ.minutes };
+  }
+  return { ...plan, done };
+}
+
+/** Reporter une occurrence non faite à une autre date (jamais automatique). */
+export function postpone(plan: Plan, key: string, to: ISODate, at = new Date().toISOString()): Plan {
+  const occ = findOcc(plan, key);
+  if (!occ || occ.date === to) return plan;
+  const next = editOccurrence(plan, key, { date: to }, "one");
+  const done = { ...next.done };
+  delete done[key];
+  return { ...next, done, postponed: [...plan.postponed, { key, from: occ.date, to, at }] };
+}
+
+/** Occurrences à cocher passées et non faites (à reporter, valider ou supprimer). */
+export function overdue(plan: Plan, today: ISODate, days = 14): Occ[] {
+  return expand(plan, addDays(today, -days), addDays(today, -1)).filter((o) => o.check && !o.done);
+}
+
+/** Import d'événements externes (Google Agenda) : ajout ou mise à jour, sans écraser une modification manuelle. */
+export function upsertExternal(plan: Plan, items: Activity[]): Plan {
+  const acts = [...plan.activities];
+  for (const it of items) {
+    const i = acts.findIndex((x) => x.id === it.id);
+    if (i < 0) acts.push(it);
+    else if (!acts[i].edited) acts[i] = { ...acts[i], ...it };
+  }
+  return { ...plan, activities: acts };
+}
+
+/* ------------------------------------------------------------------ objectifs */
+
+export function goalValue(plan: Plan, g: Goal, from: ISODate, to: ISODate): number {
+  if (g.unit === "€" || g.manual !== undefined) return g.manual ?? 0;
+  const occs = expand(plan, from, to).filter((o) => o.done && (!g.cat || o.cat === g.cat));
+  return g.unit === "h" ? occs.reduce((s, o) => s + o.done!.minutes, 0) / 60 : occs.length;
+}
+
+/** Objectif rapporté à une période : un objectif hebdo vaut ×(jours/7) sur un mois. */
+export const goalTarget = (g: Goal, days: number) =>
+  g.period === "semaine" ? Math.round(g.target * (days / 7) * 10) / 10 : g.period === "mois" ? Math.round(g.target * (days / 30.4) * 10) / 10 : g.target;

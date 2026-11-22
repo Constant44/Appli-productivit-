@@ -1,0 +1,169 @@
+/** JOURNÉE : ce que je dois faire aujourd'hui, à quelle heure, ce qui est fait, ce qui reste. */
+import { useMemo } from "react";
+import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib/dates";
+import { expand, overdue, postpone, toggleDone, type Occ } from "../lib/model";
+import { useStore } from "../lib/store";
+import { useUI } from "../lib/ui";
+import TimeGrid from "../components/TimeGrid";
+import { Ring, timeLabel, useCats } from "../components/common";
+
+export default function DayView() {
+  const plan = useStore((s) => s.plan);
+  const date = useStore((s) => s.date);
+  const go = useStore((s) => s.go);
+  const apply = useStore((s) => s.apply);
+  const open = useUI((s) => s.open);
+  const cats = useCats();
+  const t = today();
+  const isToday = date === t;
+
+  const occs = useMemo(() => expand(plan, date, date), [plan, date]);
+  const late = useMemo(() => (isToday ? overdue(plan, t, 14) : []), [plan, t, isToday]);
+  const tasks = occs.filter((o) => o.check);
+  const fixed = occs.filter((o) => !o.check && !["vie", "libre"].includes(o.cat));
+  const important = tasks.filter((o) => o.prio !== "facultatif");
+  const optional = tasks.filter((o) => o.prio === "facultatif");
+  const done = tasks.filter((o) => o.done);
+  const progress = tasks.length ? done.length / tasks.length : 0;
+  const doneMin = done.reduce((s, o) => s + o.done!.minutes, 0);
+  const plannedMin = tasks.reduce((s, o) => s + o.minutes, 0);
+
+  // maintenant / ensuite
+  const n = nowMin();
+  const current = isToday ? occs.find((o) => o.start && toMin(o.start) <= n && toMin(o.start) + o.minutes > n && o.cat !== "libre") : undefined;
+  const next = isToday ? occs.find((o) => o.start && toMin(o.start) > n && (o.check ? !o.done : true)) : undefined;
+  const deadlines = useMemo(() => expand(plan, t, addDays(t, 21)).filter((o) => o.deadline), [plan, t]);
+
+  const Row = ({ o }: { o: Occ }) => {
+    const c = cats.get(o.cat);
+    return (
+      <li className={`task ${o.done ? "done" : ""} p-${o.prio}`} style={{ ["--c" as string]: c?.color }}>
+        <button className={`check ${o.done ? "on" : ""}`} aria-label={o.done ? "Annuler la validation" : "Valider"} onClick={() => apply((p) => toggleDone(p, o.key), o.done ? undefined : "Bien joué, séance validée")}>
+          {o.done ? "✓" : ""}
+        </button>
+        <button className="task-body" onClick={() => open({ kind: "item", key: o.key })}>
+          <span className="task-title">{o.title}</span>
+          <span className="task-meta"><span className="dot" style={{ background: c?.color }} />{c?.name} · {timeLabel(o)}{o.start ? ` · ${fmtDur(o.minutes)}` : ""}{o.moved ? " · déplacée" : ""}</span>
+        </button>
+      </li>
+    );
+  };
+
+  return (
+    <div className="day">
+      <section className="day-side">
+        <header className="day-hero">
+          <div className="day-hero-text">
+            <span className="eyebrow">{isToday ? "Aujourd'hui" : date < t ? "Jour passé" : "À venir"}</span>
+            <h1 className="day-title">{fmtLong(date)}</h1>
+            <div className="day-nav">
+              <button className="icon-btn" aria-label="Jour précédent" onClick={() => go("jour", addDays(date, -1))}>‹</button>
+              {!isToday && <button className="btn sm ghost" onClick={() => go("jour", t)}>Aujourd'hui</button>}
+              <button className="icon-btn" aria-label="Jour suivant" onClick={() => go("jour", addDays(date, 1))}>›</button>
+            </div>
+          </div>
+          <Ring value={progress} size={104} label={<><b>{Math.round(progress * 100)}%</b><small>{done.length}/{tasks.length}</small></>} />
+        </header>
+
+        <div className="stats3">
+          <div><b>{done.length}</b><span>faites</span></div>
+          <div><b>{tasks.length - done.length}</b><span>restantes</span></div>
+          <div><b>{fmtDur(doneMin)}</b><span>sur {fmtDur(plannedMin)}</span></div>
+        </div>
+
+        {isToday && (current || next) && (
+          <div className="now-card">
+            {current && (
+              <button className="now-row" onClick={() => open({ kind: "item", key: current.key })} style={{ ["--c" as string]: cats.get(current.cat)?.color }}>
+                <span className="now-tag live">Maintenant</span>
+                <span className="now-title">{current.title}</span>
+                <span className="now-time">jusqu'à {current.end}</span>
+              </button>
+            )}
+            {next && (
+              <button className="now-row" onClick={() => open({ kind: "item", key: next.key })} style={{ ["--c" as string]: cats.get(next.cat)?.color }}>
+                <span className="now-tag">Ensuite</span>
+                <span className="now-title">{next.title}</span>
+                <span className="now-time">{next.start}</span>
+              </button>
+            )}
+          </div>
+        )}
+
+        {late.length > 0 && (
+          <section className="late">
+            <h3 className="h3">À rattraper <span className="count">{late.length}</span></h3>
+            <p className="muted small">Pas validées les jours précédents. Rien n'est compté comme fait sans toi : valide, reporte ou supprime.</p>
+            <ul className="late-list">
+              {late.slice(0, 6).map((o) => (
+                <li key={o.key} style={{ ["--c" as string]: cats.get(o.cat)?.color }}>
+                  <button className="late-title" onClick={() => open({ kind: "item", key: o.key })}>
+                    <span className="dot" style={{ background: cats.get(o.cat)?.color }} />{o.title} <span className="muted">· {fmtShort(o.date)}</span>
+                  </button>
+                  <div className="late-actions">
+                    <button className="btn xs" onClick={() => apply((p) => toggleDone(p, o.key), "Validée (en retard)")}>Faite</button>
+                    <button className="btn xs" onClick={() => apply((p) => postpone(p, o.key, addDays(t, 1)), "Reportée à demain")}>Demain</button>
+                    <button className="btn xs ghost" onClick={() => open({ kind: "postpone", key: o.key })}>Autre date</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {late.length > 6 && <p className="muted small">+ {late.length - 6} autres dans le bilan de la semaine.</p>}
+          </section>
+        )}
+
+        <section className="list-block">
+          <h3 className="h3"><span className="prio-bar fixe" />Obligations fixes</h3>
+          {fixed.length === 0 ? <p className="muted small">Aucune aujourd'hui.</p> : (
+            <ul className="fixed-list">
+              {fixed.map((o) => (
+                <li key={o.key}>
+                  <button onClick={() => open({ kind: "item", key: o.key })} style={{ ["--c" as string]: cats.get(o.cat)?.color }}>
+                    <span className="fx-time">{o.start ?? "jour"}</span>
+                    <span className="fx-title">{o.deadline && <span className="flag">⚑</span>}{o.title}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="list-block">
+          <h3 className="h3"><span className="prio-bar important" />Objectifs importants <span className="count">{important.filter((o) => o.done).length}/{important.length}</span></h3>
+          {important.length === 0 ? <p className="muted small">Rien d'important prévu.</p> : <ul className="tasks">{important.map((o) => <Row key={o.key} o={o} />)}</ul>}
+        </section>
+
+        <section className="list-block">
+          <h3 className="h3"><span className="prio-bar facultatif" />Facultatif <span className="count">{optional.filter((o) => o.done).length}/{optional.length}</span></h3>
+          {optional.length === 0 ? <p className="muted small">Rien de facultatif.</p> : <ul className="tasks">{optional.map((o) => <Row key={o.key} o={o} />)}</ul>}
+          <p className="muted small">Facultatif = à faire si tu as l'énergie ; ça peut sauter sans culpabiliser.</p>
+        </section>
+
+        <button className="btn add-wide" onClick={() => open({ kind: "new", defaults: { date } })}>+ Ajouter une tâche ou un événement</button>
+
+        {deadlines.length > 0 && (
+          <section className="list-block">
+            <h3 className="h3">Échéances (3 semaines)</h3>
+            <ul className="dl-list">
+              {deadlines.slice(0, 6).map((o) => {
+                const days = Math.round((new Date(`${o.date}T12:00`).getTime() - new Date(`${t}T12:00`).getTime()) / 864e5);
+                return (
+                  <li key={o.key}>
+                    <button onClick={() => go("jour", o.date)}>
+                      <span className={`dl-count ${days <= 2 ? "hot" : ""}`}>{days === 0 ? "auj." : `J-${days}`}</span>
+                      <span>{o.title}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
+      </section>
+
+      <section className="day-grid">
+        <TimeGrid dates={[date]} ppm={1.15} />
+      </section>
+    </div>
+  );
+}

@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { viteSingleFile } from "vite-plugin-singlefile";
@@ -7,6 +8,7 @@ import { viteSingleFile } from "vite-plugin-singlefile";
 export default defineConfig(({ mode }) => ({
   plugins: mode === "artifact" ? [react(), viteSingleFile()] : [react()],
   build: mode === "artifact" ? { outDir: "dist-artifact" } : undefined,
+  test: { include: ["src/**/*.test.ts"] },
   server: {
     port: 5173,
     proxy: { "/api": "http://localhost:8787" },
