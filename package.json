@@ -1,15 +1,12 @@
 {
-  "name": "prepa-fc",
+  "name": "cadence",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Appli de productivité gamifiée pour prépa : Pronote, DS/khôlles, to-do, plan de révision, timer focus et club de foot à faire progresser.",
+  "description": "Cadence : planning de prépa (journée, semaine, mois, année), mode Focus, bilan hebdomadaire et quiz du test d'actu.",
   "scripts": {
-    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm:dev:server\" \"npm:dev:web\"",
-    "dev:web": "vite",
-    "dev:server": "tsx watch server/index.ts",
+    "dev": "vite",
     "build": "tsc --noEmit -p . && vite build",
-    "start": "NODE_ENV=production tsx server/index.ts",
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
     "build:ipad": "tsc --noEmit -p . && vite build --mode artifact && node scripts/make-artifact.mjs"

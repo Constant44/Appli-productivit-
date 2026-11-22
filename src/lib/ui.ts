@@ -8,7 +8,9 @@ export type Sheet =
   | { kind: "edit"; key: string }
   | { kind: "item"; key: string }
   | { kind: "postpone"; key: string }
-  | { kind: "settings" };
+  | { kind: "settings" }
+  | { kind: "replan"; date: ISODate }
+  | { kind: "help" };
 
 type UI = {
   sheet: Sheet | null;
@@ -18,6 +20,8 @@ type UI = {
   setReviewWeek: (w: ISODate | null) => void;
   weekTab: "planning" | "bilan";
   setWeekTab: (t: "planning" | "bilan") => void;
+  focusMin: boolean;
+  setFocusMin: (v: boolean) => void;
 };
 
 export const useUI = create<UI>((set) => ({
@@ -28,4 +32,6 @@ export const useUI = create<UI>((set) => ({
   setReviewWeek: (reviewWeek) => set({ reviewWeek }),
   weekTab: "planning",
   setWeekTab: (weekTab) => set({ weekTab }),
+  focusMin: false,
+  setFocusMin: (focusMin) => set({ focusMin }),
 }));

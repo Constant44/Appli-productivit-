@@ -48,7 +48,11 @@ export type Activity = {
 
 export type OccFields = Partial<Pick<Activity, "title" | "cat" | "prio" | "start" | "end" | "minutes" | "notes" | "check" | "deadline">>;
 export type Override = OccFields & { date?: ISODate; deleted?: boolean };
-export type Done = { at: string; minutes: number };
+export type Done = { at: string; minutes: number; /** séance faite en mode Focus : décrochages comptés */ focus?: boolean; distractions?: number };
+/** Nuit du jour J : coucher (souvent après minuit) et lever du lendemain matin, en ISO. */
+export type Night = { bed?: string; wake?: string };
+export type Prefs = { bedTarget: string; wakeTarget: string; dayEnd: string };
+export const DEFAULT_PREFS: Prefs = { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" };
 export type Postpone = { key: string; from: ISODate; to: ISODate; at: string };
 
 export type Goal = {
@@ -71,7 +75,13 @@ export type Plan = {
   postponed: Postpone[];
   goals: Goal[];
   reviews: Record<ISODate, unknown>;
+  /** levers et couchers, par date du jour (le coucher après minuit compte pour la veille) */
+  sleep: Record<ISODate, Night>;
+  prefs: Prefs;
 };
+
+/** Complète un plan enregistré par une version antérieure. */
+export const normalize = (p: Plan): Plan => ({ ...p, sleep: p.sleep ?? {}, prefs: { ...DEFAULT_PREFS, ...(p.prefs ?? {}) }, postponed: p.postponed ?? [], reviews: p.reviews ?? {} });
 
 export type Occ = {
   key: string;
@@ -354,6 +364,12 @@ export function toggleDone(plan: Plan, key: string, minutes?: number, at = new D
   return { ...plan, done };
 }
 
+/** Valider une séance avec la durée réellement faite (mode Focus). */
+export function markDone(plan: Plan, key: string, minutes: number, extra: Partial<Done> = {}, at = new Date().toISOString()): Plan {
+  if (!findOcc(plan, key)) return plan;
+  return { ...plan, done: { ...plan.done, [key]: { at, minutes: Math.max(1, Math.round(minutes)), ...extra } } };
+}
+
 /** Reporter une occurrence non faite à une autre date (jamais automatique). */
 export function postpone(plan: Plan, key: string, to: ISODate, at = new Date().toISOString()): Plan {
   const occ = findOcc(plan, key);
@@ -391,3 +407,62 @@ export function goalValue(plan: Plan, g: Goal, from: ISODate, to: ISODate): numb
 /** Objectif rapporté à une période : un objectif hebdo vaut ×(jours/7) sur un mois. */
 export const goalTarget = (g: Goal, days: number) =>
   g.period === "semaine" ? Math.round(g.target * (days / 7) * 10) / 10 : g.period === "mois" ? Math.round(g.target * (days / 30.4) * 10) / 10 : g.target;
+
+/* ------------------------------------------------------------------ replanifier la journée */
+
+export type Replan = { plan: Plan; moves: Array<{ key: string; title: string; from: string; to: string }>; overflow: Occ[] };
+
+/**
+ * Recale la journée à partir de maintenant.
+ * - Les séances encore à venir gardent leur créneau (le planning tient debout).
+ * - Les séances manquées et non faites se glissent dans les trous libres, l'important d'abord, sans chevaucher
+ *   cours, repas, khôlles, temps libre ni la routine du soir, avec `gap` minutes de respiration (comme la pause Focus).
+ * - S'il manque de la place pour une séance importante, une séance facultative à venir lui cède son créneau.
+ * - Ce qui ne rentre pas avant `endMin` est rendu à part (à reporter à demain, jamais automatiquement).
+ */
+export function replanDay(plan: Plan, date: ISODate, fromMinute: number, endMin = 22 * 60 + 30, gap = 5): Replan {
+  const occs = expand(plan, date, date).filter((o) => o.start);
+  const isTask = (o: Occ) => o.check && !o.done && o.cat !== "lecture";
+  const start0 = Math.ceil(fromMinute / 5) * 5;
+  const fixed = occs.filter((o) => !isTask(o)).map((o) => [toMin(o.start!), toMin(o.start!) + o.minutes] as const);
+  let future = occs.filter((o) => isTask(o) && toMin(o.start!) >= start0);
+  const missed = occs.filter((o) => isTask(o) && toMin(o.start!) < start0)
+    .sort((a, b) => Number(a.prio === "facultatif") - Number(b.prio === "facultatif") || toMin(a.start!) - toMin(b.start!));
+
+  const place = (fut: Occ[]) => {
+    const busy: Array<readonly [number, number]> = [...fixed, ...fut.map((o) => [toMin(o.start!), toMin(o.start!) + o.minutes] as const)];
+    const placed: Array<{ o: Occ; s: number }> = [];
+    const over: Occ[] = [];
+    for (const o of missed) {
+      let s = start0;
+      for (let guard = 0; guard < 80; guard++) {
+        const hit = busy.find(([a, b]) => s < b + gap && s + o.minutes + gap > a);
+        if (!hit) break;
+        s = Math.ceil((hit[1] + gap) / 5) * 5;
+      }
+      if (s + o.minutes > endMin) { over.push(o); continue; }
+      placed.push({ o, s });
+      busy.push([s, s + o.minutes]);
+    }
+    return { placed, over };
+  };
+
+  let res = place(future);
+  const freed: Occ[] = [];
+  while (res.over.some((o) => o.prio !== "facultatif") && future.some((o) => o.prio === "facultatif")) {
+    const last = [...future].sort((a, b) => toMin(b.start!) - toMin(a.start!)).find((o) => o.prio === "facultatif")!;
+    future = future.filter((o) => o !== last);
+    freed.push(last);
+    res = place(future);
+  }
+  let next = plan;
+  const moves: Replan["moves"] = [];
+  for (const { o, s } of res.placed.sort((a, b) => a.s - b.s)) {
+    const to = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    if (to === o.start) continue;
+    next = moveOccurrence(next, o.key, date, to);
+    moves.push({ key: o.key, title: o.title, from: o.start!, to });
+  }
+  const overflow = [...res.over, ...freed].sort((a, b) => toMin(a.start!) - toMin(b.start!));
+  return { plan: next, moves, overflow };
+}

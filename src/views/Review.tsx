@@ -6,6 +6,8 @@ import { computeReview, fmtGoal, type WeekReview } from "../lib/review";
 import { FIRST_WEEK, useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import { Bar } from "../components/common";
+import { sleepStats } from "../lib/coach";
+import { expand } from "../lib/model";
 
 export default function Review({ week }: { week: ISODate }) {
   const plan = useStore((s) => s.plan);
@@ -25,6 +27,10 @@ export default function Review({ week }: { week: ISODate }) {
   const nextWeekDate = (d: ISODate) => (addDays(d, 7) < t ? addDays(t, 1) : addDays(d, 7));
 
   const history = Object.entries(plan.reviews as Record<string, WeekReview>).sort(([a], [b]) => b.localeCompare(a));
+  const sleep = sleepStats(plan, addDays(week, -1), addDays(week, 6));
+  const focusDone = useMemo(() => expand(plan, week, addDays(week, 6)).filter((o) => o.done?.focus), [plan, week]);
+  const focusMin = focusDone.reduce((a, o) => a + o.done!.minutes, 0);
+  const distractions = focusDone.reduce((a, o) => a + (o.done!.distractions ?? 0), 0);
 
   return (
     <div className="review">
@@ -69,6 +75,29 @@ export default function Review({ week }: { week: ISODate }) {
           </table>
         </div>
       </section>
+
+      <div className="grid2">
+        <section className="card">
+          <h3 className="h3">Sommeil</h3>
+          {sleep.logged === 0 ? <p className="muted small">Pas encore de lever / coucher noté cette semaine. Utilise « Je suis levé » le matin et « Bonne nuit » le soir dans la Journée.</p> : (
+            <div className="mini-kpis">
+              <div><span>Coucher moyen</span><b>{sleep.avgBed ?? "—"}</b><small>objectif {plan.prefs.bedTarget}</small></div>
+              <div><span>Lever moyen</span><b>{sleep.avgWake ?? "—"}</b><small>objectif {plan.prefs.wakeTarget}</small></div>
+              <div><span>Sommeil moyen</span><b>{sleep.avgSleep ? fmtDur(sleep.avgSleep) : "—"}</b><small>{sleep.nights} nuit{sleep.nights > 1 ? "s" : ""} complète{sleep.nights > 1 ? "s" : ""}</small></div>
+              <div><span>À l'heure</span><b>{sleep.onTimeBed} / {sleep.onTimeWake}</b><small>couchers / levers</small></div>
+            </div>
+          )}
+        </section>
+        <section className="card">
+          <h3 className="h3">Mode Focus</h3>
+          {focusDone.length === 0 ? <p className="muted small">Aucune séance lancée en mode Focus cette semaine. Bouton ▶ sur n'importe quelle séance.</p> : (
+            <div className="mini-kpis">
+              <div><span>Séances en Focus</span><b>{focusDone.length}</b><small>{fmtDur(focusMin)} au total</small></div>
+              <div><span>Décrochages</span><b>{distractions}</b><small>{(distractions / focusDone.length).toFixed(1).replace(".", ",")} par séance</small></div>
+            </div>
+          )}
+        </section>
+      </div>
 
       {r.goals.length > 0 && (
         <section className="card">

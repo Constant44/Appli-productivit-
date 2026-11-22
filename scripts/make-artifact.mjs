@@ -8,7 +8,7 @@ const styles = grab(/<style[^>]*>[\s\S]*?<\/style>/g);
 const scripts = grab(/<script[^>]*>[\s\S]*?<\/script>/g);
 const fonts = grab(/<link rel="(?:preconnect|stylesheet)" href="https:\/\/fonts\.googleapis\.com[^"]*"[^>]*>/g);
 const page = [
-  "<title>Prépa FC</title>",
+  "<title>Cadence</title>",
   '<meta name="claude:viewport-fit-sides" content="cover">',
   '<meta name="theme-color" content="#0f1522">',
   ...fonts,

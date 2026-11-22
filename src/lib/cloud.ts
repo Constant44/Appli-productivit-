@@ -9,26 +9,20 @@
  *   et les khôlles / DS de ton Google Agenda (document privé inbox-agenda).
  */
 import seed from "../data/seed.json";
-import { upsertExternal, type Activity, type Plan } from "./model";
+import { normalize, upsertExternal, type Activity, type Plan } from "./model";
 import { freezeReviews, useStore, type Content, type QCard, type QSheet, type QuizStats } from "./store";
 
+import { capability, runtime } from "./runtime";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const runtime = () => (window as any).claude as { use: (n: string) => Promise<any> } | undefined;
-async function capability(name: string): Promise<any | null> {
-  try {
-    return (await runtime()?.use(name)) ?? null;
-  } catch {
-    return null;
-  }
-}
 const clone = <T,>(x: T): T => JSON.parse(JSON.stringify(x));
 const device = Math.random().toString(36).slice(2, 8);
 
 type Parts = Record<string, Record<string, unknown>>;
 const split = (plan: Plan, quiz: QuizStats): Parts => ({
-  "p2-plan": { categories: plan.categories, activities: plan.activities, goals: plan.goals },
+  "p2-plan": { categories: plan.categories, activities: plan.activities, goals: plan.goals, prefs: plan.prefs },
   "p2-ex": { overrides: plan.overrides, postponed: plan.postponed },
-  "p2-done": { done: plan.done },
+  "p2-done": { done: plan.done, sleep: plan.sleep },
   "p2-reviews": { reviews: plan.reviews },
   "p2-quiz": { quiz },
 });
@@ -88,10 +82,10 @@ async function pull(first: boolean) {
     const parts = await Promise.all(["p2-plan", "p2-ex", "p2-done", "p2-reviews", "p2-quiz"].map((k) => db.doc(`${root}/${k}`).get()));
     const [pl, ex, dn, rv, qz] = parts.map((p: any) => (p.exists ? clone(p.data()) : {}));
     if (pl.activities) {
-      const plan: Plan = {
-        v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [],
-        overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, reviews: rv.reviews ?? {},
-      };
+      const plan: Plan = normalize({
+        v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
+        overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
+      });
       applying = true;
       useStore.getState().setPlan(plan, remoteAt, qz.quiz ?? local.quiz);
       applying = false;

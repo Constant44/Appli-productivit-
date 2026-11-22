@@ -1,7 +1,9 @@
 /** JOURNÉE : ce que je dois faire aujourd'hui, à quelle heure, ce qui est fait, ce qui reste. */
 import { useMemo } from "react";
-import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib/dates";
+import { addDays, fmtDur, fmtLong, fmtShort, fromMin, nowMin, toMin, today } from "../lib/dates";
 import { expand, overdue, postpone, toggleDone, type Occ } from "../lib/model";
+import { coachLine, essentials, logSleep } from "../lib/coach";
+import { useFocus } from "../lib/focus";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import TimeGrid from "../components/TimeGrid";
@@ -13,6 +15,8 @@ export default function DayView() {
   const go = useStore((s) => s.go);
   const apply = useStore((s) => s.apply);
   const open = useUI((s) => s.open);
+  const startFocus = useFocus((f) => f.start);
+  const focusOn = useFocus((f) => !!f.session);
   const cats = useCats();
   const t = today();
   const isToday = date === t;
@@ -33,6 +37,16 @@ export default function DayView() {
   const current = isToday ? occs.find((o) => o.start && toMin(o.start) <= n && toMin(o.start) + o.minutes > n && o.cat !== "libre") : undefined;
   const next = isToday ? occs.find((o) => o.start && toMin(o.start) > n && (o.check ? !o.done : true)) : undefined;
   const deadlines = useMemo(() => expand(plan, t, addDays(t, 21)).filter((o) => o.deadline), [plan, t]);
+  const top3 = useMemo(() => essentials(plan, date, t), [plan, date, t]);
+  const coach = useMemo(() => (isToday ? coachLine(plan, t) : []), [plan, t, isToday]);
+  // séances d'aujourd'hui déjà dépassées et non faites → proposer de recaler la journée
+  const behind = isToday ? tasks.filter((o) => !o.done && o.start && toMin(o.start) + o.minutes <= n && o.cat !== "lecture") : [];
+  const woke = plan.sleep[t]?.wake;
+  const hour = new Date().getHours();
+  const showMorning = isToday && !woke && hour >= 5 && hour < 15;
+  const showEvening = isToday && n >= toMin(plan.prefs.bedTarget) - 45 && !plan.sleep[t]?.bed;
+  const tomorrowFirst = useMemo(() => expand(plan, addDays(t, 1), addDays(t, 1)).find((o) => o.start && o.cat !== "vie"), [plan, t]);
+  const startable = (o?: Occ) => o && o.check && !o.done && !focusOn;
 
   const Row = ({ o }: { o: Occ }) => {
     const c = cats.get(o.cat);
@@ -45,6 +59,7 @@ export default function DayView() {
           <span className="task-title">{o.title}</span>
           <span className="task-meta"><span className="dot" style={{ background: c?.color }} />{c?.name} · {timeLabel(o)}{o.start ? ` · ${fmtDur(o.minutes)}` : ""}{o.moved ? " · déplacée" : ""}</span>
         </button>
+        {startable(o) && <button className="play" aria-label={`Démarrer ${o.title} en mode Focus`} onClick={() => startFocus(o)}>▶</button>}
       </li>
     );
   };
@@ -71,6 +86,56 @@ export default function DayView() {
           <div><b>{fmtDur(doneMin)}</b><span>sur {fmtDur(plannedMin)}</span></div>
         </div>
 
+        {showMorning && (
+          <div className="checkin">
+            <div>
+              <b>Bonjour. Tu es debout ?</b>
+              <span className="muted small">Objectif : lever à {plan.prefs.wakeTarget}. Note l'heure, ça compte dans ton bilan.</span>
+            </div>
+            <button className="btn primary" onClick={() => apply((p) => logSleep(p, "wake"), `Levé à ${fromMin(nowMin())}`)}>Je suis levé · {fromMin(nowMin())}</button>
+          </div>
+        )}
+
+        {showEvening && (
+          <div className="checkin night">
+            <div>
+              <b>Fin de journée : {done.length}/{tasks.length} séances validées.</b>
+              <span className="muted small">{tomorrowFirst ? `Demain : ${tomorrowFirst.title} à ${tomorrowFirst.start}. ` : ""}Téléphone posé, livre, lumière éteinte à {plan.prefs.bedTarget}.</span>
+            </div>
+            <button className="btn" onClick={() => apply((p) => logSleep(p, "bed"), "Bonne nuit. Téléphone posé.")}>Bonne nuit</button>
+          </div>
+        )}
+
+        {coach.length > 0 && (
+          <div className="coach">
+            {coach.map((l) => <p key={l}>{l}</p>)}
+          </div>
+        )}
+
+        {behind.length > 0 && (
+          <button className="replan-cta" onClick={() => open({ kind: "replan", date: t })}>
+            <span><b>{behind.length} séance{behind.length > 1 ? "s" : ""} dépassée{behind.length > 1 ? "s" : ""}</b> · la journée n'est pas perdue</span>
+            <span className="replan-go">Replanifier la suite →</span>
+          </button>
+        )}
+
+        {top3.length > 0 && (
+          <section className="essentials">
+            <h3 className="h3">Les 3 essentiels</h3>
+            <ol>
+              {top3.map((o, i) => (
+                <li key={o.key} style={{ ["--c" as string]: cats.get(o.cat)?.color }}>
+                  <span className="ess-n">{i + 1}</span>
+                  <button className="ess-body" onClick={() => open({ kind: "item", key: o.key })}>
+                    <b>{o.title}</b><span className="muted small">{timeLabel(o)} · {fmtDur(o.minutes)}</span>
+                  </button>
+                  {startable(o) && <button className="btn sm primary" onClick={() => startFocus(o)}>▶ Démarrer</button>}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
         {isToday && (current || next) && (
           <div className="now-card">
             {current && (
@@ -79,6 +144,9 @@ export default function DayView() {
                 <span className="now-title">{current.title}</span>
                 <span className="now-time">jusqu'à {current.end}</span>
               </button>
+            )}
+            {startable(current) && (
+              <button className="btn primary start-now" onClick={() => startFocus(current!)}>▶ Démarrer maintenant : {current!.title}</button>
             )}
             {next && (
               <button className="now-row" onClick={() => open({ kind: "item", key: next.key })} style={{ ["--c" as string]: cats.get(next.cat)?.color }}>

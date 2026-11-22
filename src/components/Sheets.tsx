@@ -1,7 +1,8 @@
 /** Fenêtres : fiche d'une activité, report, réglages (catégories et objectifs). */
 import { useEffect, useState } from "react";
-import { fmtDur, fmtLong, today } from "../lib/dates";
-import { deleteOccurrence, findOcc, postpone, toggleDone, uid, type Goal, type Scope } from "../lib/model";
+import { addDays, fmtDur, fmtLong, nowMin, today } from "../lib/dates";
+import { deleteOccurrence, findOcc, postpone, replanDay, toggleDone, uid, type Goal, type Scope } from "../lib/model";
+import { useFocus } from "../lib/focus";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import EditSheet from "./EditSheet";
@@ -24,6 +25,8 @@ export default function SheetHost() {
         {sheet.kind === "item" && <ItemSheet k={sheet.key} />}
         {sheet.kind === "postpone" && <PostponeSheet k={sheet.key} />}
         {sheet.kind === "settings" && <SettingsSheet />}
+        {sheet.kind === "replan" && <ReplanSheet date={sheet.date} />}
+        {sheet.kind === "help" && <HelpSheet />}
       </div>
     </div>
   );
@@ -35,6 +38,7 @@ function ItemSheet({ k }: { k: string }) {
   const { open, close } = useUI();
   const cats = useCats();
   const occ = findOcc(plan, k);
+  const startFocus = useFocus((f) => f.start);
   const [del, setDel] = useState(false);
   const [mins, setMins] = useState<number | null>(null);
   if (!occ) return <div className="sheet-body"><p>Cette activité n'existe plus.</p><button className="btn" onClick={close}>Fermer</button></div>;
@@ -64,7 +68,8 @@ function ItemSheet({ k }: { k: string }) {
           ) : (
             <>
               <div className="row gap wrap">
-                <button className="btn primary" onClick={() => { apply((p) => toggleDone(p, k, mins ?? occ.minutes), "Séance validée"); close(); }}>✓ Valider la séance</button>
+                <button className="btn primary" onClick={() => { startFocus(occ); close(); }}>▶ Démarrer en mode Focus</button>
+                <button className="btn" onClick={() => { apply((p) => toggleDone(p, k, mins ?? occ.minutes), "Séance validée"); close(); }}>✓ Déjà faite</button>
                 <label className="inline-field">temps réel
                   <input id="i-mins" className="input sm" type="number" min={0} step={5} value={mins ?? occ.minutes} onChange={(e) => setMins(Number(e.target.value))} /> min
                 </label>
@@ -188,6 +193,68 @@ function SettingsSheet() {
         {cloud.status === "ok" ? "Enregistré dans ton compte : mêmes données sur Mac, iPad et téléphone." : cloud.msg ?? "Synchronisation…"}
       </p>
       <div className="sheet-actions"><span className="grow" /><button className="btn primary" onClick={close}>Fermer</button></div>
+    </div>
+  );
+}
+
+function ReplanSheet({ date }: { date: string }) {
+  const plan = useStore((s) => s.plan);
+  const apply = useStore((s) => s.apply);
+  const close = useUI((s) => s.close);
+  const [from] = useState(nowMin());
+  const r = replanDay(plan, date, from, 22 * 60 + 30);
+  const tomorrow = addDays(date, 1);
+  const go = (withOverflow: boolean) => {
+    apply((p) => {
+      let next = replanDay(p, date, from, 22 * 60 + 30).plan;
+      if (withOverflow) for (const o of r.overflow) next = postpone(next, o.key, tomorrow);
+      return next;
+    }, withOverflow && r.overflow.length ? `Journée recalée, ${r.overflow.length} séance${r.overflow.length > 1 ? "s" : ""} reportée${r.overflow.length > 1 ? "s" : ""} à demain` : "Journée recalée");
+    close();
+  };
+  return (
+    <div className="sheet-body">
+      <h2 className="sheet-title">Replanifier la suite de ma journée</h2>
+      <p className="muted small">À partir de maintenant. Les séances à venir gardent leur créneau ; celles que tu as manquées se glissent dans les trous libres, l'important d'abord. Cours, repas, khôlles et routine du soir ne bougent pas.</p>
+      {r.moves.length === 0 && r.overflow.length === 0 ? <p>Rien à recaler : ta journée tient.</p> : (
+        <>
+          {r.moves.length > 0 && (
+            <ul className="replan">
+              {r.moves.map((m) => <li key={m.key}><span className="rp-from">{m.from}</span><span className="rp-arrow">→</span><b className="rp-to">{m.to}</b><span>{m.title}</span></li>)}
+            </ul>
+          )}
+          {r.overflow.length > 0 && (
+            <div className="replan-over">
+              <b>Ne rentre plus aujourd'hui ({r.overflow.length})</b>
+              <ul>{r.overflow.map((o) => <li key={o.key}>{o.title} <span className="muted">· {fmtDur(o.minutes)}{o.prio === "facultatif" ? " · facultatif" : ""}</span></li>)}</ul>
+            </div>
+          )}
+        </>
+      )}
+      <div className="sheet-actions">
+        <button className="btn ghost" onClick={close}>Annuler</button>
+        <span className="grow" />
+        {r.overflow.length > 0 && <button className="btn" onClick={() => go(false)} disabled={!r.moves.length}>Recaler seulement</button>}
+        <button className="btn primary" onClick={() => go(true)} disabled={!r.moves.length && !r.overflow.length}>
+          {r.overflow.length ? "Recaler + reporter le reste à demain" : "Recaler ma journée"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function HelpSheet() {
+  const close = useUI((s) => s.close);
+  const keys: Array<[string, string]> = [
+    ["J  S  M  A", "Journée, Semaine, Mois, Année"], ["V", "Onglet Vendredi (quiz)"], ["T", "Revenir à aujourd'hui"],
+    ["←  →", "Jour, semaine ou mois précédent / suivant"], ["N", "Ajouter une tâche ou un événement"],
+    ["F", "Démarrer la prochaine séance en mode Focus"], ["R", "Replanifier la suite de la journée"], ["?", "Cette aide"],
+  ];
+  return (
+    <div className="sheet-body">
+      <h2 className="sheet-title">Raccourcis clavier</h2>
+      <ul className="keys">{keys.map(([k, l]) => <li key={k}><kbd>{k}</kbd><span>{l}</span></li>)}</ul>
+      <div className="sheet-actions"><span className="grow" /><button className="btn primary" onClick={close}>OK</button></div>
     </div>
   );
 }

@@ -4,7 +4,7 @@
  */
 import { create } from "zustand";
 import { addDays, mondayOf, today, type ISODate } from "./dates";
-import type { Plan } from "./model";
+import { normalize, type Plan } from "./model";
 import { computeReview, type WeekReview } from "./review";
 import { seedPlan } from "./seed";
 
@@ -25,7 +25,7 @@ const CONTENT_KEY = "pfc2-content";
 const load = (): Saved | null => {
   try {
     const s = JSON.parse(localStorage.getItem(KEY) ?? "null") as Saved | null;
-    return s?.plan?.v === 2 ? s : null;
+    return s?.plan?.v === 2 ? { ...s, plan: normalize(s.plan) } : null;
   } catch {
     return null;
   }

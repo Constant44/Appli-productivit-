@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  replanDay, markDone,
   addActivity, deleteOccurrence, editOccurrence, expand, findOcc, keyOf, moveOccurrence, overdue, postpone, toggleDone, upsertExternal,
   type Activity, type Plan,
 } from "./model";
@@ -13,7 +14,7 @@ const base = (acts: Activity[] = []): Plan => ({
     { id: "sport", name: "Sport", color: "#0f0", tracked: true },
     { id: "cours", name: "Cours", color: "#999", tracked: false },
   ],
-  activities: acts, overrides: {}, done: {}, postponed: [], goals: [], reviews: {},
+  activities: acts, overrides: {}, done: {}, postponed: [], goals: [], reviews: {}, sleep: {}, prefs: { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" },
 });
 // série : maths lundi + jeudi 9 h–10 h à partir du lundi 23/11
 const maths: Activity = { id: "m", title: "Maths", cat: "maths", prio: "important", date: "2026-11-23", start: "09:00", end: "10:00", repeat: { days: [0, 3], every: 1 }, check: true };
@@ -140,5 +141,40 @@ describe("bilan de la semaine", () => {
     const work = week.filter((o) => o.check && !["vie", "lecture", "sport", "anki", "actu"].includes(o.cat)).reduce((s, o) => s + o.minutes, 0) / 60;
     expect(work).toBeGreaterThan(14);
     expect(work).toBeLessThan(24);
+  });
+});
+
+describe("replanifier la journée", () => {
+  const day = "2026-11-23";
+  const T = (id: string, start: string, end: string, prio: Activity["prio"] = "important", extra: Partial<Activity> = {}): Activity =>
+    ({ id, title: id, cat: "maths", prio, date: day, start, end, check: true, ...extra });
+  it("réveillé à 11 h : les séances manquées se recalent après, autour du déjeuner, sans jamais avancer une séance", () => {
+    const p = base([
+      T("a", "09:15", "10:00"), T("b", "10:10", "10:55"),
+      { id: "dej", title: "Déjeuner", cat: "cours", prio: "fixe", date: day, start: "12:30", end: "13:15", check: false },
+      T("c", "13:30", "14:15"), T("d", "17:30", "18:15", "facultatif"),
+    ]);
+    const r = replanDay(p, day, 11 * 60 + 2);
+    const at = (id: string) => findOcc(r.plan, keyOf(id, "1"))!.start;
+    // a dans le trou de 11 h ; b ne tient pas avant le déjeuner ni avant c : il passe après c ; c et d ne bougent pas
+    expect([at("a"), at("b"), at("c"), at("d")]).toEqual(["11:05", "14:20", "13:30", "17:30"]);
+    expect(r.overflow).toHaveLength(0);
+    expect(r.moves.map((m) => m.key)).toEqual(["a@1", "b@1"]);
+  });
+  it("pas assez de place : le prévu à venir tient, le manqué part au report", () => {
+    const p = base([T("a", "09:00", "10:00"), T("opt", "20:00", "21:00", "facultatif"), T("b", "21:00", "22:00")]);
+    const r = replanDay(p, day, 20 * 60 + 30);
+    expect(r.overflow.map((o) => o.id).sort()).toEqual(["a", "opt"].sort());
+    expect(findOcc(r.plan, keyOf("b", "1"))!.start).toBe("21:00");
+  });
+  it("une séance importante manquée prend la place d'une séance facultative à venir", () => {
+    const p = base([T("a", "09:00", "09:45"), T("opt", "18:00", "18:45", "facultatif"), T("b", "19:00", "22:20")]);
+    const r = replanDay(p, day, 17 * 60 + 55);
+    expect(findOcc(r.plan, keyOf("a", "1"))!.start).toBe("17:55");
+    expect(r.overflow.map((o) => o.id)).toEqual(["opt"]);
+  });
+  it("une séance validée en mode Focus garde sa durée réelle et les décrochages", () => {
+    const p = markDone(base([maths]), keyOf("m", "2026-11-23"), 38.4, { focus: true, distractions: 2 });
+    expect(p.done[keyOf("m", "2026-11-23")]).toMatchObject({ minutes: 38, focus: true, distractions: 2 });
   });
 });

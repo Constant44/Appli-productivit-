@@ -7,7 +7,7 @@
  * et le samedi soir, dimanche = gros jour. Coucher visé : 23 h 15 la veille d'un cours à 8 h.
  */
 import type { Activity, Category, Goal, Override, Plan, Prio, Repeat } from "./model";
-import { keyOf } from "./model";
+import { DEFAULT_PREFS, keyOf } from "./model";
 
 export const CATEGORIES: Category[] = [
   { id: "maths", name: "Maths", color: "#2F6BFF", tracked: true },
@@ -229,5 +229,7 @@ export function seedPlan(): Plan {
     postponed: [],
     goals: GOALS.map((g) => ({ ...g })),
     reviews: {},
+    sleep: {},
+    prefs: { ...DEFAULT_PREFS },
   };
 }
