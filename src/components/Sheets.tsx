@@ -1,7 +1,7 @@
 /** Fenêtres : fiche d'une activité, report, réglages (catégories et objectifs). */
 import { useEffect, useState } from "react";
 import { addDays, fmtDur, fmtLong, nowMin, today } from "../lib/dates";
-import { deleteOccurrence, findOcc, postpone, replanDay, toggleDone, uid, type Goal, type Scope } from "../lib/model";
+import { DEFAULT_FOCUS_MUSIC, deleteOccurrence, findOcc, focusMusicUrl, postpone, replanDay, toggleDone, uid, type Goal, type Scope } from "../lib/model";
 import { useFocus } from "../lib/focus";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
@@ -150,6 +150,14 @@ function SettingsSheet() {
   return (
     <div className="sheet-body">
       <h2 className="sheet-title">Réglages</h2>
+
+      <h3 className="h3">Musique du mode Focus</h3>
+      <p className="muted small">Proposée à chaque fois que tu appuies sur ▶ Démarrer (un lien YouTube, Spotify… en https). Vide : pas de musique.</p>
+      <div className="row gap wrap">
+        <input id="set-music" className="input" style={{ flex: "1 1 260px" }} value={plan.prefs.focusMusic ?? DEFAULT_FOCUS_MUSIC} placeholder="https://…"
+          onChange={(e) => apply((p) => ({ ...p, prefs: { ...p.prefs, focusMusic: e.target.value } }))} />
+        {focusMusicUrl(plan.prefs) && <a className="btn sm ghost" href={focusMusicUrl(plan.prefs)} target="_blank" rel="noopener noreferrer">Tester</a>}
+      </div>
 
       <h3 className="h3">Mes horaires de sommeil</h3>
       <SleepScheduleEditor />

@@ -50,3 +50,13 @@ describe("mises à jour envoyées par Claude", () => {
     expect(stepsOf(r.plan, "matin", "2026-11-24").some((s) => s.id === "m-actu")).toBe(false);
   });
 });
+
+describe("musique du mode Focus", async () => {
+  const { focusMusicUrl, DEFAULT_FOCUS_MUSIC, DEFAULT_PREFS } = await import("./model");
+  it("propose ton jazz par défaut, accepte un autre lien https, refuse le reste", () => {
+    expect(focusMusicUrl(DEFAULT_PREFS)).toBe(DEFAULT_FOCUS_MUSIC);
+    expect(focusMusicUrl({ ...DEFAULT_PREFS, focusMusic: "https://open.spotify.com/playlist/x" })).toBe("https://open.spotify.com/playlist/x");
+    expect(focusMusicUrl({ ...DEFAULT_PREFS, focusMusic: "" })).toBeUndefined();
+    expect(focusMusicUrl({ ...DEFAULT_PREFS, focusMusic: "javascript:alert(1)" })).toBeUndefined();
+  });
+});

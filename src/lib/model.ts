@@ -58,7 +58,17 @@ export type Done = { at: string; minutes: number; /** séance faite en mode Focu
 export type Night = { bed?: string; wake?: string };
 /** Horaires de sommeil par jour (0 = lundi) : lever le matin, extinction le soir (absente = soir libre). */
 export type DaySleep = { wake: string; bed?: string };
-export type Prefs = { bedTarget: string; wakeTarget: string; dayEnd: string; schedule?: DaySleep[] };
+export type Prefs = {
+  bedTarget: string; wakeTarget: string; dayEnd: string; schedule?: DaySleep[];
+  /** musique proposée à chaque démarrage du mode Focus (lien https) ; "" = aucune */
+  focusMusic?: string;
+};
+export const DEFAULT_FOCUS_MUSIC = "https://www.youtube.com/watch?v=XGNjC_cKKfI";
+/** Le lien de musique à proposer (seulement un lien https, jamais autre chose). */
+export const focusMusicUrl = (prefs: Prefs): string | undefined => {
+  const u = (prefs.focusMusic ?? DEFAULT_FOCUS_MUSIC).trim();
+  return /^https:\/\/[^\s"'<>]+$/i.test(u) ? u : undefined;
+};
 export const DEFAULT_PREFS: Prefs = { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" };
 export type Postpone = { key: string; from: ISODate; to: ISODate; at: string };
 

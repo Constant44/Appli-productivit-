@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fmtDur, nowMin, toMin, today } from "../lib/dates";
 import { elapsedMs, useFocus } from "../lib/focus";
-import { expand } from "../lib/model";
+import { expand, focusMusicUrl } from "../lib/model";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import { useCats } from "./common";
@@ -19,6 +19,7 @@ export default function FocusOverlay() {
   const minimized = useUI((u) => u.focusMin);
   const setMin = useUI((u) => u.setFocusMin);
   const cats = useCats();
+  const music = focusMusicUrl(plan.prefs);
   const [, tick] = useState(0);
   const [mins, setMins] = useState<number | null>(null);
 
@@ -73,12 +74,19 @@ export default function FocusOverlay() {
         </div>
       )}
 
+      {s.phase === "work" && music && (
+        <a className="focus-music" href={music} target="_blank" rel="noopener noreferrer">
+          <span className="fm-icon" aria-hidden>♫</span>
+          <span><b>Lance ton jazz</b><small>YouTube · s'ouvre à côté, reviens ici ensuite</small></span>
+        </a>
+      )}
+
       <h2 className="focus-title">{s.phase === "break" ? (next ? `Ensuite : ${next.title}` : "Pause méritée") : s.title}</h2>
       {s.phase === "work" && s.notes && <p className="focus-notes">{s.notes}</p>}
 
       {s.phase === "work" && (
         <>
-          <p className="focus-rule">Téléphone sur le lit, face cachée. Une seule chose : celle-ci.</p>
+          <p className="focus-rule">Téléphone dans une autre pièce. Une seule chose : celle-ci.</p>
           <div className="focus-actions">
             <button className="btn big ghost" onClick={() => f.distract()}>J'ai décroché <span className="count">{s.distractions}</span></button>
             {s.pausedAt ? <button className="btn big" onClick={() => f.resume()}>Reprendre</button> : <button className="btn big" onClick={() => f.pause()}>Pause</button>}

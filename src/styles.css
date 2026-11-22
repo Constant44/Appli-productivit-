@@ -658,3 +658,9 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
   .se-lab { display: inline-block; width: 70px; }
 }
 .rt-dark { color: #ffd21f; font-weight: 500; }
+.focus-music { display: inline-flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 99px; text-decoration: none; color: var(--fg);
+  border: 1px solid color-mix(in srgb, var(--c) 60%, var(--line)); background: color-mix(in srgb, var(--c) 16%, var(--panel)); text-align: left; }
+.focus-music:hover { background: color-mix(in srgb, var(--c) 26%, var(--panel)); }
+.fm-icon { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--on-accent); font-size: 18px; font-weight: 700; flex: none; }
+.focus-music span:last-child { display: flex; flex-direction: column; }
+.focus-music small { color: var(--muted); font-size: 12px; }
