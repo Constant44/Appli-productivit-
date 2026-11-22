@@ -8,7 +8,7 @@ import { useUI } from "../lib/ui";
 import EditSheet from "./EditSheet";
 import { CopySheet } from "../views/Grades";
 import { CatDot, PRIO_LABEL, quickDates, timeLabel, useCats } from "./common";
-import { RoutineEditor } from "./RoutineCards";
+import { RoutineEditor, SleepScheduleEditor } from "./RoutineCards";
 import RunLogSheet from "./RunLogSheet";
 
 export default function SheetHost() {
@@ -150,6 +150,9 @@ function SettingsSheet() {
   return (
     <div className="sheet-body">
       <h2 className="sheet-title">Réglages</h2>
+
+      <h3 className="h3">Mes horaires de sommeil</h3>
+      <SleepScheduleEditor />
 
       <h3 className="h3">Routines du matin et du soir</h3>
       <p className="muted small">Le matin part de ton lever du jour (début de « Routine du matin »), le soir de l'extinction (fin de la lecture). Les étapes liées au sommeil et à la lecture se gardent ; tu peux changer leur texte et leur minute.</p>

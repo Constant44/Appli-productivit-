@@ -9,8 +9,8 @@
  * Après l'étape « Écrans coupés », plus rien ne se coche à l'écran : l'heure d'extinction et la lecture
  * se notent le lendemain matin, dans la routine du matin.
  */
-import { addDays, fromMin, toMin, type ISODate } from "./dates";
-import { expand, type Plan } from "./model";
+import { addDays, fromMin, toMin, weekday, type ISODate } from "./dates";
+import { expand, type Activity, type DaySleep, type Plan } from "./model";
 import { DEFAULT_ROUTINES, type RoutineKind, type RoutineStep } from "./routineDefaults";
 
 export { DEFAULT_ROUTINES };
@@ -21,17 +21,93 @@ const isMorningRoutine = (title: string) => /^routine du matin/i.test(title);
 /** Heure de lever prévue le jour `d`. */
 export function wakeAt(plan: Plan, d: ISODate): string {
   const o = expand(plan, d, d).find((x) => x.start && x.cat === "vie" && isMorningRoutine(x.title));
-  return o?.start ?? plan.prefs.wakeTarget;
+  return o?.start ?? plan.prefs.schedule?.[weekday(d)]?.wake ?? plan.prefs.wakeTarget;
 }
 
 /** La séance de lecture du soir `night`, s'il y en a une. */
 export const lectureOcc = (plan: Plan, night: ISODate) => expand(plan, night, night).find((x) => x.cat === "lecture" && x.end);
 
 /** Heure d'extinction prévue le soir `night`. */
-export const lightsOut = (plan: Plan, night: ISODate): string => lectureOcc(plan, night)?.end ?? plan.prefs.bedTarget;
+export const lightsOut = (plan: Plan, night: ISODate): string =>
+  lectureOcc(plan, night)?.end ?? plan.prefs.schedule?.[weekday(night)]?.bed ?? plan.prefs.bedTarget;
 
-/** Soir cadré : le lendemain commence tôt (lever avant 9 h). */
-export const eveningExpected = (plan: Plan, night: ISODate) => toMin(wakeAt(plan, addDays(night, 1))) <= 9 * 60;
+/** Soir cadré : une heure d'extinction est fixée ce soir-là (sinon, sans horaires réglés : le lendemain commence avant 9 h). */
+export const eveningExpected = (plan: Plan, night: ISODate) =>
+  plan.prefs.schedule ? !!plan.prefs.schedule[weekday(night)]?.bed : toMin(wakeAt(plan, addDays(night, 1))) <= 9 * 60;
+
+/* ------------------------------------------------------------------ horaires de sommeil */
+
+export const DAY_NAMES = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+
+/** Les horaires actuels, jour par jour (lus dans le planning si tu ne les as jamais réglés). */
+export function currentSchedule(plan: Plan, today: ISODate): DaySleep[] {
+  if (plan.prefs.schedule?.length === 7) return plan.prefs.schedule.map((x) => ({ ...x }));
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = addDays(today, (i - weekday(today) + 7) % 7);
+    return { wake: wakeAt(plan, d), bed: eveningExpected(plan, d) ? lightsOut(plan, d) : undefined };
+  });
+}
+
+/** Durée de la nuit qui finit le matin du jour i (extinction de la veille → lever). */
+export function nightLength(s: DaySleep[], i: number): number | undefined {
+  const bed = s[(i + 6) % 7].bed;
+  return bed ? (toMin(s[i].wake) - toMin(bed) + 1440) % 1440 : undefined;
+}
+
+const hFmt = (hm: string) => hm.replace(":", " h ").replace(/ h 00$/, " h");
+
+/**
+ * Appliquer de nouveaux horaires à partir de `from` : les routines du matin et les lectures du soir passées
+ * sont gardées telles quelles (historique), les suivantes sont recréées aux nouvelles heures.
+ */
+export function applySchedule(plan: Plan, sched: DaySleep[], from: ISODate): Plan {
+  let until = "2027-04-03";
+  const isWake = (a: Activity) => !!a.repeat && a.cat === "vie" && isMorningRoutine(a.title);
+  const isRead = (a: Activity) => !!a.repeat && a.cat === "lecture";
+  const activities: Activity[] = [];
+  const stop = addDays(from, -1);
+  for (const a of plan.activities) {
+    if (!isWake(a) && !isRead(a)) {
+      activities.push(a);
+      continue;
+    }
+    if (a.repeat!.until && a.repeat!.until > until) until = a.repeat!.until;
+    if (a.date >= from) continue; // pas encore commencée : remplacée
+    activities.push({ ...a, repeat: { ...a.repeat!, until: a.repeat!.until && a.repeat!.until < stop ? a.repeat!.until : stop } });
+  }
+  const groups = (pick: (x: DaySleep) => string | undefined) => {
+    const m = new Map<string, number[]>();
+    sched.forEach((x, i) => {
+      const t = pick(x);
+      if (t) m.set(t, [...(m.get(t) ?? []), i]);
+    });
+    return [...m.entries()];
+  };
+  for (const [t, days] of groups((x) => x.wake)) {
+    activities.push({
+      id: `wake-${from}-${t.replace(":", "")}`, title: "Routine du matin", cat: "vie", prio: "important", date: from,
+      start: t, end: fromMin(Math.min(toMin(t) + 30, 1439)), check: false, source: "user", repeat: { days, every: 1, until },
+    });
+  }
+  for (const [t, days] of groups((x) => x.bed)) {
+    activities.push({
+      id: `read-${from}-${t.replace(":", "")}`, title: `Lecture au lit (livre papier) · extinction ${hFmt(t)}`, cat: "lecture", prio: "important", date: from,
+      start: fromMin(Math.max(0, toMin(t) - 30)), end: t, check: true, source: "user", repeat: { days, every: 1, until },
+      notes: `Téléphone en charge loin du lit depuis ${fromMin(Math.max(0, toMin(t) - 45))}, réveil à l'autre bout de la chambre. Pas d'écran.`,
+    });
+  }
+  const beds = sched.map((x) => x.bed).filter((x): x is string => !!x);
+  const common = [...beds].sort((a, b) => beds.filter((x) => x === b).length - beds.filter((x) => x === a).length)[0];
+  return { ...plan, activities, prefs: { ...plan.prefs, schedule: sched.map((x) => ({ ...x })), bedTarget: common ?? plan.prefs.bedTarget } };
+}
+
+/** Noter l'heure réelle du lever (« j'étais debout à 12 h ») et cocher l'étape « Debout ». */
+export function reportWake(plan: Plan, date: ISODate, hhmm: string): Plan {
+  const iso = new Date(`${date}T${hhmm}:00`).toISOString();
+  const up = plan.routines.matin.find((s) => s.action === "wake");
+  const next: Plan = { ...plan, sleep: { ...plan.sleep, [date]: { ...(plan.sleep[date] ?? {}), wake: iso } } };
+  return up ? setChecked(next, date, "matin", up.id, true) : next;
+}
 
 /** Heure d'une étape (anchor ± minutes), sur 24 h. */
 export const stepClock = (anchor: string, at: number) => fromMin((((toMin(anchor) + at) % 1440) + 1440) % 1440);

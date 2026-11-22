@@ -120,3 +120,39 @@ describe("migrations et corrections", () => {
     expect(isUngraded({ cat: "micro", kind: "DS" })).toBe(false);
   });
 });
+
+describe("horaires de sommeil réglables", async () => {
+  const { applySchedule, currentSchedule, nightLength, reportWake } = await import("./routine");
+  it("lit les horaires actuels du planning, puis les applique sans toucher au passé", () => {
+    let p = plan();
+    const cur = currentSchedule(p, "2026-11-22");
+    expect(cur.map((d) => d.wake)).toEqual(["08:00", "07:15", "07:15", "08:00", "07:15", "10:00", "10:00"]);
+    expect(cur[4].bed).toBeUndefined(); // vendredi soir libre
+    expect(cur[6].bed).toBe("23:15"); // dimanche soir
+    expect(nightLength(cur, 0)).toBe(8 * 60 + 45); // dimanche 23 h 15 → lundi 8 h
+
+    // lecture validée lundi 23/11 avant le changement : doit rester
+    const lec = lectureOcc(p, "2026-11-23")!;
+    p = reportLecture(p, "2026-11-23", true);
+    const sched = cur.map((_, i) => ({ wake: i < 5 ? "07:30" : "09:30", bed: i === 4 || i === 5 ? undefined : "23:00" }));
+    p = applySchedule(p, sched, "2026-11-25");
+    expect(p.done[lec.key]).toBeTruthy();
+    expect(lectureOcc(p, "2026-11-23")!.end).toBe("23:15"); // passé intact
+    expect(wakeAt(p, "2026-11-24")).toBe("07:15"); // mardi 24 : avant le changement
+    expect(wakeAt(p, "2026-11-26")).toBe("07:30");
+    expect(wakeAt(p, "2026-11-28")).toBe("09:30");
+    expect(lightsOut(p, "2026-11-25")).toBe("23:00");
+    expect(eveningExpected(p, "2026-11-27")).toBe(false); // vendredi libre
+    expect(eveningExpected(p, "2026-11-25")).toBe(true); // mercredi soir : lecture créée
+    expect(lectureOcc(p, "2026-11-25")!.start).toBe("22:30");
+    // une seule routine du matin par jour, même en appliquant deux fois
+    p = applySchedule(p, sched, "2026-11-25");
+    expect(expand(p, "2026-11-26", "2026-11-26").filter((o) => /^Routine du matin/.test(o.title))).toHaveLength(1);
+  });
+
+  it("on peut noter l'heure réelle du lever après coup", () => {
+    const p = reportWake(plan(), "2026-11-22", "12:00");
+    expect(new Date(p.sleep["2026-11-22"].wake!).getTime()).toBe(new Date(2026, 10, 22, 12, 0).getTime());
+    expect(isDone(p, "2026-11-22", "matin", "m-up")).toBe(true);
+  });
+});

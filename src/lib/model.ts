@@ -56,7 +56,9 @@ export type Override = OccFields & { date?: ISODate; deleted?: boolean };
 export type Done = { at: string; minutes: number; /** séance faite en mode Focus : décrochages comptés */ focus?: boolean; distractions?: number };
 /** Nuit du jour J : coucher (souvent après minuit) et lever du lendemain matin, en ISO. */
 export type Night = { bed?: string; wake?: string };
-export type Prefs = { bedTarget: string; wakeTarget: string; dayEnd: string };
+/** Horaires de sommeil par jour (0 = lundi) : lever le matin, extinction le soir (absente = soir libre). */
+export type DaySleep = { wake: string; bed?: string };
+export type Prefs = { bedTarget: string; wakeTarget: string; dayEnd: string; schedule?: DaySleep[] };
 export const DEFAULT_PREFS: Prefs = { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" };
 export type Postpone = { key: string; from: ISODate; to: ISODate; at: string };
 

@@ -639,3 +639,21 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .garmin-grid > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .garmin-steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 5px; font-size: 13.5px; }
 .garmin-steps li::marker { color: var(--course); font-weight: 700; }
+.rt-late { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 10px; border-radius: var(--r-sm); background: #ff7a1a1c; border: 1px solid #ff7a1a55; }
+.rt-drift { margin: 0; padding: 8px 10px; border-radius: var(--r-sm); background: #ffd21f14; border: 1px solid #ffd21f44; font-weight: 600; font-size: 13.5px; }
+.rt-drift.hot { background: #ff3b4e1c; border-color: #ff3b4e66; }
+.rt-go { display: flex; flex-direction: column; gap: 3px; text-align: left; padding: 12px 14px; border-radius: var(--r); border: 1px solid #2f6bff88; background: #2f6bff22; color: var(--fg); font: inherit; }
+.rt-go:hover { background: #2f6bff33; }
+.rt-go b { font-family: var(--display); }
+.sleep-edit { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.se-head, .se-row { display: grid; grid-template-columns: 92px 112px minmax(0, 1fr) 150px; gap: 8px; align-items: center; }
+.se-row { padding: 4px 0; border-top: 1px solid var(--line); }
+.se-row .input.sm { width: 108px; }
+.se-cell { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.se-lab { display: none; }
+.se-free { display: inline-block; width: 108px; }
+@media (max-width: 560px) {
+  .se-head { display: none; }
+  .se-row { grid-template-columns: 1fr; gap: 6px; padding: 8px 0; }
+  .se-lab { display: inline-block; width: 70px; }
+}
