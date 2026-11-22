@@ -10,6 +10,8 @@
 import { addDays, daysBetween, inHolidays, mondayOf, range, toMin, weekday, type ISODate } from "./dates";
 import type { Copy } from "./grades";
 import { DEFAULT_ROUTINES, type RoutineLog, type Routines } from "./routineDefaults";
+import type { RunState } from "./run";
+import { adaptGym, RUN_CATEGORY, RUN_GOAL, runSeries } from "./runSetup";
 
 export type Prio = "fixe" | "important" | "facultatif";
 export type Scope = "one" | "following" | "all";
@@ -87,6 +89,8 @@ export type Plan = {
   routines: Routines;
   /** étapes cochées, par jour (matin) ou par soir */
   routineLog: RoutineLog;
+  /** course à pied : journal des sorties du programme */
+  run: RunState;
 };
 
 /** Titres et notes corrigés depuis la première version (appliqués seulement si tu n'y as pas touché). */
@@ -111,8 +115,22 @@ function migrateActivity(a: Activity): Activity {
   return a;
 }
 
+/** Première ouverture avec la course à pied : catégorie, objectif, 3 sorties par semaine, Basic-Fit après la course. */
+function addRunning(p: Plan): Plan {
+  if (p.run) return p;
+  const ids = new Set((p.activities ?? []).map((a) => a.id));
+  return {
+    ...p,
+    run: { log: [] },
+    categories: (p.categories ?? []).some((c) => c.id === RUN_CATEGORY.id) ? p.categories : [...(p.categories ?? []), { ...RUN_CATEGORY }],
+    activities: [...(p.activities ?? []).map(adaptGym), ...runSeries().filter((a) => !ids.has(a.id))],
+    goals: (p.goals ?? []).some((g) => g.id === RUN_GOAL.id) ? p.goals : [...(p.goals ?? []), { ...RUN_GOAL }],
+  };
+}
+
 /** Complète un plan enregistré par une version antérieure. */
-export const normalize = (p: Plan): Plan => ({
+export const normalize = (p0: Plan): Plan => normalizeBase(addRunning(p0));
+const normalizeBase = (p: Plan): Plan => ({
   ...p, sleep: p.sleep ?? {}, prefs: { ...DEFAULT_PREFS, ...(p.prefs ?? {}) }, postponed: p.postponed ?? [], reviews: p.reviews ?? {},
   copies: p.copies ?? [],
   // la tirelire PS5 a été retirée à ta demande

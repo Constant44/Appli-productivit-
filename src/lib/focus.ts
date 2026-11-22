@@ -5,6 +5,7 @@
 import { create } from "zustand";
 import { cancelAlarm, logBlock, scheduleAlarm } from "./calendar";
 import { findOcc, markDone, type Occ } from "./model";
+import { useRun } from "./runSession";
 import { useStore } from "./store";
 
 export type FocusPhase = "work" | "review" | "break";
@@ -63,6 +64,11 @@ export const useFocus = create<F>((set, get) => {
   return {
     session: load(),
     start: (o) => {
+      // une séance de course se lance dans le mode course guidé
+      if (o.cat === "course") {
+        useRun.getState().start(o);
+        return;
+      }
       const plannedMin = Math.max(5, Math.min(o.minutes || 45, 90));
       const s: FocusSession = { key: o.key, title: o.title, cat: o.cat, notes: o.notes, phase: "work", plannedMin, startedAt: Date.now(), pausedMs: 0, distractions: 0 };
       put(s);

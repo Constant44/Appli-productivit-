@@ -71,7 +71,7 @@ function ItemSheet({ k }: { k: string }) {
           ) : (
             <>
               <div className="row gap wrap">
-                <button className="btn primary" onClick={() => { startFocus(occ); close(); }}>▶ Démarrer en mode Focus</button>
+                <button className="btn primary" onClick={() => { startFocus(occ); close(); }}>{occ.cat === "course" ? "▶ Lancer la séance de course guidée" : "▶ Démarrer en mode Focus"}</button>
                 <button className="btn" onClick={() => { apply((p) => toggleDone(p, k, mins ?? occ.minutes), "Séance validée"); close(); }}>✓ Déjà faite</button>
                 <label className="inline-field">temps réel
                   <input id="i-mins" className="input sm" type="number" min={0} step={5} value={mins ?? occ.minutes} onChange={(e) => setMins(Number(e.target.value))} /> min
@@ -253,14 +253,24 @@ function ReplanSheet({ date }: { date: string }) {
 function HelpSheet() {
   const close = useUI((s) => s.close);
   const keys: Array<[string, string]> = [
-    ["J  S  M  A", "Journée, Semaine, Mois, Année"], ["V", "Onglet Vendredi (quiz)"], ["T", "Revenir à aujourd'hui"],
+    ["J  S  M  A", "Journée, Semaine, Mois, Année"], ["C", "Onglet Course"], ["V", "Onglet Vendredi (quiz)"], ["T", "Revenir à aujourd'hui"],
     ["←  →", "Jour, semaine ou mois précédent / suivant"], ["N", "Ajouter une tâche ou un événement"],
     ["F", "Démarrer la prochaine séance en mode Focus"], ["R", "Replanifier la suite de la journée"], ["?", "Cette aide"],
   ];
   return (
     <div className="sheet-body">
-      <h2 className="sheet-title">Raccourcis clavier</h2>
+      <h2 className="sheet-title">Aide</h2>
+      <h3 className="h3">Raccourcis clavier (Mac)</h3>
       <ul className="keys">{keys.map(([k, l]) => <li key={k}><kbd>{k}</kbd><span>{l}</span></li>)}</ul>
+
+      <h3 className="h3">Cadence sur l'écran d'accueil (iPhone)</h3>
+      <ol className="howto">
+        <li>Enregistre l'icône de Cadence dans tes Photos (je te l'ai envoyée dans la conversation).</li>
+        <li>App <b>Raccourcis</b> → <b>+</b> → <b>Ajouter une action</b> → « Ouvrir les URL » → colle le lien de Cadence.</li>
+        <li>Touche <b>ⓘ</b> (ou la flèche en haut) → <b>Sur l'écran d'accueil</b>.</li>
+        <li>Touche l'icône → <b>Choisir une photo</b> → l'icône Cadence. Nom : « Cadence » → <b>Ajouter</b>.</li>
+      </ol>
+      <p className="muted small">Plus simple mais avec une icône générique : dans Safari, bouton Partager → « Sur l'écran d'accueil ».</p>
       <div className="sheet-actions"><span className="grow" /><button className="btn primary" onClick={close}>OK</button></div>
     </div>
   );

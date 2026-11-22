@@ -170,7 +170,7 @@ export function CopySheet({ id, cat }: { id?: string; cat?: string }) {
       <div className="field">
         <span>Matière</span>
         <div className="chips">
-          {plan.categories.filter((x) => x.tracked && !["anki", "sport", "lecture", "actu"].includes(x.id)).map((x) => (
+          {plan.categories.filter((x) => x.tracked && !["anki", "sport", "course", "lecture", "actu"].includes(x.id)).map((x) => (
             <button type="button" key={x.id} className={`chip ${c.cat === x.id ? "on" : ""}`} style={{ ["--c" as string]: x.color }} onClick={() => up(x.id === "synthese" ? { cat: x.id, kind: "Synthèse" } : { cat: x.id, kind: c.kind === "Synthèse" ? "DS" : c.kind })}><span className="dot" style={{ background: x.color }} />{x.name}</button>
           ))}
         </div>

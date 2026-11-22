@@ -4,6 +4,8 @@ import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib
 import { expand, overdue, postpone, toggleDone, type Occ } from "../lib/model";
 import { coachLine, essentials } from "../lib/coach";
 import { useFocus } from "../lib/focus";
+import { nextSession, sessionOf } from "../lib/run";
+import { useRun } from "../lib/runSession";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import TimeGrid from "../components/TimeGrid";
@@ -18,8 +20,10 @@ export default function DayView() {
   const open = useUI((s) => s.open);
   const startFocus = useFocus((f) => f.start);
   const focusOn = useFocus((f) => !!f.session);
+  const runOn = useRun((r) => !!r.active);
   const cats = useCats();
   const t = today();
+  const nextRun = useMemo(() => nextSession(plan.run, t), [plan.run, t]);
   const isToday = date === t;
 
   const occs = useMemo(() => expand(plan, date, date), [plan, date]);
@@ -43,7 +47,7 @@ export default function DayView() {
   // séances d'aujourd'hui déjà dépassées et non faites → proposer de recaler la journée
   const behind = isToday ? tasks.filter((o) => !o.done && o.start && toMin(o.start) + o.minutes <= n && o.cat !== "lecture") : [];
   const routine = isToday ? routineNow(plan, t, n) : null;
-  const startable = (o?: Occ) => o && o.check && !o.done && !focusOn;
+  const startable = (o?: Occ) => o && o.check && !o.done && !focusOn && !runOn;
 
   const Row = ({ o }: { o: Occ }) => {
     const c = cats.get(o.cat);
@@ -55,6 +59,7 @@ export default function DayView() {
         <button className="task-body" onClick={() => open({ kind: "item", key: o.key })}>
           <span className="task-title">{o.title}</span>
           <span className="task-meta"><span className="dot" style={{ background: c?.color }} />{c?.name} · {timeLabel(o)}{o.start ? ` · ${fmtDur(o.minutes)}` : ""}{o.moved ? " · déplacée" : ""}</span>
+          {o.cat === "course" && !o.done && <span className="task-meta run-meta">Séance {nextRun.n} : {sessionOf(nextRun.n).label}</span>}
         </button>
         {startable(o) && <button className="play" aria-label={`Démarrer ${o.title} en mode Focus`} onClick={() => startFocus(o)}>▶</button>}
       </li>

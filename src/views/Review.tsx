@@ -9,6 +9,7 @@ import { Bar } from "../components/common";
 import { sleepStats } from "../lib/coach";
 import { expand } from "../lib/model";
 import { CopiesSection, GradesSection } from "./Grades";
+import { nextSession } from "../lib/run";
 
 export default function Review({ week }: { week: ISODate }) {
   const plan = useStore((s) => s.plan);
@@ -32,6 +33,8 @@ export default function Review({ week }: { week: ISODate }) {
   const focusDone = useMemo(() => expand(plan, week, addDays(week, 6)).filter((o) => o.done?.focus), [plan, week]);
   const focusMin = focusDone.reduce((a, o) => a + o.done!.minutes, 0);
   const distractions = focusDone.reduce((a, o) => a + (o.done!.distractions ?? 0), 0);
+  const weekRuns = plan.run.log.filter((l) => l.date >= week && l.date <= addDays(week, 6));
+  const nextRun = nextSession(plan.run, t).n;
 
   return (
     <div className="review">
@@ -89,6 +92,15 @@ export default function Review({ week }: { week: ISODate }) {
               <div><span>Lever moyen</span><b>{sleep.avgWake ?? "—"}</b><small>objectif : ta routine du jour</small></div>
               <div><span>Sommeil moyen</span><b>{sleep.avgSleep ? fmtDur(sleep.avgSleep) : "—"}</b><small>{sleep.nights} nuit{sleep.nights > 1 ? "s" : ""} complète{sleep.nights > 1 ? "s" : ""}</small></div>
               <div><span>À l'heure</span><b>{sleep.onTimeBed} / {sleep.onTimeWake}</b><small>couchers / levers</small></div>
+            </div>
+          )}
+        </section>
+        <section className="card">
+          <h3 className="h3">Course à pied</h3>
+          {weekRuns.length === 0 ? <p className="muted small">Aucune sortie cette semaine. Onglet Course : la prochaine séance est la {nextRun}.</p> : (
+            <div className="mini-kpis">
+              <div><span>Sorties</span><b>{weekRuns.length}/3</b><small>{weekRuns.filter((l) => l.completed && l.feel < 4).length} réussie{weekRuns.filter((l) => l.completed && l.feel < 4).length > 1 ? "s" : ""}</small></div>
+              <div><span>Couru</span><b>{fmtDur(Math.round(weekRuns.reduce((a, l) => a + l.runSec, 0) / 60))}</b><small>prochaine : séance {nextRun}</small></div>
             </div>
           )}
         </section>

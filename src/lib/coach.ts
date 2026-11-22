@@ -4,6 +4,7 @@
 import { addDays, daysBetween, fmtDur, fromMin, toMin, type ISODate } from "./dates";
 import { expand, type Occ, type Plan } from "./model";
 import { lightsOut, wakeAt } from "./routine";
+import { nextSession, sessionOf } from "./run";
 
 export { logSleep, nightOf } from "./routine";
 
@@ -66,6 +67,11 @@ export function coachLine(plan: Plan, today: ISODate): string[] {
     const when = first.inDays === 0 ? "aujourd'hui" : first.inDays === 1 ? "demain" : `dans ${first.inDays} j`;
     const cat = first.cat ? plan.categories.find((c) => c.id === first.cat)?.name : undefined;
     out.push(`${first.occ.title} ${when}${cat ? ` : ${cat.toLowerCase() === "maths" ? "les maths passent" : `${cat} passe`} en premier.` : "."}`);
+  }
+  const run = expand(plan, today, today).find((o) => o.cat === "course" && !o.done);
+  if (run) {
+    const n = nextSession(plan.run, today).n;
+    out.push(`Course ${run.start ? `à ${run.start}` : "aujourd'hui"} : séance ${n}, ${sessionOf(n).label}.`);
   }
   const y = addDays(today, -1);
   const yOcc = expand(plan, y, y).filter((o) => o.check);

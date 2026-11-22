@@ -9,6 +9,7 @@
 import type { Activity, Category, Goal, Override, Plan, Prio, Repeat } from "./model";
 import { DEFAULT_PREFS, keyOf } from "./model";
 import { DEFAULT_ROUTINES } from "./routineDefaults";
+import { RUN_CATEGORY, RUN_GOAL, runSeries } from "./runSetup";
 
 export const CATEGORIES: Category[] = [
   { id: "maths", name: "Maths", color: "#2F6BFF", tracked: true },
@@ -21,6 +22,7 @@ export const CATEGORIES: Category[] = [
   { id: "actu", name: "Actu · mots · persos", color: "#9B7BFF", tracked: true },
   { id: "anki", name: "Anki", color: "#E86BF0", tracked: true },
   { id: "sport", name: "Sport", color: "#4ADE52", tracked: true },
+  { ...RUN_CATEGORY },
   { id: "lecture", name: "Lecture", color: "#F2C894", tracked: true },
   { id: "cours", name: "Cours", color: "#6B7A99", tracked: false },
   { id: "eval", name: "Khôlles · DS · rendus", color: "#FF3B4E", tracked: false },
@@ -83,7 +85,7 @@ export const WEEK_TEMPLATE: Activity[] = [
   S("Synthèse EDHEC", "synthese", "important", [LU], "13:30", "14:15"),
   S("Macro · éco monétaire : fiche du dernier cours", "macro", "important", [LU], "14:25", "15:10"),
   S("Anki : toutes les cartes dues", "anki", "important", [LU], "15:20", "15:50"),
-  S("Sport : Basic-Fit (vélo compris)", "sport", "important", [LU], "16:15", "17:15", { notes: "45 min sur place. Pas de course." }),
+  S("Sport : Basic-Fit renfo (après la course)", "sport", "important", [LU], "16:55", "17:30", { notes: "Juste après ta séance de course. 35 min de renfo." }),
   S("Espagnol : vocabulaire + grammaire", "espagnol", "facultatif", [LU], "17:30", "18:15"),
 
   // ---------- MARDI : cours 8 h–17 h (khôlles souvent 17 h–19 h)
@@ -104,7 +106,7 @@ export const WEEK_TEMPLATE: Activity[] = [
   S("Micro : exercices", "micro", "important", [JE], "11:30", "12:00"),
   S("Anglais : thème / version", "anglais", "important", [JE], "13:15", "14:00"),
   S("Gestion : reprendre le cours", "gestion", "important", [JE], "14:10", "14:55"),
-  S("Sport : Basic-Fit", "sport", "important", [JE], "15:30", "16:30"),
+  S("Sport : Basic-Fit renfo (après la course)", "sport", "important", [JE], "16:10", "16:50", { notes: "Juste après ta séance de course. 40 min de renfo." }),
   S("Anki : toutes les cartes dues", "anki", "important", [JE], "17:00", "17:30"),
   S("Révision test d'actu : actu de la semaine + mots / persos (onglet Vendredi)", "actu", "important", [JE], "20:00", "21:15"),
 
@@ -220,6 +222,7 @@ export const GOALS: Goal[] = [
   { id: "g-anki", label: "Anki", cat: "anki", unit: "séances", target: 7, period: "semaine" },
   { id: "g-actu", label: "Actu (lecture + révision jeudi)", cat: "actu", unit: "séances", target: 6, period: "semaine" },
   { id: "g-sport", label: "Sport", cat: "sport", unit: "séances", target: 3, period: "semaine" },
+  { ...RUN_GOAL },
   { id: "g-lecture", label: "Soirs sans téléphone + lecture", cat: "lecture", unit: "séances", target: 4, period: "semaine" },
 ];
 
@@ -228,7 +231,7 @@ export function seedPlan(): Plan {
   return {
     v: 2,
     categories: CATEGORIES.map((c) => ({ ...c })),
-    activities: [...template, ...DEADLINES, ...TASKS],
+    activities: [...template, ...runSeries(), ...DEADLINES, ...TASKS],
     overrides: adjustments(template),
     done: {},
     postponed: [],
@@ -239,5 +242,6 @@ export function seedPlan(): Plan {
     copies: [],
     routines: structuredClone(DEFAULT_ROUTINES),
     routineLog: {},
+    run: { log: [] },
   };
 }

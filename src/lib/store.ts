@@ -14,7 +14,7 @@ export type QSheet = { id: string; kind: "mot" | "bio"; title: string; body: str
 export type QuizStats = Record<string, { ok: number; ko: number; last: string }>;
 export type Content = { cards: QCard[]; sheets: QSheet[]; fallen: string[]; actuDays: Array<{ id: string; title: string }>; grades?: Grade[]; gradesAt?: string };
 
-export type View = "jour" | "semaine" | "mois" | "annee" | "vendredi";
+export type View = "jour" | "semaine" | "mois" | "annee" | "vendredi" | "course";
 export type Toast = { id: number; text: string; undo?: boolean; tone?: "ok" | "info" | "warn" };
 export type CloudState = { status: "local" | "sync" | "ok" | "error"; msg?: string; at?: number };
 

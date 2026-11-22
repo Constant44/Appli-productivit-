@@ -23,7 +23,7 @@ type Parts = Record<string, Record<string, unknown>>;
 const split = (plan: Plan, quiz: QuizStats): Parts => ({
   "p2-plan": { categories: plan.categories, activities: plan.activities, goals: plan.goals, prefs: plan.prefs, routines: plan.routines },
   "p2-ex": { overrides: plan.overrides, postponed: plan.postponed },
-  "p2-done": { done: plan.done, sleep: plan.sleep, routineLog: plan.routineLog },
+  "p2-done": { done: plan.done, sleep: plan.sleep, routineLog: plan.routineLog, run: plan.run },
   "p2-reviews": { reviews: plan.reviews },
   "p2-copies": { copies: plan.copies },
   "p2-quiz": { quiz },
@@ -87,7 +87,7 @@ async function pull(first: boolean) {
       const plan: Plan = normalize({
         v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
         overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
-        copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {},
+        copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run,
       });
       applying = true;
       useStore.getState().setPlan(plan, remoteAt, qz.quiz ?? local.quiz);
