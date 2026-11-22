@@ -2,7 +2,6 @@
 import { useMemo } from "react";
 import { MONTHS, addDays, addMonths, daysBetween, fmtDur, fmtLong, mondayOf, monthEnd, parse, range, today } from "../lib/dates";
 import { expand } from "../lib/model";
-import { fmtGoal } from "../lib/review";
 import { useStore } from "../lib/store";
 import { Bar, useCats } from "../components/common";
 
@@ -12,7 +11,6 @@ const SCHOOL_END = "2027-06-30";
 export default function YearView() {
   const plan = useStore((s) => s.plan);
   const go = useStore((s) => s.go);
-  const apply = useStore((s) => s.apply);
   const cats = useCats();
   const t = today();
   const occs = useMemo(() => expand(plan, SCHOOL_START, SCHOOL_END), [plan]);
@@ -32,7 +30,6 @@ export default function YearView() {
   const edhec = "2027-04-03";
   const daysLeft = daysBetween(t, edhec);
   const months = Array.from({ length: 10 }, (_, i) => addMonths(SCHOOL_START, i));
-  const savings = plan.goals.filter((g) => g.period === "total");
   const streak = (() => {
     let n = 0;
     for (let d = addDays(t, doneByDay.get(t) ? 0 : -1); doneByDay.get(d); d = addDays(d, -1)) n++;
@@ -95,24 +92,6 @@ export default function YearView() {
               </ul>
             )}
           </section>
-          {savings.map((g) => (
-            <section className="card" key={g.id}>
-              <h3 className="h3">{g.label}</h3>
-              <div className="goal-top"><span>Mis de côté</span><b>{fmtGoal(g.manual ?? 0, g.unit)} / {fmtGoal(g.target, g.unit)}</b></div>
-              <Bar value={g.manual ?? 0} max={g.target} color="var(--orange)" />
-              <div className="row gap wrap" style={{ marginTop: 10 }}>
-                {[10, 20, 50].map((v) => (
-                  <button key={v} className="btn xs" onClick={() => apply((p) => ({ ...p, goals: p.goals.map((x) => (x.id === g.id ? { ...x, manual: (x.manual ?? 0) + v } : x)) }), `+${v} € de côté`)}>+{v} €</button>
-                ))}
-                <label className="inline-field">Objectif
-                  <input id={`sv-${g.id}`} className="input sm" type="number" min={0} step={10} value={g.target} onChange={(e) => apply((p) => ({ ...p, goals: p.goals.map((x) => (x.id === g.id ? { ...x, target: Number(e.target.value) } : x)) }))} /> €
-                </label>
-                <label className="inline-field">Déjà
-                  <input id={`sv2-${g.id}`} className="input sm" type="number" min={0} step={10} value={g.manual ?? 0} onChange={(e) => apply((p) => ({ ...p, goals: p.goals.map((x) => (x.id === g.id ? { ...x, manual: Number(e.target.value) } : x)) }))} /> €
-                </label>
-              </div>
-            </section>
-          ))}
         </aside>
       </div>
     </div>

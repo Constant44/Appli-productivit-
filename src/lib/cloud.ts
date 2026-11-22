@@ -10,6 +10,7 @@
  */
 import seed from "../data/seed.json";
 import { normalize, upsertExternal, type Activity, type Plan } from "./model";
+import type { Copy, Grade } from "./grades";
 import { freezeReviews, useStore, type Content, type QCard, type QSheet, type QuizStats } from "./store";
 
 import { capability, runtime } from "./runtime";
@@ -24,6 +25,7 @@ const split = (plan: Plan, quiz: QuizStats): Parts => ({
   "p2-ex": { overrides: plan.overrides, postponed: plan.postponed },
   "p2-done": { done: plan.done, sleep: plan.sleep },
   "p2-reviews": { reviews: plan.reviews },
+  "p2-copies": { copies: plan.copies },
   "p2-quiz": { quiz },
 });
 
@@ -79,12 +81,13 @@ async function pull(first: boolean) {
   const local = useStore.getState();
   const remoteAt: number = meta.exists ? (meta.data() as { savedAt: number }).savedAt : 0;
   if (remoteAt > local.savedAt) {
-    const parts = await Promise.all(["p2-plan", "p2-ex", "p2-done", "p2-reviews", "p2-quiz"].map((k) => db.doc(`${root}/${k}`).get()));
-    const [pl, ex, dn, rv, qz] = parts.map((p: any) => (p.exists ? clone(p.data()) : {}));
+    const parts = await Promise.all(["p2-plan", "p2-ex", "p2-done", "p2-reviews", "p2-quiz", "p2-copies"].map((k) => db.doc(`${root}/${k}`).get()));
+    const [pl, ex, dn, rv, qz, cp] = parts.map((p: any) => (p.exists ? clone(p.data()) : {}));
     if (pl.activities) {
       const plan: Plan = normalize({
         v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
         overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
+        copies: cp.copies ?? [],
       });
       applying = true;
       useStore.getState().setPlan(plan, remoteAt, qz.quiz ?? local.quiz);
@@ -137,6 +140,8 @@ async function loadContent(id: string | null) {
   const fallen = new Set(FALLEN_BEFORE);
   const unfallen = new Set<string>();
   const actuDays = new Map<string, { id: string; title: string }>();
+  let grades: Grade[] | undefined;
+  let gradesAt: string | undefined;
   if (db && id) {
     try {
       const inbox = await db.collection("inbox").limit(1000).get();
@@ -150,6 +155,27 @@ async function loadContent(id: string | null) {
       }
     } catch {
       /* hors ligne : on garde le cache */
+    }
+    try {
+      const gr = await db.doc(`data/users/${id}/inbox-grades`).get();
+      if (gr.exists) {
+        const d = clone(gr.data()) as { grades?: Grade[]; updatedAt?: string };
+        grades = d.grades ?? [];
+        gradesAt = d.updatedAt;
+      }
+    } catch {
+      /* notes indisponibles : on garde le cache */
+    }
+    try {
+      const cp = await db.doc(`data/users/${id}/inbox-copies`).get();
+      const incoming = cp.exists ? ((cp.data() as { copies?: Copy[] }).copies ?? []) : [];
+      if (incoming.length) useStore.getState().apply((p) => {
+        const have = new Set(p.copies.map((c) => c.id));
+        const fresh = incoming.filter((c) => !have.has(c.id));
+        return fresh.length ? { ...p, copies: [...p.copies, ...clone(fresh)] } : p;
+      });
+    } catch {
+      /* rien */
     }
     try {
       const ag = await db.doc(`data/users/${id}/inbox-agenda`).get();
@@ -171,7 +197,10 @@ async function loadContent(id: string | null) {
     for (const f of cached.fallen) fallen.add(f);
   }
   for (const f of unfallen) fallen.delete(f);
-  const content: Content = { cards: [...cards.values()], sheets: [...sheets.values()], fallen: [...fallen], actuDays: [...actuDays.values()] };
+  const content: Content = {
+    cards: [...cards.values()], sheets: [...sheets.values()], fallen: [...fallen], actuDays: [...actuDays.values()],
+    grades: grades ?? cached.grades ?? [], gradesAt: gradesAt ?? cached.gradesAt,
+  };
   useStore.getState().setContent(content);
 }
 

@@ -348,6 +348,36 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .hist-bar { height: 10px; background: var(--panel-3); border-radius: 99px; overflow: hidden; }
 .hist-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--lime)); }
 
+/* ---------- notes & copies */
+.up { color: var(--lime); }
+.down { color: #ff7f8c; }
+.new-grades { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+.grade-chip { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 5px 10px; font-size: 13px; }
+.grade-chip b { font-family: var(--display); margin-right: 4px; }
+.grade-chip em { font-style: normal; font-size: 12px; margin-left: 4px; }
+.rtable.grades { min-width: 620px; margin-top: 8px; }
+.spark { display: block; }
+.copies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 10px; }
+.copy-col { background: var(--bg); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.copy-head { display: flex; align-items: center; gap: 4px; }
+.copy-head b { flex: 1; }
+.err-rank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.err-rank li { display: grid; grid-template-columns: 54px 1fr auto; gap: 8px; align-items: center; font-size: 13px; }
+.err-rank li .btn { grid-column: 1 / -1; justify-self: start; }
+.err-bar { height: 8px; background: var(--panel-3); border-radius: 99px; overflow: hidden; }
+.err-bar span { display: block; height: 100%; background: var(--c); }
+.err-type { min-width: 0; overflow-wrap: anywhere; }
+.copy-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.copy-list button { width: 100%; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 7px 9px; display: grid; grid-template-columns: 58px 1fr; gap: 2px 8px; }
+.copy-grade { font-family: var(--display); font-weight: 700; grid-row: span 2; align-self: center; }
+.copy-title { font-weight: 600; font-size: 13px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.copy-errs { display: flex; flex-wrap: wrap; gap: 4px; }
+.copy-errs em { font-style: normal; font-size: 11px; background: var(--panel-3); color: var(--muted); border-radius: 6px; padding: 1px 6px; }
+.err-pick { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.err-pick button { border: 1px solid var(--line); background: var(--bg); color: var(--muted); border-radius: 9px; padding: 6px 10px; font-size: 13px; }
+.err-pick button.on { border-color: var(--orange); background: #ff7a1a22; color: var(--fg); }
+.err-notes { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+
 /* ---------- MOIS */
 .month-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
 .cal { min-width: 0; }

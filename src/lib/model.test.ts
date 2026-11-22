@@ -14,7 +14,7 @@ const base = (acts: Activity[] = []): Plan => ({
     { id: "sport", name: "Sport", color: "#0f0", tracked: true },
     { id: "cours", name: "Cours", color: "#999", tracked: false },
   ],
-  activities: acts, overrides: {}, done: {}, postponed: [], goals: [], reviews: {}, sleep: {}, prefs: { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" },
+  activities: acts, overrides: {}, done: {}, postponed: [], goals: [], reviews: {}, sleep: {}, prefs: { bedTarget: "23:15", wakeTarget: "07:15", dayEnd: "22:30" }, copies: [],
 });
 // série : maths lundi + jeudi 9 h–10 h à partir du lundi 23/11
 const maths: Activity = { id: "m", title: "Maths", cat: "maths", prio: "important", date: "2026-11-23", start: "09:00", end: "10:00", repeat: { days: [0, 3], every: 1 }, check: true };
@@ -176,5 +176,29 @@ describe("replanifier la journée", () => {
   it("une séance validée en mode Focus garde sa durée réelle et les décrochages", () => {
     const p = markDone(base([maths]), keyOf("m", "2026-11-23"), 38.4, { focus: true, distractions: 2 });
     expect(p.done[keyOf("m", "2026-11-23")]).toMatchObject({ minutes: 38, focus: true, distractions: 2 });
+  });
+});
+
+describe("notes et copies", () => {
+  it("moyenne /20 pondérée, progression et baisse par matière, erreurs récurrentes", async () => {
+    const { summarize, recurringErrors, gradeInsights } = await import("./grades");
+    const g = (id: string, subject: string, value: number, outOf: number, date: string, coefficient = 1, classAverage?: number) =>
+      ({ id, subject, value, outOf, date, coefficient, classAverage });
+    const sums = summarize([
+      g("1", "Maths", 8, 16, "2026-09-10"), g("2", "Maths", 13, 20, "2026-10-08", 2, 9),
+      g("3", "Anglais", 14, 20, "2026-09-14"), g("4", "Anglais", 11, 20, "2026-10-20"),
+    ]);
+    const m = sums.find((s) => s.subject === "Maths")!;
+    expect(m).toMatchObject({ count: 2, avg: 12, delta: 3, vsClass: 4, trend: [10, 13] });
+    expect(sums.find((s) => s.subject === "Anglais")!.delta).toBe(-3);
+    const copies = [
+      { id: "a", date: "2026-10-01", cat: "micro", kind: "DS" as const, title: "DS1", errors: [{ type: "Méthode / démarche" }, { type: "Erreur de calcul" }] },
+      { id: "b", date: "2026-11-01", cat: "micro", kind: "DS" as const, title: "DS2", errors: [{ type: "Méthode / démarche" }] },
+    ];
+    expect(recurringErrors(copies, "micro").ranked[0]).toEqual({ type: "Méthode / démarche", n: 2 });
+    const lines = gradeInsights(sums, copies, (id) => (id === "micro" ? "Micro" : id));
+    expect(lines.join(" ")).toContain("Maths : en progrès, 13/20 contre 10/20");
+    expect(lines.join(" ")).toContain("Anglais : en baisse");
+    expect(lines.join(" ")).toContain("« Méthode / démarche » revient dans 2 copies sur 2");
   });
 });

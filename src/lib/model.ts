@@ -8,6 +8,7 @@
  * - VALIDÉ ≠ PROGRAMMÉ : seules les occurrences cochées (`done`) comptent comme réalisées.
  */
 import { addDays, daysBetween, inHolidays, mondayOf, range, toMin, weekday, type ISODate } from "./dates";
+import type { Copy } from "./grades";
 
 export type Prio = "fixe" | "important" | "facultatif";
 export type Scope = "one" | "following" | "all";
@@ -78,10 +79,17 @@ export type Plan = {
   /** levers et couchers, par date du jour (le coucher après minuit compte pour la veille) */
   sleep: Record<ISODate, Night>;
   prefs: Prefs;
+  /** copies corrigées et erreurs (DS, synthèses, khôlles) */
+  copies: Copy[];
 };
 
 /** Complète un plan enregistré par une version antérieure. */
-export const normalize = (p: Plan): Plan => ({ ...p, sleep: p.sleep ?? {}, prefs: { ...DEFAULT_PREFS, ...(p.prefs ?? {}) }, postponed: p.postponed ?? [], reviews: p.reviews ?? {} });
+export const normalize = (p: Plan): Plan => ({
+  ...p, sleep: p.sleep ?? {}, prefs: { ...DEFAULT_PREFS, ...(p.prefs ?? {}) }, postponed: p.postponed ?? [], reviews: p.reviews ?? {},
+  copies: p.copies ?? [],
+  // la tirelire PS5 a été retirée à ta demande
+  goals: (p.goals ?? []).filter((g) => g.id !== "g-ps5"),
+});
 
 export type Occ = {
   key: string;

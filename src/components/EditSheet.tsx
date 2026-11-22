@@ -27,7 +27,7 @@ export default function EditSheet({ mode, keyId, defaults }: { mode: "new" | "ed
         recurring: !!act?.repeat, days: act?.repeat?.days ?? [weekday(occ.date)], every: act?.repeat?.every ?? 1, until: act?.repeat?.until ?? "",
       }
     : {
-        title: "", cat: defaults?.cat ?? "maths", prio: defaults?.prio ?? "important", date: defaults?.date ?? today(),
+        title: defaults?.title ?? "", cat: defaults?.cat ?? "maths", prio: defaults?.prio ?? "important", date: defaults?.date ?? today(),
         timed: defaults?.start !== undefined || defaults?.minutes === undefined, start: defaults?.start ?? "09:00", end: defaults?.end ?? "09:45",
         minutes: 30, check: defaults?.check ?? true, deadline: false, notes: "", recurring: false, days: [weekday(defaults?.date ?? today())], every: 1, until: "2027-04-03",
       };

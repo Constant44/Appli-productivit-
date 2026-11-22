@@ -10,7 +10,8 @@ export type Sheet =
   | { kind: "postpone"; key: string }
   | { kind: "settings" }
   | { kind: "replan"; date: ISODate }
-  | { kind: "help" };
+  | { kind: "help" }
+  | { kind: "copy"; id?: string; cat?: string };
 
 type UI = {
   sheet: Sheet | null;

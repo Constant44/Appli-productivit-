@@ -5,13 +5,14 @@
 import { create } from "zustand";
 import { addDays, mondayOf, today, type ISODate } from "./dates";
 import { normalize, type Plan } from "./model";
+import type { Grade } from "./grades";
 import { computeReview, type WeekReview } from "./review";
 import { seedPlan } from "./seed";
 
 export type QCard = { id: string; deck: "actu" | "mot" | "bio"; front: string; back: string; ref?: string; date?: string };
 export type QSheet = { id: string; kind: "mot" | "bio"; title: string; body: string; sentAt: string };
 export type QuizStats = Record<string, { ok: number; ko: number; last: string }>;
-export type Content = { cards: QCard[]; sheets: QSheet[]; fallen: string[]; actuDays: Array<{ id: string; title: string }> };
+export type Content = { cards: QCard[]; sheets: QSheet[]; fallen: string[]; actuDays: Array<{ id: string; title: string }>; grades?: Grade[]; gradesAt?: string };
 
 export type View = "jour" | "semaine" | "mois" | "annee" | "vendredi";
 export type Toast = { id: number; text: string; undo?: boolean; tone?: "ok" | "info" | "warn" };

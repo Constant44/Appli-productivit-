@@ -6,6 +6,7 @@ import { useFocus } from "../lib/focus";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import EditSheet from "./EditSheet";
+import { CopySheet } from "../views/Grades";
 import { CatDot, PRIO_LABEL, quickDates, timeLabel, useCats } from "./common";
 
 export default function SheetHost() {
@@ -27,6 +28,7 @@ export default function SheetHost() {
         {sheet.kind === "settings" && <SettingsSheet />}
         {sheet.kind === "replan" && <ReplanSheet date={sheet.date} />}
         {sheet.kind === "help" && <HelpSheet />}
+        {sheet.kind === "copy" && <CopySheet id={sheet.id} cat={sheet.cat} />}
       </div>
     </div>
   );

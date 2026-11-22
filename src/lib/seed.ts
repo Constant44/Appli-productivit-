@@ -215,7 +215,6 @@ export const GOALS: Goal[] = [
   { id: "g-actu", label: "Actu (lecture + révision jeudi)", cat: "actu", unit: "séances", target: 6, period: "semaine" },
   { id: "g-sport", label: "Sport", cat: "sport", unit: "séances", target: 3, period: "semaine" },
   { id: "g-lecture", label: "Soirs sans téléphone + lecture", cat: "lecture", unit: "séances", target: 4, period: "semaine" },
-  { id: "g-ps5", label: "Épargne PS5", unit: "€", target: 500, period: "total", manual: 0 },
 ];
 
 export function seedPlan(): Plan {
@@ -231,5 +230,6 @@ export function seedPlan(): Plan {
     reviews: {},
     sleep: {},
     prefs: { ...DEFAULT_PREFS },
+    copies: [],
   };
 }

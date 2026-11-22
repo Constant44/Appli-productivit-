@@ -8,6 +8,7 @@ import { useUI } from "../lib/ui";
 import { Bar } from "../components/common";
 import { sleepStats } from "../lib/coach";
 import { expand } from "../lib/model";
+import { CopiesSection, GradesSection } from "./Grades";
 
 export default function Review({ week }: { week: ISODate }) {
   const plan = useStore((s) => s.plan);
@@ -75,6 +76,9 @@ export default function Review({ week }: { week: ISODate }) {
           </table>
         </div>
       </section>
+
+      <GradesSection week={week} />
+      <CopiesSection />
 
       <div className="grid2">
         <section className="card">
@@ -144,7 +148,7 @@ export default function Review({ week }: { week: ISODate }) {
       <section className="card">
         <h3 className="h3">Historique</h3>
         {history.length === 0 ? (
-          <p className="muted small">Les bilans sont figés et gardés chaque lundi. Le premier arrivera le lundi {fmtDM(addDays(FIRST_WEEK, 7))}.</p>
+          <p className="muted small">Les bilans sont figés et gardés chaque lundi. Le premier arrivera le lundi {fmtDM(addDays(FIRST_WEEK, 7))}</p>
         ) : (
           <ul className="history">
             {history.map(([w, h]) => (

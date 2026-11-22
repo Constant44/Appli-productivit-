@@ -2,7 +2,7 @@
  * Bilan de la semaine, calculé UNIQUEMENT à partir des séances validées.
  * Une séance programmée mais non cochée n'est jamais comptée comme faite.
  */
-import { addDays, fmtDur, fmtHours, type ISODate } from "./dates";
+import { addDays, fmtDur, type ISODate } from "./dates";
 import { expand, goalTarget, goalValue, type Occ, type Plan } from "./model";
 
 export type ReviewLine = {
@@ -95,4 +95,4 @@ export function insights(r: WeekReview, ended: boolean, previous?: WeekReview): 
 }
 
 export const fmtGoal = (v: number, unit: string) =>
-  unit === "h" ? fmtHours(v * 60) : unit === "€" ? `${Math.round(v)} €` : `${Math.round(v)} séance${Math.round(v) >= 2 ? "s" : ""}`;
+  unit === "h" ? fmtDur(v * 60) : unit === "€" ? `${Math.round(v)} €` : `${Math.round(v)} séance${Math.round(v) >= 2 ? "s" : ""}`;
