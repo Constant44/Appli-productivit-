@@ -1,10 +1,11 @@
 /**
  * Coach : tout est calculé à partir de tes données réelles (validations, échéances, sommeil). Rien d'inventé.
  */
-import { addDays, daysBetween, fmtDur, fromMin, toMin, type ISODate } from "./dates";
+import { addDays, daysBetween, fmtDur, fromMin, nowMin, toMin, type ISODate } from "./dates";
 import { expand, type Occ, type Plan } from "./model";
 import { lightsOut, wakeAt } from "./routine";
 import { nextSession, sessionOf } from "./run";
+import { sunTimes } from "./sun";
 
 export { logSleep, nightOf } from "./routine";
 
@@ -67,6 +68,12 @@ export function coachLine(plan: Plan, today: ISODate): string[] {
     const when = first.inDays === 0 ? "aujourd'hui" : first.inDays === 1 ? "demain" : `dans ${first.inDays} j`;
     const cat = first.cat ? plan.categories.find((c) => c.id === first.cat)?.name : undefined;
     out.push(`${first.occ.title} ${when}${cat ? ` : ${cat.toLowerCase() === "maths" ? "les maths passent" : `${cat} passe`} en premier.` : "."}`);
+  }
+  // l'hiver, il fait nuit au réveil : la lumière du jour se prend dehors, le matin
+  const sun = sunTimes(today);
+  const nowM = nowMin();
+  if (toMin(wakeAt(plan, today)) < toMin(sun.rise) && nowM < 11 * 60) {
+    out.push(`Soleil levé à ${sun.rise} : 10 à 15 min dehors avant 11 h (trajet à pied, pause). C'est cette lumière-là qui recale ton sommeil.`);
   }
   const run = expand(plan, today, today).find((o) => o.cat === "course" && !o.done);
   if (run) {

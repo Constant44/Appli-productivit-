@@ -657,3 +657,4 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
   .se-row { grid-template-columns: 1fr; gap: 6px; padding: 8px 0; }
   .se-lab { display: inline-block; width: 70px; }
 }
+.rt-dark { color: #ffd21f; font-weight: 500; }

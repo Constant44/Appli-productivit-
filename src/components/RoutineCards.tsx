@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { addDays, fromMin, nowMin, toMin, today, type ISODate } from "../lib/dates";
 import { essentials } from "../lib/coach";
 import { useFocus } from "../lib/focus";
+import { sunTimes } from "../lib/sun";
 import { expand } from "../lib/model";
 import {
   DAY_NAMES, DEFAULT_ROUTINES, applySchedule, currentSchedule, eveningExpected, isDone, lightsOut, nightLength, nightPending, progressOf, reportWake, reportBed, reportLecture, screensIndex, stepClock, stepsOf, toggleStep, wakeAt,
@@ -18,7 +19,7 @@ const late = (anchor: string, at: number, n: number) => {
   return now - due;
 };
 
-function Steps({ date, kind, steps, anchor, upTo, offline, focus }: { date: ISODate; kind: RoutineKind; steps: RoutineStep[]; anchor: string; upTo?: number; offline?: boolean; focus?: number }) {
+function Steps({ date, kind, steps, anchor, upTo, offline, focus, details }: { date: ISODate; kind: RoutineKind; steps: RoutineStep[]; anchor: string; upTo?: number; offline?: boolean; focus?: number; details?: Record<string, string> }) {
   const plan = useStore((s) => s.plan);
   const apply = useStore((s) => s.apply);
   const [open, setOpen] = useState<string | null>(null);
@@ -38,7 +39,7 @@ function Steps({ date, kind, steps, anchor, upTo, offline, focus }: { date: ISOD
             <span className="rt-time num">{stepClock(anchor, s.at)}</span>
             <button className="rt-label" onClick={() => setOpen(open === s.id ? null : s.id)} aria-expanded={open === s.id}>
               <span>{s.label}</span>
-              {s.detail && (open === s.id || i === firstTodo) && <small className="muted">{s.detail}</small>}
+              {(details?.[s.id] ?? s.detail) && (open === s.id || i === firstTodo) && <small className={details?.[s.id] ? "rt-dark" : "muted"}>{details?.[s.id] ?? s.detail}</small>}
             </button>
           </li>
         );
@@ -131,6 +132,8 @@ export function MorningRoutine({ date }: { date: ISODate }) {
   const upFor = wokeMin !== undefined ? n - wokeMin : 0;
   const first = useMemo(() => essentials(plan, date, today())[0], [plan, date]);
   const anchor = wokeAt ?? W;
+  const sun = sunTimes(date);
+  const dark = toMin(anchor) < toMin(sun.rise);
 
   return (
     <section className="routine morning" aria-label="Routine du matin">
@@ -193,7 +196,7 @@ export function MorningRoutine({ date }: { date: ISODate }) {
         </div>
       )}
 
-      <Steps date={date} kind="matin" steps={steps} anchor={anchor} />
+      <Steps date={date} kind="matin" steps={steps} anchor={anchor} details={dark ? { "m-light": `Il fait encore nuit (soleil levé à ${sun.rise}) : allume tout, plafonnier et lampes, ça réveille. La vraie dose de lumière, tu la prends dehors après ${sun.rise} : 10 à 15 min, même par temps gris (trajet à pied, pause).` } : undefined} />
 
       {wokeAt && first && !focusOn && (
         <button className="rt-go" onClick={() => startFocus(first)}>
