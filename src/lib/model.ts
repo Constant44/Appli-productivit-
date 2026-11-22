@@ -93,6 +93,8 @@ export type Plan = {
   routineLog: RoutineLog;
   /** course à pied : journal des sorties du programme */
   run: RunState;
+  /** mises à jour du planning envoyées par Claude (inbox-plan) déjà appliquées */
+  patched?: string[];
 };
 
 /** Titres et notes corrigés depuis la première version (appliqués seulement si tu n'y as pas touché). */

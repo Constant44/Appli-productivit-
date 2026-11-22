@@ -10,6 +10,7 @@
  */
 import seed from "../data/seed.json";
 import { normalize, upsertExternal, type Activity, type Plan } from "./model";
+import { applyPatches, type PlanPatch } from "./patches";
 import type { Copy, Grade } from "./grades";
 import { freezeReviews, useStore, type Content, type QCard, type QSheet, type QuizStats } from "./store";
 
@@ -22,7 +23,7 @@ const device = Math.random().toString(36).slice(2, 8);
 type Parts = Record<string, Record<string, unknown>>;
 const split = (plan: Plan, quiz: QuizStats): Parts => ({
   "p2-plan": { categories: plan.categories, activities: plan.activities, goals: plan.goals, prefs: plan.prefs, routines: plan.routines },
-  "p2-ex": { overrides: plan.overrides, postponed: plan.postponed },
+  "p2-ex": { overrides: plan.overrides, postponed: plan.postponed, patched: plan.patched ?? [] },
   "p2-done": { done: plan.done, sleep: plan.sleep, routineLog: plan.routineLog, run: plan.run },
   "p2-reviews": { reviews: plan.reviews },
   "p2-copies": { copies: plan.copies },
@@ -70,9 +71,33 @@ export async function startCloud() {
   });
   freezeReviews(); // après la lecture du compte : on fige les semaines terminées des VRAIES données (puis envoi)
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && !timer) void pull(false).catch(() => {});
+    if (document.visibilityState === "visible" && !timer) void pull(false).catch(() => {}).then(() => checkPlanInbox());
   });
   void loadContent(id);
+  void checkPlanInbox();
+  // Claude peut préparer un nouveau programme pendant que l'appli est ouverte : on regarde toutes les 2 min
+  setInterval(() => { if (document.visibilityState === "visible") void checkPlanInbox(); }, 120000);
+}
+
+/** Mises à jour du planning préparées par Claude (document privé inbox-plan). */
+async function checkPlanInbox() {
+  if (!db || !pulled) return;
+  try {
+    const d = await db.doc(`${root}/inbox-plan`).get();
+    if (!d.exists) return;
+    const patches = (d.data() as { patches?: PlanPatch[] }).patches ?? [];
+    const pending = patches.filter((x) => x?.id && !(useStore.getState().plan.patched ?? []).includes(x.id));
+    if (!pending.length) return;
+    let notes: string[] = [];
+    useStore.getState().apply((p) => {
+      const r = applyPatches(p, clone(pending));
+      notes = r.notes;
+      return r.plan;
+    }, "Planning mis à jour par Claude");
+    if (notes.length) useStore.getState().toast?.(notes.join(" · "));
+  } catch {
+    /* rien de neuf */
+  }
 }
 
 /** Lit la sauvegarde du compte et garde la plus récente. */
@@ -87,7 +112,7 @@ async function pull(first: boolean) {
       const plan: Plan = normalize({
         v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
         overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
-        copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run,
+        copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run, patched: ex.patched ?? [],
       });
       applying = true;
       useStore.getState().setPlan(plan, remoteAt, qz.quiz ?? local.quiz);

@@ -112,7 +112,9 @@ export function reportWake(plan: Plan, date: ISODate, hhmm: string): Plan {
 /** Heure d'une étape (anchor ± minutes), sur 24 h. */
 export const stepClock = (anchor: string, at: number) => fromMin((((toMin(anchor) + at) % 1440) + 1440) % 1440);
 
-export const stepsOf = (plan: Plan, kind: RoutineKind) => [...plan.routines[kind]].sort((a, b) => a.at - b.at);
+/** Les étapes du jour, dans l'ordre (sans les étapes réservées à d'autres jours). */
+export const stepsOf = (plan: Plan, kind: RoutineKind, date?: ISODate) =>
+  plan.routines[kind].filter((s) => !date || !s.days || s.days.includes(weekday(date))).sort((a, b) => a.at - b.at);
 export const checked = (plan: Plan, date: ISODate, kind: RoutineKind) => plan.routineLog[date]?.[kind] ?? [];
 export const isDone = (plan: Plan, date: ISODate, kind: RoutineKind, id: string) => checked(plan, date, kind).includes(id);
 
@@ -209,7 +211,7 @@ export function nightPending(plan: Plan, night: ISODate) {
 
 /** Progression d'une routine : étapes cochées / total. */
 export function progressOf(plan: Plan, date: ISODate, kind: RoutineKind) {
-  const steps = plan.routines[kind];
+  const steps = stepsOf(plan, kind, date);
   const c = checked(plan, date, kind);
   return { done: steps.filter((s) => c.includes(s.id)).length, total: steps.length };
 }

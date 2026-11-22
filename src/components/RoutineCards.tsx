@@ -52,7 +52,7 @@ function Steps({ date, kind, steps, anchor, upTo, offline, focus, details }: { d
 export function EveningRoutine({ night }: { night: ISODate }) {
   const plan = useStore((s) => s.plan);
   const apply = useStore((s) => s.apply);
-  const steps = stepsOf(plan, "soir");
+  const steps = stepsOf(plan, "soir", night);
   const L = lightsOut(plan, night);
   const si = screensIndex(steps);
   const n = nowMin();
@@ -112,7 +112,7 @@ export function MorningRoutine({ date }: { date: ISODate }) {
   const open = useUI((s) => s.open);
   const startFocus = useFocus((f) => f.start);
   const focusOn = useFocus((f) => !!f.session);
-  const steps = stepsOf(plan, "matin");
+  const steps = stepsOf(plan, "matin", date);
   const W = wakeAt(plan, date);
   const night = addDays(date, -1);
   const p = progressOf(plan, date, "matin");
@@ -252,7 +252,10 @@ export function RoutineEditor() {
                 onChange={(e) => edit(kind, s.id, { at: (kind === "matin" ? 1 : -1) * Math.max(0, Math.min(180, Number(e.target.value) || 0)) })} />
               <input id={`rt-l-${s.id}`} className="input" value={s.label} onChange={(e) => edit(kind, s.id, { label: e.target.value })} />
               {s.action ? <span className="rt-tag" title={ACTION[s.action]}>{ACTION[s.action]}</span>
-                : <button className="icon-btn" aria-label={`Retirer ${s.label}`} onClick={() => set(kind, plan.routines[kind].filter((x) => x.id !== s.id))}>✕</button>}
+                : <span className="row gap">
+                    {s.days && <span className="rt-tag">{s.days.map((d) => DAY_NAMES[d].toLowerCase()).join(", ")}</span>}
+                    <button className="icon-btn" aria-label={`Retirer ${s.label}`} onClick={() => set(kind, plan.routines[kind].filter((x) => x.id !== s.id))}>✕</button>
+                  </span>}
             </div>
           ))}
           <button className="btn xs ghost" onClick={() => set(kind, [...plan.routines[kind], { id: `${kind[0]}-${Math.random().toString(36).slice(2, 8)}`, label: "Nouvelle étape", at: kind === "matin" ? 20 : -20 }])}>+ Ajouter une étape</button>
