@@ -632,3 +632,10 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
   .runv-log li .feel-tag { grid-column: 2; justify-self: start; }
   .runv-hero .ring { margin: 0 auto; }
 }
+.feel-btn.on { background: var(--panel-3); box-shadow: inset 0 0 0 2px currentColor; }
+.feel-btn.f1.on { color: var(--lime); } .feel-btn.f2.on { color: #19d3f5; } .feel-btn.f3.on { color: #ffd21f; } .feel-btn.f4.on { color: var(--danger); }
+.garmin.on { border-color: color-mix(in srgb, var(--course) 45%, var(--line)); }
+.garmin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
+.garmin-grid > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.garmin-steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 5px; font-size: 13.5px; }
+.garmin-steps li::marker { color: var(--course); font-weight: 700; }

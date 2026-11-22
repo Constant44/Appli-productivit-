@@ -3,8 +3,10 @@ import { useMemo, useState } from "react";
 import { addDays, fmtDM, fmtShort, nowMin, toMin, today } from "../lib/dates";
 import { expand } from "../lib/model";
 import {
-  FEELS, LAST, MILESTONES, PROGRAM, RULES, bestDone, blocksTotal, deleteRun, longestRun, nextSession, pickSession, runStats, runTotal, sessionOf, tipOf,
+  FEELS, LAST, MILESTONES, PROGRAM, RULES, bestDone, blocksTotal, deleteRun, distanceStats, garminName, garminSteps, longestRun, nextSession, pickSession,
+  runStats, runTotal, sessionOf, setWatch, tipOf,
 } from "../lib/run";
+import { useUI } from "../lib/ui";
 import { useRun } from "../lib/runSession";
 import { useStore } from "../lib/store";
 import { Ring } from "../components/common";
@@ -14,6 +16,8 @@ const human = (sec: number) => {
   const s = Math.round(sec % 60);
   return m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}` : s ? `${m} min ${String(s).padStart(2, "0")}` : `${m} min`;
 };
+
+const mmss = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
 
 export default function RunView() {
   const plan = useStore((s) => s.plan);
@@ -27,6 +31,9 @@ export default function RunView() {
   const st = useMemo(() => runStats(plan.run, t), [plan.run, t]);
   const best = bestDone(plan.run.log);
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
+  const open = useUI((u) => u.open);
+  const watch = !!plan.run.watch;
+  const dist = distanceStats(plan.run);
 
   // prochaine sortie prévue dans le planning
   const upcoming = useMemo(() => {
@@ -50,7 +57,17 @@ export default function RunView() {
             {s.blocks.map((b, i) => <span key={i} className={`rb k-${b.kind}`} style={{ flexGrow: b.sec }} title={`${b.kind === "run" ? "Course" : b.kind === "walk" ? "Marche" : b.kind === "warm" ? "Échauffement" : "Retour au calme"} ${human(b.sec)}`} />)}
           </div>
           <div className="runv-cta">
-            <button className="btn primary lg" disabled={active} onClick={() => start(todayOcc, s.n)}>▶ Lancer la séance {s.n}</button>
+            {watch ? (
+              <>
+                <button className="btn primary lg" onClick={() => open({ kind: "runlog", key: todayOcc?.key, date: t })}>✓ J'ai couru : noter la séance {s.n}</button>
+                <button className="btn ghost" disabled={active} onClick={() => start(todayOcc, s.n)}>▶ Guidage sur le téléphone</button>
+              </>
+            ) : (
+              <>
+                <button className="btn primary lg" disabled={active} onClick={() => start(todayOcc, s.n)}>▶ Lancer la séance {s.n}</button>
+                <button className="btn ghost" onClick={() => open({ kind: "runlog", key: todayOcc?.key, date: t })}>Noter une sortie</button>
+              </>
+            )}
             {upcoming && (
               <button className="btn ghost" onClick={() => go("jour", upcoming.date)}>
                 Prévue {upcoming.date === t ? "aujourd'hui" : fmtShort(upcoming.date)} à {upcoming.start}
@@ -66,6 +83,31 @@ export default function RunView() {
         </div>
         <Ring value={best / LAST} size={128} label={<><b>{Math.round((best / LAST) * 100)}%</b><small>du programme</small></>} />
       </header>
+
+      <section className={`card garmin ${watch ? "on" : ""}`}>
+        <div className="row between wrap gap">
+          <h3 className="h3">Ta montre Garmin (Forerunner 165)</h3>
+          <label className="toggle"><input id="rv-watch" type="checkbox" checked={watch} onChange={(e) => apply((p) => setWatch(p, e.target.checked), e.target.checked ? "Mode montre : la Garmin te guide, Cadence garde le programme" : undefined)} /> Je cours avec ma montre</label>
+        </div>
+        <p className="muted small">La montre te guide en vibrant à chaque changement course / marche, et mesure distance et cardio. Cadence garde le programme : après la sortie, tu notes la séance ici (ou en cochant la course dans ta journée).</p>
+        <div className="garmin-grid">
+          <div>
+            <b>À créer dans Garmin Connect : « {garminName(s)} »</b>
+            <ol className="garmin-steps">{garminSteps(s).map((x) => <li key={x}>{x}</li>)}</ol>
+            <p className="muted small">Pas d'objectif d'allure : tu cours au test de la parole. Les séances d'une même semaine sont identiques, donc un seul exercice par semaine (sauf semaines 10 et 11, une par séance).</p>
+          </div>
+          <div>
+            <b>Comment faire</b>
+            <ol className="garmin-steps">
+              <li>App <b>Garmin Connect</b> → <b>Entraînement et planification</b> → <b>Exercices</b> → <b>Créer un exercice</b> → <b>Course à pied</b>.</li>
+              <li>Règle les étapes comme dans la liste « À créer » (fin d'étape : « Durée »), puis <b>Enregistrer</b>.</li>
+              <li><b>Envoyer vers l'appareil</b> → ta Forerunner 165.</li>
+              <li>Sur la montre : <b>Course</b> → maintiens <b>UP</b> (menu) → <b>Entraînement</b> → <b>Exercices</b> → « {garminName(s)} » → <b>Faire l'exercice</b>.</li>
+            </ol>
+            <p className="muted small">Plus rapide, sans créer d'exercice : dans les paramètres de l'activité Course → Alertes → <b>Course/Marche</b> ({s.blocks.length > 3 ? `course ${mmss(s.blocks[1].sec)}, marche ${mmss(s.blocks[2].sec)}` : "inutile pour une course continue"}). Les intitulés peuvent varier un peu selon la version.</p>
+          </div>
+        </div>
+      </section>
 
       <section className="card">
         <h3 className="h3">Le parcours</h3>
@@ -92,6 +134,7 @@ export default function RunView() {
         <div className="kpi"><span>Sorties</span><b>{st.sessions}</b></div>
         <div className="kpi"><span>Temps couru</span><b className="lime">{human(st.runSec)}</b></div>
         <div className="kpi"><span>Plus longue d'affilée</span><b>{st.longest ? human(st.longest) : "—"}</b></div>
+        {dist.count > 0 && <div className="kpi"><span>Distance (montre)</span><b>{String(dist.km).replace(".", ",")} km</b></div>}
         <div className="kpi"><span>Cette semaine</span><b className={st.thisWeek >= 3 ? "lime" : st.thisWeek ? "orange" : ""}>{st.thisWeek}/3</b></div>
       </div>
 
@@ -124,7 +167,7 @@ export default function RunView() {
               <li key={l.id}>
                 <span className="num">{fmtShort(l.date)}</span>
                 <span>Séance {l.session}<span className="muted small"> · {sessionOf(l.session).label}</span></span>
-                <span className="num">{human(l.runSec)}</span>
+                <span className="num">{human(l.runSec)}{l.km ? ` · ${String(l.km).replace(".", ",")} km` : ""}{l.hr ? ` · ${l.hr} bpm` : ""}</span>
                 <span className={`feel-tag f${l.feel}`}>{l.completed ? FEELS[l.feel] : "Pas finie"}</span>
                 {confirmDel === l.id
                   ? <span className="row gap"><button className="btn xs danger" onClick={() => { apply((p) => deleteRun(p, l.id), "Sortie supprimée"); setConfirmDel(null); }}>Supprimer</button><button className="btn xs ghost" onClick={() => setConfirmDel(null)}>Non</button></span>

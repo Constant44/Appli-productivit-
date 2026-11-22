@@ -1,15 +1,16 @@
 /** JOURNÉE : ce que je dois faire aujourd'hui, à quelle heure, ce qui est fait, ce qui reste. */
 import { useMemo } from "react";
 import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib/dates";
-import { expand, overdue, postpone, toggleDone, type Occ } from "../lib/model";
+import { expand, overdue, postpone, type Occ } from "../lib/model";
 import { coachLine, essentials } from "../lib/coach";
 import { useFocus } from "../lib/focus";
-import { nextSession, sessionOf } from "../lib/run";
+import { garminName, nextSession, sessionOf } from "../lib/run";
 import { useRun } from "../lib/runSession";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import TimeGrid from "../components/TimeGrid";
 import { EveningRoutine, MorningRoutine, routineNow } from "../components/RoutineCards";
+import { useValidate } from "../components/RunLogSheet";
 import { Ring, timeLabel, useCats } from "../components/common";
 
 export default function DayView() {
@@ -21,6 +22,7 @@ export default function DayView() {
   const startFocus = useFocus((f) => f.start);
   const focusOn = useFocus((f) => !!f.session);
   const runOn = useRun((r) => !!r.active);
+  const validate = useValidate();
   const cats = useCats();
   const t = today();
   const nextRun = useMemo(() => nextSession(plan.run, t), [plan.run, t]);
@@ -53,13 +55,13 @@ export default function DayView() {
     const c = cats.get(o.cat);
     return (
       <li className={`task ${o.done ? "done" : ""} p-${o.prio}`} style={{ ["--c" as string]: c?.color }}>
-        <button className={`check ${o.done ? "on" : ""}`} aria-label={o.done ? "Annuler la validation" : "Valider"} onClick={() => apply((p) => toggleDone(p, o.key), o.done ? undefined : "Bien joué, séance validée")}>
+        <button className={`check ${o.done ? "on" : ""}`} aria-label={o.done ? "Annuler la validation" : "Valider"} onClick={() => validate(o, "Bien joué, séance validée")}>
           {o.done ? "✓" : ""}
         </button>
         <button className="task-body" onClick={() => open({ kind: "item", key: o.key })}>
           <span className="task-title">{o.title}</span>
           <span className="task-meta"><span className="dot" style={{ background: c?.color }} />{c?.name} · {timeLabel(o)}{o.start ? ` · ${fmtDur(o.minutes)}` : ""}{o.moved ? " · déplacée" : ""}</span>
-          {o.cat === "course" && !o.done && <span className="task-meta run-meta">Séance {nextRun.n} : {sessionOf(nextRun.n).label}</span>}
+          {o.cat === "course" && !o.done && <span className="task-meta run-meta">Séance {nextRun.n} : {sessionOf(nextRun.n).label}{plan.run.watch ? ` · sur ta Garmin : « ${garminName(sessionOf(nextRun.n))} »` : ""}</span>}
         </button>
         {startable(o) && <button className="play" aria-label={`Démarrer ${o.title} en mode Focus`} onClick={() => startFocus(o)}>▶</button>}
       </li>
@@ -154,7 +156,7 @@ export default function DayView() {
                     <span className="dot" style={{ background: cats.get(o.cat)?.color }} />{o.title} <span className="muted">· {fmtShort(o.date)}</span>
                   </button>
                   <div className="late-actions">
-                    <button className="btn xs" onClick={() => apply((p) => toggleDone(p, o.key), "Validée (en retard)")}>Faite</button>
+                    <button className="btn xs" onClick={() => validate(o, "Validée (en retard)")}>Faite</button>
                     <button className="btn xs" onClick={() => apply((p) => postpone(p, o.key, addDays(t, 1)), "Reportée à demain")}>Demain</button>
                     <button className="btn xs ghost" onClick={() => open({ kind: "postpone", key: o.key })}>Autre date</button>
                   </div>

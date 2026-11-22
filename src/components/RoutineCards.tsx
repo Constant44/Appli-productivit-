@@ -144,6 +144,7 @@ export function MorningRoutine({ date }: { date: ISODate }) {
           {pending.bed && (
             <div className="rt-q">
               <b>Lumière éteinte à…</b>
+              {plan.run.watch && <span className="muted small">Ta Garmin a noté ton heure d'endormissement (Sommeil, dans Garmin Connect) : prends-la si tu hésites.</span>}
               <div className="chips">
                 {chips.map((c, i) => (
                   <button key={c} className="chip" onClick={() => apply((pl) => reportBed(pl, night, c), `Extinction notée : ${c}`)}>{c}{i === 0 ? " (prévu)" : ""}</button>

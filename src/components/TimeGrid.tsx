@@ -5,7 +5,8 @@
  */
 import { useEffect, useMemo, useRef, useState, type PointerEvent as RPE } from "react";
 import { DAY_SHORT, fromMin, nowMin, parse, toMin, today, weekday, type ISODate } from "../lib/dates";
-import { expand, moveOccurrence, toggleDone, type Occ } from "../lib/model";
+import { expand, moveOccurrence, type Occ } from "../lib/model";
+import { useValidate } from "./RunLogSheet";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import { useCats } from "./common";
@@ -48,6 +49,7 @@ function layout(occs: Occ[], ppm: number): Laid[] {
 export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: ISODate[]; ppm?: number; compact?: boolean }) {
   const plan = useStore((s) => s.plan);
   const apply = useStore((s) => s.apply);
+  const validate = useValidate();
   const go = useStore((s) => s.go);
   const open = useUI((s) => s.open);
   const cats = useCats();
@@ -183,7 +185,7 @@ export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: I
                           className={`blk-check ${o.done ? "on" : ""}`}
                           aria-label={o.done ? "Annuler la validation" : "Valider"}
                           onPointerDown={(e) => e.stopPropagation()}
-                          onClick={(e) => { e.stopPropagation(); apply((p) => toggleDone(p, o.key), o.done ? undefined : "Séance validée"); }}
+                          onClick={(e) => { e.stopPropagation(); validate(o); }}
                         >{o.done ? "✓" : ""}</button>
                       )}
                       <div className="blk-text">

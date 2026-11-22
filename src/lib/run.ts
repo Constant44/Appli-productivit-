@@ -13,8 +13,19 @@ export type RunBlock = { kind: RunBlockKind; sec: number };
 export type RunSession = { n: number; week: number; label: string; blocks: RunBlock[] };
 /** Ressenti : 1 facile, 2 ça allait, 3 dur mais fait, 4 trop dur / pas fini */
 export type Feel = 1 | 2 | 3 | 4;
-export type RunLog = { id: string; date: ISODate; at: string; session: number; completed: boolean; feel: Feel; runSec: number; totalSec: number };
-export type RunState = { log: RunLog[]; /** séance choisie à la main pour la prochaine sortie */ pick?: number };
+export type RunLog = {
+  id: string; date: ISODate; at: string; session: number; completed: boolean; feel: Feel; runSec: number; totalSec: number;
+  /** relevés de la montre (facultatifs) */
+  km?: number; hr?: number;
+  source?: "phone" | "garmin" | "manual";
+};
+export type RunState = {
+  log: RunLog[];
+  /** séance choisie à la main pour la prochaine sortie */
+  pick?: number;
+  /** je cours avec ma montre Garmin (c'est elle qui guide la séance) */
+  watch?: boolean;
+};
 
 export const FEELS: Record<Feel, string> = { 1: "Facile", 2: "Ça allait", 3: "Dur mais fait", 4: "Trop dur / pas fini" };
 const WARM = 300;
@@ -143,7 +154,7 @@ export function runStats(run: RunState, today: ISODate) {
 /** Enregistrer une sortie : journal + validation de la séance prévue dans le planning (si elle existe). */
 export function recordRun(plan: Plan, entry: Omit<RunLog, "id">, occKey?: string): Plan {
   const id = `${entry.date}-${entry.at.slice(11, 19)}`;
-  let next: Plan = { ...plan, run: { log: [...plan.run.log, { ...entry, id }] } };
+  let next: Plan = { ...plan, run: { log: [...plan.run.log, { ...entry, id }], watch: plan.run.watch } };
   const key = occKey ?? expand(plan, entry.date, entry.date).find((o) => o.cat === "course" && !o.done)?.key;
   if (key) next = markDone(next, key, Math.max(1, Math.round(entry.totalSec / 60)));
   return next;
@@ -151,6 +162,31 @@ export function recordRun(plan: Plan, entry: Omit<RunLog, "id">, occKey?: string
 
 export const deleteRun = (plan: Plan, id: string): Plan => ({ ...plan, run: { ...plan.run, log: plan.run.log.filter((l) => l.id !== id) } });
 export const pickSession = (plan: Plan, n?: number): Plan => ({ ...plan, run: { ...plan.run, pick: n } });
+export const setWatch = (plan: Plan, watch: boolean): Plan => ({ ...plan, run: { ...plan.run, watch } });
+
+/* ------------------------------------------------------------------ montre Garmin */
+
+const clock = (sec: number) => `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
+
+/** Nom de l'exercice à créer sur Garmin Connect (une par semaine ; une par séance pour les courses continues). */
+export const garminName = (s: RunSession) => (s.blocks.length === 3 ? `Cadence ${Math.round(runTotal(s) / 60)} min` : `Cadence S${s.week}`);
+
+/** Les étapes à saisir dans Garmin Connect, dans l'ordre de l'éditeur d'exercice. */
+export function garminSteps(s: RunSession): string[] {
+  const runs = s.blocks.filter((b) => b.kind === "run");
+  const walk = s.blocks.find((b) => b.kind === "walk");
+  const steps = [`Échauffement : durée ${clock(WARM)} (marche rapide)`];
+  if (runs.length > 1 && walk) steps.push(`Répéter ${runs.length} fois : Course ${clock(runs[0].sec)} puis Récupération ${clock(walk.sec)} (marche)`);
+  else steps.push(`Course : durée ${clock(runs[0].sec)}`);
+  steps.push(`Retour au calme : durée ${clock(COOL)} (marche)`);
+  return steps;
+}
+
+/** Statistiques de distance (si tu notes les km de ta montre). */
+export function distanceStats(run: RunState) {
+  const withKm = run.log.filter((l) => l.km);
+  return { km: Math.round(withKm.reduce((a, l) => a + (l.km ?? 0), 0) * 10) / 10, count: withKm.length };
+}
 
 /* ------------------------------------------------------------------ séance en cours (minuteur) */
 

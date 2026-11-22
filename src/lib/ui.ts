@@ -11,7 +11,9 @@ export type Sheet =
   | { kind: "settings" }
   | { kind: "replan"; date: ISODate }
   | { kind: "help" }
-  | { kind: "copy"; id?: string; cat?: string };
+  | { kind: "copy"; id?: string; cat?: string }
+  /** noter une sortie de course (faite avec la montre ou sans le guidage du téléphone) */
+  | { kind: "runlog"; key?: string; date?: ISODate };
 
 type UI = {
   sheet: Sheet | null;

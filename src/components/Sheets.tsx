@@ -9,6 +9,7 @@ import EditSheet from "./EditSheet";
 import { CopySheet } from "../views/Grades";
 import { CatDot, PRIO_LABEL, quickDates, timeLabel, useCats } from "./common";
 import { RoutineEditor } from "./RoutineCards";
+import RunLogSheet from "./RunLogSheet";
 
 export default function SheetHost() {
   const sheet = useUI((s) => s.sheet);
@@ -30,6 +31,7 @@ export default function SheetHost() {
         {sheet.kind === "replan" && <ReplanSheet date={sheet.date} />}
         {sheet.kind === "help" && <HelpSheet />}
         {sheet.kind === "copy" && <CopySheet id={sheet.id} cat={sheet.cat} />}
+        {sheet.kind === "runlog" && <RunLogSheet k={sheet.key} date={sheet.date} />}
       </div>
     </div>
   );
@@ -72,7 +74,7 @@ function ItemSheet({ k }: { k: string }) {
             <>
               <div className="row gap wrap">
                 <button className="btn primary" onClick={() => { startFocus(occ); close(); }}>{occ.cat === "course" ? "▶ Lancer la séance de course guidée" : "▶ Démarrer en mode Focus"}</button>
-                <button className="btn" onClick={() => { apply((p) => toggleDone(p, k, mins ?? occ.minutes), "Séance validée"); close(); }}>✓ Déjà faite</button>
+                <button className="btn" onClick={() => { if (occ.cat === "course") open({ kind: "runlog", key: k, date: occ.date }); else { apply((p) => toggleDone(p, k, mins ?? occ.minutes), "Séance validée"); close(); } }}>✓ Déjà faite</button>
                 <label className="inline-field">temps réel
                   <input id="i-mins" className="input sm" type="number" min={0} step={5} value={mins ?? occ.minutes} onChange={(e) => setMins(Number(e.target.value))} /> min
                 </label>

@@ -94,3 +94,22 @@ describe("course dans le planning", () => {
     expect(nextSession(r.run, "2026-11-26").n).toBe(2);
   });
 });
+
+describe("montre Garmin", () => {
+  it("donne l'exercice à créer, et garde les relevés de la montre", async () => {
+    const { garminName, garminSteps, distanceStats } = await import("./run");
+    expect(garminName(sessionOf(1))).toBe("Cadence S1");
+    expect(garminSteps(sessionOf(1))).toEqual([
+      "Échauffement : durée 5:00 (marche rapide)",
+      "Répéter 8 fois : Course 1:00 puis Récupération 1:30 (marche)",
+      "Retour au calme : durée 5:00 (marche)",
+    ]);
+    expect(garminName(sessionOf(28))).toBe("Cadence 20 min");
+    expect(garminSteps(sessionOf(33))[1]).toBe("Course : durée 30:00");
+    const p = normalize(seedPlan());
+    const w = { ...p, run: { ...p.run, watch: true } };
+    const r = recordRun(w, { date: "2026-11-23", at: "2026-11-23T16:50:00.000Z", session: 1, completed: true, feel: 2, runSec: 480, totalSec: 1710, km: 3.4, hr: 151, source: "garmin" });
+    expect(r.run.watch).toBe(true);
+    expect(distanceStats(r.run)).toEqual({ km: 3.4, count: 1 });
+  });
+});
