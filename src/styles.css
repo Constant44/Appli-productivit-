@@ -690,3 +690,6 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .quiz-fb.v-juste { border-color: #a6f51c88; background: #a6f51c14; }
 .quiz-fb.v-partiel { border-color: #ffd21f88; background: #ffd21f12; }
 .quiz-fb.v-faux { border-color: #ff3b4e88; background: #ff3b4e14; }
+.friday.quiz-mode { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 200px); max-width: none; margin: 0 auto; }
+.friday.quiz-mode .quiz { max-width: 720px; padding: 28px; }
+.friday.quiz-mode .quiz-q { font-size: clamp(22px, 3vw, 30px); }

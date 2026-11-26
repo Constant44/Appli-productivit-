@@ -79,7 +79,7 @@ Réponds UNIQUEMENT en JSON : {"verdict":"juste"|"partiel"|"faux","note":"une ph
   if (deck) {
     const card = deck[i];
     return (
-      <div className="friday">
+      <div className="friday quiz-mode">
         <div className="quiz card">
           {card ? (
             <>
