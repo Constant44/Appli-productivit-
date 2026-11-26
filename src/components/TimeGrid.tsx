@@ -50,6 +50,7 @@ export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: I
   const plan = useStore((s) => s.plan);
   const apply = useStore((s) => s.apply);
   const validate = useValidate();
+  const lastPointer = useRef<string>("mouse");
   const go = useStore((s) => s.go);
   const open = useUI((s) => s.open);
   const cats = useCats();
@@ -78,7 +79,8 @@ export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: I
   const height = (END_H - START_H) * 60 * ppm;
 
   const onDown = (e: RPE, key: string, handle: boolean) => {
-    if (e.pointerType === "touch" && !handle) return; // au doigt : seulement par la poignée
+    lastPointer.current = e.pointerType;
+    if (e.pointerType === "touch" && !handle) return; // au doigt : glisser seulement par la poignée (un simple appui ouvre la fiche)
     if (e.button !== 0) return;
     e.stopPropagation();
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -102,6 +104,7 @@ export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: I
       open({ kind: "item", key: occ.key });
       return;
     }
+    lastPointer.current = "drag"; // pas d'ouverture de fiche juste après un glisser
     const rect = cols.current!.getBoundingClientRect();
     const colW = rect.width / dates.length;
     const col = Math.max(0, Math.min(dates.length - 1, Math.floor((e.clientX - rect.left) / colW)));
@@ -178,6 +181,7 @@ export default function TimeGrid({ dates, ppm = 1, compact = false }: { dates: I
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => e.key === "Enter" && open({ kind: "item", key: o.key })}
+                      onClick={() => { if (lastPointer.current !== "mouse" && lastPointer.current !== "drag" && !dragRef.current) open({ kind: "item", key: o.key }); }}
                       aria-label={`${o.title}, ${o.start}`}
                     >
                       {o.check && (
