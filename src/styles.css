@@ -675,3 +675,18 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
   .day.m-grid .tg-scroll { max-height: none; }
   .day.m-grid .day-hero .ring { display: none; }
 }
+
+/* ---------- quiz du vendredi : centré, réponse tapée, correction par Claude */
+.quiz { margin: 0 auto; width: 100%; text-align: center; align-items: center; }
+.quiz-top { width: 100%; }
+.quiz-q { text-align: center; text-wrap: balance; }
+.quiz-a, .quiz-mine, .quiz-fb { width: 100%; text-align: center; }
+.quiz-a { border-left: 0; border-top: 3px solid var(--lime); }
+.quiz-in { width: 100%; text-align: center; resize: vertical; font-size: 16px; }
+.quiz-actions { justify-content: center; flex-wrap: wrap; }
+.quiz-mine { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); white-space: pre-line; }
+.quiz-fb { padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); }
+.quiz-fb p { margin: 6px 0 0; }
+.quiz-fb.v-juste { border-color: #a6f51c88; background: #a6f51c14; }
+.quiz-fb.v-partiel { border-color: #ffd21f88; background: #ffd21f12; }
+.quiz-fb.v-faux { border-color: #ff3b4e88; background: #ff3b4e14; }
