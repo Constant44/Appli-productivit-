@@ -664,3 +664,14 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .fm-icon { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: var(--on-accent); font-size: 18px; font-weight: 700; flex: none; }
 .focus-music span:last-child { display: flex; flex-direction: column; }
 .focus-music small { color: var(--muted); font-size: 12px; }
+
+/* ---------- Journée sur téléphone : emploi du temps ou tableau de bord */
+.day-switch { display: none; }
+@media (max-width: 900px) {
+  .day-switch { display: flex; width: 100%; }
+  .day-switch button { flex: 1; padding: 9px 8px; }
+  .day.m-grid .day-side > :not(.day-hero):not(.day-switch) { display: none; }
+  .day.m-board .day-grid { display: none; }
+  .day.m-grid .tg-scroll { max-height: none; }
+  .day.m-grid .day-hero .ring { display: none; }
+}

@@ -1,5 +1,5 @@
 /** JOURNÉE : ce que je dois faire aujourd'hui, à quelle heure, ce qui est fait, ce qui reste. */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { addDays, fmtDur, fmtLong, fmtShort, nowMin, toMin, today } from "../lib/dates";
 import { expand, overdue, postpone, type Occ } from "../lib/model";
 import { coachLine, essentials } from "../lib/coach";
@@ -24,6 +24,11 @@ export default function DayView() {
   const runOn = useRun((r) => !!r.active);
   const validate = useValidate();
   const cats = useCats();
+  // sur téléphone : emploi du temps ou tableau de bord (sur grand écran, les deux côte à côte)
+  const [mTab, setMTab] = useState<"grid" | "board">(() => {
+    try { return localStorage.getItem("cadence-day-tab") === "board" ? "board" : "grid"; } catch { return "grid"; }
+  });
+  const setTab = (v: "grid" | "board") => { setMTab(v); try { localStorage.setItem("cadence-day-tab", v); } catch { /* rien */ } };
   const t = today();
   const nextRun = useMemo(() => nextSession(plan.run, t), [plan.run, t]);
   const isToday = date === t;
@@ -69,7 +74,7 @@ export default function DayView() {
   };
 
   return (
-    <div className="day">
+    <div className={`day m-${mTab}`}>
       <section className="day-side">
         <header className="day-hero">
           <div className="day-hero-text">
@@ -83,6 +88,13 @@ export default function DayView() {
           </div>
           <Ring value={progress} size={104} label={<><b>{Math.round(progress * 100)}%</b><small>{done.length}/{tasks.length}</small></>} />
         </header>
+
+        <div className="seg day-switch" role="tablist" aria-label="Affichage de la journée">
+          <button role="tab" aria-selected={mTab === "grid"} className={mTab === "grid" ? "on" : ""} onClick={() => setTab("grid")}>Emploi du temps</button>
+          <button role="tab" aria-selected={mTab === "board"} className={mTab === "board" ? "on" : ""} onClick={() => setTab("board")}>
+            Tableau de bord{routine ? " · routine" : ""}
+          </button>
+        </div>
 
         <div className="stats3">
           <div><b>{done.length}</b><span>faites</span></div>
