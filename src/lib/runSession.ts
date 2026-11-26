@@ -54,6 +54,7 @@ type R = {
   stop: () => void;
   finish: (feel: Feel) => void;
   cancel: () => void;
+  restore: (r: ActiveRun | null) => void;
 };
 
 export const useRun = create<R>((set, get) => {
@@ -63,6 +64,7 @@ export const useRun = create<R>((set, get) => {
   };
   return {
     active: load(),
+    restore: (r) => put(r),
     start: (o, n) => {
       const num = n ?? nextSession(useStore.getState().plan.run, today()).n;
       put({ n: num, occKey: o?.key, startedAt: Date.now(), pausedMs: 0, skipped: 0 });

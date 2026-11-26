@@ -54,6 +54,8 @@ type F = {
   validate: (minutes: number) => void;
   startBreak: (min?: number) => void;
   stop: () => void;
+  /** reprendre la séance enregistrée dans le compte (autre appareil, appli rechargée) */
+  restore: (s: FocusSession | null) => void;
 };
 
 export const useFocus = create<F>((set, get) => {
@@ -63,6 +65,7 @@ export const useFocus = create<F>((set, get) => {
   };
   return {
     session: load(),
+    restore: (s) => put(s),
     start: (o) => {
       // une séance de course se lance dans le mode course guidé
       if (o.cat === "course") {

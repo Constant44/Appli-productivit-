@@ -12,6 +12,8 @@ import seed from "../data/seed.json";
 import { normalize, upsertExternal, type Activity, type Plan } from "./model";
 import { applyPatches, type PlanPatch } from "./patches";
 import { mergePlans, mergeQuiz } from "./merge";
+import { useFocus, type FocusSession } from "./focus";
+import { useRun, type ActiveRun } from "./runSession";
 import type { Copy, Grade } from "./grades";
 import { freezeReviews, useStore, type Content, type QCard, type QSheet, type QuizStats } from "./store";
 
@@ -76,11 +78,60 @@ export async function startCloud() {
   });
   void loadContent(id);
   void checkPlanInbox();
+  void startLiveSync();
   // Claude peut préparer un nouveau programme pendant que l'appli est ouverte : on regarde toutes les 2 min
   setInterval(() => { if (document.visibilityState === "visible") void checkPlanInbox(); }, 120000);
   // un autre appareil a peut-être écrit : on regarde toutes les 30 s (une seule petite lecture)
   setInterval(() => { if (document.visibilityState === "visible" && !timer) void pull(false).catch(() => {}); }, 30000);
   window.addEventListener("focus", () => { if (!timer) void pull(false).catch(() => {}); });
+}
+
+/* ------------------------------------------------------------------ séance en cours (Focus, course)
+ * Gardée dans le compte : quitter l'appli, la recharger ou changer d'appareil ne coupe plus le minuteur
+ * (il est calculé à partir de l'heure de départ, donc il a continué de tourner). */
+type Live = { focus: FocusSession | null; run: ActiveRun | null; at: number };
+let liveSent = "";
+let liveApplying = false;
+async function readLive() {
+  try {
+    const d = await db.doc(`${root}/p2-live`).get();
+    if (!d.exists) return;
+    const live = d.data() as Live;
+    const s = JSON.stringify({ focus: live.focus ?? null, run: live.run ?? null });
+    if (s === liveSent) return;
+    liveSent = s;
+    liveApplying = true;
+    // une séance de plus de 12 h est oubliée
+    const fresh = Date.now() - (live.at ?? 0) < 12 * 3600 * 1000;
+    useFocus.getState().restore(fresh ? live.focus ?? null : null);
+    useRun.getState().restore(fresh ? live.run ?? null : null);
+    liveApplying = false;
+  } catch {
+    /* rien */
+  }
+}
+async function writeLive() {
+  if (liveApplying || !db) return;
+  const focus = useFocus.getState().session;
+  const run = useRun.getState().active;
+  const s = JSON.stringify({ focus, run });
+  if (s === liveSent) return;
+  liveSent = s;
+  try {
+    await db.doc(`${root}/p2-live`).set({ focus, run, at: Date.now() });
+  } catch {
+    liveSent = "";
+  }
+}
+async function startLiveSync() {
+  // au démarrage : si cet appareil a une séance en cours, c'est elle qui compte ; sinon on reprend celle du compte
+  if (useFocus.getState().session || useRun.getState().active) await writeLive();
+  else await readLive();
+  useFocus.subscribe(() => void writeLive());
+  useRun.subscribe(() => void writeLive());
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") void readLive(); });
+  window.addEventListener("focus", () => void readLive());
+  setInterval(() => { if (document.visibilityState === "visible") void readLive(); }, 30000);
 }
 
 /** Mises à jour du planning préparées par Claude (document privé inbox-plan). */
