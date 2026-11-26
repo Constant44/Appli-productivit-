@@ -11,6 +11,7 @@
 import seed from "../data/seed.json";
 import { normalize, upsertExternal, type Activity, type Plan } from "./model";
 import { applyPatches, type PlanPatch } from "./patches";
+import { mergePlans, mergeQuiz } from "./merge";
 import type { Copy, Grade } from "./grades";
 import { freezeReviews, useStore, type Content, type QCard, type QSheet, type QuizStats } from "./store";
 
@@ -77,6 +78,9 @@ export async function startCloud() {
   void checkPlanInbox();
   // Claude peut préparer un nouveau programme pendant que l'appli est ouverte : on regarde toutes les 2 min
   setInterval(() => { if (document.visibilityState === "visible") void checkPlanInbox(); }, 120000);
+  // un autre appareil a peut-être écrit : on regarde toutes les 30 s (une seule petite lecture)
+  setInterval(() => { if (document.visibilityState === "visible" && !timer) void pull(false).catch(() => {}); }, 30000);
+  window.addEventListener("focus", () => { if (!timer) void pull(false).catch(() => {}); });
 }
 
 /** Mises à jour du planning préparées par Claude (document privé inbox-plan). */
@@ -100,28 +104,76 @@ async function checkPlanInbox() {
   }
 }
 
-/** Lit la sauvegarde du compte et garde la plus récente. */
-async function pull(first: boolean) {
+/* ------------------------------------------------------------------ synchronisation entre appareils
+ * syncedAt = date de la version du compte avec laquelle cet appareil est à jour (gardée sur l'appareil).
+ * - le compte n'a pas bougé depuis : j'envoie mes modifications s'il y en a ;
+ * - le compte a bougé et je n'ai rien modifié : je prends la version du compte ;
+ * - les deux ont bougé : je FUSIONNE (rien n'est perdu), puis j'envoie le résultat.
+ * Avant chaque envoi, je revérifie le compte : un autre appareil a pu écrire entre-temps. */
+const SYNC_KEY = "cadence-synced";
+let syncedAt = (() => {
+  try {
+    return Number(localStorage.getItem(SYNC_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+})();
+const setSynced = (at: number) => {
+  syncedAt = at;
+  try {
+    localStorage.setItem(SYNC_KEY, String(at));
+  } catch {
+    /* stockage indisponible */
+  }
+};
+
+async function readRemote(): Promise<{ plan: Plan; quiz: QuizStats } | null> {
+  const parts = await Promise.all(["p2-plan", "p2-ex", "p2-done", "p2-reviews", "p2-quiz", "p2-copies"].map((k) => db.doc(`${root}/${k}`).get()));
+  const [pl, ex, dn, rv, qz, cp] = parts.map((p: any) => (p.exists ? clone(p.data()) : {}));
+  if (!pl.activities) return null;
+  const plan: Plan = normalize({
+    v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
+    overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
+    copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run, patched: ex.patched ?? [],
+  });
+  return { plan, quiz: qz.quiz ?? {} };
+}
+
+let pulling: Promise<void> | null = null;
+function pull(first: boolean): Promise<void> {
+  if (!pulling) pulling = doPull(first).finally(() => { pulling = null; });
+  return pulling;
+}
+
+async function doPull(first: boolean) {
   const meta = await db.doc(`${root}/p2-meta`).get();
-  const local = useStore.getState();
   const remoteAt: number = meta.exists ? (meta.data() as { savedAt: number }).savedAt : 0;
-  if (remoteAt > local.savedAt) {
-    const parts = await Promise.all(["p2-plan", "p2-ex", "p2-done", "p2-reviews", "p2-quiz", "p2-copies"].map((k) => db.doc(`${root}/${k}`).get()));
-    const [pl, ex, dn, rv, qz, cp] = parts.map((p: any) => (p.exists ? clone(p.data()) : {}));
-    if (pl.activities) {
-      const plan: Plan = normalize({
-        v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
-        overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
-        copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run, patched: ex.patched ?? [],
-      });
+  const local = useStore.getState();
+  const localChanged = local.savedAt > syncedAt;
+  if (meta.exists && remoteAt > syncedAt) {
+    const remote = await readRemote();
+    if (remote) {
+      const now = useStore.getState(); // l'utilisateur a pu modifier pendant la lecture
+      const changed = now.savedAt > syncedAt;
+      const plan = changed ? mergePlans(now.plan, remote.plan) : remote.plan;
+      const quiz = changed ? mergeQuiz(now.quiz, remote.quiz) : remote.quiz;
       applying = true;
-      useStore.getState().setPlan(plan, remoteAt, qz.quiz ?? local.quiz);
+      useStore.getState().setPlan(plan, changed ? Date.now() : remoteAt, quiz);
       applying = false;
-      for (const [k, v] of Object.entries(split(plan, qz.quiz ?? {}))) lastSent[k] = JSON.stringify(v);
+      // ce que le compte contient déjà : on n'enverra que ce qui diffère
+      for (const [k, v] of Object.entries(split(remote.plan, remote.quiz))) lastSent[k] = JSON.stringify(v);
+      setSynced(remoteAt);
+      pulled = true;
+      if (changed) {
+        schedule(300);
+        if (!first) useStore.getState().toast("Modifications d'un autre appareil fusionnées avec celles-ci", { tone: "info" });
+      }
+      useStore.setState({ cloud: { status: "ok", at: Date.now() } });
+      return;
     }
   }
   pulled = true;
-  if (first && (!meta.exists || local.savedAt > remoteAt)) schedule(50); // compte vide, ou modifications de l'appareil pas encore envoyées
+  if (!meta.exists || localChanged) schedule(first ? 50 : 300); // compte vide, ou modifications pas encore envoyées
   useStore.setState({ cloud: { status: "ok", at: Date.now() } });
 }
 
@@ -133,10 +185,17 @@ function schedule(ms = 1200) {
 
 async function push() {
   timer = null;
-  const { plan, quiz, savedAt } = useStore.getState();
-  const stamp = savedAt || Date.now();
   useStore.setState({ cloud: { status: "sync" } });
   try {
+    // un autre appareil a écrit depuis ma dernière synchro ? je fusionne d'abord (la fusion relance l'envoi)
+    const meta = await db.doc(`${root}/p2-meta`).get();
+    const remoteAt: number = meta.exists ? (meta.data() as { savedAt: number }).savedAt : 0;
+    if (meta.exists && remoteAt > syncedAt) {
+      await pull(false);
+      return;
+    }
+    const { plan, quiz, savedAt } = useStore.getState();
+    const stamp = Math.max(savedAt, remoteAt + 1, Date.now());
     for (const [k, v] of Object.entries(split(plan, quiz))) {
       const s = JSON.stringify(v);
       if (lastSent[k] === s) continue;
@@ -144,6 +203,13 @@ async function push() {
       lastSent[k] = s;
     }
     await db.doc(`${root}/p2-meta`).set({ savedAt: stamp, device });
+    setSynced(stamp);
+    // si rien n'a bougé pendant l'envoi, l'appareil est à jour avec le compte
+    if (useStore.getState().savedAt === savedAt) {
+      applying = true;
+      useStore.setState({ savedAt: stamp });
+      applying = false;
+    } else schedule();
     useStore.setState({ cloud: { status: "ok", at: Date.now() } });
   } catch (e) {
     const code = (e as { code?: string }).code;
