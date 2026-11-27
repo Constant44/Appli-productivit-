@@ -39,6 +39,7 @@ export function mergePlans(local: Plan, remote: Plan): Plan {
     copies: mergeById(remote.copies, local.copies, (c) => c.id),
     run: { ...remote.run, ...local.run, log: mergeById(remote.run?.log, local.run?.log, (l) => l.id) },
     patched: [...new Set([...(remote.patched ?? []), ...(local.patched ?? [])])],
+    todos: mergeById(remote.todos, local.todos, (t) => t.id),
   };
 }
 

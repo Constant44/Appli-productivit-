@@ -27,7 +27,7 @@ type Parts = Record<string, Record<string, unknown>>;
 const split = (plan: Plan, quiz: QuizStats): Parts => ({
   "p2-plan": { categories: plan.categories, activities: plan.activities, goals: plan.goals, prefs: plan.prefs, routines: plan.routines },
   "p2-ex": { overrides: plan.overrides, postponed: plan.postponed, patched: plan.patched ?? [] },
-  "p2-done": { done: plan.done, sleep: plan.sleep, routineLog: plan.routineLog, run: plan.run },
+  "p2-done": { done: plan.done, sleep: plan.sleep, routineLog: plan.routineLog, run: plan.run, todos: plan.todos ?? [] },
   "p2-reviews": { reviews: plan.reviews },
   "p2-copies": { copies: plan.copies },
   "p2-quiz": { quiz },
@@ -185,7 +185,7 @@ async function readRemote(): Promise<{ plan: Plan; quiz: QuizStats } | null> {
   const plan: Plan = normalize({
     v: 2, categories: pl.categories, activities: pl.activities, goals: pl.goals ?? [], prefs: pl.prefs,
     overrides: ex.overrides ?? {}, postponed: ex.postponed ?? [], done: dn.done ?? {}, sleep: dn.sleep ?? {}, reviews: rv.reviews ?? {},
-    copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run, patched: ex.patched ?? [],
+    copies: cp.copies ?? [], routines: pl.routines, routineLog: dn.routineLog ?? {}, run: dn.run, patched: ex.patched ?? [], todos: dn.todos ?? [],
   });
   return { plan, quiz: qz.quiz ?? {} };
 }

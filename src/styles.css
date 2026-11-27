@@ -693,3 +693,47 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .friday.quiz-mode { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 200px); max-width: none; margin: 0 auto; }
 .friday.quiz-mode .quiz { max-width: 720px; padding: 28px; }
 .friday.quiz-mode .quiz-q { font-size: clamp(22px, 3vw, 30px); }
+
+/* ---------- Vendredi : bibliothèque des mots et personnages */
+.lib { display: flex; flex-direction: column; gap: 10px; }
+.lib-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.lib-list > li { padding: 10px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.lib-list > li.fell { opacity: .5; }
+.lib-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.lib-def { margin: 0; font-size: 14px; }
+.lib-facts { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; font-size: 13.5px; }
+
+/* ---------- colonne Journée plus claire */
+.todo { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.todo-head .h3 { margin: 0; }
+.todo-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.todo-list li { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-radius: 8px; }
+.todo-list li:hover { background: #ffffff08; }
+.todo-list li.done .todo-text { color: var(--muted); text-decoration: line-through; }
+.todo-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.todo-del { background: none; border: 0; color: var(--muted); opacity: 0; font-size: 13px; padding: 4px 6px; }
+.todo-list li:hover .todo-del, .todo-del:focus-visible { opacity: 1; }
+@media (hover: none) { .todo-del { opacity: .6; } }
+.todo-add { display: flex; gap: 8px; flex-wrap: wrap; }
+.todo-add .input { flex: 1 1 180px; }
+.fold { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 0; }
+.fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 12px 14px; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform .2s; }
+.fold[open] > summary::after { transform: rotate(180deg); }
+.fold-title { font-family: var(--display); font-weight: 600; font-size: 15px; }
+.fold-hint { margin-left: 4px; }
+.fold > :not(summary) { margin-left: 14px; margin-right: 14px; }
+.fold[open] { padding-bottom: 12px; }
+.late.fold { border-color: #ff7a1a44; }
+.late.fold .fold-title { color: var(--orange); }
+.late-compact { list-style: none; margin: 0 14px 8px; padding: 0; display: flex; flex-direction: column; }
+.late-compact li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
+.lc-title { background: none; border: 0; padding: 0; color: var(--fg); text-align: left; font: inherit; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-date { font-size: 12px; white-space: nowrap; }
+.lc-actions { display: flex; gap: 4px; }
+.day-lists .list-block { margin-top: 8px; }
+.day-side { gap: 12px; }
+.coach { padding-block: 2px; }
+@media (min-width: 901px) { .day-lists { display: none; } }
+@media (max-width: 900px) { .day.m-grid .day-side > .todo { display: flex; } }

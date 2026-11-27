@@ -105,7 +105,10 @@ export type Plan = {
   run: RunState;
   /** mises à jour du planning envoyées par Claude (inbox-plan) déjà appliquées */
   patched?: string[];
+  /** to-do list sans horaire : un jour, une case à cocher */
+  todos?: Todo[];
 };
+export type Todo = { id: string; text: string; date: ISODate; doneAt?: string };
 
 /** Titres et notes corrigés depuis la première version (appliqués seulement si tu n'y as pas touché). */
 const RETITLE: Record<string, { from: string; title: string; notes?: string }> = {

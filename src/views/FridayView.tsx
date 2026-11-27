@@ -19,6 +19,9 @@ export default function FridayView() {
   const [fb, setFb] = useState<{ verdict: "juste" | "partiel" | "faux"; note: string; missing: string } | null>(null);
   const [err, setErr] = useState("");
   const [openSheet, setOpenSheet] = useState<string | null>(null);
+  const [libKind, setLibKind] = useState<"mot" | "bio">("mot");
+  const [libQ, setLibQ] = useState("");
+  const allOf = (k: "mot" | "bio") => content.sheets.filter((x) => x.kind === k).sort((a, b) => b.id.localeCompare(a.id, "fr", { numeric: true }));
   const test = nextTestDay();
   const focus = testFocus();
 
@@ -26,7 +29,6 @@ export default function FridayView() {
   const actu = useMemo(() => content.cards.filter((c) => c.deck === "actu" && inActuWeek(c)), [content.cards]);
   const words = useMemo(() => content.cards.filter((c) => c.deck === focus && alive(c)), [content, focus]); // eslint-disable-line react-hooks/exhaustive-deps
   const others = useMemo(() => content.cards.filter((c) => (c.deck === "mot" || c.deck === "bio") && c.deck !== focus && alive(c)), [content, focus]); // eslint-disable-line react-hooks/exhaustive-deps
-  const sheets = content.sheets.filter((s) => s.kind === focus && !content.fallen.includes(s.id)).sort((a, b) => b.id.localeCompare(a.id, "fr", { numeric: true }));
 
   const start = (cards: QCard[]) => {
     setDeck(drawQuiz(cards, quiz, 15));
@@ -137,22 +139,45 @@ Réponds UNIQUEMENT en JSON : {"verdict":"juste"|"partiel"|"faux","note":"une ph
         <button className="fri-card" disabled={!words.length} onClick={() => start(words)}><b>{words.length}</b><span>{focus === "mot" ? "mots encore en jeu" : "cartes personnages en jeu"}</span><em>Quiz {focus === "mot" ? "mots" : "persos"} →</em></button>
         <button className="fri-card muted-card" disabled={!others.length} onClick={() => start(others)}><b>{others.length}</b><span>{focus === "mot" ? "cartes personnages" : "mots"} (l'autre semaine)</span><em>Petit entretien →</em></button>
       </div>
-      <section className="card">
-        <h3 className="h3">{focus === "mot" ? "Mots" : "Personnages"} en jeu</h3>
-        <p className="muted small">Quand l'un d'eux tombe au test, marque-le : il sort des révisions.</p>
-        <ul className="sheet-list">
-          {sheets.map((s) => (
-            <li key={s.id}>
-              <div className="row between">
-                <button className="link" onClick={() => setOpenSheet(openSheet === s.id ? null : s.id)}><b>{s.title}</b> <span className="muted small">{s.id}</span></button>
-                <button className="btn xs ghost" onClick={() => void toggleFallen(s.id)}>Tombé au test</button>
-              </div>
-              {openSheet === s.id && <p className="sheet-text">{s.body}</p>}
-            </li>
-          ))}
+      <section className="card lib">
+        <div className="row between wrap gap">
+          <h3 className="h3">Tous les mots et personnages</h3>
+          <div className="seg">
+            <button className={libKind === "mot" ? "on" : ""} onClick={() => setLibKind("mot")}>Mots ({allOf("mot").length})</button>
+            <button className={libKind === "bio" ? "on" : ""} onClick={() => setLibKind("bio")}>Personnages ({allOf("bio").length})</button>
+          </div>
+        </div>
+        <input id="lib-q" className="input" placeholder={libKind === "mot" ? "Chercher un mot…" : "Chercher un personnage…"} value={libQ} onChange={(e) => setLibQ(e.target.value)} />
+        <p className="muted small">Quand l'un d'eux tombe au test, appuie sur « Tombé » : il sort des quiz (il reste visible ici, grisé). Un appui de plus le remet.</p>
+        <ul className="lib-list">
+          {allOf(libKind).filter((x) => !libQ.trim() || x.title.toLowerCase().includes(libQ.trim().toLowerCase())).map((x) => {
+            const fell = content.fallen.includes(x.id);
+            const def = content.cards.find((c) => c.ref === x.id && c.id.endsWith("-def"));
+            const facts = content.cards.filter((c) => c.ref === x.id && c.deck === "bio");
+            return (
+              <li key={x.id} className={fell ? "fell" : ""}>
+                <div className="lib-head">
+                  <button className="link" onClick={() => setOpenSheet(openSheet === x.id ? null : x.id)}><b>{x.title}</b> <span className="muted small">{x.id}</span></button>
+                  <button className={`btn xs ${fell ? "" : "ghost"}`} onClick={() => void toggleFallen(x.id)}>{fell ? "Tombé ✓" : "Tombé"}</button>
+                </div>
+                {libKind === "mot" ? (
+                  <p className="lib-def">{def?.back ?? defOnly(x.body)}</p>
+                ) : (openSheet !== x.id ? <p className="lib-def">{facts[0]?.back ?? ""} <button className="link small" onClick={() => setOpenSheet(x.id)}>tout voir</button></p> : (
+                  <ul className="lib-facts">
+                    {facts.map((c) => <li key={c.id}><span className="muted">{c.front.replace(/^.*? — /, "")}</span> {c.back}</li>)}
+                  </ul>
+                ))}
+              </li>
+            );
+          })}
         </ul>
-        {content.fallen.length > 0 && <p className="muted small">Déjà tombés : {content.sheets.filter((s) => content.fallen.includes(s.id)).map((s) => s.title).join(", ")}.</p>}
       </section>
     </div>
   );
+}
+
+/** Si la carte de définition manque : la ligne « Définition : … » de la fiche, sans étymologie ni exemple. */
+function defOnly(body: string) {
+  const line = body.split("\n").find((l) => /^D[ée]finition/i.test(l.trim()));
+  return (line ?? body.split("\n")[0]).replace(/^D[ée]finition\s*:\s*/i, "");
 }
