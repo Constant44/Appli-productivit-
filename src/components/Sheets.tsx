@@ -10,6 +10,7 @@ import { CopySheet } from "../views/Grades";
 import { CatDot, PRIO_LABEL, quickDates, timeLabel, useCats } from "./common";
 import { RoutineEditor, SleepScheduleEditor } from "./RoutineCards";
 import RunLogSheet from "./RunLogSheet";
+import { CalLink } from "./CalLink";
 
 export default function SheetHost() {
   const sheet = useUI((s) => s.sheet);
@@ -150,6 +151,9 @@ function SettingsSheet() {
   return (
     <div className="sheet-body">
       <h2 className="sheet-title">Réglages</h2>
+
+      <h3 className="h3">Google Agenda (notification de fin + blocs 🍅)</h3>
+      <CalLink full />
 
       <h3 className="h3">Musique du mode Focus</h3>
       <p className="muted small">Proposée à chaque fois que tu appuies sur ▶ Démarrer (un lien YouTube, Spotify… en https). Vide : pas de musique.</p>

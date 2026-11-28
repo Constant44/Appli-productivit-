@@ -737,3 +737,11 @@ kbd { font-family: var(--display); font-weight: 700; background: var(--panel-3);
 .coach { padding-block: 2px; }
 @media (min-width: 901px) { .day-lists { display: none; } }
 @media (max-width: 900px) { .day.m-grid .day-side > .todo { display: flex; } }
+
+/* Liaison Google Agenda */
+.cal-link { border: 1px solid var(--line, rgba(127,127,127,.25)); border-radius: 12px; padding: 10px 12px; margin: 6px 0 10px; display: grid; gap: 8px; }
+.cal-link p { margin: 0; }
+.cal-link.denied, .cal-link.missing, .cal-link.prompt { border-color: rgba(255,170,0,.55); background: rgba(255,170,0,.08); }
+.cal-link.ok { border-color: rgba(0,200,140,.45); }
+.focus-overlay .cal-link, .focus .cal-link { max-width: 420px; margin-inline: auto; text-align: center; }
+.focus-overlay .cal-link .row, .focus .cal-link .row { justify-content: center; }

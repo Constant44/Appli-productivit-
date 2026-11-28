@@ -6,6 +6,7 @@ import { expand, focusMusicUrl } from "../lib/model";
 import { useStore } from "../lib/store";
 import { useUI } from "../lib/ui";
 import { useCats } from "./common";
+import { CalLink } from "./CalLink";
 
 const mmss = (ms: number) => {
   const s = Math.max(0, Math.round(ms / 1000));
@@ -74,6 +75,7 @@ export default function FocusOverlay() {
         </div>
       )}
 
+      <CalLink />
       {s.phase === "work" && music && (
         <a className="focus-music" href={music} target="_blank" rel="noopener noreferrer">
           <span className="fm-icon" aria-hidden>♫</span>
