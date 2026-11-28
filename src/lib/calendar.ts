@@ -115,27 +115,47 @@ export async function refreshCal() {
   return st;
 }
 
-/** Bouton « Relier » : demande l'accès puis envoie les blocs 🍅 en attente. */
+/** Bouton « Relier » : demande l'accès, fait un vrai essai (c'est lui qui déclenche la demande d'autorisation), puis envoie les blocs en attente. Dit toujours ce qui s'est passé. */
 export async function connectCal() {
+  const toast = useStore.getState().toast;
   const perms = await capability("permissions");
+  const mcp = await capability("mcp");
+  let p = "absent";
   try {
-    if (perms) {
-      const r = await perms.request([PERM]);
-      if (r?.[PERM] === "denied") {
-        useCal.setState({ state: "denied" });
-        try {
-          await perms.manage();
-        } catch {
-          useStore.getState().toast("Ouvre le menu Autorisations de l'artifact (en haut de la page) et active Google Calendar.", { tone: "info" });
-        }
-      }
-    }
+    if (perms) p = (await perms.request([PERM]))?.[PERM] ?? "unavailable";
   } catch {
-    /* rien */
+    p = "erreur";
+  }
+  if (!mcp) {
+    useCal.setState({ state: "missing", code: `mcp indisponible · autorisation ${p}` });
+    toast(`Cette vue de Cadence n'a pas accès aux connecteurs (autorisation : ${p}). Ouvre Cadence depuis claude.ai dans Safari (pas l'aperçu ni un raccourci hors connexion), connecté à ton compte, puis réessaie.`, { tone: "info" });
+    return "missing" as CalState;
+  }
+  if (p === "denied") {
+    useCal.setState({ state: "denied", code: "autorisation refusée" });
+    try {
+      await perms.manage();
+    } catch {
+      toast("Autorisation refusée : en haut de la page de l'artifact, ouvre le menu (⋯) → Autorisations → active Google Calendar, puis recharge.", { tone: "info" });
+      return "denied" as CalState;
+    }
   }
   warned = "";
-  await flushQueue();
-  return refreshCal();
+  const start = Date.now() + 60000;
+  const r = await call("create_event", {
+    summary: "⏰ Cadence est relié à ton agenda", startTime: local(start), endTime: local(start + 60000),
+    overrideReminders: [{ method: "popup", minutes: 0 }], availability: "AVAILABILITY_FREE", notificationLevel: "NONE",
+    description: "Test de liaison de Cadence (supprimé tout seul).",
+  });
+  if (r) {
+    toast("✓ Google Agenda relié. Petite notif test dans 1 minute.", { tone: "info" });
+    setTimeout(() => void del(r.id), 4 * 60000);
+    await flushQueue();
+  } else {
+    const c = useCal.getState().code;
+    toast(`Toujours pas relié (code : ${c ?? "inconnu"}, autorisation : ${p}). Envoie-moi ce code.`, { tone: "info" });
+  }
+  return useCal.getState().state;
 }
 
 export async function manageCal() {
